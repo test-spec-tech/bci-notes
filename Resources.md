@@ -1,3 +1,3 @@
 # Resources
 
- * [awesome-bci by NeuroTechX](https://github.com/NeuroTechX/awesome-bci)
+ * [awesome-bci](https://github.com/NeuroTechX/awesome-bci) by [NeuroTechX](https://github.com/NeuroTechX)
