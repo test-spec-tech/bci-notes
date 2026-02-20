@@ -2,8 +2,9 @@
 
 * [Kunz, E. M., Abramovich Krasa, B., Kamdar, F., Avansino, D. T., Hahn, N., Yoon, S., Singh, A., Nason-Tomaszewski, S. R., Card, N. S., Jude, J. J., Jacques, B. G., Bechefsky, P. H., Iacobacci, C., Hochberg, L. R., Rubin, D. B., Williams, Z. M., Brandman, D. M., Stavisky, S. D., AuYong, N., Pandarinath, C., … Willett, F. R. (2025). Inner speech in motor cortex and implications for speech neuroprostheses. Cell, 188(17), 4658–4673.e17. https://doi.org/10.1016/j.cell.2025.06.015](https://www.cell.com/cell/fulltext/S0092-8674(25)00681-6)
   * [inner_speech code by nptl-stanford](https://github.com/nptl-stanford/inner_speech)
+* [Ali, Y. H., Bodkin, K., Rigotti-Thompson, M., Patel, K., Card, N. S., Bhaduri, B., Nason-Tomaszewski, S. R., Mifsud, D. M., Hou, X., Nicolas, C., Allcroft, S., Hochberg, L. R., Au Yong, N., Stavisky, S. D., Miller, L. E., Brandman, D. M., & Pandarinath, C. (2024). BRAND: a platform for closed-loop experiments with deep network models. Journal of neural engineering, 21(2), 026046. https://doi.org/10.1088/1741-2552/ad3b3a]
+  * [brand](https://github.com/brandbci/brand)
 * [Angrick, M., Luo, S., Rabbani, Q., Candrea, D. N., Shah, S., Milsap, G. W., Anderson, W. S., Gordon, C. R., Rosenblatt, K. R., Clawson, L., Maragakis, N., Tenore, F. V., Fifer, M. S., Hermansky, H., Ramsey, N. F., & Crone, N. E. (2023). Online speech synthesis using a chronically implanted brain-computer interface in an individual with ALS. medRxiv : the preprint server for health sciences, 2023.06.30.23291352. https://doi.org/10.1101/2023.06.30.23291352](https://www.medrxiv.org/content/10.1101/2023.06.30.23291352v1)
-
 * Card NS et al.. An Accurate and Rapidly Calibrating Speech Neuroprosthesis. N Engl J
 Med. 2024 Aug 15;391(7):609-618. doi: 10.1056/NEJMoa2314132. PMID: 39141853.
 * Du B, Cheng X, Duan Y, Ning H. fMRI Brain Decoding and Its Applications in
