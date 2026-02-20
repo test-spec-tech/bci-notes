@@ -1,6 +1,12 @@
 # References
 
-
+1. Edelman, B. J., Johnson, N., Sohrabpour, A., Tong, S., Thakor, N., & He, B. (2015).
+2. Systems neuroengineering: understanding and interacting with the brain. Engineering,
+1(3), 292-308.
+Chiappalone, M., Cota, V. R., Carè, M., Di Florio, M., Beaubois, R., Buccelli, S., ... & Levi, T. (2022). Neuromorphic-based neuroprostheses for brain rewiring: state-of-the-art
+and perspectives in neuroengineering. Brain sciences, 12(11), 1578.
+3. Won, S. M., Cai, L., Gutruf, P., & Rogers, J. A. (2023). Wireless and battery-free
+technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
 4. Le Duigou C, Simonnet J, Teleñczuk MT, Fricker D, Miles R. Recurrent synapses
 and circuits in the CA3 region of the hippocampus: an associative network. Front
 Cell Neurosci. 2014;7:262. Published 2014 Jan 8. doi:10.3389/fncel.2013.00262
