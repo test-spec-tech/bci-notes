@@ -4,7 +4,6 @@
   * [inner_speech code by nptl-stanford](https://github.com/nptl-stanford/inner_speech)
 * [Angrick, M., Luo, S., Rabbani, Q., Candrea, D. N., Shah, S., Milsap, G. W., Anderson, W. S., Gordon, C. R., Rosenblatt, K. R., Clawson, L., Maragakis, N., Tenore, F. V., Fifer, M. S., Hermansky, H., Ramsey, N. F., & Crone, N. E. (2023). Online speech synthesis using a chronically implanted brain-computer interface in an individual with ALS. medRxiv : the preprint server for health sciences, 2023.06.30.23291352. https://doi.org/10.1101/2023.06.30.23291352](https://www.medrxiv.org/content/10.1101/2023.06.30.23291352v1)
 
-
 * Card NS et al.. An Accurate and Rapidly Calibrating Speech Neuroprosthesis. N Engl J
 Med. 2024 Aug 15;391(7):609-618. doi: 10.1056/NEJMoa2314132. PMID: 39141853.
 * Du B, Cheng X, Duan Y, Ning H. fMRI Brain Decoding and Its Applications in
@@ -27,3 +26,9 @@ Nat Med 31, 96–104 (2025). https://doi.org/10.1038/s41591-024-03341-8
 * Singer-Clark T, Hou X, Card NS, et al. Speech motor cortex enables BCI cursor control
 and click. Preprint. bioRxiv. 2024;2024.11.12.623096. Published 2024 Nov 22.
 doi:10.1101/2024.11.12.623096
+* Edelman, B. J., Johnson, N., Sohrabpour, A., Tong, S., Thakor, N., & He, B. (2015). Systems neuroengineering: understanding and interacting with the brain. Engineering,
+1(3), 292-308.
+* Chiappalone, M., Cota, V. R., Carè, M., Di Florio, M., Beaubois, R., Buccelli, S., ... & Levi, T. (2022). Neuromorphic-based neuroprostheses for brain rewiring: state-of-the-art
+and perspectives in neuroengineering. Brain sciences, 12(11), 1578.
+* Won, S. M., Cai, L., Gutruf, P., & Rogers, J. A. (2023). Wireless and battery-free
+technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
