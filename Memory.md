@@ -86,7 +86,7 @@ https://doi.org/10.1038/s41467-019-11353-z
 * Steel, A., Billings, M.M., Silson, E.H. et al. A network linking scene perception and
 spatial memory systems in posterior cerebral cortex. Nat Commun 12, 2632
 (2021). https://doi.org/10.1038/s41467-021-22848-z
-32. Guskjolen, A., Cembrowski, M.S. Engram neurons: Encoding, consolidation,
+* Guskjolen, A., Cembrowski, M.S. Engram neurons: Encoding, consolidation,
 retrieval, and forgetting of memory. Mol Psychiatry 28, 3207–3219 (2023).
 https://doi.org/10.1038/s41380-023-02137-5
 * Kennedy MB. Synaptic Signaling in Learning and Memory. Cold Spring Harb
@@ -98,7 +98,7 @@ classification extraction. Frontiers in Neural Circuits, 18, 1280604
 * Chandra, S., Sharma, S., Chaudhuri, R. et al. Episodic and associative memory
 from spatial scaffolds in the hippocampus. Nature (2025).
 https://doi.org/10.1038/s41586-024-08392-y
-36. Zhou, YQ., Puliyadi, V., Chen, X. et al. Vector coding and place coding in
+* Zhou, YQ., Puliyadi, V., Chen, X. et al. Vector coding and place coding in
 hippocampus share a common directional signal. Nat Commun 15, 10630
 (2024). https://doi.org/10.1038/s41467-024-54935-2
 * Felleman, D. J., & Van Essen, D. C. (1991). Distributed hierarchical processing in
