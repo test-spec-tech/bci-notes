@@ -1,9 +1,8 @@
 # References
 
-1. Edelman, B. J., Johnson, N., Sohrabpour, A., Tong, S., Thakor, N., & He, B. (2015).
-2. Systems neuroengineering: understanding and interacting with the brain. Engineering,
+1. Edelman, B. J., Johnson, N., Sohrabpour, A., Tong, S., Thakor, N., & He, B. (2015). Systems neuroengineering: understanding and interacting with the brain. Engineering,
 1(3), 292-308.
-Chiappalone, M., Cota, V. R., Carè, M., Di Florio, M., Beaubois, R., Buccelli, S., ... & Levi, T. (2022). Neuromorphic-based neuroprostheses for brain rewiring: state-of-the-art
+2. Chiappalone, M., Cota, V. R., Carè, M., Di Florio, M., Beaubois, R., Buccelli, S., ... & Levi, T. (2022). Neuromorphic-based neuroprostheses for brain rewiring: state-of-the-art
 and perspectives in neuroengineering. Brain sciences, 12(11), 1578.
 3. Won, S. M., Cai, L., Gutruf, P., & Rogers, J. A. (2023). Wireless and battery-free
 technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
