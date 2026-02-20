@@ -57,9 +57,9 @@ Coulter, M. E., Roumis, D. K., Eden, U. T., & Frank, L. M. (2021). Hippocampal
 replay reflects specific past experiences rather than a plan for subsequent
 choice. Neuron, 109(19), 3149–3163.e6.
 https://doi.org/10.1016/j.neuron.2021.07.029
-* Sargolini, F., Fyhn, M., Hafting, T., McNaughton, B.L., Witter, M.P ., Moser, M.B., and
+* [Sargolini, F., Fyhn, M., Hafting, T., McNaughton, B.L., Witter, M.P ., Moser, M.B., and
 Moser, E.I. (2006). Conjunctive representation of position, direction, and velocity
-in the entorhinal cortex. Science 312, 758-762.
+in the entorhinal cortex. Science 312, 758-762.](https://www.science.org/doi/10.1126/science.1125572)
 * Takehara-Nishiuchi K. Entorhinal cortex and consolidated memory. Neurosci Res.
 2014;84:27-33. doi:10.1016/j.neures.2014.02.012
 * Vollan, A.Z., Gardner, R.J., Moser, MB. et al. Left–right-alternating theta sweeps in
