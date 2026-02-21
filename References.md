@@ -33,3 +33,4 @@ doi:10.1101/2024.11.12.623096
 and perspectives in neuroengineering. Brain sciences, 12(11), 1578.
 * Won, S. M., Cai, L., Gutruf, P., & Rogers, J. A. (2023). Wireless and battery-free
 technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
+* Burke, J. F., Merkow, M. B., Jacobs, J., Kahana, M. J., & Zaghloul, K. A. (2015). Brain computer interface to enhance episodic memory in human participants. Frontiers in human neuroscience, 8, 1055. https://doi.org/10.3389/fnhum.2014.01055
