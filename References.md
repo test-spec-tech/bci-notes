@@ -38,6 +38,7 @@ and perspectives in neuroengineering. Brain sciences, 12(11), 1578.
 * Won, S. M., Cai, L., Gutruf, P., & Rogers, J. A. (2023). Wireless and battery-free
 technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
 * Jung, T., Zeng, N., Fabbri, J.D. et al. A wireless subdural-contained brain–computer interface with 65,536 electrodes and 1,024 channels. Nat Electron 8, 1272–1288 (2025). https://doi.org/10.1038/s41928-025-01509-9
+* Hettick, M., Ho, E., Poole, A.J. et al. Minimally invasive implantation of scalable high-density cortical microelectrode arrays for multimodal neural decoding and stimulation. Nat. Biomed. Eng (2025). https://doi.org/10.1038/s41551-025-01501-w
 * Burke, J. F., Merkow, M. B., Jacobs, J., Kahana, M. J., & Zaghloul, K. A. (2015). Brain computer interface to enhance episodic memory in human participants. Frontiers in human neuroscience, 8, 1055. https://doi.org/10.3389/fnhum.2014.01055
 * Mora-Sánchez, A., Pulini, A. A., Gaume, A., Dreyfus, G., & Vialatte, F. B. (2020). A brain-computer interface for the continuous, real-time monitoring of working memory load in real-world environments. Cognitive neurodynamics, 14(3), 301–321. https://doi.org/10.1007/s11571-020-09573-x
 * Asgher, U., Khalil, K., Khan, M. J., Ahmad, R., Butt, S. I., Ayaz, Y., Naseer, N., & Nazir, S. (2020). Enhanced Accuracy for Multiclass Mental Workload Detection Using Long Short-Term Memory for Brain-Computer Interface. Frontiers in neuroscience, 14, 584. https://doi.org/10.3389/fnins.2020.00584
