@@ -142,6 +142,8 @@ Narrative Review of Cellular Memory. Cureus. 2024;16(11):e73063. Published
 al., editors. Basic Neurochemistry: Molecular, Cellular and Medical Aspects. 6th
 edition. Philadelphia: Lippincott-Raven; 1999. Available from:
 https://www.ncbi.nlm.nih.gov/books/NBK28209
+* Teyler, T. J., & Rudy, J. W. (2007). The hippocampal indexing theory and episodic memory: updating the index. Hippocampus, 17(12), 1158–1169. https://doi.org/10.1002/hipo.20350
+* Goode, T. D., Tanaka, K. Z., Sahay, A., & McHugh, T. J. (2020). An Integrated Index: Engrams, Place Cells, and Hippocampal Memory. Neuron, 107(5), 805–820. https://doi.org/10.1016/j.neuron.2020.07.011
 * Williamson, M.R., Kwon, W., Woo, J. et al. Learning-associated astrocyte ensembles regulate memory recall. Nature 637, 478–486 (2025). https://doi.org/10.1038/s41586-024-08170-w
 * Sheena A. Josselyn, Susumu Tonegawa ,Memory engrams: Recalling the past and imagining the future.Science367,eaaw4325(2020).DOI:10.1126/science.aaw4325
 
