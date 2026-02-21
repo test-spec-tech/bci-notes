@@ -1,6 +1,6 @@
 # This was written by a LLM (claude), consider this content with skepticism.
 
-* Purpose: Test to see if a LLM can help with BCI research.
+* Purpose: Test to see if ai can help with BCI research.
 
   
 # Memory Enhancement BCI: Design Document
