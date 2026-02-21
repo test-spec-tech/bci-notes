@@ -33,6 +33,6 @@ doi:10.1101/2024.11.12.623096
 and perspectives in neuroengineering. Brain sciences, 12(11), 1578.
 * Won, S. M., Cai, L., Gutruf, P., & Rogers, J. A. (2023). Wireless and battery-free
 technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
-* Asgher, U., Khalil, K., Khan, M. J., Ahmad, R., Butt, S. I., Ayaz, Y., Naseer, N., & Nazir, S. (2020). Enhanced Accuracy for Multiclass Mental Workload Detection Using Long Short-Term Memory for Brain-Computer Interface. Frontiers in neuroscience, 14, 584. https://doi.org/10.3389/fnins.2020.00584
 * Burke, J. F., Merkow, M. B., Jacobs, J., Kahana, M. J., & Zaghloul, K. A. (2015). Brain computer interface to enhance episodic memory in human participants. Frontiers in human neuroscience, 8, 1055. https://doi.org/10.3389/fnhum.2014.01055
 * Mora-Sánchez, A., Pulini, A. A., Gaume, A., Dreyfus, G., & Vialatte, F. B. (2020). A brain-computer interface for the continuous, real-time monitoring of working memory load in real-world environments. Cognitive neurodynamics, 14(3), 301–321. https://doi.org/10.1007/s11571-020-09573-x
+* Asgher, U., Khalil, K., Khan, M. J., Ahmad, R., Butt, S. I., Ayaz, Y., Naseer, N., & Nazir, S. (2020). Enhanced Accuracy for Multiclass Mental Workload Detection Using Long Short-Term Memory for Brain-Computer Interface. Frontiers in neuroscience, 14, 584. https://doi.org/10.3389/fnins.2020.00584
