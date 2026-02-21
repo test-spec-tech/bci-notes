@@ -143,5 +143,6 @@ al., editors. Basic Neurochemistry: Molecular, Cellular and Medical Aspects. 6th
 edition. Philadelphia: Lippincott-Raven; 1999. Available from:
 https://www.ncbi.nlm.nih.gov/books/NBK28209
 * Williamson, M.R., Kwon, W., Woo, J. et al. Learning-associated astrocyte ensembles regulate memory recall. Nature 637, 478–486 (2025). https://doi.org/10.1038/s41586-024-08170-w
+* Sheena A. Josselyn, Susumu Tonegawa ,Memory engrams: Recalling the past and imagining the future.Science367,eaaw4325(2020).DOI:10.1126/science.aaw4325
 
 
