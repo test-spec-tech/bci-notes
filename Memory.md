@@ -142,3 +142,6 @@ Narrative Review of Cellular Memory. Cureus. 2024;16(11):e73063. Published
 al., editors. Basic Neurochemistry: Molecular, Cellular and Medical Aspects. 6th
 edition. Philadelphia: Lippincott-Raven; 1999. Available from:
 https://www.ncbi.nlm.nih.gov/books/NBK28209
+* Williamson, M.R., Kwon, W., Woo, J. et al. Learning-associated astrocyte ensembles regulate memory recall. Nature 637, 478–486 (2025). https://doi.org/10.1038/s41586-024-08170-w
+
+
