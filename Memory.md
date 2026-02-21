@@ -5,7 +5,7 @@ and circuits in the CA3 region of the hippocampus: an associative network. Front
 Cell Neurosci. 2014;7:262. Published 2014 Jan 8. doi:10.3389/fncel.2013.00262](https://www.frontiersin.org/journals/cellular-neuroscience/articles/10.3389/fncel.2013.00262/full)
 * [Sammons RP , Vezir M, Moreno-Velasquez L, et al. Structure and function of the
 hippocampal CA3 module. Proc Natl Acad Sci U S A. 2024;121(6):e2312281120.
-doi:10.1073/pnas.2312281120](https://www.pnas.org/doi/10.1073/pnas.2312281120)
+doi:10.1073/pnas.2312281120](https://doi.org/10.1073/pnas.2312281120)
 * Watson JF, Vargas-Barroso V, Morse-Mora RJ, et al. Human hippocampal CA3
 uses specific functional connectivity rules for eﬃcient associative memory. Cell.
 Published online December 6, 2024. doi:10.1016/j.cell.2024.11.022
