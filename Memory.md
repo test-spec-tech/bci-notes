@@ -1,4 +1,4 @@
-# References
+# [Memory](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C14&q=brain+computer+interface+memory&btnG=) References
 
 * [Le Duigou C, Simonnet J, Teleñczuk MT, Fricker D, Miles R. Recurrent synapses
 and circuits in the CA3 region of the hippocampus: an associative network. Front
