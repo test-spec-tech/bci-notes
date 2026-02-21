@@ -5,6 +5,8 @@
 * [Ali, Y. H., Bodkin, K., Rigotti-Thompson, M., Patel, K., Card, N. S., Bhaduri, B., Nason-Tomaszewski, S. R., Mifsud, D. M., Hou, X., Nicolas, C., Allcroft, S., Hochberg, L. R., Au Yong, N., Stavisky, S. D., Miller, L. E., Brandman, D. M., & Pandarinath, C. (2024). BRAND: a platform for closed-loop experiments with deep network models. Journal of neural engineering, 21(2), 026046. https://doi.org/10.1088/1741-2552/ad3b3a](https://iopscience.iop.org/article/10.1088/1741-2552/ad3b3a)
   * [brand: Backend for Real-time Asynchronous Neural Decoding](https://github.com/brandbci/brand)
 * [Angrick, M., Luo, S., Rabbani, Q., Candrea, D. N., Shah, S., Milsap, G. W., Anderson, W. S., Gordon, C. R., Rosenblatt, K. R., Clawson, L., Maragakis, N., Tenore, F. V., Fifer, M. S., Hermansky, H., Ramsey, N. F., & Crone, N. E. (2023). Online speech synthesis using a chronically implanted brain-computer interface in an individual with ALS. medRxiv : the preprint server for health sciences, 2023.06.30.23291352. https://doi.org/10.1101/2023.06.30.23291352](https://www.medrxiv.org/content/10.1101/2023.06.30.23291352v1)
+* [Liu, Z., Mei, J., Tang, J. et al. A memristor-based adaptive neuromorphic decoder for brain–computer interfaces. Nat Electron 8, 362–372 (2025). https://doi.org/10.1038/s41928-025-01340-2](https://doi.org/10.1038/s41928-025-01340-2)
+  * [Memristor_Co-evoutional_BCI](https://github.com/zhengwuliu/Memristor_Co-evoutional_BCI)
 * Card NS et al.. An Accurate and Rapidly Calibrating Speech Neuroprosthesis. N Engl J
 Med. 2024 Aug 15;391(7):609-618. doi: 10.1056/NEJMoa2314132. PMID: 39141853.
 * Du B, Cheng X, Duan Y, Ning H. fMRI Brain Decoding and Its Applications in
@@ -33,8 +35,6 @@ doi:10.1101/2024.11.12.623096
 and perspectives in neuroengineering. Brain sciences, 12(11), 1578.
 * Won, S. M., Cai, L., Gutruf, P., & Rogers, J. A. (2023). Wireless and battery-free
 technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
-* Liu, Z., Mei, J., Tang, J. et al. A memristor-based adaptive neuromorphic decoder for brain–computer interfaces. Nat Electron 8, 362–372 (2025). https://doi.org/10.1038/s41928-025-01340-2
-  * [Memristor_Co-evoutional_BCI](https://github.com/zhengwuliu/Memristor_Co-evoutional_BCI)
 * Burke, J. F., Merkow, M. B., Jacobs, J., Kahana, M. J., & Zaghloul, K. A. (2015). Brain computer interface to enhance episodic memory in human participants. Frontiers in human neuroscience, 8, 1055. https://doi.org/10.3389/fnhum.2014.01055
 * Mora-Sánchez, A., Pulini, A. A., Gaume, A., Dreyfus, G., & Vialatte, F. B. (2020). A brain-computer interface for the continuous, real-time monitoring of working memory load in real-world environments. Cognitive neurodynamics, 14(3), 301–321. https://doi.org/10.1007/s11571-020-09573-x
 * Asgher, U., Khalil, K., Khan, M. J., Ahmad, R., Butt, S. I., Ayaz, Y., Naseer, N., & Nazir, S. (2020). Enhanced Accuracy for Multiclass Mental Workload Detection Using Long Short-Term Memory for Brain-Computer Interface. Frontiers in neuroscience, 14, 584. https://doi.org/10.3389/fnins.2020.00584
