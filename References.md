@@ -33,6 +33,7 @@ and click. Preprint. bioRxiv. 2024;2024.11.12.623096. Published 2024 Nov 22.
 doi:10.1101/2024.11.12.623096
 * Edelman, B. J., Johnson, N., Sohrabpour, A., Tong, S., Thakor, N., & He, B. (2015). Systems neuroengineering: understanding and interacting with the brain. Engineering,
 1(3), 292-308.
+* Zhang, H., Jiao, L., Yang, S., Li, H., Jiang, X., Feng, J., Zou, S., Xu, Q., Gu, J., Wang, X., & Wei, B. (2024). Brain-computer interfaces: the innovative key to unlocking neurological conditions. International journal of surgery (London, England), 110(9), 5745–5762. https://doi.org/10.1097/JS9.0000000000002022
 * Chiappalone, M., Cota, V. R., Carè, M., Di Florio, M., Beaubois, R., Buccelli, S., ... & Levi, T. (2022). Neuromorphic-based neuroprostheses for brain rewiring: state-of-the-art
 and perspectives in neuroengineering. Brain sciences, 12(11), 1578.
 * Won, S. M., Cai, L., Gutruf, P., & Rogers, J. A. (2023). Wireless and battery-free
