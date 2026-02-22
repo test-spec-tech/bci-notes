@@ -372,8 +372,7 @@ This design draws on papers catalogued in this repository:
 - **Temporal interference stimulation:** Grossman et al., 2017 - non-invasive deep brain stimulation via interfering electric fields
 - **Predictive coding:** Rao & Ballard, 1999; Friston, 2005 - hierarchical prediction error as a cortical organizing principle
 
-
-# Artificial Memory Writing BCI: Design Document
+# Memory Writing BCI: Design Document
 
 A brain-computer interface architecture for writing artificial memories — implanting experiences, knowledge, and skills that were never naturally encoded — via targeted neural pattern injection, integration, and verification.
 
@@ -383,7 +382,7 @@ A brain-computer interface architecture for writing artificial memories — impl
 
 Memory enhancement boosts natural encoding, consolidation, and retrieval. But enhancement cannot help when there is **no natural encoding event to boost**. Anterograde amnesia patients cannot form new memories. Skill acquisition requires months of practice. Traumatic memories resist overwriting. These problems require a fundamentally different approach: **writing memories from scratch**.
 
-Artificial memory writing must solve six problems that enhancement never faces:
+Memory writing must solve six problems that enhancement never faces:
 
 | Stage | Problem | Approach |
 |-------|---------|----------|
@@ -449,7 +448,7 @@ Furthermore, the hippocampus generates **preplay** — sequences representing tr
 
 Long-term memory formation requires protein synthesis-dependent synaptic modification. The synaptic tagging and capture (STC) mechanism creates a ~1-2 hour window: initial stimulation creates "tags" at activated synapses, and plasticity-related proteins (PRPs) must arrive within this window to stabilize the trace ([Kennedy, 2013](Memory.md)).
 
-For artificial memory writing, pattern injection creates the tags, but PRP delivery is not guaranteed — the brain's natural neuromodulatory systems (dopamine, norepinephrine) may not engage because no behaviorally relevant event occurred.
+For memory writing, pattern injection creates the tags, but PRP delivery is not guaranteed — the brain's natural neuromodulatory systems (dopamine, norepinephrine) may not engage because no behaviorally relevant event occurred.
 
 **Design implication:** The injection protocol must be paired with neuromodulatory support. Options include: (1) pharmacological priming (low-dose dopamine agonist to raise baseline PRP availability), (2) electrical co-stimulation of VTA/LC neuromodulatory nuclei, or (3) pairing injection with a behaviorally salient event (e.g., reward signal). The STC window constrains timing: all injection and stabilization must complete within ~1-2 hours. Multiple writing sessions may be needed for complex memories, with each session targeting a subset of the engram.
 
@@ -521,48 +520,48 @@ The system operates in two modes — **de novo writing** and **reconsolidation e
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                     ARTIFICIAL MEMORY WRITING BCI                            │
+│                          MEMORY WRITING BCI                                  │
 │                                                                              │
 │  MODE A: DE NOVO WRITING                                                     │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐  │
-│  │ CONTENT  │──▶│ PATTERN  │──▶│ PATTERN  │──▶│INTEGRATE │──▶│ VERIFY & │  │
-│  │   SPEC   │   │GENERATOR │   │ INJECTOR │   │& CONSOL. │   │ VALIDATE │  │
-│  │          │   │          │   │          │   │          │   │          │  │
-│  │ Define   │   │ Manifold-│   │ Phase-   │   │ Schema-  │   │ Probe &  │  │
-│  │ content, │   │ constrain│   │ precise  │   │ aware    │   │ decode   │  │
-│  │ links,   │   │ & engram │   │ delivery │   │ replay   │   │ content  │  │
-│  │ scaffold │   │ allocate │   │ + inhib. │   │ engine   │   │ fidelity │  │
-│  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘  │
+│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐    │
+│  │ CONTENT  │──▶│ PATTERN  │──▶│ PATTERN  │──▶│INTEGRATE │──▶│ VERIFY & │    │
+│  │   SPEC   │   │GENERATOR │   │ INJECTOR │   │& CONSOL. │   │ VALIDATE │    │
+│  │          │   │          │   │          │   │          │   │          │    │
+│  │ Define   │   │ Manifold-│   │ Phase-   │   │ Schema-  │   │ Probe &  │    │
+│  │ content, │   │ constrain│   │ precise  │   │ aware    │   │ decode   │    │
+│  │ links,   │   │ & engram │   │ delivery │   │ replay   │   │ content  │    │
+│  │ scaffold │   │ allocate │   │ + inhib. │   │ engine   │   │ fidelity │    │
+│  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘    │
 │                                                                              │
 │  MODE B: RECONSOLIDATION EDITING                                             │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐  │
-│  │ TARGET   │──▶│REACTIVATE│──▶│DESTABILIZE──▶│ INJECT   │──▶│ RE-      │  │
-│  │ MEMORY   │   │ EXISTING │   │& MODIFY  │   │ MODIFIED │   │CONSOLI-  │  │
-│  │ SELECT   │   │  TRACE   │   │          │   │ CONTENT  │   │  DATE    │  │
-│  │          │   │          │   │          │   │          │   │          │  │
-│  │ Identify │   │ Cue to   │   │ Block    │   │ Write    │   │ Allow    │  │
-│  │ memory   │   │ make     │   │ protein  │   │ updated  │   │ restabi- │  │
-│  │ to edit  │   │ labile   │   │ synth.   │   │ pattern  │   │ lization │  │
-│  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘  │
+│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐    │
+│  │ TARGET   │──▶│REACTIVATE│──▶│DESTABILIZE──▶│ INJECT   │──▶│ RE-      │    │
+│  │ MEMORY   │   │ EXISTING │   │& MODIFY  │   │ MODIFIED │   │CONSOLI-  │    │
+│  │ SELECT   │   │  TRACE   │   │          │   │ CONTENT  │   │  DATE    │    │
+│  │          │   │          │   │          │   │          │   │          │    │
+│  │ Identify │   │ Cue to   │   │ Block    │   │ Write    │   │ Allow    │    │
+│  │ memory   │   │ make     │   │ protein  │   │ updated  │   │ restabi- │    │
+│  │ to edit  │   │ labile   │   │ synth.   │   │ pattern  │   │ lization │    │
+│  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘    │
 │                                                                              │
-│  CONTINUOUS READOUT (bidirectional with all stages)                           │
+│  CONTINUOUS READOUT (bidirectional with all stages)                          │
 │  ┌──────────────────────────────────────────────────────────────────────┐    │
 │  │  MEMORY READING & OBSERVATION                                        │    │
-│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────┐ │    │
-│  │  │ Active      │  │ Passive     │  │ Neuro-      │  │ Cognitive  │ │    │
-│  │  │ retrieval   │  │ replay      │  │ chemical    │  │ state      │ │    │
-│  │  │ probing &   │  │ monitoring  │  │ sensing     │  │ monitoring │ │    │
-│  │  │ decoding    │  │ (SWR scan)  │  │ (DA, ACh)   │  │ (WM load)  │ │    │
-│  │  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘ │    │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────┐   │    │
+│  │  │ Active      │  │ Passive     │  │ Neuro-      │  │ Cognitive  │   │    │
+│  │  │ retrieval   │  │ replay      │  │ chemical    │  │ state      │   │    │
+│  │  │ probing &   │  │ monitoring  │  │ sensing     │  │ monitoring │   │    │
+│  │  │ decoding    │  │ (SWR scan)  │  │ (DA, ACh)   │  │ (WM load)  │   │    │
+│  │  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘   │    │
 │  └──────────────────────────────────────────────────────────────────────┘    │
 │                                                                              │
 │  SHARED INFRASTRUCTURE                                                       │
-│  ┌────────────────────┐  ┌───────────────────┐  ┌──────────────────────┐    │
-│  │  MANIFOLD MODEL    │  │  MEMORY REGISTRY   │  │  SCHEMA LIBRARY      │    │
-│  │  (Population       │  │  (Written memories, │  │  (Known cortical     │    │
-│  │   geometry)        │  │   status, fidelity) │  │   schemas for fast   │    │
-│  │                    │  │                     │  │   consolidation)     │    │
-│  └────────────────────┘  └───────────────────┘  └──────────────────────┘    │
+│  ┌────────────────────┐  ┌───────────────────┐  ┌──────────────────────┐     │
+│  │  MANIFOLD MODEL    │  │  MEMORY REGISTRY  │  │  SCHEMA LIBRARY      │     │
+│  │  (Population       │  │ (Written memories,│  │  (Known cortical     │     │
+│  │   geometry)        │  │  status, fidelity)│  │   schemas for fast   │     │
+│  │                    │  │                   │  │   consolidation)     │     │
+│  └────────────────────┘  └───────────────────┘  └──────────────────────┘     │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
