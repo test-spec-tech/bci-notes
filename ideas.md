@@ -82,16 +82,16 @@ The system operates in three phases aligned with the natural memory lifecycle:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    MEMORY ENHANCEMENT BCI                    │
+│                    MEMORY ENHANCEMENT BCI                   │
 │                                                             │
-│  ┌──────────┐     ┌──────────────┐     ┌──────────────┐    │
-│  │  ENCODE  │────▶│ CONSOLIDATE  │────▶│   RETRIEVE   │    │
-│  │          │     │              │     │              │    │
-│  │ Detect   │     │ Decode SWR   │     │ Prime cue    │    │
-│  │ novelty  │     │ content      │     │ patterns     │    │
-│  │ Boost    │     │ Boost target │     │ Facilitate   │    │
-│  │ tagging  │     │ replays      │     │ completion   │    │
-│  └──────────┘     └──────────────┘     └──────────────┘    │
+│  ┌──────────┐     ┌──────────────┐     ┌──────────────┐     │
+│  │  ENCODE  │────▶│ CONSOLIDATE  │────▶│   RETRIEVE   │     │
+│  │          │     │              │     │              │     │
+│  │ Detect   │     │ Decode SWR   │     │ Prime cue    │     │
+│  │ novelty  │     │ content      │     │ patterns     │     │
+│  │ Boost    │     │ Boost target │     │ Facilitate   │     │
+│  │ tagging  │     │ replays      │     │ completion   │     │
+│  └──────────┘     └──────────────┘     └──────────────┘     │
 │        │                 │                    │             │
 │        └─────────────────┼────────────────────┘             │
 │                          ▼                                  │
@@ -736,7 +736,7 @@ Not all artificial memories are equally difficult to write. The following hierar
               ╱         L2          ╲ Contextual association — place-content
              ╱───────────────────────╲   co-activation with theta-phase binding
             ╱           L1            ╲ Simple association — Hebbian link
-           ╱─────────────────────────────╲   strengthening between existing reps
+           ╱────────────────────────────╲   strengthening between existing reps
           ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔
           Regions   Timing     Dendrites   Manifold dims →
 ```
