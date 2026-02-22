@@ -373,7 +373,7 @@ This design draws on papers catalogued in this repository:
 - **Predictive coding:** Rao & Ballard, 1999; Friston, 2005 - hierarchical prediction error as a cortical organizing principle
 
 
-# Memory Writing BCI: Design Document
+# Artificial Memory Writing BCI: Design Document
 
 A brain-computer interface architecture for writing artificial memories — implanting experiences, knowledge, and skills that were never naturally encoded — via targeted neural pattern injection, integration, and verification.
 
@@ -383,7 +383,7 @@ A brain-computer interface architecture for writing artificial memories — impl
 
 Memory enhancement boosts natural encoding, consolidation, and retrieval. But enhancement cannot help when there is **no natural encoding event to boost**. Anterograde amnesia patients cannot form new memories. Skill acquisition requires months of practice. Traumatic memories resist overwriting. These problems require a fundamentally different approach: **writing memories from scratch**.
 
-Memory writing must solve five problems that enhancement never faces:
+Artificial memory writing must solve six problems that enhancement never faces:
 
 | Stage | Problem | Approach |
 |-------|---------|----------|
@@ -391,9 +391,12 @@ Memory writing must solve five problems that enhancement never faces:
 | **Generate** | Content must be translated into participant-specific neural patterns | Manifold-constrained content-to-engram encoder |
 | **Inject** | Patterns must be delivered to the correct neurons at the correct time | Multi-site patterned microstimulation with phase-precise timing |
 | **Integrate** | The artificial trace must link to existing memory networks | Artificial replay injection during NREM sleep; schema-primed consolidation |
+| **Read/Observe** | The stored trace must be decodable and its consolidation trackable | Multi-modal readout via retrieval probing, spontaneous replay monitoring, and neurochemical sensing |
 | **Verify** | The written memory must be confirmed accurate and non-destructive | Retrieval probe with content decoding and fidelity scoring |
 
-Clinical applications include prosthetic memory for hippocampal damage ([Burke et al., 2015](References.md)), PTSD memory replacement via reconsolidation editing, accelerated skill acquisition, and educational content delivery. More broadly, neuromodulation for neurological and psychiatric disorders has matured as a field ([Johnson et al., 2013](References.md)), and memory writing represents its logical extension — from modulating ongoing neural dynamics to specifying new ones. The feasibility of artificial engram creation has been demonstrated in rodents, where false place memories were optogenetically implanted in hippocampal ensembles ([Ramirez et al., 2013](#9-references)), and memory engram theory provides the conceptual framework ([Josselyn & Tonegawa, 2020](Memory.md)).
+Reading and writing are fundamentally coupled: the system must read neural activity to calibrate the write process, monitor injection effects in real time, decode content during verification, and track consolidation over days to weeks. This bidirectional requirement — write patterns in, read content out — shapes every layer of the architecture, from electrode hardware to software pipelines. Systems neuroengineering provides the integrative framework for understanding and interacting with neural circuits at this level of bidirectional control ([Edelman et al., 2015](References.md)).
+
+Clinical applications include prosthetic memory for hippocampal damage ([Burke et al., 2015](References.md)), PTSD memory replacement via reconsolidation editing, accelerated skill acquisition, and educational content delivery. More broadly, neuromodulation for neurological and psychiatric disorders has matured as a field ([Johnson et al., 2013](References.md)), and memory writing represents its logical extension — from modulating ongoing neural dynamics to specifying new ones. The feasibility of artificial engram creation has been demonstrated in rodents, where false place memories were optogenetically implanted in hippocampal ensembles ([Ramirez et al., 2013](#9-references)), and memory engram theory provides the conceptual framework ([Josselyn & Tonegawa, 2020](Memory.md)). Sensory neuroprostheses have already demonstrated that patterned stimulation can produce coherent percepts — from phosphene-based shape perception in visual cortex ([Chen et al., 2020](References.md)) to subretinal photovoltaic implants restoring vision ([Holz et al., 2026](References.md)) — establishing the principle that artificial neural patterns can be functionally meaningful.
 
 A central insight of this design is that memory writing has **two modes**, not one:
 
@@ -444,9 +447,9 @@ Furthermore, the hippocampus generates **preplay** — sequences representing tr
 
 ### 2.5 Synaptic Plasticity & Tagging
 
-Long-term memory formation requires protein synthesis-dependent synaptic modification. The synaptic tagging and capture (STC) mechanism creates a ~1-2 hour window: initial stimulation creates "tags" at activated synapses, and plasticity-related proteins (PRPs) must arrive within this window to stabilize the trace ([Kennedy, 2013](Memory.md).
+Long-term memory formation requires protein synthesis-dependent synaptic modification. The synaptic tagging and capture (STC) mechanism creates a ~1-2 hour window: initial stimulation creates "tags" at activated synapses, and plasticity-related proteins (PRPs) must arrive within this window to stabilize the trace ([Kennedy, 2013](Memory.md)).
 
-For memory writing, pattern injection creates the tags, but PRP delivery is not guaranteed — the brain's natural neuromodulatory systems (dopamine, norepinephrine) may not engage because no behaviorally relevant event occurred.
+For artificial memory writing, pattern injection creates the tags, but PRP delivery is not guaranteed — the brain's natural neuromodulatory systems (dopamine, norepinephrine) may not engage because no behaviorally relevant event occurred.
 
 **Design implication:** The injection protocol must be paired with neuromodulatory support. Options include: (1) pharmacological priming (low-dose dopamine agonist to raise baseline PRP availability), (2) electrical co-stimulation of VTA/LC neuromodulatory nuclei, or (3) pairing injection with a behaviorally salient event (e.g., reward signal). The STC window constrains timing: all injection and stabilization must complete within ~1-2 hours. Multiple writing sessions may be needed for complex memories, with each session targeting a subset of the engram.
 
@@ -494,6 +497,22 @@ At the population level, phase precession compresses behavioral sequences (spann
 
 **Design implication:** Writing episodic or sequential memories requires controlling not just **which** neurons fire but **when within the theta cycle** they fire. A rate-coded injection (correct neurons, wrong timing) will produce a snapshot memory — a static scene without temporal structure. A phase-coded injection (correct neurons at correct theta phases) will produce a sequence memory — an experience with narrative flow. The injection controller must deliver stimulation pulses with theta-phase precision (~5-10 ms resolution within the ~125 ms theta cycle), with earlier phases encoding earlier events in the sequence. This doubles the information bandwidth of injection: rate encodes content identity, phase encodes temporal order.
 
+### 2.11 Memory Readout & Retrieval Signatures
+
+Writing a memory is only half the problem — **observing** the written trace is essential for calibration, verification, and long-term monitoring. Memory readout exploits three distinct neural signatures:
+
+**Content-specific cortical reinstatement.** Successful retrieval reactivates the same distributed cortical patterns that were active during encoding. The fidelity of this reinstatement predicts memory accuracy and confidence. fMRI brain decoding has demonstrated that perceptual, semantic, and episodic content can be reconstructed from activity patterns across visual, temporal, and prefrontal cortex ([Du et al., 2022](References.md)). While fMRI provides spatial coverage across the whole brain, electrophysiological readout from implanted arrays provides the temporal resolution (<10 ms) required for real-time content verification during and after injection.
+
+**Hippocampal pattern completion dynamics.** Retrieval begins with CA3 pattern completion (§2.2): a partial cue activates the stored attractor, which reinstates the full hippocampal index. The speed and fidelity of completion are directly observable readout signatures — a well-consolidated memory completes rapidly (<200 ms) and produces a high-fidelity pattern match. A weak or degrading trace shows slower completion, partial activation, or convergence to the wrong attractor. By monitoring CA3 dynamics during controlled cue delivery, the system can assess memory strength without requiring subjective report.
+
+**Spontaneous replay reactivation.** Written memories that have been successfully consolidated should appear in spontaneous sharp-wave ripple replay during sleep and quiet wakefulness (§2.4). Their presence in replay confirms that the hippocampal network has incorporated the trace into its normal memory cycling. Conversely, absence of spontaneous replay after expected consolidation time signals a failed or degrading write. The content decoder can passively monitor for reactivation of written memory patterns, providing verification without active probing.
+
+**Neurochemical correlates.** Memory encoding and consolidation produce measurable neurochemical signatures — dopamine release in hippocampus signals novelty and promotes plasticity, acetylcholine modulation shifts between encoding (high ACh) and consolidation (low ACh) modes. Carbon fiber electrode threads can measure neurochemical activity in deep brain structures with sub-second resolution ([Xia et al., 2023](References.md)), providing a complementary readout channel that captures neuromodulatory state rather than spiking patterns. This neurochemical readout informs whether the brain is in a state conducive to memory formation and whether the written trace triggered the expected neuromodulatory response.
+
+**Cognitive state monitoring.** The quality of memory readout depends on the participant's cognitive state at the time of probing. Real-time monitoring of working memory load ([Mora-Sánchez et al., 2020](References.md); [Asgher et al., 2020](References.md)) can optimize the timing of verification probes — testing recall when cognitive resources are available rather than during periods of high mental workload that would impair retrieval and produce false-negative verification results.
+
+**Design implication:** The system must implement both **active** and **passive** readout. Active readout uses controlled cue delivery and content decoding during retrieval. Passive readout monitors spontaneous replay for evidence of written memory reactivation. Neurochemical sensing provides a third, orthogonal readout channel reflecting neuromodulatory state rather than content. These three channels — electrophysiological content decoding, replay monitoring, and neurochemical sensing — are complementary: each captures information the others miss. A written memory should produce converging evidence across all three channels; divergence signals a problem.
+
 ---
 
 ## 3. System Architecture
@@ -501,39 +520,50 @@ At the population level, phase precession compresses behavioral sequences (spann
 The system operates in two modes — **de novo writing** and **reconsolidation editing** — that share infrastructure but differ in their entry point and biological mechanism:
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                          MEMORY WRITING BCI                                 │
-│                                                                             │
-│  MODE A: DE NOVO WRITING                                                    │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   │
-│  │ CONTENT  │──▶│ PATTERN  │──▶│ PATTERN  │──▶│INTEGRATE │──▶│ VERIFY & │   │
-│  │   SPEC   │   │GENERATOR │   │ INJECTOR │   │& CONSOL. │   │ VALIDATE │   │
-│  │          │   │          │   │          │   │          │   │          │   │
-│  │ Define   │   │ Manifold-│   │ Phase-   │   │ Schema-  │   │ Probe &  │   │
-│  │ content, │   │ constrain│   │ precise  │   │ aware    │   │ decode   │   │
-│  │ links,   │   │ & engram │   │ delivery │   │ replay   │   │ content  │   │
-│  │ scaffold │   │ allocate │   │ + inhib. │   │ engine   │   │ fidelity │   │
-│  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘   │
-│                                                                             │
-│  MODE B: RECONSOLIDATION EDITING                                            │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   │
-│  │ TARGET   │──▶│REACTIVATE│──▶│DESTABILIZE──▶│ INJECT   │──▶│ RE-      │   │
-│  │ MEMORY   │   │ EXISTING │   │& MODIFY  │   │ MODIFIED │   │CONSOLI-  │   │
-│  │ SELECT   │   │  TRACE   │   │          │   │ CONTENT  │   │  DATE    │   │
-│  │          │   │          │   │          │   │          │   │          │   │
-│  │ Identify │   │ Cue to   │   │ Block    │   │ Write    │   │ Allow    │   │
-│  │ memory   │   │ make     │   │ protein  │   │ updated  │   │ restabi- │   │
-│  │ to edit  │   │ labile   │   │ synth.   │   │ pattern  │   │ lization │   │
-│  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘   │
-│                                                                             │
-│  SHARED INFRASTRUCTURE                                                      │
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                     ARTIFICIAL MEMORY WRITING BCI                            │
+│                                                                              │
+│  MODE A: DE NOVO WRITING                                                     │
+│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐  │
+│  │ CONTENT  │──▶│ PATTERN  │──▶│ PATTERN  │──▶│INTEGRATE │──▶│ VERIFY & │  │
+│  │   SPEC   │   │GENERATOR │   │ INJECTOR │   │& CONSOL. │   │ VALIDATE │  │
+│  │          │   │          │   │          │   │          │   │          │  │
+│  │ Define   │   │ Manifold-│   │ Phase-   │   │ Schema-  │   │ Probe &  │  │
+│  │ content, │   │ constrain│   │ precise  │   │ aware    │   │ decode   │  │
+│  │ links,   │   │ & engram │   │ delivery │   │ replay   │   │ content  │  │
+│  │ scaffold │   │ allocate │   │ + inhib. │   │ engine   │   │ fidelity │  │
+│  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘  │
+│                                                                              │
+│  MODE B: RECONSOLIDATION EDITING                                             │
+│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐  │
+│  │ TARGET   │──▶│REACTIVATE│──▶│DESTABILIZE──▶│ INJECT   │──▶│ RE-      │  │
+│  │ MEMORY   │   │ EXISTING │   │& MODIFY  │   │ MODIFIED │   │CONSOLI-  │  │
+│  │ SELECT   │   │  TRACE   │   │          │   │ CONTENT  │   │  DATE    │  │
+│  │          │   │          │   │          │   │          │   │          │  │
+│  │ Identify │   │ Cue to   │   │ Block    │   │ Write    │   │ Allow    │  │
+│  │ memory   │   │ make     │   │ protein  │   │ updated  │   │ restabi- │  │
+│  │ to edit  │   │ labile   │   │ synth.   │   │ pattern  │   │ lization │  │
+│  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘  │
+│                                                                              │
+│  CONTINUOUS READOUT (bidirectional with all stages)                           │
+│  ┌──────────────────────────────────────────────────────────────────────┐    │
+│  │  MEMORY READING & OBSERVATION                                        │    │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────┐ │    │
+│  │  │ Active      │  │ Passive     │  │ Neuro-      │  │ Cognitive  │ │    │
+│  │  │ retrieval   │  │ replay      │  │ chemical    │  │ state      │ │    │
+│  │  │ probing &   │  │ monitoring  │  │ sensing     │  │ monitoring │ │    │
+│  │  │ decoding    │  │ (SWR scan)  │  │ (DA, ACh)   │  │ (WM load)  │ │    │
+│  │  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘ │    │
+│  └──────────────────────────────────────────────────────────────────────┘    │
+│                                                                              │
+│  SHARED INFRASTRUCTURE                                                       │
 │  ┌────────────────────┐  ┌───────────────────┐  ┌──────────────────────┐    │
-│  │  MANIFOLD MODEL    │  │  MEMORY REGISTRY  │  │  SCHEMA LIBRARY      │    │
-│  │  (Population       │  │ (Written memories,│  │  (Known cortical     │    │
-│  │   geometry)        │  │  status, fidelity)│  │   schemas for fast   │    │
-│  │                    │  │                   │  │   consolidation)     │    │
+│  │  MANIFOLD MODEL    │  │  MEMORY REGISTRY   │  │  SCHEMA LIBRARY      │    │
+│  │  (Population       │  │  (Written memories, │  │  (Known cortical     │    │
+│  │   geometry)        │  │   status, fidelity) │  │   schemas for fast   │    │
+│  │                    │  │                     │  │   consolidation)     │    │
 │  └────────────────────┘  └───────────────────┘  └──────────────────────┘    │
-└─────────────────────────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 3.1 Content Specification
@@ -542,7 +572,7 @@ The content specification module translates human-readable memory descriptions i
 
 | Component | Function |
 |-----------|----------|
-| Memory descriptor | Structured specification of memory content: semantic content, sensory features, emotional valence, temporal sequence (with phase-coding annotations for sequential memories). Natural input modalities including inner speech ([Kunz et al., 2025](References.md)) could serve as a high-bandwidth content specification channel — the participant describes the memory they want written, and motor-cortical speech representations are decoded into the descriptor format |
+| Memory descriptor | Structured specification of memory content: semantic content, sensory features, emotional valence, temporal sequence (with phase-coding annotations for sequential memories). Natural input modalities including inner speech ([Kunz et al., 2025](References.md)) could serve as a high-bandwidth content specification channel — the participant describes the memory they want written, and motor-cortical speech representations are decoded into the descriptor format. Imagined speech decoding using graph contrastive learning on brain dynamics ([Niu et al., 2025](References.md)) extends this to naturalistic BCI settings where overt speech is not possible |
 | Associative link map | Defines which existing memories the new memory should connect to (retrieval routes) |
 | Spatial/relational scaffold | Grid cell manifold coordinates — position on the toroidal scaffold encoding both spatial location and conceptual topology |
 | Schema compatibility checker | Assesses whether content maps onto an existing cortical schema (routes to fast or slow consolidation pathway) |
@@ -605,7 +635,28 @@ This mode exploits the reconsolidation mechanism ([Nader et al., 2000](#9-refere
 | Manifold consistency checker | Verifies the written trace occupies a stable point on the neural manifold (not a transient off-manifold perturbation that will decay) |
 | Side-effect detector | Checks for unintended changes to existing memories or neural function |
 
-The verification system uses adaptive decoding with memristor-based co-evolutionary learning ([Liu et al., 2025](References.md)) for real-time content assessment. The decoder architecture leverages advances in neural-to-content reconstruction — latent diffusion models can reconstruct high-resolution perceptual content from brain activity ([Takagi & Nishimoto, 2023](References.md)), and controlled reconstruction methods can decode both semantic and structural features ([Lu et al., 2023](References.md)). These approaches, originally developed for fMRI, provide the architectural template for the electrophysiological content decoder used in verification.
+The verification system uses adaptive decoding with memristor-based co-evolutionary learning ([Liu et al., 2025](References.md)) for real-time content assessment. The decoder architecture leverages advances in neural-to-content reconstruction — latent diffusion models can reconstruct high-resolution perceptual content from brain activity ([Takagi & Nishimoto, 2023](References.md)), and controlled reconstruction methods can decode both semantic and structural features ([Lu et al., 2023](References.md)). These approaches, originally developed for fMRI, provide the architectural template for the electrophysiological content decoder used in verification. The broader landscape of fMRI brain decoding methods ([Du et al., 2022](References.md)) informs the multi-modal decoding strategy: different content types (visual, semantic, spatial, temporal) require different decoder architectures, and the verification system must deploy the appropriate decoder based on the memory's complexity class (§6).
+
+### 3.7 Memory Reading & Continuous Observation
+
+Unlike write-once-verify-once paradigms, memory writing requires **continuous observation** across three timescales:
+
+| Timescale | Readout Mode | What It Reveals |
+|-----------|-------------|-----------------|
+| **Real-time** (ms) | Evoked response monitoring during injection | Whether stimulation produced the intended activation pattern; manifold adherence; immediate off-target effects |
+| **Session** (minutes–hours) | Active retrieval probing + neurochemical sensing | Whether the written trace is accessible via cue-driven recall; whether neuromodulatory state supports stabilization |
+| **Longitudinal** (days–weeks) | Passive replay monitoring + periodic retrieval probes | Whether the trace is consolidating normally; whether schema-driven drift remains within tolerance; whether existing memories are degrading |
+
+| Component | Function |
+|-----------|----------|
+| Spontaneous replay scanner | Monitors SWR content during sleep and quiet rest for reactivation of written memory patterns; uses the content decoder to identify written-memory replay events among natural replay |
+| Neurochemical state monitor | Tracks dopamine and acetylcholine dynamics via carbon fiber electrode threads ([Xia et al., 2023](References.md)) to verify neuromodulatory support for plasticity; confirms encoding-state (high ACh) during injection and consolidation-state (low ACh) during replay |
+| Cognitive state tracker | Monitors working memory load ([Mora-Sánchez et al., 2020](References.md); [Asgher et al., 2020](References.md)) to time verification probes for periods of low cognitive load, avoiding false-negative assessments caused by retrieval competition |
+| Consolidation progress estimator | Tracks the emergence of cortical reinstatement patterns over multiple sessions; estimates consolidation percentage based on cortical trace strength relative to hippocampal index strength |
+| Longitudinal drift tracker | Compares decoded content at each readout session against the original specification; quantifies schema-mediated drift and flags when content has shifted beyond acceptable tolerance |
+| Memory registry updater | Records all readout results in the memory registry (§3 shared infrastructure); updates memory status (injected → consolidating → consolidated → verified; or degrading → re-injection needed) |
+
+The continuous observation system serves a dual purpose: it verifies individual written memories **and** it monitors the health of the broader memory ecosystem. A written memory that consolidates correctly but causes subtle interference with existing memories would be missed by write-only verification. Longitudinal observation catches these second-order effects.
 
 ---
 
@@ -623,8 +674,10 @@ Artificial memory writing is **Tier 1 (invasive) only**. Non-invasive approaches
 | Stimulation capability | Patterned multi-site microstimulation (independent current per channel) + phase-precise timing (<5 ms jitter) | Single-site or paired-site stimulation |
 | Read/write ratio | Simultaneous read-write on adjacent channels | Primarily read; occasional write |
 | Interneuron access | Cell-type-specific channels for VIP+/SST+ co-stimulation | Not required |
+| Neurochemical sensing | Carbon fiber electrode threads for dopamine/acetylcholine monitoring ([Xia et al., 2023](References.md)) | Not required |
+| Readout channels | Dedicated high-impedance recording channels for content decoding during and after injection; must operate simultaneously with stimulation on adjacent channels | Primarily recording only |
 
-Hardware platforms are converging on the specifications required for memory writing. The wireless subdural array by Jung et al. (2025) achieves 65,536 electrodes with 1,024 simultaneous recording channels in a fully wireless, subdural-contained form factor ([Jung et al., 2025](References.md)) — approaching the channel count needed for bilateral hippocampal coverage. Hettick et al. (2025) demonstrate minimally invasive implantation of scalable high-density cortical microelectrode arrays capable of both multimodal neural decoding and stimulation ([Hettick et al., 2025](References.md)), directly addressing the simultaneous read-write requirement. Flexible substrate technologies ([Tang et al., 2023](References.md)) improve chronic biocompatibility and conformability to hippocampal geometry, and wireless power/data architectures ([Won et al., 2023](References.md)) eliminate transcutaneous connectors. The key remaining constraint is achieving read-write interleaving at the required spatial density within deep structures — current high-density arrays target cortical surface, not hippocampal depth.
+Hardware platforms are converging on the specifications required for memory writing. The wireless subdural array by Jung et al. (2025) achieves 65,536 electrodes with 1,024 simultaneous recording channels in a fully wireless, subdural-contained form factor ([Jung et al., 2025](References.md)) — approaching the channel count needed for bilateral hippocampal coverage. Hettick et al. (2025) demonstrate minimally invasive implantation of scalable high-density cortical microelectrode arrays capable of both multimodal neural decoding and stimulation ([Hettick et al., 2025](References.md)), directly addressing the simultaneous read-write requirement. Flexible substrate technologies ([Tang et al., 2023](References.md)) improve chronic biocompatibility and conformability to hippocampal geometry, and wireless power/data architectures ([Won et al., 2023](References.md)) eliminate transcutaneous connectors. Bio-inspired and biohybrid neural interfaces ([Boufidis et al., 2025](References.md)) offer a path toward electrodes that integrate with neural tissue rather than merely contacting it — soft, living interfaces that reduce chronic immune response and may improve long-term signal stability for the years-long implantation periods memory writing requires. The key remaining constraint is achieving read-write interleaving at the required spatial density within deep structures — current high-density arrays target cortical surface, not hippocampal depth.
 
 ### 4.2 Optogenetic Delivery
 
@@ -637,7 +690,13 @@ Cell-type-specific activation provides precision that electrical stimulation can
 | Two-photon holographic optogenetics | Single-cell (~1 μm) | ~5-10 ms | Yes | Highest precision; dendritic-scale targeting possible; limited to superficial tissue |
 | Combined electrical + multi-opsin | Cell-type writing + broad-field read | <1-5 ms | Yes (multi-opsin) | Optimal for memory writing: excitatory engram + inhibitory context + electrical readout |
 
-### 4.3 Processing Requirements
+Recent work has clarified how intracortical microstimulation (ICMS) engages neural circuits at the mechanistic level. Hughes et al. (2026) characterize the neural mechanisms underlying ICMS for sensory restoration, showing that stimulation activates both direct and polysynaptic pathways with distinct temporal profiles ([Hughes et al., 2026](References.md)). Understanding these propagation dynamics is critical for memory writing: the injected pattern will spread through local circuits via these same mechanisms, and the pattern generator must account for polysynaptic activation when computing the target stimulation pattern. Kim et al. (2025) advance high-dimensional stimulation with flexible electrodes, demonstrating that precise synthetic neural codes can be delivered through multi-electrode patterns ([Kim et al., 2025](References.md)) — moving toward the kind of patterned, multi-site injection that memory writing requires. The precedent set by visual neuroprostheses — where patterned stimulation of visual cortex produces coherent shape perception ([Chen et al., 2020](References.md)) — demonstrates that artificial activation patterns can produce functionally meaningful neural representations, not merely noise.
+
+### 4.3 Pharmacological Support Infrastructure
+
+The synaptic tagging and capture mechanism (§2.5) requires neuromodulatory support that may not occur naturally during artificial memory injection. Pharmacological priming is one mitigation strategy, and delivery precision matters: systemic drug administration affects the entire brain, but memory writing requires region-specific neuromodulatory support. Carbon dots — biocompatible nanoparticles capable of crossing the blood-brain barrier — offer a potential targeted delivery vehicle for dopamine agonists or protein synthesis enhancers to hippocampal targets ([Zhang W et al., 2021](References.md)). While this approach remains preclinical, it addresses a genuine gap: the need for spatially targeted pharmacological support during a temporally precise writing procedure.
+
+### 4.4 Processing Requirements
 
 | Requirement | Memory Writing | Memory Enhancement |
 |-------------|----------------|-------------------------------|
@@ -677,8 +736,9 @@ The manifold-constrained VAE is trained on two data sources: (1) paired (content
 | Stimulation delivery | <3 ms | Parallel current sources + optogenetic pulses; one per target channel |
 | Manifold tracking | <1 ms | Project evoked population vector onto manifold; compute residual |
 | Adaptation | <2 ms | Online adjustment of stimulation amplitude based on evoked response and manifold adherence; adaptive neuromodulation principles ([Lampert et al., 2025](References.md)) applied at the single-injection timescale |
+| Polysynaptic propagation model | Pre-computed | Predicts how injected current will propagate through direct and polysynaptic pathways ([Hughes et al., 2026](References.md)); stimulation parameters are pre-compensated for downstream activation to ensure the net evoked pattern matches the target |
 
-**Total injection latency target:** <10 ms (must complete within a single theta-phase window, delivering sequence elements across the ~125 ms theta cycle with ~5-10 ms phase precision)
+**Total injection latency target:** <10 ms (must complete within a single theta-phase window, delivering sequence elements across the ~125 ms theta cycle with ~5-10 ms phase precision). The injection controller implements the high-dimensional stimulation paradigm demonstrated by Kim et al. (2025), delivering independent current patterns across dozens of electrodes simultaneously to produce precise synthetic neural codes ([Kim et al., 2025](References.md)).
 
 ### 5.3 Verification Decoder
 
@@ -706,6 +766,29 @@ The replay engine generates synthetic sharp-wave ripple sequences containing the
 | Schema-primed sessions | 1 concentrated session (2-3 hours) for schema-compatible memories | Tse et al. 2007/2011: schema-matching content consolidates in hours |
 | Schema-absent sessions | Minimum 3 sleep cycles over 1-3 nights | Standard systems consolidation timeline |
 | Interference avoidance | Suppress artificial replay when natural replay of other content is detected | Uses content decoder |
+
+### 5.5 Memory Readout Pipeline
+
+The readout pipeline operates continuously across three channels, producing a unified assessment of each written memory's status:
+
+| Channel | Input | Output | Method |
+|---------|-------|--------|--------|
+| Electrophysiological content readout | Multi-channel hippocampal + cortical recordings during cue-driven retrieval or spontaneous replay | Decoded memory content + pattern similarity to specification | Content decoder (§5.3) applied to retrieval-evoked or replay-evoked activity; cosine similarity against stored target pattern |
+| Neurochemical state readout | Carbon fiber electrode signals ([Xia et al., 2023](References.md)) from hippocampal DA and ACh channels | Neuromodulatory state classification (encoding-favorable / consolidation-favorable / neutral) | Real-time neurotransmitter concentration estimation; threshold-based state classification |
+| Cognitive context readout | Broadband cortical recordings from prefrontal channels | Working memory load estimate; attention state | LSTM-based workload classifier ([Asgher et al., 2020](References.md)); used to gate verification probe timing |
+
+**Readout scheduling:**
+
+| Phase | Active Readout | Passive Readout | Neurochemical Readout |
+|-------|---------------|----------------|----------------------|
+| During injection | Evoked response decoding (real-time) | — | DA release confirmation |
+| Post-injection (0-2 hrs) | Retrieval probe every 15 min | SWR content monitoring | ACh state tracking (encoding → consolidation transition) |
+| First sleep cycle | — | Replay monitoring for written content in SWRs | ACh suppression confirmation (consolidation mode) |
+| 24 hours | Full retrieval probe battery | Spontaneous replay scan during rest | — |
+| 1 week | Retrieval probe + content fidelity scoring | Replay frequency tracking | — |
+| 1 month | Long-term retention check | Replay frequency (expect decline as cortical trace strengthens) | — |
+
+**Convergence criterion:** A memory is classified as "successfully written and consolidated" when: (1) active retrieval produces content fidelity >0.80, (2) spontaneous replay of the written content was detected in at least 2 of the first 3 post-injection sleep cycles, and (3) no existing memory shows fidelity degradation >0.05. If any channel reports failure while others report success, the memory is flagged for manual review — channel disagreement often indicates partial writes or unexpected integration patterns.
 
 ---
 
@@ -736,7 +819,7 @@ Not all artificial memories are equally difficult to write. The following hierar
               ╱         L2          ╲ Contextual association — place-content
              ╱───────────────────────╲   co-activation with theta-phase binding
             ╱           L1            ╲ Simple association — Hebbian link
-           ╱────────────────────────────╲   strengthening between existing reps
+           ╱─────────────────────────────╲   strengthening between existing reps
           ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔
           Regions   Timing     Dendrites   Manifold dims →
 ```
@@ -842,6 +925,32 @@ Artificial memories should be distinguishable from natural ones — both for the
 
 **Purpose:** Prevents artificial memories from being confused with natural experiences; enables participants to query "was this memory written?"; provides accountability in forensic and legal contexts where memory authenticity matters.
 
+### 7.9 Closed-Loop Read-During-Write
+
+The most powerful application of memory readout is **real-time content decoding during the injection itself** — reading the memory as it is being written.
+
+**Protocol:**
+1. During injection, a subset of recording channels continuously decode the evoked population pattern
+2. The decoded content is compared against the target specification in real-time (<10 ms loop)
+3. If the decoded content diverges from the target (e.g., the injected pattern is being pulled toward an existing attractor), the injection controller adjusts stimulation parameters within the same theta cycle
+4. After each theta cycle, the system assesses whether the written content matches the specification or whether additional injection cycles are needed
+
+**Advantage over post-hoc verification:** Post-hoc verification can detect failed writes but cannot prevent them. Read-during-write closes the loop at the timescale of injection itself, turning memory writing from an open-loop procedure (inject, wait, check) into a closed-loop one (inject, read, adjust, repeat). This is analogous to the closed-loop BCI paradigm that BRAND enables for motor decoding ([Ali et al., 2024](References.md)), but applied in the generative (write) direction.
+
+**Hardware requirement:** Simultaneous stimulation and recording on spatially interleaved channels. Stimulation artifacts must be suppressed within ~1 ms to allow readout on adjacent channels. This is the most demanding specification in the system — current artifact rejection methods introduce ~2-5 ms dead time, which is acceptable for the ~10 ms phase windows used in injection.
+
+### 7.10 Preplay Exploitation
+
+Rather than writing a memory entirely de novo, the system can exploit the hippocampal network's tendency to generate **preplay** — spontaneous sequences representing trajectories not yet experienced (§2.4).
+
+**Protocol:**
+1. During calibration, monitor spontaneous hippocampal sequences during quiet rest
+2. Identify preplay sequences that approximate target memory content (using the content decoder in reverse: does any spontaneous sequence resemble the specification?)
+3. When a close-match preplay event is detected, deliver a reinforcing stimulation pulse that strengthens the spontaneous trace
+4. Repeat over multiple rest periods, selectively reinforcing preplay that converges toward the target content
+
+**Advantage:** This approach works **with** the hippocampal network's intrinsic dynamics rather than against them. The resulting memory trace is guaranteed to be on-manifold (because it was generated by the network itself) and is less likely to interfere with existing memories (because the network's own competitive allocation processes selected the neurons). The tradeoff is speed: preplay exploitation may take hours to days, while de novo writing can be completed in a single session. For non-urgent writes (e.g., educational content), preplay exploitation may produce more natural, better-integrated memories.
+
 ---
 
 ## 8. Risk Analysis & Ethics
@@ -922,9 +1031,17 @@ This design draws on papers catalogued in this repository:
 | Neural content reconstruction | Takagi & Nishimoto 2023 (latent diffusion); Lu et al. 2023 (MindDiffuser) |
 | Neuromorphic neuroprostheses | Chiappalone et al. 2022 |
 | Adaptive neuromodulation | Lampert et al. 2025; Johnson et al. 2013 |
-| Inner speech decoding | Kunz et al. 2025 |
+| Inner speech decoding | Kunz et al. 2025; Niu et al. 2025 |
 | Memory BCI | Burke et al. 2015 |
 | Cortical oscillations | Mendoza-Halliday et al. 2024; Yaffe et al. 2017 |
+| ICMS mechanisms & high-dim stimulation | Hughes et al. 2026; Kim et al. 2025 |
+| Sensory neuroprostheses | Chen et al. 2020; Holz et al. 2026 |
+| Bio-inspired neural interfaces | Boufidis et al. 2025 |
+| Neurochemical sensing | Xia et al. 2023 |
+| Targeted drug delivery | Zhang W et al. 2021 |
+| Brain decoding survey | Du et al. 2022 |
+| Cognitive state monitoring | Mora-Sánchez et al. 2020; Asgher et al. 2020 |
+| Systems neuroengineering | Edelman et al. 2015 |
 
 ### Additional sources informing the design
 
@@ -957,5 +1074,16 @@ This design draws on papers catalogued in this repository:
 - **Adaptive neuromodulation:** Lampert, F., Baker, M.R., Jensen, M.A., et al. (2025). Adaptive neuromodulation dialogues: navigating current challenges and emerging innovations in neuromodulation system development. *Journal of Neural Engineering*, 22(6), 061005. doi:10.1088/1741-2552/ae2359
 - **Neuromodulation for brain disorders:** Johnson, M.D., Lim, H.H., Netoff, T.I., et al. (2013). Neuromodulation for brain disorders: challenges and opportunities. *IEEE Transactions on Biomedical Engineering*, 60(3), 610-624. doi:10.1109/TBME.2013.2244890
 - **Inner speech decoding:** Kunz, E.M., Abramovich Krasa, B., Kamdar, F., et al. (2025). Inner speech in motor cortex and implications for speech neuroprostheses. *Cell*, 188(17), 4658-4673.e17. doi:10.1016/j.cell.2025.06.015
+- **ICMS neural mechanisms:** Hughes, C., Chen, X., Grill, W., et al. (2026). Neural mechanisms underlying intracortical microstimulation for sensory restoration. *Nature Biomedical Engineering*, 10, 197-213. doi:10.1038/s41551-025-01583-6
+- **High-dimensional stimulation:** Kim, R., Liu, Y., Zhang, J., et al. (2025). Towards precise synthetic neural codes: high-dimensional stimulation with flexible electrodes. *npj Flexible Electronics*, 9, 68. doi:10.1038/s41528-025-00447-y
+- **Visual neuroprosthesis:** Chen, X., Wang, F., Fernandez, E., & Roelfsema, P.R. (2020). Shape perception via a high-channel-count neuroprosthesis in monkey visual cortex. *Science*, 370(6521), 1191-1196. doi:10.1126/science.abd7435
+- **Subretinal photovoltaic implant:** Holz, F.G., Le Mer, Y., Muqit, M.M.K., et al. (2026). Subretinal photovoltaic implant to restore vision in geographic atrophy due to AMD. *New England Journal of Medicine*, 394(3), 232-242. doi:10.1056/NEJMoa2501396
+- **Bio-inspired neural interfaces:** Boufidis, D., Garg, R., Angelopoulos, E., et al. (2025). Bio-inspired electronics: Soft, biohybrid, and "living" neural interfaces. *Nature Communications*, 16, 1861. doi:10.1038/s41467-025-57016-0
+- **Carbon fiber neurochemical sensing:** Xia, M., Agca, B.N., Yoshida, T., et al. (2023). Scalable, flexible carbon fiber electrode thread arrays for three-dimensional probing of neurochemical activity in deep brain structures of rodents. *Biosensors & Bioelectronics*, 241, 115625. doi:10.1016/j.bios.2023.115625
+- **Carbon dots for BBB penetration:** Zhang, W., Sigdel, G., Mintz, K.J., et al. (2021). Carbon dots: a future blood-brain barrier penetrating nanomedicine and drug nanocarrier. *International Journal of Nanomedicine*, 16, 5003-5016. doi:10.2147/IJN.S318732
+- **fMRI brain decoding survey:** Du, B., Cheng, X., Duan, Y., & Ning, H. (2022). fMRI brain decoding and its applications in brain-computer interface: a survey. *Brain Sciences*, 12(2), 228. doi:10.3390/brainsci12020228
+- **Working memory load monitoring:** Mora-Sánchez, A., Pulini, A.A., Gaume, A., Dreyfus, G., & Vialatte, F.B. (2020). A brain-computer interface for the continuous, real-time monitoring of working memory load in real-world environments. *Cognitive Neurodynamics*, 14(3), 301-321. doi:10.1007/s11571-020-09573-x
+- **Mental workload detection:** Asgher, U., Khalil, K., Khan, M.J., et al. (2020). Enhanced accuracy for multiclass mental workload detection using long short-term memory for brain-computer interface. *Frontiers in Neuroscience*, 14, 584. doi:10.3389/fnins.2020.00584
+- **Imagined speech decoding:** Niu, Y., Li, Z., Yao, L., & Wu, X. (2025). BDR-GCL: Toward imagined speech decoding in naturalistic BCI systems via brain dynamics representation enhanced graph contrastive learning. *Expert Systems with Applications*, 129058.
+- **Systems neuroengineering:** Edelman, B.J., Johnson, N., Sohrabpour, A., Tong, S., Thakor, N., & He, B. (2015). Systems neuroengineering: understanding and interacting with the brain. *Engineering*, 1(3), 292-308.
 - **MIMO hippocampal prosthesis:** Berger, T.W., Song, D., et al. — multi-input multi-output model replacing damaged hippocampal circuitry; architecture used here in reverse (generative) mode
-
