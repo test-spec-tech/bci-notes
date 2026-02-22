@@ -82,7 +82,7 @@ The system operates in three phases aligned with the natural memory lifecycle:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    MEMORY ENHANCEMENT BCI                   │
+│                 MEMORY ENHANCEMENT BCI                      │
 │                                                             │
 │  ┌──────────┐     ┌──────────────┐     ┌──────────────┐     │
 │  │  ENCODE  │────▶│ CONSOLIDATE  │────▶│   RETRIEVE   │     │
