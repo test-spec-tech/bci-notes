@@ -7,6 +7,8 @@
 * [Angrick, M., Luo, S., Rabbani, Q., Candrea, D. N., Shah, S., Milsap, G. W., Anderson, W. S., Gordon, C. R., Rosenblatt, K. R., Clawson, L., Maragakis, N., Tenore, F. V., Fifer, M. S., Hermansky, H., Ramsey, N. F., & Crone, N. E. (2023). Online speech synthesis using a chronically implanted brain-computer interface in an individual with ALS. medRxiv : the preprint server for health sciences, 2023.06.30.23291352. https://doi.org/10.1101/2023.06.30.23291352](https://www.medrxiv.org/content/10.1101/2023.06.30.23291352v1)
 * [Liu, Z., Mei, J., Tang, J. et al. A memristor-based adaptive neuromorphic decoder for brain–computer interfaces. Nat Electron 8, 362–372 (2025). https://doi.org/10.1038/s41928-025-01340-2](https://doi.org/10.1038/s41928-025-01340-2)
   * [Memristor_Co-evoutional_BCI](https://github.com/zhengwuliu/Memristor_Co-evoutional_BCI)
+* Yuan, R., Tiw, P.J., Cai, L. et al. A neuromorphic physiological signal processing system based on VO2 memristor for next-generation human-machine interface. Nat Commun 14, 3695 (2023). https://doi.org/10.1038/s41467-023-39430-4
+* Tiw, P.J., Yuan, R., Zhang, T. et al. An end-to-end memristive hardware system based on single-spike coding for human–machine interfaces. Nat Electron (2026). https://doi.org/10.1038/s41928-025-01544-6
 * Card NS et al.. An Accurate and Rapidly Calibrating Speech Neuroprosthesis. N Engl J
 Med. 2024 Aug 15;391(7):609-618. doi: 10.1056/NEJMoa2314132. PMID: 39141853.
 * Du B, Cheng X, Duan Y, Ning H. fMRI Brain Decoding and Its Applications in
