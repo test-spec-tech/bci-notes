@@ -10,6 +10,6 @@
  * [awesome-neuroscience](https://github.com/analyticalmonk/awesome-neuroscience)
  * [open-computational-neuroscience-resources](https://github.com/asoplata/open-computational-neuroscience-resources)
 
-### [BCI](https://scholar.google.com/scholar?q=label%3Abrain+computer+interface&hl=en&as_sdt=400007&as_ylo=2024&as_yhi=)  Resources
+### [BCI](https://scholar.google.com/scholar?as_ylo=2022&q=brain+computer+interface&hl=en&as_sdt=0,14)  Resources
 
 * [memory and more notes](https://github.com/test-spec-tech/bci-notes/blob/main/Memory.md)
