@@ -414,9 +414,9 @@ Memory engrams are sparse, distributed neuron ensembles whose reactivation drive
 
 Critically, artificial manipulation of CREB levels can bias which neurons join an engram, and optogenetic reactivation of engram-allocated neurons is sufficient to drive recall even for events that never occurred. Ramirez et al. (2013) demonstrated this by labeling place-cell ensembles active in context A, then reactivating them during fear conditioning in context B, creating a false fear memory for context A ([Ramirez et al., 2013](#9-references)).
 
-A particularly important class of allocatable neurons are **adult-born granule cells** in the dentate gyrus. During their critical period (~4-6 weeks post-mitosis), newborn DGCs exhibit lower LTP thresholds, higher intrinsic excitability, and reduced sensitivity to GABAergic inhibition ([Aimone et al., 2011](#9-references)). Increasing adult neurogenesis is sufficient to improve pattern separation ([Sahay et al., 2011](#9-references)). These properties make newborn neurons natural "blank slates" — uncommitted to existing engrams and primed for plasticity.
+A particularly important class of allocatable neurons are **adult-born granule cells** in the dentate gyrus. Increasing adult neurogenesis is sufficient to improve pattern separation ([Sahay et al., 2011](#9-references)).
 
-**Design implication:** The memory writing system should preferentially target two neuron populations: (1) high-CREB mature neurons identified via excitability profiling, and (2) adult-born DG granule cells in their critical period. Newborn neurons are ideal write targets because they are not yet committed to existing engrams (reducing overwrite risk) and require less stimulation energy to induce plasticity. The system should track neurogenesis markers to identify optimal write windows. Writing to mature, low-excitability neurons will produce weak, unstable traces.
+**Design implication:** The memory writing system should preferentially target two neuron populations: (1) high-CREB mature neurons identified via excitability profiling, and (2) adult-born DG granule cells in their critical period. The system should track neurogenesis markers to identify optimal write windows. Writing to mature, low-excitability neurons will produce weak, unstable traces.
 
 ### 2.2 CA3 Autoassociation & Pattern Completion
 
