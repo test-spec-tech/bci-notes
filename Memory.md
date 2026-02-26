@@ -135,6 +135,7 @@ https://doi.org/10.1038/s41586-023-06098-1
 * Nozais, V., Forkel, S.J., Petit, L. et al. Atlasing white matter and grey matter joint
 contributions to resting-state networks in the human brain. Commun Biol 6, 726
 (2023). https://doi.org/10.1038/s42003-023-05107-3
+* Leonard, M.Z., Calipari, E.S. Temporal spacing of stimuli as a principle of predictive learning. Nat Neurosci (2026). https://doi.org/10.1038/s41593-025-02175-y
 * Flores AI, Liester MB. The Role of Cells in Encoding and Storing Information: A
 Narrative Review of Cellular Memory. Cureus. 2024;16(11):e73063. Published
 2024 Nov 5. doi:10.7759/cureus.73063
