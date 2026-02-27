@@ -39,6 +39,7 @@ and perspectives in neuroengineering. Brain sciences, 12(11), 1578.
 technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
 * Jung, T., Zeng, N., Fabbri, J.D. et al. A wireless subdural-contained brain–computer interface with 65,536 electrodes and 1,024 channels. Nat Electron 8, 1272–1288 (2025). https://doi.org/10.1038/s41928-025-01509-9
 * Hettick, M., Ho, E., Poole, A.J. et al. Minimally invasive implantation of scalable high-density cortical microelectrode arrays for multimodal neural decoding and stimulation. Nat. Biomed. Eng (2025). https://doi.org/10.1038/s41551-025-01501-w
+* Hettick, M., Ho, E., Poole, A. J., Monge, M., Papageorgiou, D., Takahashi, K., ... & Rapoport, B. I. (2022). The layer 7 cortical interface: a scalable and minimally invasive brain–computer interface platform. BioRxiv, 2022-01.
 * [Liu, Z., Mei, J., Tang, J. et al. A memristor-based adaptive neuromorphic decoder for brain–computer interfaces. Nat Electron 8, 362–372 (2025). https://doi.org/10.1038/s41928-025-01340-2](https://doi.org/10.1038/s41928-025-01340-2)
   * [Memristor_Co-evoutional_BCI](https://github.com/zhengwuliu/Memristor_Co-evoutional_BCI)
 * Yuan, R., Tiw, P.J., Cai, L. et al. A neuromorphic physiological signal processing system based on VO2 memristor for next-generation human-machine interface. Nat Commun 14, 3695 (2023). https://doi.org/10.1038/s41467-023-39430-4
