@@ -25,6 +25,7 @@ https://doi.org/10.1038/nrn1178
 * Lara, A. H., & Wallis, J. D. (2015). The Role of Prefrontal Cortex in Working
 Memory: A Mini Review. Frontiers in systems neuroscience, 9, 173.
 https://doi.org/10.3389/fnsys.2015.00173
+* Bhattacharya, S., Brincat, S. L., Lundqvist, M., & Miller, E. K. (2022). Traveling waves in the prefrontal cortex during working memory. PLoS computational biology, 18(1), e1009827. https://doi.org/10.1371/journal.pcbi.1009827
 * Mendoza-Halliday D, Major AJ, Lee N, et al. A ubiquitous spectrolaminar motif of
 local field potential power across the primate cortex. Nat Neurosci.
 2024;27(3):547-560. doi:10.1038/s41593-023-01554-7
