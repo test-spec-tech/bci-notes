@@ -62,6 +62,7 @@ technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
 * J. Raouf Belkhir et al. ,Causal parametric language mapping with electrical stimulation during awake neurosurgery.Sci. Adv.12,eadw1599(2026).DOI:10.1126/sciadv.adw1599
 * Griffiths, B. J., He, Z., Ciftepinar, I., Choi, H., Song, J. J., Kaiser, M., & Jung, J. (2026). Comparing Electrical and Ultrasound Transcutaneous Vagus Nerve Stimulation (taVNS) on Associative Memory. bioRxiv, 2026-02.
 * Kim, Y., Park, S. In vivo multimodal neurochemical interfaces for real-time decoding of brain circuit. Nat. Rev. Neurosci. 27, 178–195 (2026). https://doi.org/10.1038/s41583-025-01003-3
+* Montalvo Vargo, S., Hong, N., Belloir, T. et al. Smart Dura: a functional artificial dura for multi-modal neural recording and modulation. Microsyst Nanoeng 12, 67 (2026). https://doi.org/10.1038/s41378-026-01166-8
 * Francioni, V., Tang, V.D., Toloza, E.H.S. et al. Vectorized instructive signals in cortical dendrites. Nature (2026). https://doi.org/10.1038/s41586-026-10190-7
 * Liu, Z., Fang, Y., Liu, Q., Tian, B., & Zhao, C. (2026). Synaptic Plasticity Engineering for Neural Precision, Temporal Learning, and Scalable Neuromorphic Systems. Nano-micro letters, 18(1), 196. https://doi.org/10.1007/s40820-025-02028-0
 * Keshishian, M., Mischler, G., Thomas, S. et al. Parallel hierarchical encoding of linguistic representations in the human auditory cortex and recurrent automatic speech recognition systems. Nat Mach Intell (2026). https://doi.org/10.1038/s42256-026-01185-0
