@@ -21,6 +21,7 @@ MindDiffuser: Controlled Image Reconstruction from Human Brain Activity with Sem
 and Structural Diffusion. In Proceedings of the 31st ACM International Conference on
 Multimedia (MM '23). Association for Computing Machinery, New York, NY, USA,
 5899–5908. https://doi.org/10.1145/3581783.3613832
+* Cabbai, G., Racey, C., Simner, J., Dance, C., Ward, J., & Forster, S. (2024). Sensory representations in primary visual cortex are not sufficient for subjective imagery. Current biology : CB, 34(21), 5073–5082.e5. https://doi.org/10.1016/j.cub.2024.09.062
 * Zhang J, Zhang Y, Zhang X, et al. A high-performance general computer cursor control
 scheme based on a hybrid BCI combining motor imagery and eye-tracking. iScience.
 2024;27(6):110164. Published 2024 May 31. doi:10.1016/j.isci.2024.110164
