@@ -1,4 +1,4 @@
-# This was written by a LLM (claude), consider this content with skepticism
+# This was written by a LLM, consider this content with skepticism
 
 * Purpose: Test to see if AI can help with BCI research and development.
 
