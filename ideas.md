@@ -372,7 +372,7 @@ This design draws on papers catalogued in this repository:
 - **Temporal interference stimulation:** Grossman et al., 2017 - non-invasive deep brain stimulation via interfering electric fields
 - **Predictive coding:** Rao & Ballard, 1999; Friston, 2005 - hierarchical prediction error as a cortical organizing principle
 
-# Memory Writing BCI: Design Document
+# Memory Reading and Writing BCI: Design Document
 
 A brain-computer interface architecture for writing artificial memories — implanting experiences, knowledge, and skills that were never naturally encoded — via targeted neural pattern injection, integration, and verification.
 
