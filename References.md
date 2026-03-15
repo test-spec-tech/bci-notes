@@ -65,6 +65,7 @@ technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
 * Belkacem, A. N., Jamil, N., Khalid, S., & Alnajjar, F. (2023). On closed-loop brain stimulation systems for improving the quality of life of patients with neurological disorders. Frontiers in human neuroscience, 17, 1085173. https://doi.org/10.3389/fnhum.2023.1085173
 * J. Raouf Belkhir et al. ,Causal parametric language mapping with electrical stimulation during awake neurosurgery.Sci. Adv.12,eadw1599(2026).DOI:10.1126/sciadv.adw1599
 * Griffiths, B. J., He, Z., Ciftepinar, I., Choi, H., Song, J. J., Kaiser, M., & Jung, J. (2026). Comparing Electrical and Ultrasound Transcutaneous Vagus Nerve Stimulation (taVNS) on Associative Memory. bioRxiv, 2026-02.
+* Ren, J., Jiang, C., Zhang, W. et al. Circuit response to neuromodulation characterized with simultaneous deep brain stimulation and precision neuroimaging in humans. Nat Neurosci (2026). https://doi.org/10.1038/s41593-026-02228-w
 * Kim, Y., Park, S. In vivo multimodal neurochemical interfaces for real-time decoding of brain circuit. Nat. Rev. Neurosci. 27, 178–195 (2026). https://doi.org/10.1038/s41583-025-01003-3
 * Montalvo Vargo, S., Hong, N., Belloir, T. et al. Smart Dura: a functional artificial dura for multi-modal neural recording and modulation. Microsyst Nanoeng 12, 67 (2026). https://doi.org/10.1038/s41378-026-01166-8
 * Francioni, V., Tang, V.D., Toloza, E.H.S. et al. Vectorized instructive signals in cortical dendrites. Nature (2026). https://doi.org/10.1038/s41586-026-10190-7
