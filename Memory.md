@@ -102,6 +102,7 @@ https://doi.org/10.1038/s41586-024-08392-y
 * Zhou, YQ., Puliyadi, V., Chen, X. et al. Vector coding and place coding in
 hippocampus share a common directional signal. Nat Commun 15, 10630
 (2024). https://doi.org/10.1038/s41467-024-54935-2
+* Francioni, V., Tang, V.D., Toloza, E.H.S. et al. Vectorized instructive signals in cortical dendrites. Nature (2026). https://doi.org/10.1038/s41586-026-10190-7
 * Felleman, D. J., & Van Essen, D. C. (1991). Distributed hierarchical processing in
 the primate cerebral cortex. Cerebral cortex (New York, N.Y. : 1991), 1(1), 1–47.
 https://doi.org/10.1093/cercor/1.1.1-a
