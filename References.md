@@ -36,6 +36,7 @@ doi:10.1101/2024.11.12.623096
 * Zhang, H., Jiao, L., Yang, S., Li, H., Jiang, X., Feng, J., Zou, S., Xu, Q., Gu, J., Wang, X., & Wei, B. (2024). Brain-computer interfaces: the innovative key to unlocking neurological conditions. International journal of surgery (London, England), 110(9), 5745–5762. https://doi.org/10.1097/JS9.0000000000002022
 * Chiappalone, M., Cota, V. R., Carè, M., Di Florio, M., Beaubois, R., Buccelli, S., ... & Levi, T. (2022). Neuromorphic-based neuroprostheses for brain rewiring: state-of-the-art
 and perspectives in neuroengineering. Brain sciences, 12(11), 1578.
+* Ye, Z., Shelton, A. M., Shaker, J. R., Boussard, J., Colonell, J., Birman, D., Manavi, S., Chen, S., Windolf, C., Hurwitz, C., Yu, H., Namima, T., Pedraja, F., Weiss, S., Raducanu, B. C., Ness, T. V., Jia, X., Mastroberardino, G., Rossi, L. F., Carandini, M., … Steinmetz, N. A. (2025). Ultra-high-density Neuropixels probes improve detection and identification in neuronal recordings. Neuron, 113(23), 3966–3982.e12. https://doi.org/10.1016/j.neuron.2025.08.030
 * Won, S. M., Cai, L., Gutruf, P., & Rogers, J. A. (2023). Wireless and battery-free
 technologies for neuroengineering. Nature Biomedical Engineering, 7(4), 405-423.
 * Jung, T., Zeng, N., Fabbri, J.D. et al. A wireless subdural-contained brain–computer interface with 65,536 electrodes and 1,024 channels. Nat Electron 8, 1272–1288 (2025). https://doi.org/10.1038/s41928-025-01509-9
