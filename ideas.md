@@ -80,27 +80,30 @@ Cortical oscillations show a spectrolaminar motif across primate cortex ([Mendoz
 
 The system operates in three phases aligned with the natural memory lifecycle:
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                 MEMORY ENHANCEMENT BCI                      │
-│                                                             │
-│  ┌──────────┐     ┌──────────────┐     ┌──────────────┐     │
-│  │  ENCODE  │────▶│ CONSOLIDATE  │────▶│   RETRIEVE   │     │
-│  │          │     │              │     │              │     │
-│  │ Detect   │     │ Decode SWR   │     │ Prime cue    │     │
-│  │ novelty  │     │ content      │     │ patterns     │     │
-│  │ Boost    │     │ Boost target │     │ Facilitate   │     │
-│  │ tagging  │     │ replays      │     │ completion   │     │
-│  └──────────┘     └──────────────┘     └──────────────┘     │
-│        │                 │                    │             │
-│        └─────────────────┼────────────────────┘             │
-│                          ▼                                  │
-│                 ┌────────────────┐                          │
-│                 │  MEMORY INDEX  │                          │
-│                 │  (Compressed   │                          │
-│                 │   pointers)    │                          │
-│                 └────────────────┘                          │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph BCI [MEMORY ENHANCEMENT BCI]
+        direction TB
+        
+        %% Top Row
+        ENCODE[<b>ENCODE</b><br/>Detect novelty<br/>Boost tagging]
+        CONSOLIDATE[<b>CONSOLIDATE</b><br/>Decode SWR content<br/>Boost target replays]
+        RETRIEVE[<b>RETRIEVE</b><br/>Prime cue patterns<br/>Facilitate completion]
+
+        %% Connections
+        ENCODE --> CONSOLIDATE
+        CONSOLIDATE --> RETRIEVE
+
+        %% Bottom Node
+        INDEX[<b>MEMORY INDEX</b><br/>Compressed pointers]
+
+        %% Joint connection to Index
+        ENCODE & CONSOLIDATE & RETRIEVE --> INDEX
+    end
+
+    %% Styling
+    style BCI fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style INDEX fill:#e1f5fe,stroke:#01579b
 ```
 
 ### 3.1 Phase 1: Encoding Optimization
@@ -184,26 +187,24 @@ This tier trades spatial resolution for accessibility. It cannot decode individu
 ### 4.3 Shared Software Architecture
 
 Both tiers run the same software stack, differing only in signal quality and available interventions:
+```mermaid
+graph TD
+    %% Node Definitions
+    APP["<b>Application Layer</b><br/>Memory journal, learning goals,<br/>consolidation scheduling"]
+    DEC["<b>Decoder Layer</b><br/>Neural state classification,<br/>replay content decoding,<br/>sleep staging"]
+    SIG["<b>Signal Processing Layer</b><br/>Filtering, artifact rejection,<br/>oscillation extraction, SWR det."]
+    HAL["<b>Hardware Abstraction Layer</b><br/>Tier-agnostic interface to<br/>recording and stimulation"]
 
-```
-┌──────────────────────────────────────┐
-│         Application Layer            │
-│  (Memory journal, learning goals,    │
-│   consolidation scheduling)          │
-├──────────────────────────────────────┤
-│         Decoder Layer                │
-│  (Neural state classification,       │
-│   replay content decoding,           │
-│   sleep staging)                     │
-├──────────────────────────────────────┤
-│         Signal Processing Layer      │
-│  (Filtering, artifact rejection,     │
-│   oscillation extraction, SWR det.)  │
-├──────────────────────────────────────┤
-│         Hardware Abstraction Layer   │
-│  (Tier-agnostic interface to         │
-│   recording and stimulation)         │
-└──────────────────────────────────────┘
+    %% Connections (using '---' for simple lines)
+    APP --- DEC
+    DEC --- SIG
+    SIG --- HAL
+
+    %% Styling to make them look like a cohesive stack
+    style APP fill:#fdf,stroke:#333,stroke-width:2px
+    style DEC fill:#ddf,stroke:#333,stroke-width:2px
+    style SIG fill:#dff,stroke:#333,stroke-width:2px
+    style HAL fill:#dfd,stroke:#333,stroke-width:2px
 ```
 
 ---
