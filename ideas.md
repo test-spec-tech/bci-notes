@@ -519,51 +519,61 @@ Writing a memory is only half the problem — **observing** the written trace is
 
 The system operates in two modes — **de novo writing** and **reconsolidation editing** — that share infrastructure but differ in their entry point and biological mechanism:
 
-```
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                          MEMORY WRITING BCI                                  │
-│                                                                              │
-│  MODE A: DE NOVO WRITING                                                     │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐    │
-│  │ CONTENT  │──▶│ PATTERN  │──▶│ PATTERN  │──▶│INTEGRATE │──▶│ VERIFY & │    │
-│  │   SPEC   │   │GENERATOR │   │ INJECTOR │   │& CONSOL. │   │ VALIDATE │    │
-│  │          │   │          │   │          │   │          │   │          │    │
-│  │ Define   │   │ Manifold-│   │ Phase-   │   │ Schema-  │   │ Probe &  │    │
-│  │ content, │   │ constrain│   │ precise  │   │ aware    │   │ decode   │    │
-│  │ links,   │   │ & engram │   │ delivery │   │ replay   │   │ content  │    │
-│  │ scaffold │   │ allocate │   │ + inhib. │   │ engine   │   │ fidelity │    │
-│  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘    │
-│                                                                              │
-│  MODE B: RECONSOLIDATION EDITING                                             │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐    │
-│  │ TARGET   │──▶│REACTIVATE│──▶│DESTABILIZE──▶│ INJECT   │──▶│ RE-      │    │
-│  │ MEMORY   │   │ EXISTING │   │& MODIFY  │   │ MODIFIED │   │CONSOLI-  │    │
-│  │ SELECT   │   │  TRACE   │   │          │   │ CONTENT  │   │  DATE    │    │
-│  │          │   │          │   │          │   │          │   │          │    │
-│  │ Identify │   │ Cue to   │   │ Block    │   │ Write    │   │ Allow    │    │
-│  │ memory   │   │ make     │   │ protein  │   │ updated  │   │ restabi- │    │
-│  │ to edit  │   │ labile   │   │ synth.   │   │ pattern  │   │ lization │    │
-│  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘    │
-│                                                                              │
-│  CONTINUOUS READOUT (bidirectional with all stages)                          │
-│  ┌──────────────────────────────────────────────────────────────────────┐    │
-│  │  MEMORY READING & OBSERVATION                                        │    │
-│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────┐   │    │
-│  │  │ Active      │  │ Passive     │  │ Neuro-      │  │ Cognitive  │   │    │
-│  │  │ retrieval   │  │ replay      │  │ chemical    │  │ state      │   │    │
-│  │  │ probing &   │  │ monitoring  │  │ sensing     │  │ monitoring │   │    │
-│  │  │ decoding    │  │ (SWR scan)  │  │ (DA, ACh)   │  │ (WM load)  │   │    │
-│  │  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘   │    │
-│  └──────────────────────────────────────────────────────────────────────┘    │
-│                                                                              │
-│  SHARED INFRASTRUCTURE                                                       │
-│  ┌────────────────────┐  ┌───────────────────┐  ┌──────────────────────┐     │
-│  │  MANIFOLD MODEL    │  │  MEMORY REGISTRY  │  │  SCHEMA LIBRARY      │     │
-│  │  (Population       │  │ (Written memories,│  │  (Known cortical     │     │
-│  │   geometry)        │  │  status, fidelity)│  │   schemas for fast   │     │
-│  │                    │  │                   │  │   consolidation)     │     │
-│  └────────────────────┘  └───────────────────┘  └──────────────────────┘     │
-└──────────────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph MEMORY_WRITING_BCI [MEMORY WRITING BCI]
+        direction TB
+
+        %% Mode A: De Novo Writing
+        subgraph MODE_A [MODE A: DE NOVO WRITING]
+            direction LR
+            A1["**CONTENT SPEC**<br/>Define content,<br/>links, scaffold"] 
+            --> A2["**PATTERN GENERATOR**<br/>Manifold-constrain<br/>& engram allocate"]
+            --> A3["**PATTERN INJECTOR**<br/>Phase-precise delivery<br/>+ inhibition"]
+            --> A4["**INTEGRATE & CONSOL.**<br/>Schema-aware<br/>replay engine"]
+            --> A5["**VERIFY & VALIDATE**<br/>Probe & decode<br/>content fidelity"]
+        end
+
+        %% Mode B: Reconsolidation Editing
+        subgraph MODE_B [MODE B: RECONSOLIDATION EDITING]
+            direction LR
+            B1["**TARGET MEMORY SELECT**<br/>Identify memory<br/>to edit"]
+            --> B2["**REACTIVATE EXISTING TRACE**<br/>Cue to make labile"]
+            --> B3["**DESTABILIZE & MODIFY**<br/>Block protein synth."]
+            --> B4["**INJECT MODIFIED CONTENT**<br/>Write updated pattern"]
+            --> B5["**RECONSOLIDATE**<br/>Allow restabilization"]
+        end
+
+        %% Continuous Readout Layer
+        subgraph READOUT [CONTINUOUS READOUT - Bidirectional with all stages]
+            direction LR
+            R1["**Active retrieval**<br/>probing & decoding"]
+            R2["**Passive replay**<br/>monitoring (SWR scan)"]
+            R3["**Neurochemical sensing**<br/>(DA, ACh)"]
+            R4["**Cognitive state**<br/>monitoring (WM load)"]
+        end
+
+        %% Shared Infrastructure Layer
+        subgraph INFRA [SHARED INFRASTRUCTURE]
+            direction LR
+            I1["**MANIFOLD MODEL**<br/>(Population geometry)"]
+            I2["**MEMORY REGISTRY**<br/>(Written memories,<br/>status, fidelity)"]
+            I3["**SCHEMA LIBRARY**<br/>(Known cortical schemas<br/>for fast consolidation)"]
+        end
+    end
+
+    %% Connections showing the readout and infra support everything
+    READOUT <--> MODE_A
+    READOUT <--> MODE_B
+    INFRA -.-> MODE_A
+    INFRA -.-> MODE_B
+
+    %% Styling
+    style MEMORY_WRITING_BCI fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style MODE_A fill:#e1f5fe,stroke:#01579b
+    style MODE_B fill:#fff3e0,stroke:#e65100
+    style READOUT fill:#f3e5f5,stroke:#4a148c
+    style INFRA fill:#e8f5e9,stroke:#1b5e20
 ```
 
 ### 3.1 Content Specification
@@ -805,23 +815,42 @@ Not all artificial memories are equally difficult to write. The following hierar
 | 5 | Structured episode | Meeting with specific people, topics, outcomes | Multi-feature hippocampal index + theta-phase sequence coding | Phase precession structure required; multiple sensory modalities bound via dendritic clustering; inhibitory context must be precisely sculpted | Long-term |
 | 6 | Rich episodic memory | Full sensory experience with emotion, context, narrative | Distributed hippocampal-cortical trace with amygdala involvement | Full manifold-constrained multi-region writing with dendritic resolution; emotional valence requires amygdala-hippocampal coordination; no current technology sufficient | Speculative |
 
-```
-                        ▲
-                       ╱ ╲
-                      ╱ L6 ╲        Rich episodic — multi-region manifold + dendritic
-                     ╱───────╲         resolution + amygdala coordination
-                    ╱   L5    ╲     Structured episode — phase sequence coding +
-                   ╱───────────╲       multi-feature dendritic clustering
-                  ╱     L4      ╲   Procedural — cross-system plasticity rules +
-                 ╱───────────────╲     branch-specific motor cortex writing
-                ╱       L3        ╲  Semantic fact — content-to-neural encoder +
-               ╱───────────────────╲    schema-accelerated consolidation
-              ╱         L2          ╲ Contextual association — place-content
-             ╱───────────────────────╲   co-activation with theta-phase binding
-            ╱           L1            ╲ Simple association — Hebbian link
-           ╱─────────────────────────────╲   strengthening between existing reps
-          ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔
-          Regions   Timing     Dendrites   Manifold dims →
+```mermaid
+graph TD
+    %% Define the Pyramid Nodes with padding for visual width
+    L6["&nbsp;&nbsp;&nbsp;&nbsp;L6: Rich episodic&nbsp;&nbsp;&nbsp;&nbsp;<br/>Multi-region manifold + dendritic<br/>resolution + amygdala coordination"]
+    
+    L5["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L5: Structured episode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>Phase sequence coding +<br/>multi-feature dendritic clustering"]
+    
+    L4["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L4: Procedural&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>Cross-system plasticity rules +<br/>branch-specific motor cortex writing"]
+    
+    L3["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L3: Semantic fact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>Content-to-neural encoder +<br/>schema-accelerated consolidation"]
+    
+    L2["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L2: Contextual association&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>Place-content co-activation<br/>with theta-phase binding"]
+    
+    L1["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L1: Simple association&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>Hebbian link strengthening<br/>between existing reps"]
+
+    %% Connect the hierarchy
+    L6 --- L5
+    L5 --- L4
+    L4 --- L3
+    L3 --- L2
+    L2 --- L1
+
+    %% Bottom Axis Legend
+    subgraph Axis ["Architecture Foundations"]
+        direction LR
+        A[Regions] --- B[Timing] --- C[Dendrites] --- D[Manifold dims →]
+    end
+    L1 -.-> Axis
+
+    %% Styling for the Hierarchy
+    style L6 fill:#fef3c7,stroke:#d97706,stroke-width:2px
+    style L5 fill:#fff7ed,stroke:#ea580c
+    style L4 fill:#fff1f2,stroke:#e11d48
+    style L3 fill:#faf5ff,stroke:#9333ea
+    style L2 fill:#f0f9ff,stroke:#0284c7
+    style L1 fill:#f0fdf4,stroke:#16a34a
 ```
 
 The key insight is that each level adds a qualitatively different challenge, not merely a quantitative one. L1→L2 adds spatial binding. L2→L3 adds the encoding problem (content has no natural neural representation). L3→L4 adds multi-system coordination with incompatible plasticity rules. L4→L5 adds temporal structure (phase coding). L5→L6 adds emotional valence and the full manifold constraint across distributed cortex.
