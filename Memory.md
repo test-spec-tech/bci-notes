@@ -47,6 +47,8 @@ substrate for memory consolidation and retrieval. Nat Neurosci 14, 147–153
 * Schechtman, E., Antony, J.W., Lampe, A. et al. Multiple memories can be
 simultaneously reactivated during sleep as effectively as a single memory.
 Commun Biol 4, 25 (2021). https://doi.org/10.1038/s42003-020-01512-0
+* Mountcastle, V. B. (1997). The columnar organization of the neocortex. Brain: a journal of neurology, 120(4), 701-722.
+* Hawkins, J., Lewis, M., Klukas, M., Purdy, S., & Ahmad, S. (2019). A framework for intelligence and cortical function based on grid cells in the neocortex. Frontiers in neural circuits, 12, 121.
 * Nejad, K.K., Anastasiades, P., Hertäg, L. et al. Self-supervised predictive learning accounts for cortical layer-specificity. Nat Commun 16, 6178 (2025). https://doi.org/10.1038/s41467-025-61399-5
 * Hawkins, J., Ahmad, S., & Cui, Y. (2017). A Theory of How Columns in the Neocortex Enable Learning the Structure of the World. Frontiers in neural circuits, 11, 81. https://doi.org/10.3389/fncir.2017.00081
 * Foster, D., Wilson, M. Reverse replay of behavioural sequences in hippocampal
