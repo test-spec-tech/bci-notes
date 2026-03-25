@@ -48,6 +48,7 @@ substrate for memory consolidation and retrieval. Nat Neurosci 14, 147–153
 simultaneously reactivated during sleep as effectively as a single memory.
 Commun Biol 4, 25 (2021). https://doi.org/10.1038/s42003-020-01512-0
 * Nejad, K.K., Anastasiades, P., Hertäg, L. et al. Self-supervised predictive learning accounts for cortical layer-specificity. Nat Commun 16, 6178 (2025). https://doi.org/10.1038/s41467-025-61399-5
+* Hawkins, J., Ahmad, S., & Cui, Y. (2017). A Theory of How Columns in the Neocortex Enable Learning the Structure of the World. Frontiers in neural circuits, 11, 81. https://doi.org/10.3389/fncir.2017.00081
 * Foster, D., Wilson, M. Reverse replay of behavioural sequences in hippocampal
 place cells during the awake state. Nature 440, 680–683 (2006).
 https://doi.org/10.1038/nature04587
