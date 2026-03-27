@@ -12,6 +12,7 @@ Brain-Computer Interface: A Survey. Brain Sci. 2022 Feb 7;12(2):228. doi:
 10.3390/brainsci12020228. PMID: 35203991; PMCID: PMC8869956.
 * Littlejohn, K. T., Cho, C. J., Liu, J. R., Silva, A. B., Yu, B., Anderson, V. R., Kurtz-Miott, C. M., Brosler, S., Kashyap, A. P., Hallinan, I. P., Shah, A., Tu-Chan, A., Ganguly, K., Moses, D. A., Chang, E. F., & Anumanchipalli, G. K. (2025). A streaming brain-to-voice neuroprosthesis to restore naturalistic communication. Nature neuroscience, 28(4), 902–912. https://doi.org/10.1038/s41593-025-01905-6
 * Horikawa T. (2025). Mind captioning: Evolving descriptive text of mental content from human brain activity. Science advances, 11(45), eadw1464. https://doi.org/10.1126/sciadv.adw1464
+* Jude, J.J., Levi-Aharoni, H., Acosta, A.J. et al. Restoring rapid natural bimanual typing with a neuroprosthesis after paralysis. Nat Neurosci (2026). https://doi.org/10.1038/s41593-026-02218-y
 * Tang, X., Shen, H., Zhao, S. et al. Flexible brain–computer interfaces. Nat Electron 6, 109–118 (2023). https://doi.org/10.1038/s41928-022-00913-9
 * Takagi, Y., & Nishimoto, S. (2023). High-resolution image reconstruction with latent
 diffusion models from human brain activity. In Proceedings of the IEEE/CVF Conference
