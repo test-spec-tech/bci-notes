@@ -154,7 +154,7 @@ https://www.ncbi.nlm.nih.gov/books/NBK28209
 * Teyler, T. J., & Rudy, J. W. (2007). The hippocampal indexing theory and episodic memory: updating the index. Hippocampus, 17(12), 1158–1169. https://doi.org/10.1002/hipo.20350
 * Binder JR, Desai RH. The neurobiology of semantic memory. Trends Cogn Sci. 2011 Nov;15(11):527-36. doi: 10.1016/j.tics.2011.10.001. Epub 2011 Oct 14. PMID: 22001867; PMCID: PMC3350748.
 * Coda, D.M., Watt, L., Glauser, L. et al. Cell-type- and locus-specific epigenetic editing of memory expression. Nat Genet 57, 2661–2668 (2025). https://doi.org/10.1038/s41588-025-02368-y
-* Berdugo-Vega, G., Lee, C. C., Gao, J., et al. (2025). Cognitive rejuvenation through partial reprogramming of engram cells. *Neuron*, 113, 1-15. PMID: 41672073
+* Berdugo-Vega, G., Sierra, C., Astori, S., Calati, V., Orsat, J., Scoglio, M. J., Sandi, C., & Gräff, J. (2026). Cognitive rejuvenation through partial reprogramming of engram cells. Neuron, 114(6), 1102–1116.e7. https://doi.org/10.1016/j.neuron.2025.11.028
 * Goode, T. D., Tanaka, K. Z., Sahay, A., & McHugh, T. J. (2020). An Integrated Index: Engrams, Place Cells, and Hippocampal Memory. Neuron, 107(5), 805–820. https://doi.org/10.1016/j.neuron.2020.07.011
 * Williamson, M.R., Kwon, W., Woo, J. et al. Learning-associated astrocyte ensembles regulate memory recall. Nature 637, 478–486 (2025). https://doi.org/10.1038/s41586-024-08170-w
 * Sheena A. Josselyn, Susumu Tonegawa ,Memory engrams: Recalling the past and imagining the future.Science367,eaaw4325(2020).DOI:10.1126/science.aaw4325
