@@ -367,11 +367,17 @@ This design draws on papers catalogued in this repository:
 
 ### Additional sources informing the design
 
-- **MIMO hippocampal prosthesis:** Berger, Song, et al. - multi-input multi-output model replacing damaged hippocampal circuitry
-- **Synaptic tagging and capture:** Frey & Morris, 1997 - the STC hypothesis for late-phase LTP
-- **Targeted memory reactivation:** Rasch et al., 2007 - odor cues during sleep boost declarative memory
-- **Temporal interference stimulation:** Grossman et al., 2017 - non-invasive deep brain stimulation via interfering electric fields
-- **Predictive coding:** Rao & Ballard, 1999; Friston, 2005 - hierarchical prediction error as a cortical organizing principle
+- Berger, T. W., Song, D., Chan, R. H., Marmarelis, V. Z., LaCoss, J., Wills, J., Hampson, R. E., Deadwyler, S. A., & Granacki, J. J. (2012). A hippocampal cognitive prosthesis: multi-input, multi-output nonlinear modeling and VLSI implementation. IEEE transactions on neural systems and rehabilitation engineering : a publication of the IEEE Engineering in Medicine and Biology Society, 20(2), 198–211. https://doi.org/10.1109/TNSRE.2012.2189133
+  - Multi-input multi-output model replacing damaged hippocampal circuitry
+- Frey, U., & Morris, R. G. (1997). Synaptic tagging and long-term potentiation. Nature, 385(6616), 533–536. https://doi.org/10.1038/385533a07
+  - The STC hypothesis for late-phase LTP
+- Rasch, Björn, and Jan Born. "Reactivation and consolidation of memory during sleep." Current Directions in Psychological Science 17.3 (2008): 188-192.
+  - Odor cues during sleep boost declarative memory.
+- Grossman, N., Bono, D., Dedic, N., Kodandaramaiah, S. B., Rudenko, A., Suk, H. J., ... & Boyden, E. S. (2017). Noninvasive deep brain stimulation via temporally interfering electric fields. cell, 169(6), 1029-1041.
+  - Non-invasive deep brain stimulation via interfering electric fields.
+- Rao, R. P., & Ballard, D. H. (1999). Predictive coding in the visual cortex: a functional interpretation of some extra-classical receptive-field effects. Nature neuroscience, 2(1), 79-87.
+- Friston, K. (2005). A theory of cortical responses. Philosophical transactions of the Royal Society B: Biological sciences, 360(1456), 815-836.
+  - Hierarchical prediction error as a cortical organizing principle.
 
 # Memory Reading and Writing BCI: Design Document
 
