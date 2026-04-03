@@ -1599,7 +1599,7 @@ Several unresolved scientific questions will shape the next generation of artifi
 * [Memory.md](Memory.md)
 
 
-## Additional References 
+### Additional References 
 
 - Uytiepo, M., Zhu, Y., Bushong, E., Chou, K., Polli, F. S., Zhao, E., Kim, K. Y., Luu, D., Chang, L., Yang, D., Ma, T. C., Kim, M., Zhang, Y., Walton, G., Quach, T., Haberl, M., Patapoutian, L., Shahbazi, A., Zhang, Y., Beutter, E., … Maximov, A. (2025). Synaptic architecture of a memory engram in the mouse hippocampus. Science (New York, N.Y.), 387(6740), eado8316. https://doi.org/10.1126/science.ado8316
 
