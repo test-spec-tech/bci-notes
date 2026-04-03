@@ -1121,7 +1121,7 @@ This design draws on papers catalogued in this repository:
 
 # Experiments (Verify)
 
-* **Hypothetical POC Tests**.
+* **Hypothetical Proof of Concept Tests**.
 
 ## Abstract
 
