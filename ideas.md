@@ -1597,6 +1597,7 @@ Several unresolved scientific questions will shape the next generation of artifi
 ## 8. References
 
 * [Memory.md](Memory.md)
+* [References.md](References.md)
 
 
 ### Additional References 
