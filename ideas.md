@@ -1534,7 +1534,7 @@ The most informative outcome is the comparison between multi-region and hippocam
 
 ## 6. Discussion
 
-### 6.1 What the Three Experiments Collectively Prove
+### 6.1 What the Three Experiments Collectively Test
 
 The experimental pipeline presented here addresses the three critical gaps preventing artificial memory creation in humans:
 
