@@ -1117,10 +1117,9 @@ This design draws on papers catalogued in this repository:
 - **Systems neuroengineering:** Edelman, B.J., Johnson, N., Sohrabpour, A., Tong, S., Thakor, N., & He, B. (2015). Systems neuroengineering: understanding and interacting with the brain. *Engineering*, 1(3), 292-308.
 - **MIMO hippocampal prosthesis:** Berger, T.W., Song, D., et al. — multi-input multi-output model replacing damaged hippocampal circuitry; architecture used here in reverse (generative) mode
 
+---
 
 # Experiments
-
----
 
 ## Abstract
 
