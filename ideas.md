@@ -1521,7 +1521,17 @@ where $w_i$ are weights reflecting semantic similarity between the target and ea
 e_t = 1 - \text{sim}(\mathbf{r}_t, \mathbf{p}_{\text{target}})
 ```
 
-where $e_t$ is the instantaneous error at time *t*, $\mathbf{r}_t$ is the decoded real-time activity, and $\mathbf{p}_{\text{target}}$ is the target pattern. If $e_t$ exceeds a threshold (0.30), stimulation amplitudes are adjusted for the next theta cycle according to:
+where $e_t$ is the instantaneous error at time *t*, 
+```math
+\mathbf{r}_t
+```
+is the decoded real-time activity, and 
+```math
+\mathbf{p}_{\text{target}}
+```
+is the target pattern. If 
+$e_t$
+exceeds a threshold (0.30), stimulation amplitudes are adjusted for the next theta cycle according to:
 
 ```math
 \Delta I_i = -\eta \frac{\partial e_t}{\partial I_i}
