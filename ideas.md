@@ -1651,8 +1651,6 @@ Several unresolved scientific questions will shape the next generation of artifi
 
 ### Additional References 
 
-## Additional References
-
 - Berger, T. W., Hampson, R. E., Song, D., Goonawardena, A., Marmarelis, V. Z., & Deadwyler, S. A. (2011). A cortical neural prosthesis for restoring and enhancing memory. *Journal of Neural Engineering*, 8(4), 046017. https://doi.org/10.1088/1741-2560/8/4/046017
 
 - Buzsáki, G. (2015). Hippocampal sharp wave-ripple: A cognitive biomarker for episodic memory and planning. *Hippocampus*, 25(10), 1073–1188. https://doi.org/10.1002/hipo.22488
