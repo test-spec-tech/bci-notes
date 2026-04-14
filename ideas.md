@@ -1153,7 +1153,7 @@ Despite these advances, three critical gaps prevent the translation of artificia
 
 Closed-loop stimulation of temporal cortex has shown that detecting and intervening during poor encoding states can improve memory recall by approximately 15% (Ezzyat et al., 2018), and direct hippocampal stimulation during verbal associative encoding has enhanced subsequent recollection (Jun et al., 2019). However, these approaches enhance ongoing natural encoding rather than creating memories de novo.
 
-**The translation gap.** Optogenetic methods used in mice require transgenic expression of light-sensitive opsins — an approach not currently applicable in humans. The most powerful rodent demonstrations of false memory creation rely entirely on optogenetics. To build a translational pipeline, artificial memory creation must be demonstrated using methods available in both species — specifically, patterned electrical microstimulation. Critically, stimulation parameters matter enormously: 50 Hz macrostimulation of the hippocampus and entorhinal region significantly *impaired* memory in both spatial and verbal tasks (Jacobs et al., 2016), while theta-burst *micro*stimulation via 100-μm-diameter microelectrodes in the entorhinal area improved memory specificity using physiologically relevant current levels (Titiz et al., 2017). Entorhinal stimulation during spatial learning enhanced memory and reset hippocampal theta phase (Suthana et al., 2012), but this effect was site-specific: stimulation of right entorhinal white matter enhanced visual memory, while adjacent gray matter or left-sided stimulation was ineffective (Mankin et al., 2020). These findings collectively demonstrate that the translation from optogenetics to electrical stimulation requires not merely reducing current levels but precisely matching stimulation parameters to the physiological dynamics of memory encoding.
+**The translation gap.** Optogenetic methods used in mice require transgenic expression of light-sensitive opsins — an approach not currently applicable in humans. The most powerful rodent demonstrations of false memory creation rely entirely on optogenetics. To build a translational pipeline, artificial memory creation must be demonstrated using methods available in both species — specifically, patterned electrical microstimulation. Critically, stimulation parameters matter enormously: 50 Hz macrostimulation of the hippocampus and entorhinal region significantly *impaired* memory in both spatial and verbal tasks (Jacobs et al., 2016), while theta-burst *micro*stimulation via 100-μm-diameter microelectrodes in the entorhinal area improved memory specificity using physiologically relevant current levels (Titiz et al., 2017). Entorhinal stimulation during spatial learning enhanced memory and reset hippocampal theta phase (Suthana et al., 2012), but this effect was site-specific: stimulation of right entorhinal white matter enhanced visual memory, while adjacent gray matter or left-sided stimulation was ineffective (Mankin et al., 2021). These findings collectively demonstrate that the translation from optogenetics to electrical stimulation requires not merely reducing current levels but precisely matching stimulation parameters to the physiological dynamics of memory encoding.
 
 **The content specificity gap.** Nearly all demonstrations of artificial memory creation involve fear conditioning — pairing an engram representation with an aversive unconditioned stimulus. Creating a memory with specific informational content (a fact, an association, a spatial relationship) that was never naturally presented remains undemonstrated. Writing a fear memory is fundamentally different from writing "the capital of Ecuador is Quito."
 
@@ -1689,7 +1689,7 @@ Several unresolved scientific questions will shape the next generation of artifi
 
 - Goering, S., Klein, E., Sullivan, L. S., et al. (2021). Recommendations for responsible development and application of neurotechnologies. *Neuroethics*, 14, 365–386. https://doi.org/10.1007/s12152-021-09468-6
 
-- González-Márquez, C. (2023). Neuromodulation and memory: exploring ethical ramifications in memory modification treatment via implantable neurotechnologies. *Frontiers in Psychology*, 14, 1215709. https://doi.org/10.3389/fpsyg.2023.1215709
+- González-Márquez, C. (2023). Neuromodulation and memory: exploring ethical ramifications in memory modification treatment via implantable neurotechnologies. Frontiers in Psychology, 14, 1282634.
 
 - Gordon, E. C., Johnson, M. R., & Metzinger, T. (2024). Ethical considerations for the use of brain-computer interfaces for cognitive enhancement. *PLOS Biology*, 22(4), e3002612. https://doi.org/10.1371/journal.pbio.3002612
 
@@ -1701,7 +1701,7 @@ Several unresolved scientific questions will shape the next generation of artifi
 
 - Jacobs, J., Miller, J., Lee, S. A., Coffey, T., Watrous, A. J., Sperling, M. R., ... & Rizzuto, D. S. (2016). Direct electrical stimulation of the human entorhinal region and hippocampus impairs memory. *Neuron*, 92(5), 983–990. https://doi.org/10.1016/j.neuron.2016.10.062
 
-- Joo, H. R., & Frank, L. M. (2018). The hippocampal sharp wave-ripple in memory retrieval for immediate use and consolidation. *Nature Reviews Neuroscience*, 19(12), 744–757. https://doi.org/10.1038/s41583-018-0077-1
+- Joo, H. R., & Frank, L. M. (2018). The hippocampal sharp wave–ripple in memory retrieval for immediate use and consolidation. Nature Reviews Neuroscience, 19(12), 744-757. https://doi.org/10.1038/s41583-018-0077-1
 
 - Jun, S., Kim, J. S., & Chung, C. K. (2019). Direct stimulation of human hippocampus during verbal associative encoding enhances subsequent memory recollection. *Frontiers in Human Neuroscience*, 13, 23. https://doi.org/10.3389/fnhum.2019.00023
 
@@ -1719,11 +1719,11 @@ Several unresolved scientific questions will shape the next generation of artifi
 
 - Liu, X., Ramirez, S., Redondo, R. L., & Bhatt, D. K. (2014). Inception of a false memory by optogenetic manipulation of a hippocampal memory engram. *Philosophical Transactions of the Royal Society B*, 369(1633), 20130142. https://doi.org/10.1098/rstb.2013.0142
 
-- Mankin, E. A., Aghajan, Z. M., Schuette, P., Tran, M. E., Tchemodanov, N., Titiz, A., ... & Fried, I. (2020). Stimulation of the right entorhinal white matter enhances visual memory encoding in humans. *Brain Stimulation*, 13(2), 397–409. https://doi.org/10.1016/j.brs.2019.11.015
+- Mankin, E. A., Aghajan, Z. M., Schuette, P., Tran, M. E., Tchemodanov, N., Titiz, A., Kalender, G., Eliashiv, D., Stern, J., Weiss, S. A., Kirsch, D., Knowlton, B., Fried, I., & Suthana, N. (2021). Stimulation of the right entorhinal white matter enhances visual memory encoding in humans. Brain stimulation, 14(1), 131–140. https://doi.org/10.1016/j.brs.2020.11.015
 
 - Mankin, E. A., & Fried, I. (2020). Modulation of human memory by deep brain stimulation of the entorhinal-hippocampal circuitry. *Neuron*, 106(2), 218–235. https://doi.org/10.1016/j.neuron.2020.02.024
 
-- Mocle, A. J., Bhatt, D. K., et al. (2024). Excitability mediates allocation of pre-configured ensembles to a hippocampal engram supporting contextual conditioned threat in mice. *Neuron*, 112(8), 1379–1394. https://doi.org/10.1016/j.neuron.2024.01.015
+- Mocle, A. J., Ramsaran, A. I., Jacob, A. D., Rashid, A. J., Luchetti, A., Tran, L. M., ... & Josselyn, S. A. (2024). Excitability mediates allocation of pre-configured ensembles to a hippocampal engram supporting contextual conditioned threat in mice. Neuron, 112(9), 1487-1497.
 
 - Nichols, E., Steinmetz, J. D., Vollset, S. E., et al. (2022). Estimation of the global prevalence of dementia in 2019 and forecasted prevalence in 2050: an analysis for the Global Burden of Disease Study 2019. *The Lancet Public Health*, 7(2), e105–e125. https://doi.org/10.1016/S2468-2667(21)00249-8
 
@@ -1731,7 +1731,7 @@ Several unresolved scientific questions will shape the next generation of artifi
 
 - Norman, Y., Yeagle, E. M., Khuvis, S., Harel, M., Mehta, A. D., & Malach, R. (2019). Hippocampal sharp-wave ripples linked to visual episodic recollection in humans. *Science*, 365(6454), eaax1030. https://doi.org/10.1126/science.aax1030
 
-- Park, S., Bhatt, D. K., et al. (2024). Comparing behaviours induced by natural memory retrieval and optogenetic reactivation of an engram ensemble in mice. *Philosophical Transactions of the Royal Society B*, 379(1906), 20230229. https://doi.org/10.1098/rstb.2023.0229
+- Park, S., Ko, S. Y., Frankland, P. W., & Josselyn, S. A. (2024). Comparing behaviours induced by natural memory retrieval and optogenetic reactivation of an engram ensemble in mice. Philosophical Transactions of the Royal Society B: Biological Sciences, 379(1906).
 
 - Pouget, C., Morier, F., Autore, L., et al. (2026). Deconstruction of a memory engram reveals distinct ensembles recruited at learning. *Nature Neuroscience*. https://doi.org/10.1038/s41593-026-02230-2
 
@@ -1751,19 +1751,19 @@ Several unresolved scientific questions will shape the next generation of artifi
 
 - Suthana, N., Haneef, Z., Stern, J., Mukamel, R., Behnke, E., Knowlton, B., & Fried, I. (2012). Memory enhancement and deep-brain stimulation of the entorhinal area. *The New England Journal of Medicine*, 366(6), 502–510. https://doi.org/10.1056/NEJMoa1107212
 
-- Suthard, R. L., Senne, R. A., Buzharsky, M. D., et al. (2024). Engram reactivation mimics cellular signatures of fear. *Cell Reports*, 43(6), 114291. https://doi.org/10.1016/j.celrep.2024.114291
+- Suthard, R. L., Senne, R. A., Buzharsky, M. D., Diep, A. H., Pyo, A. Y., & Ramirez, S. (2024). Engram reactivation mimics cellular signatures of fear. Cell Reports, 43(3).
 
 - Titiz, A. S., Hill, M. R. H., Mankin, E. A., et al. (2017). Theta-burst microstimulation in the human entorhinal area improves memory specificity. *eLife*, 6, e29515. https://doi.org/10.7554/eLife.29515
 
 - Uytiepo, M., Zhu, Y., Bushong, E., et al. (2025). Synaptic architecture of a memory engram in the mouse hippocampus. *Science*, 387(6740), eado8316. https://doi.org/10.1126/science.ado8316
 
-- Widloski, J., Bhatt, D. K., Frank, L. M., et al. (2025). Replay without sharp wave ripples in a spatial memory task. *Nature Communications*, 16, 2847. https://doi.org/10.1038/s41467-025-57892-6
+- Widloski, J., Foster, D.J. Replay without sharp wave ripples in a spatial memory task. Nat Commun 16, 10287 (2025). https://doi.org/10.1038/s41467-025-65181-5
 
 - Yang, W., Chockanathan, U., & Bhatt, D. K. (2024). Selection of experience for memory by hippocampal sharp wave ripples. *Science*, 383(6690), 1478–1483. https://doi.org/10.1126/science.adk8261
 
 - Ye, Z., Shelton, A. M., Shaker, J. R., et al. (2025). Ultra-high-density Neuropixels probes improve detection and identification in neuronal recordings. *Neuron*, 113(23), 3966–3982.e12. https://doi.org/10.1016/j.neuron.2025.08.030
 
-- Zhang, J., et al. (2025). Replay and ripples in humans. *Annual Review of Neuroscience*, 48. https://doi.org/10.1146/annurev-neuro-092023-110830
+- Zhang, J., Ou, J., & Liu, Y. (2025). Replay and ripples in humans. Annual Review of Neuroscience, 48(1), 65-84.
 
-- Zaccaria, C., et al. (2026). Investigation of synaptic connectivity in functional in vitro neuronal assemblies. *Cell Reports Methods*, 6(2), 100700. https://doi.org/10.1016/j.crmeth.2026.100700
+- Zaccaria, C., Malkoç, A., Auslender, I., Heydari, Y., Canossa, M., Vignoli, B., & Pavesi, L. (2026). Investigation of synaptic connectivity in functional in vitro neuronal assemblies. Cell Reports Methods, 6(1).
 
