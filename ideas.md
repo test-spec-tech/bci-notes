@@ -1709,7 +1709,7 @@ Several unresolved scientific questions will shape the next generation of artifi
 
 - Karpowicz, B. M., Ali, Y. H., Wimalasena, L. N., Sedler, A. R., Keshtkaran, M. R., Bodkin, K., Ma, X., Rubin, D. B., Williams, Z. M., Cash, S. S., Hochberg, L. R., Miller, L. E., & Pandarinath, C. (2025). Stabilizing brain-computer interfaces through alignment of latent dynamics. Nature communications, 16(1), 4662. https://doi.org/10.1038/s41467-025-59652-y
 
-- Lavazza, A., Giordano, J. J., & Pizzetti, F. G. (2025). Neuralink's brain-computer interfaces: medical innovations and ethical challenges. *Frontiers in Human Dynamics*, 7, 1541397. https://doi.org/10.3389/fhumd.2025.1541397
+- Lavazza A, Balconi M, Ienca M, Minerva F, Pizzetti FG, Reichlin M, Samorè F, Sironi VA, Sosa Navarro M and Songhorian S (2025) Neuralink’s brain-computer interfaces: medical innovations and ethical challenges. Front. Hum. Dyn. 7:1553905. doi: 10.3389/fhumd.2025.1553905
 
 - Liao, Z., Chadwick, A., O'Donnell, C., & Bhatt, D. K. (2024). Inhibitory plasticity supports replay generalization in the hippocampus. *Nature Neuroscience*, 27(11), 2213–2226. https://doi.org/10.1038/s41593-024-01745-w
 
