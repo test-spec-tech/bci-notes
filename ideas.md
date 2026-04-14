@@ -1707,7 +1707,7 @@ Several unresolved scientific questions will shape the next generation of artifi
 
 - Jung, J., Atkinson-Clement, C., Kaiser, M., & Lambon Ralph, M. A. (2026). Transcranial focused ultrasound stimulation enhances semantic memory by modulating brain morphology, neurochemistry and neural dynamics. *Nature Communications*, 17(1), 2833. https://doi.org/10.1038/s41467-026-69579-7
 
-- Karpowicz, B. M., Ali, Y. H., Wimalasena, L. N., et al. (2022). Stabilizing brain-computer interfaces through alignment of latent dynamics. *Nature Communications*, 13(1), 7791. https://doi.org/10.1038/s41467-022-35153-w
+- Karpowicz, B. M., Ali, Y. H., Wimalasena, L. N., Sedler, A. R., Keshtkaran, M. R., Bodkin, K., Ma, X., Rubin, D. B., Williams, Z. M., Cash, S. S., Hochberg, L. R., Miller, L. E., & Pandarinath, C. (2025). Stabilizing brain-computer interfaces through alignment of latent dynamics. Nature communications, 16(1), 4662. https://doi.org/10.1038/s41467-025-59652-y
 
 - Lavazza, A., Giordano, J. J., & Pizzetti, F. G. (2025). Neuralink's brain-computer interfaces: medical innovations and ethical challenges. *Frontiers in Human Dynamics*, 7, 1541397. https://doi.org/10.3389/fhumd.2025.1541397
 
