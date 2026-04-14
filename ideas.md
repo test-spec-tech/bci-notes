@@ -1735,7 +1735,7 @@ Several unresolved scientific questions will shape the next generation of artifi
 
 - Pouget, C., Morier, F., Autore, L., et al. (2026). Deconstruction of a memory engram reveals distinct ensembles recruited at learning. *Nature Neuroscience*. https://doi.org/10.1038/s41593-026-02230-2
 
-- Robinson, H. L., et al. (2025). Large sharp-wave ripples promote hippocampo-cortical memory reactivation and consolidation during sleep. *Neuron*, 113(8), 1345–1360. https://doi.org/10.1016/j.neuron.2025.01.020
+- Robinson, H. L., Todorova, R., Nagy, G. A., Gruzdeva, A., Paudel, P., Oliva, A., & Fernandez-Ruiz, A. (2026). Large sharp-wave ripples promote hippocampo-cortical memory reactivation and consolidation during sleep. Neuron, 114(2), 226–236.e6. https://doi.org/10.1016/j.neuron.2025.10.003
 
 - Roeder, B. M., She, X., Dakos, A. S., et al. (2024). Developing a hippocampal neural prosthetic to facilitate human memory encoding and recall of stimulus features and categories. *Frontiers in Computational Neuroscience*, 18, 1263311. https://doi.org/10.3389/fncom.2024.1263311
 
