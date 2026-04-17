@@ -1404,7 +1404,11 @@ with pre-registered threshold 0.80. SWR events are scored for target content via
 \text{replay\_fidelity}_k \;=\; \max_j \text{sim}(\mathbf{s}_k, \mathbf{p}_j),
 ```
 
-where $\mathbf{s}_k$ is the population vector during SWR event $k$ and $\mathbf{p}_j$ the target patterns; events with $\text{replay\_fidelity} > 0.70$ are classified as containing target content. Interference monitoring at each timepoint tests retrieval of 10 well-learned calibration pairs; content fidelity must remain within 0.05 of pre-injection levels or safety protocols are triggered.
+where $\mathbf{s}_k$ is the population vector during SWR event $k$ and $\mathbf{p}_j$ the target patterns; events with 
+```math
+\text{replay\_fidelity} > 0.70
+```
+are classified as containing target content. Interference monitoring at each timepoint tests retrieval of 10 well-learned calibration pairs; content fidelity must remain within 0.05 of pre-injection levels or safety protocols are triggered.
 
 ### 4.5 Control conditions (within-participant crossover)
 
