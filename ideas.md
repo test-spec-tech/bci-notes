@@ -1341,7 +1341,7 @@ is estimated by regressing evoked response changes on probe-current perturbation
 \Delta \mathbf{I} \;=\; -\eta\,\hat{J}^{\top}(\mathbf{r}_t - \mathbf{p}_{\text{target}}),
 ```
 
-with learning rate $\eta$ chosen per animal by line search on Phase 0 calibration trials. This replaces the undefined analytic gradient used in earlier drafts and grounds the closed loop in directly measured evoked responses.
+with learning rate $\eta$ chosen per animal by line search on Phase 0 calibration trials. This grounds the closed loop in directly measured evoked responses.
 
 ### 3.11 Expected results under pre-registered decision rules
 
