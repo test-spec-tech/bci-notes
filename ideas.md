@@ -1229,7 +1229,7 @@ A claim of artificial memory formation requires all five layers to converge. Any
 
 ---
 
-## 3. Experiment 1 (Deepened): Translational Artificial Spatial–Associative Memory in Mice
+## 3. Experiment 1: Translational Artificial Spatial–Associative Memory in Mice
 
 ### 3.1 Rationale
 
