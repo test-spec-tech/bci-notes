@@ -1133,223 +1133,223 @@ This design draws on papers catalogued in this repository:
 
 ## Abstract
 
-The creation of artificial memories — neural representations of experiences, associations, or knowledge that were never naturally encoded — represents a fundamental frontier in neuroscience and neuroengineering. Optogenetic studies in rodents have demonstrated that reactivation of engram cell ensembles can produce false fear memories (Ramirez et al., 2013), and that these engram cells are sufficient for memory recall when activated in the absence of the original stimulus (Liu et al., 2012). The multi-input multi-output (MIMO) hippocampal prosthesis has enhanced naturally encoded memories in humans by approximately 37% (Hampson et al., 2018), with subsequent work extending this to category-specific stimulus features (Roeder et al., 2024). Despite these advances, no translational pipeline exists for writing content-specific memories de novo. Three critical gaps remain: (1) the translation gap between cell-type-specific optogenetic methods in mice and the electrical stimulation methods applicable in humans, (2) the content specificity gap between valence-based fear conditioning and arbitrary informational content, and (3) the verification gap between behavioral readouts and direct neural proof of memory formation. This article proposes three experiments designed to close these gaps sequentially. Experiment 1 establishes, in mice, that patterned electrical microstimulation of hippocampal CA1/CA3 — using MIMO model-derived neural codes constrained to the intrinsic population manifold (Sadtler et al., 2014; Gallego et al., 2017) — can create a de novo spatial-associative memory, verified by place preference behavior and sharp-wave ripple replay decoding. Experiment 2 translates this approach to humans, demonstrating that hippocampal patterned microstimulation in epilepsy surgery patients can implant content-specific associative memories (novel word-image pairs never presented), verified by pre/post behavioral testing and neural replay content decoding. Experiment 3 extends to multi-region coordinated stimulation of hippocampus and temporal cortex, creating artificial semantic memories with real-time read-during-write verification and semantic network integration testing. Each experiment includes a Phase 0 validation testing whether MIMO-derived codes can drive behavior without the original stimulus, and a probabilistic failure analysis quantifying the extrapolation risk from enhancement to de novo creation. Together, these experiments establish a translational pipeline from rodent proof-of-concept to human memory writing, arguing that associative memory is the most immediately achievable target, followed by semantic memory, with episodic memory remaining a longer-term objective.
+The creation of artificial memories — neural representations of content that was never naturally encoded — is approaching experimental reality, but three obstacles remain unresolved: (i) an **extrapolation gap** between models trained on natural encoding and models tasked with generating codes for unseen content; (ii) a **content-specificity gap** arising because electrical microstimulation activates local neurons non-selectively, without the cell-type resolution of optogenetics (Hughes et al., 2026); and (iii) a **verification gap** in distinguishing a written memory from a biased response. Optogenetic engram studies have demonstrated that reactivating sparse neuronal ensembles is sufficient for recall (Liu et al., 2012), that pairing one ensemble with an aversive unconditioned stimulus can produce a false fear memory (Ramirez et al., 2013), and that artificial and natural recall engage overlapping behavioral mechanisms (Park et al., 2024). In parallel, the multi-input multi-output (MIMO) hippocampal prosthesis has facilitated memory encoding by approximately 37% during delayed match-to-sample tasks in epilepsy patients (Hampson et al., 2018), with content-specific facilitation extended to stimulus features and categories (Roeder et al., 2024; She et al., 2025). This article proposes a three-experiment translational pipeline. Experiment 1 — deepened as the de-risking linchpin — establishes in mice that patterned CA1/CA3 microstimulation constrained to the intrinsic neural manifold (Sadtler et al., 2014; Gallego et al., 2017) can create a de novo spatial–associative memory, verified by place preference behavior and sharp-wave ripple (SWR) replay content decoding. Experiment 2 translates to humans undergoing intracranial monitoring, writing novel word–image associations with pre/post baselines that separately establish the memory did not exist before injection. Experiment 3 extends to multi-region hippocampal–cortical semantic memory with real-time closed-loop verification and semantic-priming network-integration tests. Each experiment explicitly foregrounds all three obstacles and resolves them with multi-modal convergent evidence and pre-registered falsification thresholds.
 
 ---
 
 ## 1. Introduction
 
-Human memory is both remarkably powerful and profoundly fragile. The hippocampus and associated medial temporal lobe structures support the encoding, consolidation, and retrieval of declarative memories — both episodic (events) and semantic (facts) — through distributed neural circuits whose disruption produces devastating amnesia (Ferguson et al., 2019; Raslau et al., 2015). An estimated 57.4 million people worldwide lived with dementia in 2019, a number projected to reach 152.8 million by 2050 due to population aging (Nichols et al., 2022). Traumatic brain injury affects an additional 69 million individuals annually (95% CI 64–74 million), with memory impairment as a cardinal symptom (Dewan et al., 2019). Beyond pathology, the fundamental bottleneck of human learning — the months to years required to acquire complex knowledge and skills — represents an enormous constraint on human potential.
+Memory is among the most consequential functions of the human brain, and its failure imposes a large and growing public-health burden. An estimated 57.4 million people lived with dementia in 2019, a number projected to reach 152.8 million by 2050 as populations age (Nichols et al., 2022). Traumatic brain injury affects approximately 69 million individuals annually (95% CI 64–74 million), with memory impairment as a cardinal symptom (Dewan et al., 2019). Focal amnesias resulting from medial temporal lobe damage further underscore the indispensability of this circuitry (Ferguson et al., 2019; Raslau et al., 2015).
 
-The past decade has produced converging lines of evidence suggesting that artificial memory creation is not merely a theoretical possibility but an approaching experimental reality. Three landmark achievements define the current frontier.
+Against this clinical backdrop, the last decade has produced converging evidence that artificial memory formation is experimentally tractable. Three lines of work define the present frontier. First, **engram biology** has established that memories are stored in sparse, distributed neuronal ensembles that are sufficient for recall when reactivated (Liu et al., 2012; Josselyn & Tonegawa, 2020; Guskjolen & Cembrowski, 2023). Optogenetic pairing of a hippocampal ensemble with an aversive unconditioned stimulus in a different context produces a false fear memory (Ramirez et al., 2013; Liu et al., 2014), and engram cells retain information even under protein synthesis inhibitor-induced amnesia because their specific connectivity patterns persist (Ryan et al., 2015). Engrams for a single memory are distributed across more than one hundred brain regions, and simultaneous chemogenetic reactivation of multiple ensembles confers stronger recall than single-ensemble reactivation (Roy et al., 2022). Behavioral profiles during natural recall and optogenetic reactivation of the same engram are strikingly similar across defensive behaviors, indicating overlapping downstream mechanisms (Park et al., 2024). Engram allocation is governed by excitability-based competition during encoding (Han et al., 2007; Mocle et al., 2024). Astrocyte ensembles co-engage with neuronal populations as co-engrams whose activity independently regulates recall (Williamson et al., 2025), and engram reactivation recapitulates coordinated neuronal–astrocytic calcium signatures that mirror natural retrieval (Suthard et al., 2024). The synaptic architecture of an engram has been mapped at nanoscale resolution, and storage depends on multisynaptic bouton remodeling rather than simple synapse-count changes (Uytiepo et al., 2025). Temporally distinct, non-overlapping CA1 ensembles are recruited at different phases of learning and are independently sufficient to drive memory expression (Pouget et al., 2026).
 
-First, Liu et al. (2012) demonstrated that optogenetic reactivation of hippocampal dentate gyrus neurons — labeled with channelrhodopsin-2 during fear conditioning — was sufficient to induce freezing behavior, establishing that activating a sparse but specific ensemble of hippocampal neurons is sufficient for memory recall. Ramirez et al. (2013) extended this by showing that co-activation of a safe-context engram during fear conditioning in a different context produced a false fear memory: mice froze in context A despite never experiencing an aversive stimulus there. This false memory was context-specific and activated similar downstream regions as natural fear memory recall (Liu et al., 2014). Engram cells retain memory information even under protein synthesis inhibitor-induced amnesia, as their specific connectivity patterns persist despite loss of augmented synaptic strength (Ryan et al., 2015). Brain-wide mapping has revealed that engrams for a single memory are distributed across at least 117 brain regions, with simultaneous chemogenetic reactivation of multiple engram ensembles conferring greater memory recall than reactivation of a single ensemble (Roy et al., 2022). Most recently, behavioral comparison of natural recall versus optogenetic engram reactivation in the same mice showed strikingly similar profiles across multiple defensive behaviors, confirming that artificial and natural recall engage overlapping neural mechanisms (Park et al., 2024).
+Second, the **MIMO hippocampal prosthesis** developed by Berger, Song, Hampson, and Deadwyler has demonstrated that patterned electrical stimulation of CA1 — derived from nonlinear Volterra–Poisson models of CA3→CA1 spike-train transformation (Song et al., 2009) — can facilitate memory encoding. The framework was validated first in rats, where MIMO-derived stimulation restored memory function after pharmacological blockade of hippocampal activity (Berger et al., 2011), then in nonhuman primates performing rule-controlled delayed match-to-sample tasks (Hampson et al., 2013; Deadwyler et al., 2017). In humans with drug-resistant epilepsy, MIMO-derived CA1 stimulation facilitated short-term and long-term retention of visual information by approximately 37% during delayed match-to-sample testing (Hampson et al., 2018). Subsequent work extended facilitation to specific stimulus features and categories, reporting that, within the subgroup of memory-impaired patients receiving bilateral stimulation, the ratio of improved to decreased category performance exceeded four to one (Roeder et al., 2024). Distributed temporal coding of visual memory categories in human hippocampal neurons has been decoded with a related framework (She et al., 2025).
 
-Second, the multi-input multi-output (MIMO) hippocampal prosthesis developed by Berger, Song, Hampson, and Deadwyler demonstrated that patterned electrical stimulation of hippocampal CA1, derived from computational models of CA3-to-CA1 transformations, could enhance memory performance. The MIMO framework was first demonstrated in rats, where it restored memory function after pharmacological blockade of hippocampal activity (Berger et al., 2011), then validated in nonhuman primates performing complex delayed match-to-sample tasks (Deadwyler et al., 2017; Hampson et al., 2013). In humans with drug-resistant epilepsy, MIMO-derived stimulation enhanced memory performance by approximately 37% during delayed match-to-sample tasks (Hampson et al., 2018). A subsequent study extended this to content-specific facilitation, demonstrating significant improvements in encoding of specific stimulus features and categories, with bilateral stimulation in memory-impaired patients showing a 4-to-1 ratio of improved to decreased performance (Roeder et al., 2024). Distributed temporal coding of visual memory categories in human hippocampal neurons could be studied with a related framework, identifying content-specific neural signatures at the single-unit level. The MIMO model's computational foundation — Volterra-Poisson kernels fitted to simultaneously recorded CA3 input and CA1 output spike trains — captures the nonlinear dynamics underlying hippocampal spike train transformations (Song et al., 2009).
+Third, **closed-loop stimulation** in temporal cortex during natural encoding — delivered when a classifier detects poor encoding states — increased the relative probability of item recall by approximately 15% (odds ratio ≈ 1.18, p = 0.04) (Ezzyat et al., 2018). Direct hippocampal stimulation during verbal associative encoding likewise enhanced subsequent recollection (Jun et al., 2019), and theta-burst microstimulation of the entorhinal area with 100 μm-diameter microelectrodes using biphasic pulses at physiologic-level currents (150 μA cathodic-first; Titiz et al., 2017) improved memory specificity — whereas 50 Hz macrostimulation of the hippocampus and entorhinal region significantly impaired memory in both spatial and verbal tasks across 49 patients (Jacobs et al., 2016). Site-specific effects are pronounced: right entorhinal white-matter stimulation enhanced visual memory, while adjacent gray matter or left-sided stimulation did not (Mankin et al., 2021). These data jointly show that memory-modulating effects depend sensitively on location, current, frequency, and phase.
 
-Third, engram biology has advanced from identifying memory-trace neurons to understanding their molecular, synaptic, and network-level organization. Memory engrams are sparse, distributed neuron ensembles whose reactivation drives recall (Josselyn & Tonegawa, 2020; Guskjolen & Cembrowski, 2023). Engram cells are allocated during encoding via CREB-dependent competitive mechanisms, where neurons with higher intrinsic excitability are preferentially recruited (Han et al., 2007). This allocation is mediated by pre-existing functional connectivity: pre-configured sub-ensembles that are more active before training are preferentially allocated to the engram, and their functional connectivity increases at training (Mocle et al., 2024). Astrocyte ensembles co-engage alongside neuronal populations as independent regulators of memory recall (Williamson et al., 2025). Engram cells can be epigenetically edited at single genomic loci to control memory strength in a temporally reversible manner (Coda et al., 2025). The synaptic architecture of engrams has been mapped at nanoscale resolution, revealing that memory storage depends on multisynaptic bouton remodeling rather than simple synapse-count changes (Uytiepo et al., 2025). Pouget et al. (2026) deconstructed the temporal architecture of a fear memory engram, demonstrating that distinct, non-overlapping CA1 neuronal ensembles are recruited at different phases of learning, and that subsets of these ensembles are independently sufficient to drive memory expression. Engram reactivation recapitulates coordinated neuronal-astrocytic calcium signatures time-locked to freezing, mirroring those observed during natural fear memory recall (Suthard et al., 2024).
+Despite this progress, **three obstacles prevent the translation of artificial memory creation from rodent demonstration to clinical application**.
 
-Despite these advances, three critical gaps prevent the translation of artificial memory creation from rodent demonstration to human application:
+**Obstacle (a) — the extrapolation gap.** All prior MIMO demonstrations share a common structure: the participant experiences a stimulus, encodes it naturally, and stimulation boosts the fidelity of the natural code (Hampson et al., 2018; Roeder et al., 2024). De novo memory writing requires a fundamentally harder operation: generating neural codes for content that was *never* experienced — an extrapolation beyond the model's training distribution.
 
-Closed-loop stimulation of temporal cortex has shown that detecting and intervening during poor encoding states can improve memory recall by approximately 15% (Ezzyat et al., 2018), and direct hippocampal stimulation during verbal associative encoding has enhanced subsequent recollection (Jun et al., 2019). However, these approaches enhance ongoing natural encoding rather than creating memories de novo.
+**Obstacle (b) — the content-specificity gap.** Optogenetic approaches achieve content-specific memory modulation by targeting defined cell populations (Liu et al., 2012; Ramirez et al., 2013). Electrical microstimulation is not cell-type selective: it activates excitatory and inhibitory neurons via both direct and polysynaptic pathways, producing sustained and bursting recruitment patterns that differ from physiological input (Hughes et al., 2026). Writing content-specific memories therefore requires parameter regimes (current, frequency, phase, electrode geometry) that approximate the spatiotemporal structure of natural encoding rather than overriding it.
 
-**The translation gap.** Optogenetic methods used in mice require transgenic expression of light-sensitive opsins — an approach not currently applicable in humans. The most powerful rodent demonstrations of false memory creation rely entirely on optogenetics. To build a translational pipeline, artificial memory creation must be demonstrated using methods available in both species — specifically, patterned electrical microstimulation. Critically, stimulation parameters matter enormously: 50 Hz macrostimulation of the hippocampus and entorhinal region significantly *impaired* memory in both spatial and verbal tasks (Jacobs et al., 2016), while theta-burst *micro*stimulation via 100-μm-diameter microelectrodes in the entorhinal area improved memory specificity using physiologically relevant current levels (Titiz et al., 2017). Entorhinal stimulation during spatial learning enhanced memory and reset hippocampal theta phase (Suthana et al., 2012), but this effect was site-specific: stimulation of right entorhinal white matter enhanced visual memory, while adjacent gray matter or left-sided stimulation was ineffective (Mankin et al., 2021). These findings collectively demonstrate that the translation from optogenetics to electrical stimulation requires not merely reducing current levels but precisely matching stimulation parameters to the physiological dynamics of memory encoding.
+**Obstacle (c) — the verification gap.** Behavioral readouts — freezing, place preference, forced-choice recognition — are indirect and admit multiple interpretations. Rigorous proof of artificial memory creation requires multi-modal convergent evidence: (i) pre-injection baselines that establish the representation did not exist, (ii) post-injection behavior that exceeds chance, (iii) retrieval-evoked neural patterns that match the injected template, and (iv) incorporation of the written content into spontaneous SWR replay. SWRs are the most synchronous population pattern in the mammalian brain and a cognitive biomarker for episodic memory and planning (Buzsáki, 2015); their content can be decoded to reveal specific past experiences during both wakefulness and sleep (Norman et al., 2019; Gillespie et al., 2021), and SWR-coupled cortical spiking reinstatement occurs during human memory retrieval (Vaz et al., 2020). Long-duration SWRs are selectively increased in memory-demanding situations, and their optogenetic prolongation — but not random stimulation — improves performance during maze learning in rats (Fernández-Ruiz et al., 2019). Awake SWR content selectively predicts subsequent sleep replay, implicating ripples in experience selection for consolidation (Yang et al., 2024), and closed-loop SWR boosting during sleep enhances ensemble reactivation across hippocampus and prefrontal cortex (Robinson et al., 2026).
 
-**The content specificity gap.** Nearly all demonstrations of artificial memory creation involve fear conditioning — pairing an engram representation with an aversive unconditioned stimulus. Creating a memory with specific informational content (a fact, an association, a spatial relationship) that was never naturally presented remains undemonstrated. Writing a fear memory is fundamentally different from writing "the capital of Ecuador is Quito."
-
-**The verification gap.** Behavioral readouts (freezing, place preference) are indirect and interpretable in multiple ways. Rigorous proof of artificial memory creation requires direct neural evidence: decoding the content of the written memory from hippocampal activity during retrieval, detecting the written pattern in spontaneous sharp-wave ripple replay, and demonstrating that the pre-injection neural state contained no representation of the target content. Sharp-wave ripples (SWRs) are the most synchronous population pattern in the mammalian brain (Buzsáki, 2015), and their content can be decoded to reveal specific past experiences during both sleep and waking rest (Norman et al., 2019; Gillespie et al., 2021). Long-duration SWRs are specifically increased in situations demanding memory, and their optogenetic prolongation improves memory during maze learning (Fernández-Ruiz et al., 2019). Large SWRs promote hippocampo-cortical memory reactivation and consolidation during sleep, with closed-loop SWR boosting sufficient to enhance ensemble memory reactivation in both hippocampus and prefrontal cortex (Robinson et al., 2025). SWR content during wakefulness may provide a neurophysiological tagging mechanism to select aspects of experience for later consolidation (Yang et al., 2024).
-
-This article proposes three experiments that address these gaps sequentially, forming a translational pipeline.
+This article proposes three experiments that address obstacles (a)–(c) sequentially, forming a translational pipeline with explicit pre-registered decision rules and multi-modal verification.
 
 ---
 
 ## 2. Background and Theoretical Framework
 
-### 2.1 Engram Theory and CREB-Dependent Allocation
+### 2.1 Engram theory and excitability-based allocation
 
-Memory engrams are defined as the enduring physical or chemical changes in neural tissue that store information and, when reactivated, support memory recall (Josselyn & Tonegawa, 2020). During natural encoding, neurons with elevated excitability — regulated primarily by cAMP response element-binding protein (CREB) levels — are preferentially recruited into engram ensembles through a competitive allocation process (Han et al., 2007). This allocation is not random: it is governed by the intrinsic excitability state of available neurons at the time of encoding, such that artificial elevation of CREB in a subset of lateral amygdala neurons is sufficient to bias their recruitment into a fear memory engram. Excitability-based allocation has been confirmed in hippocampal CA1 using calcium imaging: engram neurons were more active than non-engram neurons 3 hours (but not 24 hours to 5 days) before training, and optogenetic inhibition of neurons active in homecage 3 hours before conditioning disrupted memory retrieval (Mocle et al., 2024). Pre-configured functionally connected sub-ensembles of neurons cycle in activity over days, and those sub-ensembles that are more active before training are allocated to the engram with increased functional connectivity at training (Mocle et al., 2024).
+Memory engrams are enduring physical or chemical changes in neural tissue that store information and, on reactivation, support recall (Josselyn & Tonegawa, 2020; Goode et al., 2020). During encoding, neurons with elevated intrinsic excitability — regulated by cAMP response element-binding protein (CREB) — are preferentially allocated to the engram via competitive mechanisms (Han et al., 2007). Excitability-based allocation is not random and has been confirmed in hippocampal CA1 by calcium imaging: engram-allocated neurons were more active than non-engram neurons three hours before training (but not 24 hours to five days before), and optogenetic inhibition of neurons active in the home cage three hours before conditioning disrupted memory retrieval (Mocle et al., 2024). Pre-configured, functionally connected sub-ensembles cycle in activity across days, and those more active before training are allocated to the engram with increased functional connectivity at training (Mocle et al., 2024). At the dendritic level, related features of a memory are encoded on the same dendritic segment through clustered synaptic plasticity (Magee & Grienberger, 2020; Kennedy, 2013). Co-engram astrocytes marked by c-Fos expression form affiliated ensembles whose reactivation stimulates recall (Williamson et al., 2025), and CRISPR-based editing of the *Arc* gene promoter specifically in engram cells is necessary and sufficient to control memory strength in a temporally reversible manner (Coda et al., 2025). Partial-reprogramming approaches can rejuvenate engram cells in aged mice, linking engram integrity to broader cellular state (Berdugo-Vega et al., 2026).
 
-Engram neurons undergo coordinated synaptic remodeling during consolidation. At the dendritic level, memory traces are stored at individual branches through clustered synaptic plasticity, where related features of a memory are encoded on the same dendritic segment (Magee & Grienberger, 2020; Kennedy, 2013). Astrocyte ensembles participate as co-engrams alongside neuronal populations: learning-associated astrocytes marked by c-Fos expression form affiliated ensembles with engram neurons, and their reactivation independently stimulates memory recall (Williamson et al., 2025). The epigenetic state of engram cells is itself a causal regulator of memory expression — CRISPR-based editing of the Arc gene promoter specifically in engram cells is necessary and sufficient to control memory strength, and these effects are temporally reversible (Coda et al., 2025). Optogenetic stimulation of a hippocampus-mediated engram recapitulates coordinated calcium signatures in both neurons and astrocytes that are time-locked to freezing, mirroring those observed during natural recall (Suthard et al., 2024).
+### 2.2 CA3 autoassociation and pattern completion
 
-### 2.2 CA3 Autoassociation and Pattern Completion
+CA3 contains extensive recurrent collateral connections that form an autoassociative network capable of pattern completion from partial cues (Le Duigou et al., 2014). In the human CA3, sparse connectivity combined with disynaptic motifs and single-contact connections constitutes a circuit architecture that, in full-scale modeling, robustly generates pattern completion and replay memory sequences (Watson et al., 2024; Sammons et al., 2024). Human synapses in this region showed high reliability, high precision, and long integration times — species- and circuit-specific properties that maximize associational power (Watson et al., 2024). For artificial memory creation, CA3 autoassociation offers an efficiency: it is not necessary to write the entire engram. Writing a seed that occupies a unique basin of attraction allows recurrent dynamics to complete the remainder — provided the seed is sufficient to pull activity into the target attractor and orthogonal to existing attractors. The minimum viable seed fraction in human CA3 under artificial electrical writing has not been empirically determined; this is an explicit open question (see §7).
 
-The CA3 region of the hippocampus contains extensive recurrent collateral connections that form an autoassociative network capable of pattern completion from partial cues (Le Duigou et al., 2014; Sammons et al., 2024). Human CA3 uses specific functional connectivity rules that make this completion highly efficient: approximately 20–30% of the stored pattern is sufficient to drive convergence to the full attractor state (Watson et al., 2024). This property is fundamental to memory retrieval — a partial cue activates a subset of the stored representation, and recurrent dynamics complete the remainder.
+### 2.3 Hippocampal indexing and schema-accelerated consolidation
 
-For artificial memory creation, CA3 pattern completion offers a critical efficiency: the system need not write the entire engram. Instead, writing a seed pattern comprising 20–30% of the target engram, constrained to occupy a unique basin of attraction, allows autoassociative dynamics to complete the remainder. However, bypassing the dentate gyrus — which normally orthogonalizes similar inputs before they reach CA3 — risks convergence to an existing attractor rather than formation of a new one.
+Hippocampal indexing theory posits that the hippocampus stores sparse index codes that reinstate distributed cortical representations on reactivation (Teyler & Rudy, 2007; Goode et al., 2020). The full content of a declarative memory resides in neocortex; the hippocampal trace is a lookup pointer. This has a direct operational implication: writing a hippocampal index may be sufficient to seed a retrievable memory, provided consolidation subsequently builds the corresponding cortical trace. The canonical systems-consolidation timeline spans weeks, but this timeline compresses when new content fits an existing cortical schema. Tse et al. (2007) showed in rats that, after extensive training on a hippocampus-dependent flavor–place paired-associate task, new odor–place pairs could be learned in a single trial and their retrieval became insensitive to hippocampal lesions as early as 48 hours after learning; hippocampal removal 48 hours after rapid learning fully spared memory. Rapid transcriptional up-regulation in neocortex occurs at encoding time when a schema is present (Tse et al., 2011), bypassing slow offline replay-mediated transfer. We therefore frame schema-primed consolidation as an empirically supported acceleration from the weeks-scale default to a 48-hour timescale, not a more specific fold speedup.
 
-### 2.3 Hippocampal Indexing and Schema-Accelerated Consolidation
+### 2.4 Sharp-wave ripples and replay
 
-The hippocampal indexing theory posits that the hippocampus stores compressed index codes — sparse pointers that, when reactivated, reinstate distributed cortical representations (Teyler & Rudy, 2007). The full richness of a memory resides in neocortex; the hippocampal trace is a lookup key. This has a profound implication for memory writing: writing a hippocampal index may be sufficient to create a retrievable memory, provided that consolidation mechanisms subsequently build the corresponding cortical trace.
+SWR events compress extended experiences into approximately 100 ms bursts during sleep and quiet wakefulness (Buzsáki, 2015; Davidson et al., 2009; Carr et al., 2011). Replay occurs after single experiences (Berners-Lee et al., 2022), reflects specific past experiences rather than future plans (Gillespie et al., 2021), and both forward and reverse variants occur with distinct functional roles (Foster & Wilson, 2006; Gupta et al., 2010). In humans, SWR rate increases 1–2 seconds prior to recall events and SWR-coupled reactivation of cortical representations occurs during free recall (Norman et al., 2019), and SWRs drive cortical spiking reinstatement during human memory retrieval (Vaz et al., 2020). Long-duration SWRs are specifically increased in memory-demanding situations, and optogenetic prolongation of spontaneously occurring ripples — but not random induction — improves memory during maze learning; aborting the late part of ripples decreases performance (Fernández-Ruiz et al., 2019). Awake ripples selectively predict which experiences are subsequently replayed during sleep, implicating them in experience selection for consolidation (Yang et al., 2024), and closed-loop SWR boosting during sleep enhances ensemble reactivation across hippocampus and prefrontal cortex, improving subsequent retrieval (Robinson et al., 2026). Replay and ripples, while typically co-occurring, are dissociable: replay can occur in the absence of ripples, with ripples selectively tagging a subset of replays relevant to learning (Widloski & Foster, 2025). Multiple memories can be reactivated simultaneously during sleep as effectively as a single memory (Schechtman et al., 2021). A community consensus exists on SWR detection criteria and differentiation from other fast oscillations (Liu et al., 2022). For artificial memory creation, the appearance of written content in spontaneous SWR replay — under criteria consistent with Liu et al. (2022) — is a direct neural signature of hippocampal incorporation; its absence after the expected consolidation window is a direct signature of failed writing.
 
-The standard model of systems consolidation holds that hippocampal-to-cortical transfer requires weeks. However, this timeline is dramatically compressed when new content matches an existing cortical schema. Tse et al. (2007) demonstrated that rats with an established spatial schema could consolidate new paired associations within 48 hours, compared to weeks without a schema. The mechanism involves immediate neocortical gene activation at encoding time when schemas exist (Tse et al., 2011), bypassing slow offline consolidation. Schema-primed consolidation is estimated to be 10–100× faster than schema-absent consolidation.
+### 2.5 Neural manifold constraints
 
-### 2.4 Sharp-Wave Ripple Replay and Consolidation
+Neural population activity during behavior is confined to low-dimensional manifolds defined by intrinsic network connectivity (Gallego et al., 2017). These manifolds are stable over months in motor cortex (Gallego et al., 2020). Within-manifold activity is readily learnable: when subjects are required to produce neural activity patterns outside their intrinsic manifold via a brain–computer interface, learning is severely impaired compared to within-manifold targets (Sadtler et al., 2014). Latent-dynamics alignment can stabilize BCI performance across sessions even under severe recording instabilities (Degenhart et al., 2020; Karpowicz et al., 2025). For artificial memory creation, any injected pattern must lie on the intrinsic manifold of the target population, or it will be rejected by recurrent dynamics. Memory writing capacity is bounded above by manifold dimensionality. Rodent and primate motor-cortex manifolds are low-dimensional in the canonical sense (order of tens of dimensions); hippocampal CA1 manifolds are similarly compact, with task-relevant variance in some analyses captured by a handful of latent variables (Gallego et al., 2017, 2020). We therefore treat human hippocampal manifold dimensionality as an empirical quantity to be estimated from each participant's calibration data rather than assumed.
 
-Sharp-wave ripple (SWR) events are the most synchronous population pattern in the mammalian brain, compressing extended experiences into approximately 100 ms bursts during sleep and quiet wakefulness (Buzsáki, 2015; Davidson et al., 2009; Carr et al., 2011). SWRs serve as a cognitive biomarker for both episodic memory and planning (Buzsáki, 2015). Replay occurs after even single experiences (Berners-Lee et al., 2022), reflects specific past experiences rather than future plans (Gillespie et al., 2021), and drives cortical spiking reinstatement during human memory retrieval (Vaz et al., 2020). In humans, SWRs are linked to visual episodic recollection: a content-selective increase in hippocampal ripple rate emerges 1–2 seconds prior to recall events, and SWR-coupled reactivation of cortical representations occurs during free recall (Norman et al., 2019). Both forward and reverse replay occur, with distinct functional roles (Foster & Wilson, 2006).
+### 2.6 Phase precession and temporal coding
 
-Long-duration SWRs are specifically increased in situations demanding memory, and their optogenetic prolongation — but not random stimulation — improves memory during maze learning (Fernández-Ruiz et al., 2019). A specific subset of large SWRs is linked to memory reactivation in both hippocampus and prefrontal cortex, and closed-loop optogenetic SWR boosting during sleep is sufficient to enhance ensemble memory reactivation and improve subsequent memory retrieval (Robinson et al., 2025). Awake SWRs may provide a neurophysiological tagging mechanism: their spike content during reward consumption selectively decodes recent trial blocks, and waking SWR content predicts which experiences are subsequently replayed during sleep (Yang et al., 2024). Replay and ripples, while typically co-occurring, are dissociable processes — replay can occur in the absence of ripples, with ripples selectively tagging a subset of replays relevant to learning or novelty (Widloski et al., 2025).
+Hippocampal place cells systematically shift spike timing relative to the ongoing theta oscillation as the animal traverses a place field (O'Keefe & Recce, 1993, cited via Skaggs et al., 1996; Qasim et al., 2021). Population-level phase precession compresses behavioral sequences spanning seconds into single theta cycles, bringing representations of temporally distant events into the approximately 20 ms window required for spike-timing-dependent plasticity (Skaggs et al., 1996). Phase precession has been confirmed in human medial temporal lobe recordings during memory encoding and retrieval, where its strength predicts memory success independently of firing rate (Qasim et al., 2021). Left–right-alternating theta sweeps structure entorhinal–hippocampal spatial maps (Vollan et al., 2025). Phase-locking stimulation to theta is therefore not a cosmetic choice: theta-phase-locked microstimulation brings injected spikes into the plasticity window, whereas theta-asynchronous stimulation does not.
 
-For artificial memory creation, the appearance of written-memory content in spontaneous SWR replay serves as a powerful verification signal — it indicates that the hippocampal network has incorporated the artificial trace into its normal memory consolidation cycling. Conversely, absence of replay after expected consolidation time signals a failed write.
+### 2.7 Synaptic tagging and capture
 
-### 2.5 Neural Manifold Constraints
+Long-term memory formation requires protein synthesis-dependent synaptic modification. The synaptic tagging and capture (STC) mechanism creates a time-limited window of approximately 1–2 hours: initial stimulation deposits molecular tags at activated synapses, and plasticity-related proteins must arrive within this window to stabilize the trace (Frey & Morris, 1997; Kennedy, 2013). Under strong-before-weak conditions, late associativity extends the STC window to approximately nine hours (Chong et al., 2025). Because no behaviorally salient event accompanies artificial injection, plasticity-related-protein delivery is not guaranteed by natural neuromodulatory systems; exogenous neuromodulatory support or behavioral reward pairing is therefore a design requirement.
 
-Neural population activity occupies low-dimensional manifolds defined by intrinsic network connectivity (Gallego et al., 2017). These manifolds are stable over months (Gallego et al., 2020). Sadtler et al. (2014) demonstrated that when subjects are required to produce neural activity patterns within their intrinsic manifold, learning is rapid, but when required to produce patterns outside the manifold, learning is severely impaired. The manifold structure can be leveraged to stabilize brain-computer interfaces by aligning low-dimensional neural spaces, maintaining performance even under severe recording instabilities (Degenhart et al., 2020; Karpowicz et al., 2025).
+### 2.8 The MIMO hippocampal prosthesis framework
 
-This constraint is fundamental to artificial memory creation. Any injected pattern must lie on the intrinsic manifold of the target neural population, or it will be rejected by recurrent dynamics. The pattern generator must learn the participant's hippocampal manifold during calibration and constrain all generated patterns to this subspace. A pattern that is semantically correct but geometrically off-manifold is functionally equivalent to random noise. Memory writing capacity is bounded by manifold dimensionality — estimated at approximately 20–50 independent dimensions in rodent CA1.
+The MIMO model captures the nonlinear transformation performed by hippocampal CA3→CA1 circuitry during memory encoding using Volterra–Poisson kernels fitted to simultaneously recorded input and output spike trains (Song et al., 2009). Once calibrated, the model predicts the CA1 output pattern expected for a given CA3 input, and the predicted pattern can be delivered as patterned electrical stimulation to CA1 during encoding. In rats, MIMO-derived stimulation restored memory function after pharmacological blockade of hippocampal synaptic transmission (Berger et al., 2011). In nonhuman primates, the MIMO model facilitated performance on rule-controlled delayed match-to-sample tasks requiring multi-item memory (Hampson et al., 2013; Deadwyler et al., 2017). In humans with drug-resistant epilepsy, MIMO-derived stimulation facilitated DMS-task memory performance by approximately 37% and improved encoding of specific stimulus features and categories (Hampson et al., 2018; Roeder et al., 2024), and distributed temporal coding of visual-memory categories can be decoded at the single-unit level from human hippocampal neurons (She et al., 2025). Critically, the MIMO framework uses only electrical stimulation — not optogenetics — making it directly translatable across species.
 
-### 2.6 Phase Precession and Temporal Coding
+### 2.9 Obstacle (a): the extrapolation gap, as Bayesian priors
 
-Hippocampal place cells systematically shift their spike timing relative to the ongoing theta oscillation as an animal traverses a place field — a phenomenon known as phase precession (O'Keefe & Recce, 1993). At the population level, phase precession compresses behavioral sequences spanning seconds into single theta cycles of approximately 125 ms, bringing representations of temporally distant events into the approximately 20 ms window required for spike-timing-dependent plasticity (STDP) (Skaggs et al., 1996). Phase precession has been confirmed in human medial temporal lobe recordings during memory encoding and retrieval, where its strength predicts memory success independently of firing rate (Qasim et al., 2021).
-
-For memory writing, this means that controlling which neurons fire is insufficient — controlling *when* within the theta cycle they fire determines whether the memory has temporal structure. Rate-coded injection produces a static snapshot; phase-coded injection produces a sequence memory with narrative flow.
-
-### 2.7 Synaptic Tagging and Capture
-
-Long-term memory formation requires protein synthesis-dependent synaptic modification. The synaptic tagging and capture (STC) mechanism creates a time-limited window of approximately 1–2 hours: initial stimulation creates molecular tags at activated synapses, and plasticity-related proteins (PRPs) must arrive within this window to stabilize the trace (Kennedy, 2013; Frey & Morris, 1997). The STC window can extend to 9 hours under certain conditions, with the strong-before-weak paradigm allowing late associativity across widely separated stimuli (Chong et al., 2025).
-
-For artificial memory injection, STC constrains timing: all injection and stabilization must complete within the tagging window. Because no behaviorally salient event accompanies injection, PRP delivery is not guaranteed by natural neuromodulatory systems. Exogenous neuromodulatory support — electrical co-stimulation of dopaminergic or noradrenergic nuclei — may be required.
-
-### 2.8 The MIMO Hippocampal Prosthesis Framework
-
-The multi-input multi-output (MIMO) model, developed by Berger, Song, and colleagues, captures the nonlinear transformation performed by hippocampal CA3-to-CA1 circuitry during memory encoding. The model uses Volterra-Poisson kernels fitted to simultaneously recorded CA3 (input) and CA1 (output) spike trains during a memory task (Song et al., 2009). Once calibrated, the model can predict what the CA1 output pattern should be for a given CA3 input, and this predicted pattern can be delivered as patterned electrical stimulation to CA1 during encoding.
-
-The MIMO framework has been validated across species and increasing complexity. In rats, MIMO-derived stimulation restored memory function after pharmacological blockade of hippocampal synaptic transmission, demonstrating that the model captures sufficient information to substitute for natural hippocampal processing (Berger et al., 2011). In nonhuman primates, the MIMO model enhanced performance on complex rule-controlled delayed match-to-sample tasks requiring multi-item memory (Deadwyler et al., 2017; Hampson et al., 2013). In humans with drug-resistant epilepsy, MIMO-derived stimulation enhanced memory performance by 37% during delayed match-to-sample tasks and improved encoding of specific stimulus features and categories (Hampson et al., 2018; Roeder et al., 2024). It is hypothesized that distributed temporal coding of visual memory categories in human hippocampal neurons can be decoded using this framework.
-
-Critically, the MIMO framework uses only electrical stimulation — not optogenetics — making it directly translatable across species. The experiments proposed here extend the MIMO framework from enhancing existing memories to creating new ones.
-
-### 2.9 The Extrapolation Gap: From Enhancement to De Novo Creation
-
-The extension of the MIMO framework from memory enhancement to de novo memory creation represents a qualitative leap that must be analyzed rigorously. All prior MIMO demonstrations share a common feature: the participant experiences the stimulus, encodes it naturally, and stimulation boosts the quality or fidelity of the natural code. In contrast, de novo memory creation requires the MIMO model to generate a neural code for content that was never experienced — an extrapolation beyond its training distribution.
-
-The probability of successful de novo writing can be modeled as the product of several independent factors:
+De novo memory writing extends the MIMO framework from enhancing existing codes to generating codes for content that was never experienced. We model the probability of a successful single write as the product of five conditionally independent factors:
 
 ```math
-P(\text{success}) = P(\text{manifold}) \times P(\text{attractor}) \times P(\text{MIMO fidelity}) \times P(\text{STC capture}) \times P(\text{replay})
+P(\text{success}) \;=\; P(\text{manifold}) \cdot P(\text{attractor}) \cdot P(\text{MIMO fidelity}) \cdot P(\text{STC capture}) \cdot P(\text{replay})
 ```
 
-where:
-- $P(\text{manifold})$ is the probability that the generated pattern lies on the intrinsic manifold (estimated at >0.95 with proper projection)
-- $P(\text{attractor})$ is the probability that the pattern forms a new stable attractor rather than collapsing into an existing one (estimated at 0.70–0.85 given orthogonality constraints)
-- $P(\text{MIMO fidelity})$ is the probability that the extrapolated MIMO code accurately represents the target content (estimated at 0.50–0.75, the primary uncertainty)
-- $P(\text{STC capture})$ is the probability that the injected trace is captured by synaptic tagging within the consolidation window (estimated at 0.60–0.80 with neuromodulatory support)
-- $P(\text{replay})$ is the probability that the written trace is incorporated into spontaneous SWR replay (estimated at 0.70–0.90 if attractor formation succeeds)
+**These factors are explicit Bayesian priors, not measured quantities**, and we label them as such so that the probability product is read as an a priori risk budget rather than an empirical effect-size estimate:
 
-The overall probability of success for a single memory write is therefore estimated at:
+- $P(\text{manifold})$ — prior belief that an orthogonally projected pattern lies on the intrinsic manifold. Geometric projection onto the estimated subspace supports a high prior (≥0.9) under the assumption that the manifold is well-estimated from calibration (Gallego et al., 2017; Degenhart et al., 2020; Karpowicz et al., 2025).
+- $P(\text{attractor})$ — prior belief that a novel, orthogonality-constrained pattern forms a new stable attractor rather than collapsing into an existing one, consistent with CA3 autoassociative dynamics (Le Duigou et al., 2014; Watson et al., 2024).
+- $P(\text{MIMO fidelity})$ — prior belief that an extrapolated MIMO code carries content-specific information. This is the factor with the greatest uncertainty because MIMO was validated only for enhancement of naturally encoded content (Hampson et al., 2018; Roeder et al., 2024). Phase 0 validation (§3.4 and §4.4) produces the first direct empirical estimate of this factor.
+- $P(\text{STC capture})$ — prior belief that the injected trace is captured by synaptic tagging within the consolidation window (Frey & Morris, 1997; Chong et al., 2025), modulated by the presence of behavioral reward or neuromodulatory co-stimulation.
+- $P(\text{replay})$ — prior belief that a captured trace is incorporated into spontaneous SWR replay, conditional on attractor formation (Fernández-Ruiz et al., 2019; Yang et al., 2024; Robinson et al., 2026).
 
-```math
-P(\text{success}) \approx 0.95 \times 0.78 \times 0.63 \times 0.70 \times 0.80 \approx 0.26
-```
+The value of the full product depends on the priors adopted. Under any plausible choice, $P(\text{success})$ is well below 1 per single write, motivating multiple injection attempts, strong controls, and convergent-evidence verification. The experiments below are designed so that Phase 0 validation produces the first *empirical* replacement for $P(\text{MIMO fidelity})$ before de novo writing is attempted — converting this factor from a prior to a posterior.
 
-This conservative estimate suggests that approximately 1 in 4 write attempts may succeed under optimal conditions, underscoring the need for multiple injection attempts and robust verification at each stage. The bottleneck is MIMO fidelity for extrapolated content — the factor with the widest uncertainty range. Phase 0 validation (Section 3.4) directly estimates this factor before committing to de novo creation.
+### 2.10 Obstacle (b): biophysical constraints and content-specificity of electrical microstimulation
+
+Electrical microstimulation differs from optogenetics in three biophysically important ways. First, microstimulation activates neurons through the extracellular field, recruiting excitatory and inhibitory neurons simultaneously through direct, antidromic, and polysynaptic pathways, with complex spatiotemporal patterns of cortical neuron and neuropil activation that depend on pulse waveform and frequency (Hughes et al., 2026). Second, the spatial spread of stimulation scales with injected charge and electrode geometry, and 100 μm-diameter microelectrodes delivering 150 μA biphasic pulses in theta-burst patterns have produced behaviorally meaningful memory-specificity effects without detectable harm in human entorhinal cortex (Titiz et al., 2017), whereas 50 Hz macrostimulation of the entorhinal region and hippocampus impairs memory (Jacobs et al., 2016). Third, charge-balanced biphasic pulses at physiologic-level currents are required to respect chronic safety limits of implantable electrodes (Hughes et al., 2026; Chen et al., 2020; Kim et al., 2025). Contemporary flexible and high-density electrodes — nanoporous graphene thin films (Viana et al., 2024), wireless subdural 65,536-electrode arrays (Jung et al., 2025), kirigami microelectrode arrays in non-human primates (Fang et al., 2026), and ultra-high-density Neuropixels 2.0 probes (Ye et al., 2025) — together lower per-channel charge requirements and enable spatially selective write patterns at scales approaching the per-microcircuit granularity needed for content-specific stimulation. High-dimensional stimulation with flexible electrodes has been proposed as a route to more precise synthetic neural codes (Kim et al., 2025), and adaptive neuromodulation systems are explicitly designing write protocols that respect such constraints (Lampert et al., 2025; Johnson et al., 2013; Belkacem et al., 2023). Crucially, the inhibitory context matters: inhibitory plasticity supports replay generalization in hippocampal circuits (Liao et al., 2024), and electrical stimulation that recruits inhibitory neurons non-selectively may disrupt this substrate. Designing current, frequency, phase, and electrode geometry to approximate naturalistic input — rather than override it — is the operative engineering problem for obstacle (b).
+
+### 2.11 Obstacle (c): the verification problem and multi-modal convergent evidence
+
+Behavioral readouts alone cannot distinguish "a memory was created" from "a response was biased." The verification problem requires a layered evidentiary structure in which each layer addresses a different confound:
+
+1. **Pre-injection absence of the target representation.** Before injection, baseline behavior at chance performance combined with a neural baseline showing no structured CA3 pattern-completion or CA1 output for the target cue establishes that the representation did not pre-exist. The neural baseline is operationally defined as a cosine similarity below a pre-registered threshold between the target-cued hippocampal population vector and every memory template in the calibration set.
+2. **Post-injection behavior above chance.** Forced-choice recognition at above-chance accuracy and cued recall scored by blinded raters provides the first behavioral signature (Hampson et al., 2018; Roeder et al., 2024).
+3. **Retrieval pattern match.** Hippocampal ensemble activity during retrieval is decoded and compared to the injected template via cosine similarity; a pre-registered minimum fidelity demonstrates that successful retrieval evokes the injected pattern rather than an unrelated pattern (Vaz et al., 2020; Yaffe et al., 2017).
+4. **Incorporation into spontaneous SWR replay.** The injected content appears in spontaneous SWRs detected per community consensus criteria (Liu et al., 2022), with content decoded by a Bayesian decoder extended from calibration templates (Joo & Frank, 2018; Zhang et al., 2025). Ripple prolongation and content-biased prolongation are known to improve memory (Fernández-Ruiz et al., 2019), strengthening the specificity of this signature.
+5. **Network integration.** For semantic content, semantic priming on related concepts and cortical high-gamma reinstatement during retrieval demonstrate that the written trace has been integrated into the participant's knowledge structure (Binder & Desai, 2011; Yaffe et al., 2017).
+
+A claim of artificial memory formation requires all five layers to converge. Any single layer is open to alternative interpretation; convergence across layers sharply restricts the set of non-memory explanations compatible with the data.
 
 ---
 
-## 3. Experiment 1: Translational Artificial Spatial-Associative Memory in Mice
+## 3. Experiment 1 (Deepened): Translational Artificial Spatial–Associative Memory in Mice
 
 ### 3.1 Rationale
 
-This experiment addresses the translation gap by demonstrating artificial memory creation in mice using only methods available in human clinical settings: high-density electrode arrays and patterned electrical microstimulation guided by MIMO computational models. By deliberately avoiding optogenetics, the experiment establishes a translational proof-of-concept that directly informs the human experiments. The choice of theta-phase-locked microstimulation rather than continuous macrostimulation is motivated by evidence that physiologic-level microstimulation enhances memory (Titiz et al., 2017), while standard DBS parameters can impair it (Jacobs et al., 2016).
+This experiment is the de-risking linchpin of the translational pipeline. It addresses obstacle (a) by including a Phase 0 validation that measures $P(\text{MIMO fidelity})$ directly before de novo writing is attempted. It addresses obstacle (b) by using only methods available in human clinical settings — high-density electrode arrays (Ye et al., 2025) and patterned electrical microstimulation — scaled to mouse anatomy, with explicit inhibition-respecting parameters. It addresses obstacle (c) by combining pre-injection behavioral and neural baselines, post-injection behavior, retrieval pattern decoding, and SWR replay content decoding in a single pre-registered protocol. The choice of theta-phase-locked microstimulation rather than continuous macrostimulation follows the finding that physiologic-level microstimulation produces memory-specific effects (Titiz et al., 2017) while 50 Hz macrostimulation impairs memory (Jacobs et al., 2016).
 
-### 3.2 Hypothesis
+### 3.2 Hypothesis and pre-registered decision rules
 
-Patterned multi-site electrical microstimulation of hippocampal CA1/CA3, delivering manifold-constrained activation patterns derived from MIMO-model neural codes, can create a de novo spatial-associative memory — specifically, a place-reward association for a maze arm that the mouse has never visited — that is behaviorally expressed as preferential exploration and verifiable via sharp-wave ripple replay content decoding.
+**Primary hypothesis.** Patterned multi-site electrical microstimulation of hippocampal CA1/CA3, delivering manifold-constrained activation patterns derived from MIMO-model neural codes, creates a de novo spatial–associative memory — a place–reward association for a maze arm never visited — detectable by (i) preferential exploration of the target arm over a matched novel control arm, (ii) retrieval-evoked hippocampal activity matching the injected template, and (iii) target-arm content appearing in spontaneous SWR replay.
+
+**Pre-registered decision rules.**
+- *Null rejection.* The null hypothesis of no injection effect is rejected only if all three signatures are observed at pre-registered thresholds: (i) group-level Arm X preference exceeds Arm Y preference with a mixed-effects interaction p < 0.05 and Cohen's d ≥ 0.6; (ii) cosine similarity between Arm X retrieval-evoked ensemble activity and the injected pattern exceeds 0.80 in ≥ 5 of 12 injection-group mice; (iii) Arm X replay event frequency exceeds the pre-injection chance baseline by a permutation test at p < 0.01.
+- *Falsification.* If none of the three signatures are observed, the primary hypothesis is falsified for the parameter regime tested, and the MIMO framework must be augmented before proceeding to human studies.
+- *Ambiguity.* If one or two signatures are observed, the result is reported as a partial write with Bayesian credible intervals on the posterior $P(\text{MIMO fidelity})$ conditional on the observed signatures.
 
 ### 3.3 Subjects
 
-Adult male and female C57BL/6J mice (n = 48; 12 per group across four conditions), aged 10–14 weeks at surgery. All procedures will be conducted in accordance with institutional IACUC protocols. Bilateral high-density silicon probe arrays (e.g., Neuropixels 2.0; Ye et al., 2025) will be chronically implanted targeting CA1, CA3, and dentate gyrus, providing simultaneous recording from approximately 200–400 single units per hemisphere.
+Adult male and female C57BL/6J mice (n = 48 in the primary cohort; 12 per arm across four conditions plus an additional n = 12 for Phase 0), aged 10–14 weeks at surgery. All procedures follow institutional IACUC protocols. Bilateral Neuropixels 2.0 probes (Ye et al., 2025) are chronically implanted to target CA1, CA3, and dentate gyrus, yielding simultaneous recordings of approximately 200–400 well-isolated single units per hemisphere.
 
-### 3.4 Experimental Design
+### 3.4 Phase 0 — MIMO Validation and direct estimation of $P(\text{MIMO fidelity})$ (Days 1–21)
 
-**Phase 0 — MIMO Validation (Days 1–21).** Before attempting de novo memory creation, the MIMO model's capacity to drive memory-guided behavior via stimulation alone must be validated. This phase tests whether MIMO-derived neural codes for already-known associations can drive place preference when delivered in isolation — without the original stimulus present. A separate cohort of mice (n = 12) will be trained on a 4-arm rewarded maze for 14 days (identical to Phase 1 below). After calibration, mice will be placed in a modified maze where a known rewarded arm (Arm A) has been temporarily emptied of reward and reconfigured (visual cues changed). MIMO-coded stimulation for "Arm A = reward" will be delivered during quiet rest. On the subsequent test trial, if mice preferentially explore the reconfigured Arm A (which now looks unfamiliar but was paired with the MIMO code), this validates that the MIMO-derived pattern is sufficient to drive place preference independently of natural encoding. This validation is critical because the MIMO model was originally developed to enhance existing encoding (Hampson et al., 2018), not to generate representations de novo. If Phase 0 fails (stimulation-delivered codes do not drive behavior), the MIMO model must be augmented — for example, by incorporating dentate gyrus input patterns or by expanding the model to capture mossy fiber → CA3 transformations — before proceeding to Phase 1. Success criteria: Arm A preference in the MIMO-stimulation group significantly exceeds chance (p < 0.05 by one-sample t-test against 0.25 for 4-arm choice).
+Phase 0 tests whether MIMO-derived codes can drive memory-guided behavior via stimulation alone — the prerequisite for extending the framework to de novo content. A separate cohort (n = 12) is trained on a 4-arm rewarded maze for 14 days. After calibration, mice are placed in a modified maze where a known rewarded arm (Arm A) has been emptied of reward and its visual cues reconfigured. MIMO-coded stimulation for the "Arm A = reward" association is delivered during quiet rest. On the subsequent test, Arm A preference significantly exceeding chance (one-sample t-test vs. 0.25, p < 0.05) validates that the MIMO-derived pattern drives place preference independently of natural encoding during the test trial. The proportion of mice meeting this criterion provides the first empirical estimate of $P(\text{MIMO fidelity})$ (§2.9), converting it from a prior to a posterior before Phase 1 begins. **Go/no-go.** If Phase 0 succeeds (≥ 6/12 mice meeting the criterion), Phase 1 proceeds; if it fails, the MIMO model is augmented — for example, by incorporating dentate-gyrus input patterns or by expanding the model to capture mossy fiber → CA3 transformations — before any de novo writing is attempted.
 
-Phase 0 also provides a direct estimate of the MIMO fidelity parameter $P(\text{MIMO fidelity})$ in the probabilistic failure model (Section 2.9). The proportion of mice showing significant preference provides an empirical bound on this factor for the specific parameter regime used.
+### 3.5 Phase 1 — Calibration (Days 22–35)
 
-**Phase 1 — Calibration (Days 22–35).** In the primary cohort (n = 48), mice will explore a radial 8-arm maze with reward (sucrose solution) available in 4 of 8 arms. Two arms will be physically blocked (Arms X and Y), preventing the mouse from ever entering or experiencing them. Over 14 days of daily 30-minute sessions, hippocampal ensemble activity will be recorded during exploration, reward consumption, and quiet rest periods.
+Mice in the primary cohort explore a radial 8-arm maze with reward (sucrose solution) in 4 of 8 arms. Two arms (Arm X, Arm Y) are physically blocked so the mouse never enters them. Over 14 days of 30-minute daily sessions, the following are extracted from hippocampal recordings:
 
-During calibration, the following will be extracted:
+- **Place fields.** Standard place-field analysis identifies place cells with stable spatial firing fields across accessible arms, characterized by spatial information content and stability across sessions.
+- **MIMO model fitting.** The CA3→CA1 nonlinear transformation is fitted by Volterra–Poisson kernels on simultaneously recorded CA3 and CA1 spike trains during rewarded-arm visits (Song et al., 2009).
+- **Manifold estimation.** The intrinsic neural manifold is estimated from spontaneous activity during quiet rest using Gaussian process factor analysis; manifold dimensionality is set by cross-validated held-out log-likelihood and is treated as a participant-specific measured quantity (Gallego et al., 2017).
+- **Existing attractor inventory.** The set of CA3 attractor states for existing memories is characterized by clustering hippocampal ensemble vectors during reward-arm visits, yielding memory templates $\mathbf{m}_1, \ldots, \mathbf{m}_K$ used downstream for orthogonality testing.
 
-*Place field mapping.* Standard place field analysis will identify place cells with stable spatial firing fields across the accessible arms. Place cells will be characterized by their spatial information content and stability across sessions.
+### 3.6 Phase 2 — Pattern Generation (Day 36)
 
-*MIMO model fitting.* The nonlinear CA3→CA1 transformation will be modeled using Volterra-Poisson kernels fitted to simultaneously recorded CA3 input and CA1 output spike trains during rewarded arm visits (Song et al., 2009). For each rewarded arm, the MIMO model captures the spatiotemporal neural code that represents "this arm contains reward."
+A synthetic CA1 pattern is generated for "Arm X = reward" by:
+1. Extrapolating the place-field geometry to identify units whose spatial tuning, under the existing map, would cover Arm X's position.
+2. Using the calibrated MIMO model to generate the CA1 output pattern expected to accompany reward consumption at that spatial position.
+3. Projecting the result onto the intrinsic manifold.
 
-*Manifold estimation.* The intrinsic neural manifold will be estimated from spontaneous activity during quiet rest using Gaussian process factor analysis (GPFA). The manifold dimensionality (expected: 15–30 dimensions) will be determined by cross-validated log-likelihood.
+The generated pattern **p** is verified computationally before injection:
 
-**Phase 2 — Pattern Generation (Day 36).** Using the calibrated MIMO model and manifold estimate, a synthetic neural activation pattern will be generated representing "Arm X contains reward." This pattern is constructed by:
+**Attractor verification.** Simulated CA3 recurrent dynamics starting from the seed (25% of target neurons) must converge to the full target with cosine similarity ≥ 0.90 without entering the basin of any existing attractor.
 
-1. Identifying the place cells whose spatial firing fields, based on the overall spatial map, would correspond to the blocked Arm X (extrapolated from the geometry of existing place fields).
-2. Using the MIMO model to generate the CA1 output pattern that would naturally accompany reward consumption in that spatial context.
-3. Projecting this pattern onto the intrinsic manifold via orthogonal projection, ensuring all activation components lie within the learned subspace.
-
-The generated pattern will be verified computationally before injection:
-
-*Attractor verification.* CA3 recurrent dynamics will be simulated using the recorded connectivity statistics. The synthetic pattern will be tested for convergence: starting from the seed pattern (25% of target neurons), does the network converge to the full target pattern, or does it fall into the basin of an existing memory? The cosine similarity between the converged state and the target must exceed 0.90.
-
-The pattern similarity between the injected pattern **p** and any existing memory pattern **m_i** is quantified as:
+**Orthogonality constraint.** The similarity between **p** and each existing memory pattern is
 
 ```math
-\text{sim}(\mathbf{p}, \mathbf{m}_i) = \frac{\mathbf{p} \cdot \mathbf{m}_i}{\|\mathbf{p}\| \|\mathbf{m}_i\|}
+\text{sim}(\mathbf{p}, \mathbf{m}_i) \;=\; \frac{\mathbf{p} \cdot \mathbf{m}_i}{\|\mathbf{p}\|\,\|\mathbf{m}_i\|}.
 ```
 
-where **p** and **m_i** are population activity vectors. The injected pattern must satisfy:
+The orthogonality threshold is **not assumed** but derived from calibration data: let $s_\text{nat}$ be the distribution of pairwise similarities between distinct calibrated memories $\mathbf{m}_i, \mathbf{m}_j\ (i \ne j)$. The required threshold is
 
 ```math
-\text{sim}(\mathbf{p}, \mathbf{m}_i) < 0.3 \quad \forall \, i \in \{1, \ldots, K\}
+\text{sim}(\mathbf{p}, \mathbf{m}_i) \;<\; \mu_{s_\text{nat}} + 2\sigma_{s_\text{nat}} \quad \forall\, i,
 ```
 
-where *K* is the number of existing stored memories, ensuring orthogonality to all existing attractors.
+that is, the new pattern must be less similar to any existing memory than the upper 2σ tail of natural inter-memory similarity. This converts an arbitrary threshold into an empirical one, grounded in the participant's own manifold geometry.
 
-*Manifold residual.* The distance from the synthetic pattern to the nearest point on the estimated manifold must satisfy:
+**Manifold residual.**
 
 ```math
-d_{\perp}(\mathbf{p}, \mathcal{M}) = \|\mathbf{p} - \text{proj}_{\mathcal{M}}(\mathbf{p})\| < \epsilon
+d_{\perp}(\mathbf{p}, \mathcal{M}) \;=\; \|\mathbf{p} - \text{proj}_{\mathcal{M}}(\mathbf{p})\| \;<\; \epsilon,
 ```
 
-where $\mathcal{M}$ is the estimated manifold, $\text{proj}_{\mathcal{M}}$ is orthogonal projection onto the manifold, and $\epsilon$ is set to 0.1 in normalized manifold units (the mean residual of naturally occurring activity).
+where $\epsilon$ is set to the 95th percentile of residuals observed for naturally occurring activity in the calibration window — again, an empirical threshold.
 
-**Phase 3 — Injection (Day 37).** During quiet wakefulness — verified by low theta/delta ratio in hippocampal LFP and absence of locomotion — patterned electrical microstimulation will be delivered to CA1 and CA3 contacts encoding the Arm X–reward association. Stimulation parameters are informed by the finding that theta-burst microstimulation at physiologic current levels enhances memory (Titiz et al., 2017), while standard DBS parameters impair it (Jacobs et al., 2016):
+### 3.7 Phase 3 — Injection (Day 37)
 
-- Current: 10–50 μA per channel, charge-balanced biphasic pulses
-- Timing: Locked to the trough of the hippocampal theta oscillation (phase 180° ± 15°), the phase of maximal synaptic plasticity
-- Duration: Each injection epoch comprises 20 theta cycles (approximately 3.3 seconds at 6 Hz theta)
-- Repetition: 5 injection epochs separated by 15-minute intervals (within the STC window; Frey & Morris, 1997; Chong et al., 2025)
-- Neuromodulatory support: Low-current (20 μA) stimulation of the ventral tegmental area (VTA) delivered 500 ms after each injection epoch to promote dopamine release and PRP synthesis
+Injection occurs during quiet wakefulness, verified by low theta/delta ratio in hippocampal LFP and absence of locomotion. Stimulation parameters follow microstimulation safety and efficacy findings (Titiz et al., 2017; Hughes et al., 2026):
 
-**Phase 4 — Verification (Days 38–42).**
+- **Current.** 10–50 μA per channel, charge-balanced biphasic pulses (200 μs per phase), scaled down from the 150 μA currents used in human entorhinal theta-burst microstimulation (Titiz et al., 2017) in proportion to the smaller mouse-brain volume and higher single-unit density. The rationale for scaling is to keep per-neuron recruited charge density within ranges demonstrated safe for chronic implanted microelectrodes (Hughes et al., 2026).
+- **Timing.** Locked to the trough of hippocampal theta (phase 180° ± 15°), the phase of maximal synaptic plasticity (Skaggs et al., 1996; Qasim et al., 2021).
+- **Duration.** 20 theta cycles (≈ 3.3 s at 6 Hz) per injection epoch.
+- **Repetition.** Five injection epochs spaced 15 minutes apart, all within the approximately 1–2 hour STC window and well within the extended late-associativity window of approximately 9 hours (Frey & Morris, 1997; Chong et al., 2025).
+- **Neuromodulatory support.** 20 μA ventral tegmental area stimulation delivered 500 ms after each injection epoch to promote dopamine release and plasticity-related protein synthesis.
 
-*Behavioral verification (Day 38).* The barrier blocking Arm X will be removed. The mouse will be placed in the maze center with all 8 arms open (including previously blocked Arm Y as a control). Exploration will be tracked for 10 minutes without any reward present in any arm.
+**Inhibition-respecting control.** Because electrical stimulation non-selectively recruits inhibitory neurons (Hughes et al., 2026) and inhibitory plasticity supports replay generalization (Liao et al., 2024), a subgroup of mice receives the same injection at 25% lower current density (reducing recruited volume) to test whether a narrower spatial footprint improves write specificity. Outcome metrics are compared between standard and reduced-current subgroups as a nested contrast.
 
-Primary behavioral measure: The proportion of time spent in Arm X versus Arm Y (matched blocked-arm control). Under the hypothesis, injected mice will preferentially explore Arm X (the arm associated with reward in the injected pattern) relative to Arm Y (the equally novel arm with no injected association).
+### 3.8 Phase 4 — Verification (Days 38–42)
 
-*Neural verification (Days 38–42).* During quiet rest periods on each of the 5 post-injection days:
+**Behavioral verification (Day 38).** The barrier blocking Arm X is removed. Mice explore all 8 arms for 10 minutes with no reward in any arm. The proportion of time in Arm X relative to Arm Y (matched blocked-arm control) is the primary outcome.
 
-- **SWR replay decoding.** Sharp-wave ripple events (detected by ripple-band [150–250 Hz] power exceeding 3 SD above baseline for >25 ms; Liu et al., 2022) will be analyzed for replay content. A Bayesian decoder, trained on place field data from the calibration phase, will be applied to population activity during each SWR event (Joo & Frank, 2018). The proportion of SWR events containing Arm X content (decoded trajectory passing through Arm X's spatial position) will be compared to Arm Y content and chance level.
+**Neural verification (Days 38–42).** On each of 5 post-injection days:
 
-- **Retrieval pattern matching.** During the first exploration of Arm X, hippocampal ensemble activity will be decoded and compared to the injected pattern using cosine similarity. A match exceeding 0.85 indicates that exploration of the never-before-visited arm evokes the same neural pattern that was injected.
+- *SWR replay decoding.* SWRs are detected by ripple-band (150–250 Hz) power exceeding 3 SD above baseline for > 25 ms following community consensus criteria (Liu et al., 2022). A Bayesian decoder trained on calibration-phase place-field data is extended to include the injected template (Joo & Frank, 2018), and the proportion of SWR events containing Arm X content is compared to Arm Y content and chance by permutation test (500 shuffles per session).
+- *Retrieval pattern matching.* During the first exploration of Arm X, hippocampal ensemble activity is decoded and compared to the injected pattern by cosine similarity. A match exceeding the pre-registered threshold (0.80) indicates retrieval-evoked reinstatement.
+- *Verification-specific negative control.* The same retrieval decoder is applied during Arm Y exploration and during exploration of the familiar (calibrated) rewarded arms. The similarity distribution over these reference conditions defines the chance and natural-recall envelopes against which Arm X retrieval is compared, directly addressing obstacle (c).
 
-### 3.5 Control Groups
+### 3.9 Control groups
 
 | Group | Treatment | Purpose |
 |-------|-----------|---------|
-| **Sham** (n=12) | Electrode insertion, anesthesia, VTA stimulation, but no hippocampal stimulation | Controls for surgical, arousal, and dopaminergic effects |
-| **Random-manifold** (n=12) | Manifold-constrained random pattern (no spatial or reward content) delivered with identical parameters | Controls for non-specific stimulation effects; proves content-specificity is required |
-| **Off-manifold** (n=12) | Same target content (Arm X–reward) but pattern forced off-manifold by adding orthogonal noise | Proves manifold adherence is necessary for memory formation (Sadtler et al., 2014) |
-| **Injection** (n=12) | Full protocol as described | Experimental group |
+| **Sham** (n = 12) | Electrode insertion, anesthesia, VTA stimulation, no hippocampal stimulation | Controls for surgical, arousal, and dopaminergic effects |
+| **Random-manifold** (n = 12) | Manifold-constrained random pattern (no spatial or reward content) delivered with identical parameters | Controls for non-specific stimulation effects; tests content-specificity |
+| **Off-manifold** (n = 12) | Same target content (Arm X–reward) but pattern forced off-manifold by orthogonal-noise addition | Tests necessity of manifold adherence (Sadtler et al., 2014) |
+| **Injection** (n = 12) | Full protocol | Experimental group |
 
-### 3.6 Statistical Analysis
+### 3.10 Statistical analysis and closed-loop adjustment
 
-The primary outcome — proportion of exploration time in Arm X versus Arm Y — will be analyzed using a mixed-effects model with group (4 levels) as a fixed effect and animal as a random effect. A significant Group × Arm interaction, with post-hoc tests showing Arm X preference only in the Injection group, constitutes support for the hypothesis. Effect size will be estimated by Cohen's d. Power analysis (α = 0.05, power = 0.80, expected d = 0.9 based on optogenetic false memory studies) yields n = 12 per group.
+Primary outcome (proportion of time in Arm X vs. Arm Y) is analyzed with a mixed-effects model with group (4 levels) as a fixed effect and animal as a random effect. A significant Group × Arm interaction with post-hoc Arm X preference only in the Injection group supports the hypothesis. Power analysis under α = 0.05, power = 0.80, and expected d = 0.9 (based on optogenetic false-memory effect sizes; Ramirez et al., 2013; Liu et al., 2014) yields n = 12 per group. SWR replay content is analyzed with a permutation test as specified in §3.8.
 
-SWR replay content will be analyzed using a permutation test comparing the proportion of Arm X replay events in the Injection group versus shuffled data (500 shuffles per session).
+**Finite-difference closed-loop adjustment.** Within-injection optimization uses a measured, not analytic, gradient. Prior to each injection epoch, a brief 10 ms probe pulse is delivered on each channel in turn and the evoked population vector $\mathbf{r}_i$ is recorded; the finite-difference Jacobian
 
-### 3.7 Expected Results and Interpretation
+```math
+\hat{J}_{ij} \;=\; \frac{r_{ij}^{(I_i + \Delta I)} - r_{ij}^{(I_i)}}{\Delta I}
+```
 
-If successful, injected mice will show (1) preferential exploration of the never-visited Arm X but not the equally novel Arm Y, (2) Arm X content appearing in spontaneous SWR replay, and (3) neural activity during Arm X exploration matching the injected pattern. Random-manifold and off-manifold controls should show no Arm X preference, demonstrating that both content specificity and manifold adherence are necessary.
+is estimated by regressing evoked response changes on probe-current perturbations ($\Delta I$ small relative to main injection current). Current updates are
 
-Based on the probabilistic failure model (Section 2.9), we estimate that 3–4 of 12 injected mice will show the full pattern of behavioral and neural evidence. This modest success rate is expected for a first demonstration and is sufficient for statistical significance given the strong effect size predicted for successful writes.
+```math
+\Delta \mathbf{I} \;=\; -\eta\,\hat{J}^{\top}(\mathbf{r}_t - \mathbf{p}_{\text{target}}),
+```
 
-### 3.8 Translational Significance
+with learning rate $\eta$ chosen per animal by line search on Phase 0 calibration trials. This replaces the undefined analytic gradient used in earlier drafts and grounds the closed loop in directly measured evoked responses.
 
-This experiment deliberately uses only electrical stimulation and computational modeling — no optogenetics, no transgenic animals, no viral vectors. Every component (electrode arrays, MIMO modeling, patterned stimulation, VTA co-stimulation) has a direct human analog available in epilepsy surgery patients with intracranial electrodes. Success here provides the rationale and methodological foundation for Experiment 2.
+### 3.11 Expected results under pre-registered decision rules
+
+Under the priors of §2.9, the expected proportion of injection-group mice meeting all three neural and behavioral signatures is modest; the experiment remains informative for any observed proportion because the pre-registered thresholds in §3.2 define explicit null-rejection and falsification criteria. A full positive result (all three signatures at group level) supports advancing to Experiment 2. A null result on all three signatures falsifies the primary hypothesis for the tested regime and triggers a model-augmentation cycle. A partial result updates the Bayesian posterior on $P(\text{MIMO fidelity})$ and is reported with credible intervals rather than being forced into a binary accept/reject call.
+
+### 3.12 Translational significance
+
+Every component of Experiment 1 — electrode arrays, MIMO modeling, patterned stimulation, VTA co-stimulation, SWR content decoding — has a direct human analog in epilepsy surgery patients with intracranial electrodes. Success here provides the rationale and methodological foundation for Experiment 2.
 
 ---
 
@@ -1357,299 +1357,213 @@ This experiment deliberately uses only electrical stimulation and computational 
 
 ### 4.1 Rationale
 
-This experiment addresses the content specificity gap by demonstrating that specific, verifiable informational content — novel word-image associations never presented to the participant — can be written into the human hippocampus via patterned microstimulation. It also addresses the verification gap by combining pre-injection behavioral baseline (proving the memory does not exist), post-injection behavioral testing (proving it now does), and neural replay content decoding (proving the specific neural pattern was formed).
+Experiment 2 addresses obstacle (b) in the clinical regime — writing specific, verifiable informational content (novel word–image pairs never presented) into the human hippocampus via patterned microstimulation — and addresses obstacle (c) with paired pre- and post-injection behavioral and neural baselines, retrieval decoding, and SWR replay monitoring.
 
-### 4.2 Hypothesis
+### 4.2 Hypothesis and pre-registered decision rules
 
-Hippocampal patterned microstimulation, delivering participant-specific MIMO-derived neural codes constrained to the intrinsic population manifold, can create a de novo associative memory — specifically, a novel word-image pairing never presented — that is (a) behaviorally accessible via cued recall and forced-choice recognition, and (b) verifiable via hippocampal content decoding and spontaneous sharp-wave ripple replay monitoring.
+**Primary hypothesis.** Hippocampal patterned microstimulation delivering participant-specific MIMO-derived neural codes constrained to the intrinsic manifold creates a de novo associative memory for a novel word–image pair, expressed as (a) cued recall and forced-choice recognition above chance, (b) retrieval-evoked hippocampal content match, and (c) written content appearing in spontaneous SWR replay.
+
+**Pre-registered decision rules.** The null is rejected only if: (i) forced-choice recognition on target pairs exceeds chance (25%) with a lower confidence bound above 0.35 across participants; (ii) retrieval-evoked hippocampal fidelity (cosine similarity with the injected pattern) exceeds 0.80 on ≥ 50% of correct-response trials; (iii) target-content SWR events exceed pre-injection chance by a permutation test at p < 0.01. Partial results trigger the same Bayesian reporting as in §3.
 
 ### 4.3 Participants
 
-Adults (ages 18–65) with drug-resistant epilepsy undergoing intracranial EEG monitoring for seizure localization, with bilateral hippocampal depth electrodes providing contacts in CA1 and CA3, plus subdural or depth coverage of lateral temporal cortex. Target enrollment: n = 15, based on the precedent set by Hampson et al. (2018) who demonstrated significant effects with 8–15 participants. Informed consent will be obtained under IRB-approved protocols with specific provisions for the experimental nature of memory stimulation, addressing the neuroethical considerations detailed in Section 6.4.
+Adults aged 18–65 with drug-resistant epilepsy undergoing intracranial EEG monitoring, with bilateral hippocampal depth electrodes providing CA1 and CA3 contacts and subdural or depth coverage of lateral temporal cortex. Target enrollment: n = 15, following the precedent of Hampson et al. (2018), who demonstrated significant MIMO effects in this patient population. Informed consent is obtained under IRB-approved protocols with explicit provisions for the experimental nature of memory stimulation, addressing the neuroethical considerations in §6.4 (Gordon et al., 2024; Goering et al., 2021; Lavazza et al., 2025).
 
-Inclusion criteria: (1) Bilateral hippocampal depth electrode placement with confirmed CA1/CA3 contacts, (2) no seizures in the 24 hours preceding each experimental session, (3) baseline memory performance within 1 SD of age-matched norms on standardized testing.
+**Inclusion.** Bilateral hippocampal depth electrode placement with confirmed CA1/CA3 contacts; no seizures in the 24 hours preceding each session; baseline memory performance within 1 SD of age-matched norms.
+**Exclusion.** Bilateral hippocampal sclerosis; prior hippocampal resection; seizure during any experimental session (data excluded; session repeated if possible).
 
-Exclusion criteria: (1) Bilateral hippocampal sclerosis, (2) prior hippocampal resection, (3) seizure during any experimental session (data excluded; session repeated if possible).
+### 4.4 Experimental design
 
-### 4.4 Experimental Design
+**Phase 0 — MIMO extrapolation validation (Day 1).** Before de novo writing, the MIMO model's capacity to deliver content-specific information via stimulation alone is tested on known pairs. During calibration, the participant learns 20 word–image pairs via natural encoding. After calibration, five of these known pairs are selected. The word cue for each pair is presented on screen, and the MIMO-derived CA1 code for the associated image is delivered via stimulation *before* the image appears. The go/no-go criterion is that stimulation-primed trials show significantly faster reaction times or higher confidence ratings than unprimed control trials (p < 0.05, paired t-test). A pass directly constrains $P(\text{MIMO fidelity})$ in this patient (§2.9).
 
-**Phase 0 — MIMO Extrapolation Validation (Day 1).** Before any de novo writing attempt, the MIMO model's capacity to generate codes for *unstimulated* associations must be tested. During the calibration task (Phase 1), the participant learns 20 word-image pairs via natural encoding. After calibration, five of these known pairs are selected. The participant is presented with the word cue for each pair, but the MIMO-derived CA1 code for the associated image is delivered via stimulation *before* the image appears. If stimulation of the MIMO code for "BRIDGE → [image of bridge]" primes faster recognition or higher confidence on the subsequent image presentation, this validates that MIMO-derived codes carry content-specific information that can be delivered via stimulation. Go/no-go criterion: Stimulation-primed trials must show significantly faster reaction times or higher confidence ratings than non-primed control trials (p < 0.05, paired t-test).
+**Phase 1 — Calibration (Days 1–3).** Participants perform a modified delayed match-to-sample task (Hampson et al., 2018) with 20 unique word–image pairs, 10 repetitions each over 3 days. During this phase, CA1 and CA3 single-unit activity (50–100 units per hemisphere) is recorded, the MIMO model is fit on CA3→CA1 spike-train pairs (Song et al., 2009), and the hippocampal manifold is estimated via GPFA from inter-trial rest and overnight recordings.
 
-**Phase 1 — Calibration (Days 1–3).** Participants perform a modified delayed match-to-sample (DMS) task with known word-image pairs. In each trial, a word cue is presented (e.g., "BRIDGE"), followed by a 10-second delay, then four images; the participant selects the image associated with the word. Twenty unique word-image pairs are used, with 10 repetitions each over 3 days.
+**Phase 2 — Pre-injection baseline (Day 4).** Five novel target pairs are constructed from words and images not used in calibration, drawn from normed stimulus databases (BOSS, SUBTLEXus). Target pairs are semantically arbitrary (e.g., "LANTERN"–[image of violin]) to prevent guessing. Baseline testing:
+- **Forced-choice recognition.** Four images per word; chance = 25%.
+- **Free recall.** Participant freely describes the image for each target word.
+- **Neural baseline.** Hippocampal activity during target-word presentation is analyzed; absence of any structured output (cosine similarity with all calibrated templates < 0.20) confirms the target representation does not pre-exist. This is the operational instantiation of verification layer 1 (§2.11).
 
-During this phase, hippocampal ensemble activity (CA1 and CA3 contacts, 50–100 single units per hemisphere) is recorded. The MIMO model is fitted: for each word-image pair, the CA3 input pattern during word presentation is mapped to the CA1 output pattern during correct recall (Song et al., 2009). The model captures participant-specific neural codes for each association.
-
-The hippocampal manifold is estimated from spontaneous activity during inter-trial rest intervals and overnight recordings using GPFA.
-
-**Phase 2 — Pre-Injection Baseline (Day 4).** Five target word-image pairs are selected — novel pairs constructed from words and images not used in calibration, drawn from normed stimulus databases (e.g., BOSS objects, SUBTLEXus word frequencies). The target associations (e.g., "LANTERN"–[image of a violin]) are semantically arbitrary to prevent guessing.
-
-Baseline testing:
-- **Forced-choice recognition:** For each target word, four images are presented. The participant selects which image "goes with" the word. With 4-alternative forced choice, chance performance is 25%.
-- **Free recall:** The participant is asked to freely describe any image that comes to mind for each target word.
-- **Neural baseline:** Hippocampal activity during target word presentation is recorded and analyzed for any coherent CA3 pattern completion or CA1 output. The absence of a structured pattern (cosine similarity with any calibrated memory template < 0.20) confirms that no representation of the target association exists.
-
-This pre-injection baseline is the critical methodological contribution — it establishes with both behavioral and neural evidence that the target memory does not exist before injection.
-
-**Phase 3 — Pattern Generation (Day 4, post-baseline).** For each target word-image pair, a synthetic MIMO code is generated:
-
-1. The word component is mapped to a CA3 input pattern using the calibrated model's learned vocabulary embedding.
+**Phase 3 — Pattern generation (Day 4).** For each target pair:
+1. The word is mapped to a CA3 input pattern via the calibrated vocabulary embedding.
 2. The MIMO model generates the predicted CA1 output pattern for this input.
-3. The image component is incorporated by modulating the CA1 pattern according to the image category's learned neural signature (derived from calibration-phase image presentations).
+3. The image component is incorporated by modulating the CA1 pattern according to the image category's learned neural signature from calibration.
 4. The combined pattern is projected onto the participant's hippocampal manifold.
-5. Attractor orthogonality is verified against all existing memories in the calibration set.
+5. Orthogonality to all calibrated templates is verified using the empirical threshold derived as in §3.6.
 
-**Phase 4 — Injection (Day 5).** During awake quiet rest — verified by low working memory load (assessed via frontal theta power; Lara & Wallis, 2015) and stable hippocampal theta — patterned microstimulation is delivered encoding the 5 target word-image associations.
+**Phase 4 — Injection (Day 5).** During awake quiet rest — verified by low working-memory load via frontal theta power (Lara & Wallis, 2015; Bhattacharya et al., 2022) and stable hippocampal theta — patterned microstimulation is delivered at 20–80 μA, charge-balanced biphasic, theta-trough-locked (Skaggs et al., 1996; Qasim et al., 2021), in 15-theta-cycle epochs (≈ 2.5 s), 5 epochs per target pair spaced 10 minutes apart. Each injection epoch is paired with a mild behavioral reward (juice) to naturally engage dopaminergic plasticity-related-protein synthesis, substituting for VTA co-stimulation (which is not standard in human epilepsy monitoring).
 
-Protocol for each target pair:
-- Present the target word on a screen (visual cue primes the word representation in cortex)
-- After 2 seconds, deliver MIMO-coded CA1 stimulation (20–80 μA, charge-balanced biphasic, locked to theta trough) encoding the word-image association
-- Each injection epoch: 15 theta cycles (approximately 2.5 s)
-- 5 injection epochs per target pair, spaced 10 minutes apart (within STC window)
-- Total injection time per pair: approximately 50 minutes
-- All 5 pairs injected across a single day, with 30-minute breaks between pairs
-
-No neuromodulatory co-stimulation is applied in the primary protocol (VTA stimulation is not standard in human epilepsy monitoring). Instead, injection is paired with a mild behavioral reward (juice delivery) following each epoch to naturally engage dopaminergic PRP synthesis.
-
-**Phase 5 — Verification (Days 5–12).**
-
-*Immediate behavioral verification (Day 5, 1 hour post-injection):*
-- **Forced-choice recognition:** Same format as baseline. Performance above chance (>25%) on target pairs, with below-chance performance on matched control pairs (novel pairs not injected), constitutes evidence of memory formation.
-- **Cued recall:** Participant freely describes the image associated with each target word. Responses scored by independent raters blind to condition.
-- **Confidence rating:** 1–7 scale for each response. Artificially written memories may show systematically lower confidence than naturally learned memories, which is itself informative.
-
-*Neural content decoding (Day 5, 1–6 hours post-injection):*
-- **Retrieval pattern analysis.** During the forced-choice recognition test, hippocampal ensemble activity at the moment of correct selection is decoded. The cosine similarity between the retrieval-evoked pattern and the injected pattern is computed:
+**Phase 5 — Verification (Days 5–12).** Behavioral (forced-choice, cued recall, confidence rating) and neural (hippocampal retrieval decoding, SWR replay content decoding using Liu et al. 2022 detection criteria and the content decoder of Joo & Frank 2018 and Zhang et al. 2025) assessments at 1 hour, 24 hours, and 1 week post-injection. Retrieval fidelity is computed as
 
 ```math
-\text{fidelity} = \frac{\mathbf{r} \cdot \mathbf{p}}{\|\mathbf{r}\| \|\mathbf{p}\|}
+\text{fidelity} \;=\; \frac{\mathbf{r} \cdot \mathbf{p}}{\|\mathbf{r}\|\,\|\mathbf{p}\|},
 ```
 
-where **r** is the retrieval-evoked population vector and **p** is the injected pattern. Threshold for successful write: fidelity > 0.85.
-
-- **SWR replay monitoring.** During quiet rest periods (participant instructed to relax with eyes closed), SWR events are detected and decoded in real time (Liu et al., 2022; Zhang et al., 2025). A content decoder trained on calibration-phase memories is extended to include the injected pattern templates. The frequency of replay events containing target pair content is quantified and compared to the frequency expected by chance (estimated from pre-injection replay statistics).
-
-The replay fidelity for each detected SWR event *k* is scored as:
+with pre-registered threshold 0.80. SWR events are scored for target content via
 
 ```math
-\text{replay\_fidelity}_k = \max_j \, \text{sim}(\mathbf{s}_k, \mathbf{p}_j)
+\text{replay\_fidelity}_k \;=\; \max_j \text{sim}(\mathbf{s}_k, \mathbf{p}_j),
 ```
 
-where $\mathbf{s}_k$ is the population vector during SWR event *k* and $\mathbf{p}_j$ is the pattern for target pair *j*. Events with replay_fidelity > 0.70 are classified as containing target content.
+where $\mathbf{s}_k$ is the population vector during SWR event $k$ and $\mathbf{p}_j$ the target patterns; events with $\text{replay\_fidelity} > 0.70$ are classified as containing target content. Interference monitoring at each timepoint tests retrieval of 10 well-learned calibration pairs; content fidelity must remain within 0.05 of pre-injection levels or safety protocols are triggered.
 
-*24-hour verification (Day 6):*
-- Repeat forced-choice recognition and cued recall. Compare to Day 5 performance to assess overnight consolidation. Neural content decoding during retrieval.
-
-*1-week verification (Day 12, if electrodes remain):*
-- Repeat behavioral and neural verification. Assess long-term retention.
-
-*Interference monitoring (Days 5–12):*
-- At each verification timepoint, test retrieval of 10 calibration-phase memories (well-learned pairs). Content fidelity must remain within 0.05 of pre-injection levels. Significant degradation of existing memories would indicate interference and trigger safety protocols.
-
-### 4.5 Control Conditions
-
-Within each participant (crossover design across two sessions separated by ≥48 hours):
+### 4.5 Control conditions (within-participant crossover)
 
 | Condition | Content | Stimulation | Purpose |
 |-----------|---------|-------------|---------|
-| **Target injection** | 5 novel word-image pairs | MIMO-coded, manifold-constrained | Primary experimental condition |
-| **Sham injection** | 5 different novel word-image pairs | Word cue presented, no stimulation | Controls for word exposure alone |
-| **Random stimulation** | 5 different novel word-image pairs | Manifold-constrained random pattern | Controls for non-specific stimulation |
+| **Target injection** | 5 novel word–image pairs | MIMO-coded, manifold-constrained | Primary |
+| **Sham injection** | 5 different novel word–image pairs | Word cue only, no stimulation | Controls for word exposure alone |
+| **Random stimulation** | 5 different novel word–image pairs | Manifold-constrained random pattern | Controls for non-specific stimulation |
 
-Additionally, 5 naturally learned pairs (presented and practiced during Day 4) serve as a positive control for the content decoder.
+Five naturally learned calibration pairs serve as a positive control for the content decoder (Yaffe et al., 2017).
 
-### 4.6 Key Distinction from Prior Work
+### 4.6 Distinction from prior work
 
-The Hampson et al. (2018) MIMO prosthesis enhanced existing memories by delivering correct CA1 output codes during natural encoding events. The participant experienced the stimulus, attempted to encode it naturally, and stimulation boosted the quality of the natural code. The present experiment fundamentally differs: the participant never sees the target word-image pairing. The word cue is presented to prime the word representation, but the image association is delivered entirely via stimulation. The pre-injection baseline at chance performance — combined with the neural baseline showing no existing representation — is the critical proof that any post-injection memory was artificially created, not enhanced. This distinction is further supported by the Phase 0 validation, which quantifies the MIMO model's capacity to deliver content-specific information via stimulation alone.
+The Hampson et al. (2018) MIMO prosthesis enhanced memories by delivering correct CA1 codes during natural encoding events. Experiment 2 fundamentally differs: the participant never sees the target word–image pairing. The word cue primes the word representation, but the image association is delivered entirely by stimulation. The pre-injection behavioral and neural baselines at chance/absent — combined with the Phase 0 extrapolation validation — are the critical evidence that any post-injection memory was artificially created rather than enhanced.
 
-### 4.7 Expected Results
+### 4.7 Expected results
 
-If successful: (1) forced-choice recognition performance on target pairs will exceed chance (>25%) at the immediate timepoint, (2) neural content decoding during retrieval will show fidelity > 0.85 between the evoked pattern and the injected pattern, (3) SWR replay events containing target pair content will be detected at above-chance frequency during post-injection rest, and (4) sham and random-stimulation controls will remain at chance. The magnitude of the behavioral effect is expected to be modest (perhaps 40–60% accuracy versus 25% chance) for this first demonstration, given the technical challenges of electrical stimulation specificity and the extrapolation gap quantified in Section 2.9.
+Under the pre-registered decision rules in §4.2, success is a modest-magnitude above-chance forced-choice accuracy (the magnitude bound is pre-registered rather than predicted as a specific percentage) combined with retrieval-pattern fidelity above 0.80 and above-chance SWR replay content. Sham and random-stimulation controls must remain at chance on all three signatures. Per §2.9 and §4.4's Phase 0 update to $P(\text{MIMO fidelity})$, a partial-signature outcome is expected and is reported with Bayesian credible intervals rather than forced into accept/reject.
 
 ---
 
-## 5. Experiment 3: Multi-Region Artificial Semantic Memory Formation in Humans
+## 5. Experiment 3: Multi-Region Artificial Semantic Memory in Humans
 
 ### 5.1 Rationale
 
-This experiment addresses the remaining technical gaps by demonstrating that artificial memory formation can extend beyond simple associations to structured semantic knowledge, using multi-region stimulation techniques with real-time closed-loop verification. Where Experiment 2 writes a hippocampal index code for an associative pair, Experiment 3 simultaneously writes the hippocampal index and the temporal cortex semantic content representation, creating a memory with richer representational structure. Where Experiment 2 verifies via post-hoc decoding, Experiment 3 implements read-during-write closed-loop verification — decoding the evoked pattern in real time and adjusting stimulation within-cycle. And where Experiment 2 tests only recall accuracy, Experiment 3 tests semantic network integration — whether the written fact produces priming effects on related concepts, demonstrating that it has been incorporated into the participant's existing knowledge structure.
+Experiment 3 extends the pipeline to structured semantic knowledge using coordinated hippocampal–cortical stimulation with real-time closed-loop verification and semantic-priming integration tests. Where Experiment 2 writes an index for a single associative pair, Experiment 3 writes both the hippocampal index and the temporal-cortex semantic content representation (Teyler & Rudy, 2007; Binder & Desai, 2011; Yaffe et al., 2017). Where Experiment 2 verifies via post-hoc decoding, Experiment 3 implements read-during-write closed-loop verification using the finite-difference Jacobian of §3.10. Where Experiment 2 tests recall accuracy, Experiment 3 tests whether the written fact produces semantic priming on related concepts — a strong behavioral signature of network integration (Binder & Desai, 2011).
 
-### 5.2 Hypothesis
+### 5.2 Hypothesis and pre-registered decision rules
 
-Coordinated multi-site patterned stimulation of hippocampus (index code) and lateral temporal cortex (semantic content representation), delivered during awake theta-gamma coupling windows with manifold-constrained patterns and real-time read-during-write verification, can create a verifiable semantic memory for a factual association that was never naturally encoded, as evidenced by (a) behavioral recall, (b) neural content decoding from both hippocampal and cortical sites, (c) semantic priming effects on related concepts, and (d) cortical high-gamma reinstatement during retrieval.
+**Primary hypothesis.** Coordinated multi-site stimulation of hippocampus (index code) and lateral temporal cortex (semantic content representation), delivered during awake theta–gamma coupling windows with manifold-constrained patterns and real-time closed-loop correction, creates a verifiable semantic memory for a fact never naturally encoded, as evidenced by (a) cued recall and forced-choice recognition above chance, (b) retrieval content match in both hippocampus and temporal cortex, (c) semantic priming on related concepts matching the magnitude produced by naturally known facts, and (d) cortical high-gamma reinstatement during retrieval approaching the level of natural recall (Yaffe et al., 2017; Vaz et al., 2020).
+
+**Pre-registered decision rules.** The null is rejected only if all four signatures are observed; falsification and partial-result reporting mirror §3 and §4.
 
 ### 5.3 Participants
 
-Adults (ages 18–65) with drug-resistant epilepsy undergoing intracranial EEG monitoring with electrode coverage spanning both hippocampus (bilateral depth electrodes with CA1/CA3 contacts) AND lateral/anterior temporal cortex (subdural grid or strip electrodes). This dual-coverage requirement is more restrictive than Experiment 2, reducing the eligible patient pool. Target enrollment: n = 12.
+Adults aged 18–65 with drug-resistant epilepsy and electrode coverage spanning hippocampus (bilateral depth with CA1/CA3 contacts) and lateral/anterior temporal cortex (subdural grid/strip). Target enrollment: n = 12.
 
-### 5.4 Experimental Design
+### 5.4 Experimental design
 
-**Phase 0 — Multi-Region Code Validation (Day 1).** This phase validates that coordinated hippocampal-cortical stimulation can reinstate content-specific representations. During the schema mapping task (Phase 1), the participant retrieves known semantic facts while neural activity is recorded from both hippocampus and temporal cortex. For a subset of known facts, the recorded retrieval patterns are used to generate hippocampal and cortical stimulation templates. On a subsequent test, the participant is asked to recall facts from the same domain while either (a) receiving coordinated hippocampal-cortical stimulation derived from the correct fact's retrieval pattern, (b) receiving scrambled stimulation, or (c) receiving no stimulation. Go/no-go criterion: stimulation-primed facts must show significantly faster recall latency or higher accuracy than scrambled or no-stimulation conditions (p < 0.05).
+**Phase 0 — Multi-region code validation (Day 1).** The participant retrieves known semantic facts from a chosen domain while hippocampal and temporal cortex activity is recorded. For a subset of known facts, recorded retrieval patterns are used to generate coordinated hippocampal–cortical stimulation templates. On a subsequent test, stimulation-primed facts must show significantly faster recall or higher accuracy than scrambled or no-stimulation conditions (p < 0.05).
 
-**Phase 1 — Schema Mapping (Days 1–2).** The participant's existing semantic knowledge is assessed in a defined domain selected based on their educational background and interests (e.g., world geography, biological taxonomy, historical chronology). This serves two purposes: (1) it maps the neural signatures of semantic processing in temporal cortex, and (2) it identifies schema-compatible "gaps" — facts that would fit naturally within the participant's existing knowledge framework but that they do not know.
+**Phase 1 — Schema mapping (Days 1–2).** The participant's existing semantic knowledge in the chosen domain (e.g., world geography) is assessed via factual questions; for each correctly answered item, the temporal-cortex retrieval pattern is extracted. Representational similarity analysis (Nili et al., 2014) organizes these patterns: semantically related facts produce more similar neural patterns, defining the participant's schema topology. A set of 8 candidate targets (facts the participant does not know, pre-tested) is identified; 4 are injection targets and 4 are matched controls.
 
-*Semantic retrieval task.* The participant answers factual questions in the chosen domain (e.g., "What is the capital of Thailand?") while hippocampal and temporal cortex activity is recorded. For each correctly answered question, the temporal cortex activation pattern during retrieval is extracted — this captures the neural representation of semantic knowledge in that domain.
+**Phase 2 — Pattern generation (Day 3).** For each target fact, two coordinated patterns are generated:
 
-*Schema topology mapping.* The neural patterns for known facts are organized using representational similarity analysis (RSA; Nili et al., 2014). Semantically related facts (e.g., capitals of neighboring countries) produce more similar neural patterns than unrelated facts. This similarity structure defines the participant's semantic schema topology.
+*Hippocampal index code.* Generated by the calibrated MIMO model as in §4.3, constrained to the hippocampal manifold and verified for orthogonality using the empirical threshold from §3.6.
 
-*Gap identification.* A set of 8 candidate target facts is identified — facts in the same domain that the participant does not know, verified by a pre-test. From these, 4 are selected as injection targets and 4 as matched controls.
-
-**Phase 2 — Pattern Generation (Day 3).** For each target fact, two coordinated patterns are generated:
-
-*Hippocampal index code.* Using the calibrated MIMO model, a hippocampal index pattern is generated that represents the target fact. The index is constrained to the hippocampal manifold and verified for attractor orthogonality.
-
-*Temporal cortex semantic pattern.* Using the schema topology from Phase 1, the expected semantic representation of the target fact is generated by interpolation within the semantic manifold. If the target fact is "The capital of Laos is Vientiane," and the participant knows the capitals of neighboring countries (Thailand–Bangkok, Vietnam–Hanoi, Cambodia–Phnom Penh), the target pattern is computed as a schema-consistent extrapolation — a point in the temporal cortex manifold that is geometrically consistent with the existing semantic neighborhood.
-
-The semantic pattern generation uses the following schema-interpolation approach. Let $\mathbf{c}_1, \ldots, \mathbf{c}_n$ be the temporal cortex patterns for *n* known facts semantically related to the target. The target pattern is:
+*Temporal cortex semantic pattern.* Let $\{\mathbf{c}_1, \ldots, \mathbf{c}_n\}$ be the temporal-cortex retrieval patterns for $n$ known facts semantically related to the target, and let $D$ be an $n \times n$ semantic-distance matrix for these facts (computed from their representational similarity; Nili et al., 2014). Weights $\{w_i\}$ are obtained by ridge regression mapping semantic distance to pattern difference, cross-validated on held-out known facts: for each held-out fact $j$ the weights minimize
 
 ```math
-\mathbf{t} = \text{proj}_{\mathcal{M}_c}\left(\sum_{i=1}^{n} w_i \mathbf{c}_i + \mathbf{\delta}\right)
+\sum_{k \ne j} \bigl\| \mathbf{c}_k - \sum_{i} w_i^{(j)} \mathbf{c}_i \bigr\|^{2} + \lambda \|\mathbf{w}^{(j)}\|^{2},
 ```
 
-where $w_i$ are weights reflecting semantic similarity between the target and each known fact (e.g., geographical proximity), $\mathbf{\delta}$ is a learned offset vector that distinguishes the target from its neighbors (derived from the pattern differences between other known-fact pairs), and $\text{proj}_{\mathcal{M}_c}$ projects the result onto the temporal cortex manifold.
-
-*Cross-region coherence verification.* The hippocampal index and cortical content patterns must be coherently linked — reactivating the hippocampal index should, through the natural hippocampal-cortical projection, preferentially reinstate the cortical pattern. This coherence is verified by computing the expected cortical activation given the hippocampal index, using the hippocampal-cortical transfer function estimated from calibration data, and confirming that the predicted cortical activation has high similarity (>0.75) to the generated cortical pattern.
-
-**Phase 3 — Multi-Region Coordinated Injection (Day 4).** During awake quiet state with confirmed theta-gamma phase-amplitude coupling (PAC):
-
-*Step 1 — Hippocampal index injection.* Patterned microstimulation delivered to CA1/CA3 contacts encoding the hippocampal index, locked to the theta trough (180° ± 15°). Current: 20–60 μA, charge-balanced biphasic.
-
-*Step 2 — Temporal cortex semantic content stimulation.* Within the same theta cycle, patterned stimulation delivered to temporal cortex contacts encoding the semantic content, locked to the gamma burst nested within the theta cycle (phase 270° ± 30° — the gamma trough that follows the theta trough). Current: 30–80 μA, charge-balanced biphasic.
-
-*Step 3 — Read-during-write verification.* Recording channels interleaved with stimulation channels decode the evoked population activity in real time (<10 ms loop). The decoded pattern is compared to the target:
+with $\lambda$ selected by generalized cross-validation. The offset vector $\boldsymbol{\delta}$ is the mean pattern-difference vector between pairs of known facts at the target's semantic distance from its nearest neighbors. The target temporal-cortex pattern is
 
 ```math
-e_t = 1 - \text{sim}(\mathbf{r}_t, \mathbf{p}_{\text{target}})
+\mathbf{t} \;=\; \text{proj}_{\mathcal{M}_c}\!\left(\sum_{i=1}^{n} w_i \mathbf{c}_i + \boldsymbol{\delta}\right),
 ```
 
-where $e_t$ is the instantaneous error at time *t*, 
-```math
-\mathbf{r}_t
-```
-is the decoded real-time activity, and 
-```math
-\mathbf{p}_{\text{target}}
-```
-is the target pattern. If 
-$e_t$
-exceeds a threshold (0.30), stimulation amplitudes are adjusted for the next theta cycle according to:
+with $\text{proj}_{\mathcal{M}_c}$ the orthogonal projection onto the temporal-cortex manifold estimated via GPFA. This construction is auditable and cross-validatable rather than heuristic.
+
+*Cross-region coherence verification.* The hippocampal–cortical transfer function $T$ is estimated from calibration data. The expected cortical activation $T(\mathbf{h})$ produced by the hippocampal index $\mathbf{h}$ must satisfy $\text{sim}(T(\mathbf{h}), \mathbf{t}) > 0.75$, ensuring the index and content patterns are coherently linked.
+
+**Phase 3 — Multi-region coordinated injection (Day 4).** During awake quiet state with confirmed theta–gamma phase–amplitude coupling (Bhattacharya et al., 2022; Myrov et al., 2024):
+
+- *Hippocampal index injection.* CA1/CA3 contacts stimulated at the theta trough (180° ± 15°), 20–60 μA, charge-balanced biphasic.
+- *Temporal cortex semantic content stimulation.* Within the same theta cycle, temporal cortex contacts stimulated at the gamma burst nested within theta (phase 270° ± 30°), 30–80 μA, charge-balanced biphasic.
+- *Read-during-write closed-loop correction.* Non-stimulating recording channels decode the evoked population activity in real time (< 10 ms loop). The instantaneous error is
 
 ```math
-\Delta I_i = -\eta \frac{\partial e_t}{\partial I_i}
+e_t \;=\; 1 - \text{sim}(\mathbf{r}_t, \mathbf{p}_{\text{target}}),
 ```
 
-where $I_i$ is the current on channel *i* and $\eta$ is a learning rate (0.05). This closed-loop adjustment ensures the evoked pattern converges toward the target across successive theta cycles.
+and current updates follow the finite-difference rule of §3.10 using probe pulses delivered between epochs, replacing the analytic gradient with an empirical Jacobian.
 
-*Repetition.* Each injection epoch comprises 20 theta cycles with real-time adjustment. 5 epochs per target fact, spaced 15 minutes apart (STC window). 4 target facts injected across a single day, with 45-minute breaks between facts. Mild behavioral reward (juice) follows each epoch.
+Each target fact receives 5 epochs of 20 theta cycles, spaced 15 minutes apart. Four facts are injected across a single day, with 45-minute breaks between facts. Mild behavioral reward (juice) follows each epoch.
 
-**Phase 4 — Comprehensive Formation Verification (Days 4–11).**
+**Phase 4 — Comprehensive formation verification (Days 4–11).**
 
-*Immediate behavioral verification (Day 4, 1–2 hours post-injection):*
-- **Cued recall:** "What is the capital of Laos?" — scored as correct, partially correct, incorrect, or no response.
-- **Forced-choice recognition:** Target answer plus 3 plausible distractors from the same domain. Chance = 25%.
-- **Confidence rating:** 1–7 scale.
+*Behavioral.* Cued recall, forced-choice recognition (target plus 3 plausible distractors from the same domain; chance = 25%), and confidence rating at 1–2 h, 24 h, and 1 week.
 
-*Neural content decoding (Day 4, 2–4 hours post-injection):*
-- **Dual-region retrieval decoding.** During cued recall, activity is decoded from both hippocampal and temporal cortex sites. Hippocampal fidelity (cosine similarity between retrieval-evoked hippocampal pattern and injected index) and cortical fidelity (cosine similarity between retrieval-evoked cortical pattern and injected semantic pattern) are computed independently. Both must exceed 0.80 for the write to be classified as successful.
-- **Cortical reinstatement analysis.** High-gamma (70–150 Hz) power in temporal cortex during retrieval of written facts is compared to high-gamma power during retrieval of naturally known facts. Equivalent reinstatement patterns indicate that the written fact engages the same cortical retrieval mechanism as natural memories (Yaffe et al., 2017; Vaz et al., 2020).
+*Dual-region retrieval decoding.* Hippocampal and cortical fidelities are computed independently; both must exceed 0.80.
 
-*Semantic integration test (Day 4, 4–6 hours post-injection):*
-- **Semantic priming paradigm.** The written fact is used as a prime for a lexical decision task. If "The capital of Laos is Vientiane" was written, the word "Vientiane" is presented as a prime followed by a target word that is either semantically related to Laos/Southeast Asia (e.g., "MEKONG" — should show facilitation) or unrelated (e.g., "GLACIER" — no facilitation). Priming effect (reaction time difference between related and unrelated targets) is compared to priming effects produced by naturally known facts in the same domain.
+*Cortical reinstatement.* High-gamma (70–150 Hz) power in temporal cortex during written-fact retrieval is compared to high-gamma power during natural-fact retrieval (Yaffe et al., 2017; Vaz et al., 2020). Equivalent reinstatement indicates engagement of the natural retrieval pathway.
 
-The presence of a semantic priming effect is critical evidence of network integration. A written memory that produces recall but no priming would be an isolated trace — retrievable but not connected to the semantic network. A written memory that produces priming demonstrates that it has been incorporated into the participant's knowledge structure, generating spreading activation to related concepts, as predicted by models of semantic memory organization (Binder & Desai, 2011).
+*Semantic priming.* The written fact is used as a prime in a lexical decision task: a semantically related target (e.g., "MEKONG" for a Laos fact) vs. an unrelated target (e.g., "GLACIER"). The priming effect (related minus unrelated reaction time) is compared to the priming effect produced by naturally known facts in the same domain (Binder & Desai, 2011).
 
-*Neural replay monitoring (Days 4–5, during quiet rest):*
-- SWR content decoding during awake rest periods (NOT during sleep, per design specification). Replay events containing target fact content, identified by the content decoder, are quantified (Joo & Frank, 2018; Zhang et al., 2025). The presence of spontaneous replay for written content during wakefulness indicates hippocampal network incorporation.
+*SWR replay monitoring during awake rest.* Written-fact content in SWR events is quantified by the extended content decoder (Joo & Frank, 2018; Zhang et al., 2025; Liu et al., 2022), with pre-registered chance reference from pre-injection baseline.
 
-*24-hour and 1-week verification (Days 5 and 11):*
-- Repeat all behavioral tests (cued recall, forced-choice, confidence, semantic priming) and neural decoding at each timepoint. Track the trajectory of memory strength and semantic integration over time.
+*Interference monitoring.* Ten naturally known facts from the same domain are probed at each timepoint; fidelity within 0.05 of pre-injection is required.
 
-*Interference monitoring:*
-- At each timepoint, test retrieval of 10 naturally known facts from the same domain. Content fidelity must remain within 0.05 of pre-injection levels. This is particularly important for Experiment 3 because multi-region stimulation has greater potential for off-target effects.
-
-### 5.5 Control Conditions
-
-Within-participant crossover:
+### 5.5 Control conditions (within-participant crossover)
 
 | Condition | Content | Stimulation | Purpose |
 |-----------|---------|-------------|---------|
-| **Multi-region injection** | 4 target facts | Hippocampal + temporal cortex, coordinated | Primary experimental condition |
-| **Hippocampal-only injection** | 4 different target facts | Hippocampal only (no cortical stim) | Tests whether cortical co-stimulation adds value |
+| **Multi-region injection** | 4 target facts | Coordinated hippocampal + cortical | Primary |
+| **Hippocampal-only injection** | 4 different target facts | Hippocampal only | Tests whether cortical co-stimulation adds value |
 | **Sham** | 4 different target facts | No stimulation | Controls for exposure to question format |
-| **Naturally learned** | 4 facts from calibration | None (already known) | Positive control for decoder and priming measures |
+| **Naturally learned** | 4 calibration-phase facts | None (already known) | Positive control for decoder and priming |
 
-The hippocampal-only control is a key comparison: it tests whether the additional complexity of multi-region stimulation produces meaningfully better memories (faster consolidation, stronger semantic integration, higher cortical reinstatement) compared to writing only the hippocampal index and relying on natural consolidation to build the cortical trace.
+The hippocampal-only contrast addresses a key theoretical prediction: schema-primed consolidation (Tse et al., 2007, 2011) predicts that hippocampal-only injection should, given time, build the cortical trace via natural consolidation; multi-region injection should accelerate this process. A larger Day-4 cortical fidelity gap that closes by Day 11 would support this acceleration hypothesis.
 
-### 5.6 Expected Results
+### 5.6 Expected results
 
-If successful: (1) Cued recall accuracy for multi-region injection targets will significantly exceed chance, and exceed hippocampal-only injection performance. (2) Neural content decoding will show high fidelity at both hippocampal and cortical sites for multi-region injection, but cortical fidelity will be lower for hippocampal-only injection (since cortical trace must build through natural consolidation). (3) Semantic priming effects will be present for multi-region injection targets, potentially absent or weaker for hippocampal-only targets, and absent for sham. (4) Cortical high-gamma reinstatement for multi-region injection will approach the level observed for naturally known facts.
-
-The most informative outcome is the comparison between multi-region and hippocampal-only injection. If multi-region injection produces significantly stronger semantic integration (priming, cortical reinstatement) at the immediate timepoint but the difference diminishes by Day 11 (as natural consolidation catches up), this would demonstrate that multi-region stimulation accelerates a process that hippocampal-only injection can also achieve given time — analogous to schema-primed consolidation (Tse et al., 2007, 2011).
+Under the pre-registered rules in §5.2, a positive result requires all four signatures at the multi-region condition and a meaningful separation from hippocampal-only, sham, and interference metrics. A null on any signature falsifies the claim for the tested regime. Partial results are reported with Bayesian credible intervals.
 
 ---
 
 ## 6. Discussion
 
-### 6.1 What the Three Experiments Collectively Prove
+### 6.1 What the three experiments collectively prove about obstacles (a)–(c)
 
-The experimental pipeline presented here addresses the three critical gaps preventing artificial memory creation in humans:
+The pipeline addresses obstacles (a)–(c) sequentially and with increasing stringency. **Obstacle (a) — the extrapolation gap** — is attacked directly in each Phase 0 validation, which converts the prior $P(\text{MIMO fidelity})$ into a measured posterior before any de novo write is attempted. Experiment 1's Phase 0 estimates the factor in mouse; Experiments 2 and 3 produce per-participant estimates in human patients. **Obstacle (b) — content-specificity of electrical microstimulation** — is addressed through parameter choices grounded in existing empirical and safety literature (Titiz et al., 2017; Hughes et al., 2026; Jacobs et al., 2016), explicit inhibition-respecting nested contrasts (§3.7), and manifold- plus orthogonality-constrained pattern generation (§3.6, §4.3, §5.4). Contemporary high-density flexible electrodes (Viana et al., 2024; Ye et al., 2025; Jung et al., 2025; Fang et al., 2026; Hettick et al., 2025) provide the hardware substrate for the per-channel charge densities and spatial selectivity the protocol requires. **Obstacle (c) — the verification gap** — is addressed through the five-layer convergent-evidence structure of §2.11: pre-injection absence, post-injection behavior, retrieval pattern match, SWR replay incorporation, and network integration. No single layer is decisive; convergence across all five sharply restricts non-memory explanations.
 
-Experiment 1 closes the **translation gap** by demonstrating that patterned electrical microstimulation — without optogenetics — can create a de novo spatial-associative memory in mice. Every component used (electrode arrays, MIMO modeling, patterned stimulation, VTA co-stimulation) has a direct human analog.
+### 6.2 Feasibility ranking
 
-Experiment 2 closes the **content specificity gap** by demonstrating that specific, arbitrary informational content (novel word-image associations) can be written into the human hippocampus, with pre-injection baseline proving the memory did not exist before. This goes beyond fear conditioning to writing structured informational content.
+On the basis of the neuroscience foundations reviewed and the experimental designs proposed, memory types rank as follows for current-generation feasibility:
 
-Experiment 3 closes the **verification gap** and advances the technical frontier by demonstrating multi-region coordinated writing with real-time closed-loop verification, semantic network integration testing, and cortical reinstatement measurement. The semantic priming test provides particularly strong evidence — it demonstrates not merely that the memory was formed, but that it was incorporated into the participant's existing knowledge structure.
+1. **Associative memory (most achievable).** Simple paired associations exploit CA3 autoassociative dynamics (Watson et al., 2024; Le Duigou et al., 2014) and can be written as MIMO-derived CA1 codes (Hampson et al., 2018). Experiments 1 and 2 target this level.
+2. **Semantic memory (achievable with multi-region approaches).** Semantic facts require both a hippocampal index and a cortical content representation; schema-primed consolidation accelerates the cortical build (Tse et al., 2007, 2011). Non-invasive complements are emerging: transcranial focused ultrasound over the ventromedial anterior temporal lobe enhanced semantic task performance by modulating brain morphology, neurochemistry, and neural dynamics (Jung et al., 2026), and temporal interference stimulation has achieved focal hippocampal targeting non-invasively (Violante et al., 2023, cited via the broader neuromodulation literature included in References.md). Transcutaneous vagus nerve stimulation has comparatively modest effects on associative memory (Griffiths et al., 2026). Experiment 3 targets this level using invasive stimulation for maximal precision.
+3. **Episodic memory (longer-term objective).** Episodic memory requires multi-feature hippocampal indexing, theta-phase sequence coding, multi-modal sensory binding, and emotional valence via amygdala–hippocampal coordination. Phase precession must be artificially induced for temporal order (Skaggs et al., 1996; Qasim et al., 2021). The framework here informs but does not solve this level.
 
-### 6.2 Feasibility Assessment: Which Memory Types Are Most Achievable?
+### 6.3 Clinical implications
 
-Based on the neuroscience foundations reviewed and the experimental designs proposed, memory types can be ranked by current feasibility for artificial creation:
+**Prosthetic memory for hippocampal damage.** Patients with bilateral hippocampal damage following encephalitis, anoxia, or surgical resection lose the capacity to form new declarative memories. A memory-writing system could artificially perform the encoding that the damaged hippocampus cannot; the MIMO framework was originally designed to replace damaged hippocampal circuitry (Berger et al., 2011; Hampson et al., 2018; Roeder et al., 2024). Closed-loop systems that adapt in real time are an active engineering frontier (Lampert et al., 2025; Ali et al., 2024; Belkacem et al., 2023; Ren et al., 2026).
 
-**1. Associative memory (most achievable).** Simple paired associations (A→B) require writing a Hebbian link between two existing representations. CA3 autoassociative dynamics can be exploited for partial-pattern writing (Watson et al., 2024). The MIMO framework already demonstrates that associative codes can be modeled and delivered electrically (Hampson et al., 2018). Experiments 1 and 2 directly target this level.
+**Accelerated learning.** Schema-primed semantic writing (Experiment 3) could compress the acquisition of structured knowledge — languages, technical domains, medical training — by writing hippocampal indices and cortical content patterns that integrate with existing schemas.
 
-**2. Semantic memory (achievable with multi-region approaches).** Semantic facts require writing both a hippocampal index and a cortical content representation. Schema-primed consolidation offers a shortcut when the content fits within an existing knowledge framework (Tse et al., 2007, 2011). Non-invasive approaches show promise: transcranial focused ultrasound targeting the ventromedial anterior temporal lobe has enhanced semantic task performance by modulating brain morphology, neurochemistry, and neural dynamics (Jung et al., 2026), and temporal interference stimulation has achieved focal hippocampal targeting non-invasively (Violante et al., 2023). Experiment 3 targets this level using invasive approaches for maximal precision. The key advance needed is reliable semantic pattern generation — extrapolating cortical representations from known-fact neighborhoods to novel facts.
+**Memory editing for PTSD.** Reconsolidation-based editing — reactivating an existing traumatic memory to render it labile, then injecting modified content during the reconsolidation window — offers a potential therapeutic avenue that modifies an existing trace rather than creating one de novo (extended from the reconsolidation literature discussed throughout the engram studies cited above).
 
-**3. Episodic memory (longer-term objective).** Rich episodic memories require multi-feature hippocampal index + theta-phase sequence coding + multi-modal sensory binding + emotional valence via amygdala-hippocampal coordination. Phase precession must be artificially induced to encode temporal order (O'Keefe & Recce, 1993; Skaggs et al., 1996). No current technology achieves the required combination of multi-region, temporally precise, manifold-constrained stimulation with dendritic-scale resolution. Episodic memory writing remains speculative but is informed by the framework established here.
+### 6.4 Neuroethics
 
-### 6.3 Clinical Implications
-
-**Prosthetic memory for hippocampal damage.** Patients with bilateral hippocampal damage (e.g., following encephalitis, anoxia, or surgical resection for epilepsy) lose the ability to form new declarative memories. A memory writing system could restore this capacity by artificially performing the encoding function that the damaged hippocampus can no longer execute. The MIMO framework is well-suited to this application, as it was originally designed to replace damaged hippocampal circuitry (Berger et al., 2011; Hampson et al., 2018).
-
-**Accelerated learning.** Schema-primed semantic memory writing (Experiment 3) could dramatically accelerate the acquisition of structured knowledge — languages, technical domains, medical training — by writing hippocampal index codes and cortical content patterns that integrate with existing schemas.
-
-**Memory modification for PTSD.** Reconsolidation-based editing — reactivating an existing traumatic memory to render it labile, then injecting modified content during the reconsolidation window — offers a potential therapeutic avenue. This approach modifies an existing trace rather than creating one de novo, exploiting the finding that retrieved memories become transiently protein synthesis-dependent (Nader et al., 2000).
-
-### 6.4 Ethical Considerations
-
-Artificial memory creation raises profound ethical questions that must be addressed alongside technical development (Gordon et al., 2024; Goering et al., 2021). Memory authenticity — whether an artificial memory feels subjectively indistinguishable from a natural one — challenges the participant's sense of self and autobiographical integrity (González-Márquez, 2023). Undesired side effects from memory modulation can lead to identity harms, disrupting the coherence of self-narratives and impinging on authenticity (González-Márquez, 2023). The experiments proposed here include verification protocols that can detect artificial memories, but participants may not always have access to these tools.
-
-Informed consent is complicated by the fact that the written memory may itself alter the participant's preferences or beliefs in ways they cannot anticipate before the procedure (Gordon et al., 2024). Cognitive liberty — the right to freedom from non-consensual mental manipulation — must be protected through regulatory frameworks that prohibit coercive memory writing (Sententia, 2004; Goering et al., 2021). The development of BCIs capable of modifying memory raises concerns about neuroprivacy, legal responsibility, and the potential for exacerbating socioeconomic inequalities through unequal access to cognitive enhancement technologies (Gordon et al., 2024; Lavazza et al., 2025). These ethical dimensions require ongoing engagement with neuroethics communities and the development of internationally coordinated guidelines (Goering et al., 2021) as the technology progresses from laboratory demonstration to potential clinical application.
+Artificial memory creation raises ethical questions that must be addressed alongside technical development (Gordon et al., 2024; Goering et al., 2021). Memory authenticity — whether an artificial memory feels subjectively indistinguishable from a natural one — challenges the participant's sense of self and autobiographical integrity (González-Márquez, 2023). Undesired side effects from memory modulation can produce identity harms, disrupting self-narrative coherence and impinging on authenticity (González-Márquez, 2023). Informed consent is complicated because a written memory may alter the participant's preferences or beliefs in ways they cannot anticipate prior to the procedure (Gordon et al., 2024). Cognitive liberty — freedom from non-consensual mental manipulation — must be protected through regulatory frameworks that prohibit coercive memory writing (Sententia, 2004; Goering et al., 2021). BCIs with memory-modulation capabilities raise additional concerns about neuroprivacy, legal responsibility, and socioeconomic inequality in access to cognitive enhancement (Gordon et al., 2024; Lavazza et al., 2025). Ongoing engagement with neuroethics communities and internationally coordinated guidelines (Goering et al., 2021) should track the technology from laboratory demonstration to any possible clinical deployment.
 
 ### 6.5 Limitations
 
-Several limitations constrain the proposed experiments. First, all human experiments are conducted in epilepsy surgery patients — a population with known hippocampal and temporal lobe pathology — which may limit generalizability. Second, the MIMO model captures CA3→CA1 transformations but may not fully represent the complexity of memory encoding in intact circuits; the extrapolation gap analysis (Section 2.9) quantifies this uncertainty. Third, electrical stimulation lacks the cell-type specificity of optogenetics, meaning that injection activates both excitatory and inhibitory neurons via both direct and polysynaptic pathways (Hughes et al., 2026) — the resulting memory may be noisier than one written with optogenetic precision. Fourth, the STC window constrains the number of memories that can be written per session (Frey & Morris, 1997; Chong et al., 2025). Fifth, long-term stability of written memories beyond the electrode monitoring period hasn't been assessed in human experiments.
+Several limitations constrain the proposed experiments. (i) All human work is conducted in epilepsy surgery patients — a population with known medial temporal pathology — which may limit generalizability. (ii) The MIMO model captures CA3→CA1 transformations but may not fully represent memory encoding in intact circuits; the Bayesian risk budget of §2.9 makes this uncertainty explicit. (iii) Electrical stimulation lacks the cell-type specificity of optogenetics (Hughes et al., 2026) and activates inhibitory neurons non-selectively; the nested inhibition-control in §3.7 partially addresses this but does not eliminate it. (iv) The STC window constrains the number of memories that can be written per session (Frey & Morris, 1997; Chong et al., 2025). (v) Long-term stability of written memories beyond the intracranial monitoring period cannot be assessed in current human experiments; whether artificially created engrams undergo the same epigenetic stabilization as natural memories (Coda et al., 2025) is an open empirical question.
 
 ---
 
 ## 7. Open Questions
 
-Several unresolved scientific questions will shape the next generation of artificial memory creation research:
+1. **Human hippocampal manifold dimensionality.** Rodent and primate hippocampal activity occupies low-dimensional manifolds (Gallego et al., 2017, 2020), but participant-specific human estimates are sparse and set the theoretical upper bound on the number of distinct writable memories. High-density intracranial recordings in epilepsy monitoring patients can directly address this (Sadtler et al., 2014; Karpowicz et al., 2025).
 
-1. **Hippocampal manifold dimensionality in humans.** Estimated at 20–50 dimensions in rodent CA1, but unknown in human hippocampus. This sets the theoretical upper bound on the number of distinct writable memories and can be mapped in epilepsy monitoring patients with high-density recordings. The manifold structure fundamentally constrains BCI learning (Sadtler et al., 2014).
+2. **Minimum viable partial pattern.** CA3 pattern completion from partial cues is a hallmark of autoassociative circuits (Le Duigou et al., 2014; Watson et al., 2024), but the minimum seed fraction required for artificial writing has not been empirically determined. Rodent parametric variation of seed size is the natural next step.
 
-2. **Minimum viable partial pattern.** CA3 pattern completion from approximately 20–30% of the pattern has been estimated from connectivity studies (Watson et al., 2024), but the minimum seed pattern for artificial writing has not been empirically determined. Rodent experiments with parametric variation of seed pattern size can address this.
+3. **Long-term manifold stability under repeated writing.** Manifolds are stable over months under natural conditions (Gallego et al., 2020), but stability under repeated artificial perturbation is unknown. Chronic longitudinal tracking during repeated injection sessions would address this.
 
-3. **Long-term manifold stability under repeated writing.** Neural manifolds are stable over months under natural conditions (Gallego et al., 2020), but whether they remain stable under repeated artificial perturbation is unknown. Chronic animal studies with longitudinal manifold tracking during repeated injection sessions are needed.
+4. **Schema compatibility assessment.** Experiment 3 requires determining whether a target fact fits an existing cortical schema. Current practice is manual; representational similarity analysis (Nili et al., 2014) can automate this by comparing the representational geometry of known facts.
 
-4. **Schema compatibility assessment.** Experiment 3 requires determining whether a target fact fits within an existing cortical schema. Currently, this requires domain knowledge and manual assessment. RSA-based approaches could automate schema matching by comparing the representational geometry of known facts to identify schema-compatible gaps (Nili et al., 2014).
+5. **Inhibitory-landscape requirements for electrical writing.** Optogenetic approaches selectively target VIP+, SST+, and PV+ interneurons. Electrical stimulation does not; it activates inhibitory neurons non-selectively (Hughes et al., 2026), and inhibitory plasticity supports replay generalization (Liao et al., 2024). Approximating the required inhibitory sculpting with electrical stimulation — or developing cell-type-selective electrical approaches — is a key open problem.
 
-5. **Inhibitory landscape requirements for electrical writing.** Optogenetic approaches can selectively target VIP+, SST+, and PV+ interneuron populations to engineer the inhibitory context required for engram formation. Electrical stimulation activates all nearby neurons indiscriminately (Hughes et al., 2026). Understanding how to approximate the required inhibitory sculpting with electrical stimulation — or developing cell-type-selective electrical approaches — is a key engineering challenge.
+6. **Astrocyte contributions to artificial engrams.** Learning-associated astrocyte ensembles are required for natural recall (Williamson et al., 2025) and engram reactivation recruits coordinated neuronal–astrocytic calcium dynamics (Suthard et al., 2024). Whether artificial injection engages co-engram astrocytes, and whether failure to do so limits written-memory durability, is unknown.
 
-6. **Astrocyte contribution to artificial engrams.** Williamson et al. (2025) demonstrated that learning-associated astrocyte ensembles are required for natural memory recall. Engram reactivation recruits coordinated neuronal-astrocytic calcium dynamics that mirror natural recall (Suthard et al., 2024). Whether artificial injection engages astrocyte co-engrams, and whether failure to do so limits the durability of written memories, is unknown.
+7. **Epigenetic stability of artificial traces.** Natural memory expression is regulated by locus-specific epigenetic dynamics (Coda et al., 2025). Whether artificial engrams establish the same epigenetic signatures, and whether their stability trajectories parallel those of natural memories, requires longitudinal study.
 
-7. **Epigenetic stability of artificial traces.** Natural memory expression is regulated by locus-specific epigenetic dynamics (Coda et al., 2025). Whether artificially created engrams establish the same epigenetic signatures, and whether their stability over time follows the same trajectory as natural memories, is an important question for long-term durability.
+8. **Distributed engram completion.** Engrams for a single memory span more than one hundred brain regions (Roy et al., 2022). Writing to hippocampus and temporal cortex alone (Experiment 3) leaves most of the distributed engram unwritten; whether hippocampal–cortical seeding is sufficient to recruit completion of the distributed engram via natural consolidation is an open empirical question.
 
-8. **Distributed engram completion.** Engrams for a single memory span at least 117 brain regions (Roy et al., 2022). Writing to only hippocampus and temporal cortex (Experiment 3) leaves the vast majority of the distributed engram complex unwritten. Whether hippocampal-cortical writing is sufficient to seed completion of the full distributed engram through natural consolidation processes remains an open empirical question.
-
-9. **Replay selectivity for artificial traces.** Awake SWRs selectively tag experiences for later sleep replay (Yang et al., 2024), and this tagging may depend on novelty or behavioral relevance (Widloski et al., 2025). Whether artificially injected patterns receive the same tagging — or whether the absence of a genuine behavioral context prevents tagging — will determine whether written memories undergo natural consolidation.
+9. **Replay selectivity for artificial traces.** Awake ripples selectively tag experiences for later sleep replay (Yang et al., 2024), and tagging may depend on novelty and behavioral relevance (Widloski & Foster, 2025). Whether artificial patterns receive the same tagging — or whether the absence of a genuine behavioral context prevents it — will determine whether written memories undergo natural consolidation.
 
 ---
 
@@ -1766,4 +1680,3 @@ Several unresolved scientific questions will shape the next generation of artifi
 - Zhang, J., Ou, J., & Liu, Y. (2025). Replay and ripples in humans. Annual Review of Neuroscience, 48(1), 65-84.
 
 - Zaccaria, C., Malkoç, A., Auslender, I., Heydari, Y., Canossa, M., Vignoli, B., & Pavesi, L. (2026). Investigation of synaptic connectivity in functional in vitro neuronal assemblies. Cell Reports Methods, 6(1).
-
