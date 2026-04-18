@@ -2042,7 +2042,7 @@ The primary obstacle requiring resolution before previous Experiment 2 is initia
 
 - Audrain, S., & McAndrews, M. P. (2022). Schemas provide a scaffold for neocortical integration of new memories over time. *Nature Communications*, 13(1), 5795. https://doi.org/10.1038/s41467-022-33517-0
 
-- Baraduc, P., Duhamel, J.-R., & Wirth, S. (2021). Primate memory, from simple associations to abstract concepts. *Comptes Rendus Biologies*, 344(3), 205–220. https://doi.org/10.5802/crbiol.68
+- Baraduc, P., & Wirth, S. (2021). Primate memory, from simple associations to abstract concepts. Comptes rendus biologies, 343(3), 235–246. https://doi.org/10.5802/crbiol.33
 
 - Bein, O., Niv, Y. (2025). Schemas, reinforcement learning and the medial prefrontal cortex. *Nature Reviews Neuroscience*, 26(3), 141–157. https://doi.org/10.1038/s41583-024-00893-z
 
@@ -2054,17 +2054,17 @@ The primary obstacle requiring resolution before previous Experiment 2 is initia
 
 - Dahl, M. J., Mather, M., Düzel, S., Bodammer, N. C., Lindenberger, U., Kühn, S., & Werkle-Bergner, M. (2019). Rostral locus coeruleus integrity is associated with better memory performance in older adults. *Nature Human Behaviour*, 3(11), 1203–1214. https://doi.org/10.1038/s41562-019-0715-2
 
-- Ding, H., Fan, S., Rugg, M. D., & Ko, P. C. (2025). Pupil fluctuations signal intentional forgetting of natural scenes. *Psychophysiology*, 62(4), e14520. https://doi.org/10.1111/psyp.14520
+- Ding, H., Whitlock, J., & Sahakyan, L. (2025). Pupil Fluctuations Signal Intentional Forgetting of Natural Scenes. Psychophysiology, 62(8), e70119. https://doi.org/10.1111/psyp.70119
 
 - Duszkiewicz, A. J., McNamara, C. G., Takeuchi, T., & Genzel, L. (2019). Novelty and dopaminergic modulation of memory persistence: A tale of two systems. *Trends in Neurosciences*, 42(2), 102–114. https://doi.org/10.1016/j.tins.2018.10.002
 
-- Dutta, S., Ackermann, E., & Kemere, C. (2019). Analysis of an open source, closed-loop, realtime system for hippocampal sharp-wave ripple disruption. *Journal of Neural Engineering*, 16(1), 016009. https://doi.org/10.1088/1741-2552/aaefb1
+- Dutta, S., Ackermann, E., & Kemere, C. (2019). Analysis of an open source, closed-loop, realtime system for hippocampal sharp-wave ripple disruption. Journal of neural engineering, 16(1), 016009. https://doi.org/10.1088/1741-2552/aae90e
 
 - Elliott, B. L., D'Ardenne, K., Mukherjee, P., Schweitzer, J. B., & McClure, S. M. (2022). Midbrain–hippocampus structural connectivity selectively predicts motivated memory encoding. *The Journal of Neuroscience*, 42(47), 8996–9010. https://doi.org/10.1523/JNEUROSCI.0945-22.2022
 
-- Forcelli, P. A., West, E. A., Murnen, A. T., & Malkova, L. (2024). Hippocampal lesions impair non-navigational spatial memory in macaques. *Hippocampus*, 34(1), 56–68. https://doi.org/10.1002/hipo.23589
+- Forcelli, P. A., LaFlamme, E. M., Waguespack, H. F., Saunders, R. C., & Malkova, L. (2024). Hippocampal lesions impair non-navigational spatial memory in macaques. Hippocampus, 34(5), 261–275. https://doi.org/10.1002/hipo.23603
 
-- Garwood, I. C., Major, A. J., Antonini, M. J., Burton, J., Hahn, B., Park, Y. J., Sahasrabudhe, A., Taylor, A., Sahin, M., Graybiel, A. M., Desimone, R., Miller, E. K., & Anikeeva, P. (2022). Multifunctional fibers enable modulation of cortical and deep brain activity during cognitive behavior in macaques. *Science Advances*, 8(49), eabq1073. https://doi.org/10.1126/sciadv.abq1073
+- Garwood, I. C., Major, A. J., Antonini, M. J., Correa, J., Lee, Y., Sahasrabudhe, A., Mahnke, M. K., Miller, E. K., Brown, E. N., & Anikeeva, P. (2023). Multifunctional fibers enable modulation of cortical and deep brain activity during cognitive behavior in macaques. Science advances, 9(40), eadh0974. https://doi.org/10.1126/sciadv.adh0974
 
 - Geva-Sagiv, M., Mankin, E. A., Eliashiv, D., Epstein, S., Cherry, N., Kalender, G., Tchemodanov, N., Nir, Y., & Fried, I. (2023). Augmenting hippocampal–prefrontal neuronal synchrony during sleep enhances memory consolidation in humans. *Nature Neuroscience*, 26(6), 1100–1110. https://doi.org/10.1038/s41593-023-01324-5
 
