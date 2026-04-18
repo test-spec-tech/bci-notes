@@ -2027,7 +2027,7 @@ The bridge experiments involve three human studies (Experiments 1.5C, 2.5A, 2.5B
 
 ### 9.5 Priority of bridges
 
-Under instructions4.md rule 14, the primary obstacle requiring resolution before previous Experiment 2 is initiated is operationalized here as the **NHP species-gap** (Experiment 1.5A), because this is the conventional regulatorily expected intermediate. Experiment 1.5B (SWR-triggered mouse) and Experiment 1.5C (human LC/novelty pilot) are co-dependent and can proceed in parallel with Experiment 1.5A, because each updates a different factor of the $P(\text{success})$ product. Experiments 2.5A and 2.5B are gated on Experiment 2 (previous) succeeding at its single-pair objective; until a single pair can be written and verified, the multi-pair and schema-acceleration experiments cannot be meaningfully performed.
+The primary obstacle requiring resolution before previous Experiment 2 is initiated is operationalized here as the **NHP species-gap** (Experiment 1.5A), because this is the conventional regulatorily expected intermediate. Experiment 1.5B (SWR-triggered mouse) and Experiment 1.5C (human LC/novelty pilot) are co-dependent and can proceed in parallel with Experiment 1.5A, because each updates a different factor of the $P(\text{success})$ product. Experiments 2.5A and 2.5B are gated on Experiment 2 (previous) succeeding at its single-pair objective; until a single pair can be written and verified, the multi-pair and schema-acceleration experiments cannot be meaningfully performed.
 
 ---
 
