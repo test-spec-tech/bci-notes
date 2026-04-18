@@ -1684,3 +1684,464 @@ Several limitations constrain the proposed experiments. (i) All human work is co
 - Zhang, J., Ou, J., & Liu, Y. (2025). Replay and ripples in humans. Annual Review of Neuroscience, 48(1), 65-84.
 
 - Zaccaria, C., Malkoç, A., Auslender, I., Heydari, Y., Canossa, M., Vignoli, B., & Pavesi, L. (2026). Investigation of synaptic connectivity in functional in vitro neuronal assemblies. Cell Reports Methods, 6(1).
+
+# Gap Bridging Experiments (verify)
+
+---
+
+## Abstract
+
+The translational pipeline proposed in previous experiments advances from mouse spatial–associative writing (Experiment 1), through human word–image associative writing (Experiment 2), to human multi-region semantic writing (Experiment 3). Between these steps lie five concrete, unresolved sub-problems that this document addresses with five new experiments. Three bridge experiments (1.5A–1.5C) de-risk the mouse→human transition: a nonhuman primate (NHP) de novo conditioned place preference experiment using Behnke-Fried-style hybrid macro/micro depth electrodes matching human stereoelectroencephalography (SEEG) geometry (Smeijers et al., 2024); a mouse closed-loop injection triggered on endogenous sharp-wave ripples (SWRs) that tests whether writing during the brain's spontaneous replay state lowers required charge and increases content-specificity, building on closed-loop SWR technology with 15–66 ms detection latency (Sethi et al., 2014; Dutta et al., 2018); and a human epilepsy monitoring pilot that empirically validates locus coeruleus (LC) and novelty-based co-engagement as a substitute for ventral tegmental area (VTA) co-stimulation, exploiting LC–hippocampal dopaminergic co-release (Takeuchi et al., 2016; Kempadoo et al., 2016). Two further bridge experiments (2.5A, 2.5B) de-risk the human associative→semantic transition: a sequential multi-pair writing experiment with schema-emergence readout via representational similarity analysis (Bein et al., 2025; Audrain et al., 2022); and a hippocampal-only schema-accelerated consolidation experiment that isolates whether single-region injection recruits cortical traces within the 48-hour schema-accelerated window (Tse et al., 2007, 2011; Hasan et al., 2019). All five bridges carry pre-registered decision rules, nested inhibition-respecting controls, and multi-modal convergent verification matching the previous pipeline's five-layer evidentiary structure. Collectively, the bridges reduce the Bayesian risk on the conditionally independent factor $P(\text{MIMO fidelity})$ and $P(\text{replay})$ before any de novo human write is attempted, improve the Experiment 1 → Experiment 2 transition, and provide the regulatory, biophysical, and neuromodulatory evidence required for responsible clinical translation.
+
+---
+
+## 1. Introduction
+
+Previous experiments proposed a three-experiment translational pipeline whose primary hypothesis is that manifold-constrained, MIMO-derived patterned microstimulation can create de novo hippocampal or hippocampal–cortical memories verifiable by pre-registered behavioral, retrieval-pattern, and SWR-replay signatures. The pipeline addresses three obstacles explicitly — the extrapolation gap (obstacle a), the content-specificity gap (obstacle b), and the verification gap (obstacle c) — and converts the uncertain Bayesian prior on $P(\text{MIMO fidelity})$ into a measured posterior via Phase 0 validation in each experiment. However, a careful audit of the Experiment 1 → Experiment 2 transition, and of the Experiment 2 → Experiment 3 transition, reveals five concrete sub-problems that sit between the pipeline's published steps and that require additional experimental resolution before the pipeline's human experiments can be conducted (Gordon et al., 2024).
+
+**Gap 1: Species-jump without NHP intermediate.** Experiment 1 uses mouse Neuropixels 2.0 probes (Ye et al., 2025); Experiment 2 uses human hybrid macro/micro depth electrodes with a fundamentally different geometry (Smeijers et al., 2024). No prior work has demonstrated MIMO-derived de novo content writing in primate hippocampus at electrode geometries compatible with human SEEG, although large-scale primate hippocampal recording and modulation are now routine with Neuropixels 1.0 NHP probes and flexible fiber neurotechnologies (Trautmann et al., 2025; Garwood et al., 2022).
+
+**Gap 2: Injection during quiet wake, not during endogenous SWRs.** Experiment 1 delivers stimulation during quiet wakefulness rather than during spontaneous SWRs. Emerging closed-loop evidence indicates that large SWRs — not all SWRs — selectively tag memories for later consolidation (Yang et al., 2024; Robinson et al., 2026), that SWR-triggered stimulation can both improve and impair memory depending on target and timing (Sierra et al., 2023; Aleman-Zapata et al., 2021), and that real-time ripple detection is achievable at latencies as short as 15–20 ms (Sethi et al., 2014; Dutta et al., 2018; Reith et al., 2025).
+
+**Gap 3: Juice-reward substitution for VTA co-stimulation is untested in humans.** Experiment 2 substitutes juice reward for the VTA dopaminergic co-stimulation used in Experiment 1. Human intracranial work has shown that substantia nigra/VTA dopaminergic neurons fire to novelty in a memory-predictive manner (Kaminski et al., 2018), that action engagement drives noradrenergic memory enhancement (Yebra et al., 2017), and that LC activity scales with arousal and pupil dilation (Murphy et al., 2014; Dahl et al., 2019; Hämmerer et al., 2018), but the substitution has not been empirically validated in an intracranial write experiment.
+
+**Gap 4: Scaling from one associative pair to a miniature schema.** Experiment 2 writes a single word–image pair; Experiment 3 writes a semantic fact embedded in a cortical network. Between these lies the problem of writing multiple related pairs — testing whether sequential writes interfere and whether the neural geometry of the written set begins to mirror a naturally learned schema, which is the foundation for any later semantic writing attempt (Gilboa & Marlatte, 2017; Zhou et al., 2020; Audrain et al., 2022; Bein et al., 2025).
+
+**Gap 5: Necessity versus acceleration for multi-region injection.** Experiment 3 injects in both hippocampus and lateral temporal cortex. Tse et al. (2007, 2011) showed that, with a pre-existing cortical schema, hippocampal-only learning can become cortically represented within 48 hours. If the same holds under artificial writing, multi-region injection would be an acceleration of natural schema-accelerated consolidation rather than a necessity, a claim that has not yet been tested experimentally (Sommer et al., 2022; Hasan et al., 2019; Spens & Burgess, 2024).
+
+This document proposes five new experiments that each target one gap, with pre-registered decision rules that either advance, falsify, or update the Bayesian priors of §2.9 of the previous experiments. The five bridges share three methodological commitments inherited from previous experiments: manifold-constrained pattern generation with empirically derived orthogonality thresholds; finite-difference Jacobian closed-loop correction (§3.10 of previous); and five-layer convergent-evidence verification (§2.11 of previous). The bridges add three new commitments: explicit replication of human electrode geometry in the NHP bridge, endogenous-state-triggered rather than epoch-based injection timing in the SWR-triggered mouse bridge, and non-pharmacological neuromodulatory substitution validated before any clinical de novo writing attempt.
+
+---
+
+## 2. Background and Theoretical Framework
+
+### 2.1 Primate hippocampal circuitry and electrode geometry compatible with human depth recording
+
+Primate hippocampal depth recording has advanced along two complementary axes. Large-scale, multi-region acute recording is enabled by Neuropixels 1.0 NHP probes, which distribute 4,416 recording sites along a 45-mm shank and allow simultaneous sampling from thousands of neurons across hippocampal, prefrontal, and sensory regions in the macaque (Trautmann et al., 2025). Chronic and semi-chronic modulation is supported by multifunctional fibers combining recording, stimulation, and local pharmacological infusion in macaque cortical and subcortical structures, including putamen and deep prefrontal zones (Garwood et al., 2022). At the human depth-electrode scale, Behnke-Fried (BF) hybrid electrodes carry nine 40-μm platinum–iridium microwires through the tip of a macro-contact depth electrode, enabling simultaneous LFP, single-unit recording, and microstimulation in medial temporal lobe targets (Smeijers et al., 2024). The per-electrode complication rate for hybrid depth electrodes used for seizure localization and single-unit recording is approximately 2.3%, with no reported infections or deaths in a cohort of 555 implanted electrodes (Smeijers et al., 2024). Primate hippocampal neurons encode conjunctive position, object, and task-context information during virtual navigation (Gulli et al., 2019) as well as during free navigation (Xu et al., 2024), and show schema-like representations for problem structure that generalize across environments (Baraduc et al., 2021). Meta-analytic aggregation of 26 primate lesion studies confirms that the primate hippocampus is selectively required for location memory (Waters et al., 2023), and recent work demonstrates that primate hippocampal lesions impair even non-navigational spatial memory tasks (Forcelli et al., 2024). These results collectively justify NHP as the appropriate intermediate for testing MIMO-derived write paradigms at geometries translatable to human intracranial hardware.
+
+### 2.2 Real-time SWR detection and ripple-triggered stimulation
+
+Sharp-wave ripples (SWRs) — approximately 100-ms bursts of 150–250 Hz oscillation in hippocampal local field potential — support memory consolidation and retrieval (Buzsáki, 2015). Closed-loop perturbation of SWRs has been enabled by progressive reductions in detection and actuation latency. Early real-time SWR algorithms achieved 10–20 ms detection on synthetic data (Sethi et al., 2014). Open-source closed-loop systems now achieve end-to-end latencies of 7.5–13.8 ms (USB) or 1.35–2.6 ms (ethernet) for data acquisition and 20–66 ms algorithmic latency at below-10-per-minute false-positive rates (Dutta et al., 2018). Closed-loop ripple-interruption methods in rats (Aleman-Zapata et al., 2021), in primates via fornix stimulation (Talakoub et al., 2016), and closed-loop SWR-boost in mice demonstrating enhanced hippocampal–prefrontal reactivation (Robinson et al., 2026) jointly establish that SWR-triggered stimulation is a tractable intervention. Triggered neuromodulation of the medial forebrain bundle on SWR detection in rats produces lasting modifications in fear-extinction circuits (Sierra et al., 2023), and closed-loop SWR-triggered interventions have systematic differential effects by target region, timing, and content (Reith et al., 2025). In humans, closed-loop deep brain stimulation synchronized to endogenous medial temporal slow waves during sleep enhanced MTL ripple coupling and improved declarative recognition memory, whereas identical stimulation without precise time-locking did not (Geva-Sagiv et al., 2023). Critically, ripple prolongation but not random ripple induction improves memory (Fernández-Ruiz et al., 2019), and stimulus-specific content replay during human sleep SWRs supports memory consolidation selectively for remembered items (Zhang et al., 2018).
+
+### 2.3 The locus coeruleus–hippocampus plasticity axis and non-invasive proxies
+
+The LC and VTA were traditionally considered parallel but independent sources of hippocampal catecholaminergic input, but more recent anatomical and optogenetic evidence shows that a substantial fraction of hippocampal dopamine originates from LC tyrosine-hydroxylase-positive (TH+) neurons rather than from VTA (Takeuchi et al., 2016; Kempadoo et al., 2016). LC TH+ neurons project more profusely to the hippocampus than VTA TH+ neurons, and their optogenetic activation mimics the memory enhancement that follows novelty exposure, with the enhancement blocked by hippocampal D1/D5 but not adrenergic receptor antagonism (Takeuchi et al., 2016). The two catecholaminergic systems can act competitively rather than cooperatively: high-frequency VTA activation induces long-term potentiation in the Schaffer-collateral–CA1 synapse, whereas low-frequency LC activation induces long-term depression, both in a D1/D5-dependent manner (Hagena et al., 2024). Novel experiences that share some overlap with prior knowledge preferentially engage the VTA system to promote semantic consolidation, while novelty distinct from prior experience preferentially engages the LC to create vivid episodic memories (Duszkiewicz et al., 2019). Non-invasive LC proxies include pupil dilation, which covaries with LC BOLD activity during oddball and rest conditions (Murphy et al., 2014), the P3 event-related potential, whose amplitude and pupil covaries track LC arousal mode (Murphy et al., 2011), and neuromelanin-sensitive MRI, which indexes structural LC integrity and correlates with memory performance across the lifespan (Dahl et al., 2019; Hämmerer et al., 2018). Phasic LC activation tracks prioritized encoding of behaviorally relevant stimuli in humans under threat of loss (Clewett et al., 2018) and at event boundaries (Clewett et al., 2025), and LC-mediated pupil responses index action-driven memory enhancement (Yebra et al., 2017). Computational accounts place the LC in a role of facilitating internal state transitions that promote accurate credit assignment, particularly in non-stationary environments (Nassar, 2024). Pharmacological manipulation of noradrenaline in Parkinson's disease produces quantifiable pupil and behavioral shifts consistent with exploitation-biased reinforcement learning (O'Callaghan et al., 2025), and pupillometry indexes successful intentional forgetting at retrieval (Ding et al., 2025). Practical pupillometry is supported by open-source, low-cost hardware and software toolboxes (Privitera et al., 2020). For the purposes of bridging Experiment 1 and Experiment 2, these results jointly support the hypothesis that pupil-triggered novelty cues and monetary reward can engage the LC-hippocampal dopaminergic system sufficiently to support plasticity-related-protein delivery without requiring VTA microstimulation.
+
+### 2.4 Schema-accelerated consolidation
+
+Schema-accelerated consolidation denotes the acceleration of hippocampus-dependent memory acquisition and cortical integration that occurs when new information fits a pre-existing cortical schema (Tse et al., 2007; Tse et al., 2011). The phenomenon is anchored in ventromedial prefrontal cortex (vmPFC) and its interactions with hippocampus and angular gyrus (Gilboa & Marlatte, 2017; van Kesteren et al., 2013), and is associated with accelerated neocortical representation of schema-congruent items in mPFC whose anterior hippocampal–mPFC coupling at encoding predicts durable memory (Audrain et al., 2022). Schema-dependent consolidation engages rapid neocortical transcriptional up-regulation on the scale of hours rather than weeks (Tse et al., 2011), is supported by new myelin generation in anterior cingulate cortex (Hasan et al., 2019), and is further elaborated by orbitofrontal schema representations that evolve with repeated learning (Zhou et al., 2020). Most recently, schemas have been modeled as arising from reinforcement learning principles — prediction-error-driven learning, hierarchical knowledge construction, and dimensionality reduction — localized in orbitomedial prefrontal cortex (Bein et al., 2025). Replication studies confirm assimilation of schema-related information into vmPFC within days (Sommer et al., 2022), and hippocampal replay trained on generative cortical models provides a computational mechanism for schema-based reconstruction and distortion (Spens & Burgess, 2024). The hippocampus–prefrontal interplay during encoding and retrieval of schema-congruent content is a well-established constraint on when fast cortical learning is possible (Preston & Eichenbaum, 2013).
+
+### 2.5 Representational similarity analysis for schema emergence
+
+Representational similarity analysis (RSA) provides a quantitative geometry of neural representations by computing pairwise dissimilarities between condition-specific population vectors (Nili et al., 2014). Applied to schema learning, RSA distinguishes three empirically distinct signatures: (i) convergence of schema-compatible representations toward a low-dimensional manifold in mPFC and OFC (Zhou et al., 2020; Bein et al., 2025); (ii) increased pattern similarity for schema-congruent items in anterior hippocampus and mPFC over hours to days (Audrain et al., 2022); and (iii) increasing decodability of schema-general information from hippocampal population vectors during retrieval after multi-item training (Gilboa & Marlatte, 2017). For de novo memory writing, RSA provides a falsifiable readout: if sequentially written related pairs acquire neural geometry mirroring naturally learned pairs, the written set has formed a miniature schema; if they remain high-dimensional and non-clustered, the write has produced islands of content without integration.
+
+### 2.6 Updated Bayesian risk budget across the five bridges
+
+The previous experiments models single-write success as
+
+```math
+P(\text{success}) \;=\; P(\text{manifold})\,\cdot\,P(\text{attractor})\,\cdot\,P(\text{MIMO fidelity})\,\cdot\,P(\text{STC capture})\,\cdot\,P(\text{replay}),
+```
+
+where each factor is a prior and the product bounds the a priori probability of a successful write. The bridges convert several of these priors into measured posteriors. Bridge 1.5A delivers an NHP-specific estimate of $P(\text{MIMO fidelity})$ at human-compatible electrode geometry. Bridge 1.5B delivers a revised estimate of $P(\text{replay})$ under SWR-triggered injection and, indirectly, $P(\text{STC capture})$ through the dopaminergic novelty-reward pathway (Takeuchi et al., 2016; Lisman & Grace, 2005). Bridge 1.5C delivers a human-specific estimate of $P(\text{STC capture})$ under non-pharmacological LC engagement. Bridge 2.5A delivers an estimate of the cumulative write capacity before interference degrades retrieval, converting a previously unmeasured quantity into a participant-specific metric. Bridge 2.5B delivers a test of whether hippocampal-only injection recruits cortical reinstatement within 48 hours — an empirical replacement for the previously assumed necessity of multi-region injection.
+
+We define a bridge-specific posterior update rule. Let $\pi$ denote a prior on any factor and $\hat{\pi}$ the empirical proportion of participants or trials meeting the pre-registered decision rule in the relevant bridge. Under a Beta($\alpha, \beta$) conjugate prior with $\alpha = \pi N_\text{equiv}$ and $\beta = (1 - \pi) N_\text{equiv}$, where $N_\text{equiv}$ is the equivalent prior sample size, the posterior after $k$ successes out of $n$ participants is
+
+```math
+\pi_\text{post} \;=\; \frac{\alpha + k}{\alpha + \beta + n} \;=\; \frac{\pi N_\text{equiv} + k}{N_\text{equiv} + n}.
+```
+
+This rule lets each bridge produce a credible interval rather than a binary pass/fail verdict (Gordon et al., 2024) and integrates cleanly with the partial-result reporting framework adopted in §3 and §4 of the previous experiments.
+
+---
+
+## 3. Experiment 1.5A — NHP de novo Conditioned Place Preference via MIMO-derived patterns at human-compatible electrode geometry
+
+### 3.1 Rationale
+
+Experiment 1.5A closes the species-gap between Experiment 1 (mouse) and Experiment 2 (human), providing both regulatory justification and technical de-risking. Mouse Neuropixels 2.0 probes (Ye et al., 2025) distribute thousands of recording sites at spacings below 20 μm; human Behnke-Fried electrodes distribute nine microwires at approximately 40 μm radial spacing around a 1-mm macro-contact shaft (Smeijers et al., 2024). The electrode-volume ratio differs by more than an order of magnitude, and the relationship between injected charge density and activated neural volume is non-trivial across these geometries (Hughes et al., 2026). The macaque brain is intermediate in volume between mouse and human, and macaque hippocampal depth recording with Neuropixels 1.0 NHP (Trautmann et al., 2025) and multifunctional-fiber modulation (Garwood et al., 2022) are now feasible at clinically relevant spatial scales. Prior MIMO work in primate demonstrated facilitation of delayed match-to-sample performance but not de novo content writing (Hampson et al., 2013; Deadwyler et al., 2017). Experiment 1.5A is therefore the missing intermediate between mouse de novo writing and human de novo writing.
+
+### 3.2 Hypothesis and pre-registered decision rules
+
+**Primary hypothesis.** In macaques implanted with BF-style hybrid depth electrodes, patterned MIMO-derived microstimulation delivered to CA1/CA3 produces de novo place preference for a chamber never associated with reward, expressed as (i) preferential occupancy of the target chamber over a matched novel control chamber, (ii) retrieval-evoked hippocampal ensemble activity matching the injected template at cosine similarity $\geq 0.80$, and (iii) target-chamber content in spontaneous SWR replay exceeding pre-injection chance.
+
+**Pre-registered decision rules.** The null is rejected only if all three signatures are observed at group level (n = 4; across-animal mixed-effects interaction p < 0.05). A result on zero signatures falsifies the hypothesis for the NHP-geometry regime. A result on one or two signatures triggers Bayesian updating of $P(\text{MIMO fidelity})$ per §2.6 and a re-estimation of the per-write risk budget prior to any Experiment 2 Phase 0 attempt.
+
+### 3.3 Subjects and electrode geometry
+
+Four adult rhesus macaques (*Macaca mulatta*), aged 6–12 years, two of each sex, implanted bilaterally in the hippocampal body with BF-style hybrid depth electrodes featuring nine 40-μm platinum–iridium microwires protruding from a 1-mm-diameter macro shaft with 4 linearly arranged 1-mm macro-contacts (Smeijers et al., 2024). This geometry is identical to that used in human epilepsy monitoring and has a documented safety profile of 2.3% per-electrode complication rate in the human context (Smeijers et al., 2024). Stereotactic targeting uses 7 T MRI with neuromelanin-sensitive sequences to confirm LC integrity (Dahl et al., 2019) and avoid white-matter complications. Care follows institutional IACUC and AAALAC-accredited protocols.
+
+### 3.4 Phase 0 — Feasibility (Weeks 1–8)
+
+Macaques are trained on a 3-chamber CPP apparatus with visually and tactilely distinct chambers (Chambers A, B, C). Chamber A is baited with juice reward on alternate days; Chambers B and C are neutral. Over 30 daily sessions, hippocampal single units are isolated (target: 80–150 well-isolated single units per hemisphere), place-like fields are characterized, and CA3→CA1 Volterra–Poisson MIMO kernels are fit on simultaneously recorded CA3–CA1 spike trains during rewarded visits (Song et al., 2009; Hampson et al., 2013). The intrinsic hippocampal manifold is estimated by Gaussian process factor analysis over quiet-wake activity; dimensionality is selected by held-out cross-validated log-likelihood (Gallego et al., 2017). The attractor inventory for Chambers A, B, C is characterized by clustering ensemble vectors during reward-arm visits (Watson et al., 2024). The feasibility criterion is that MIMO-derived reconstruction of the Chamber A CA1 pattern, delivered during quiet wake, increases Chamber A preference on a subsequent test session (one-sample t-test vs. 0.33 chance, p < 0.05 per animal). An animal failing this criterion is excluded from Phase 1, and the MIMO model is augmented — for example, by incorporating dentate-gyrus input (Sammons et al., 2024) — before further testing.
+
+### 3.5 Phase 1 — Novel-chamber MIMO pattern generation (Weeks 9–10)
+
+For each animal passing Phase 0, a fourth chamber (Chamber D) never previously accessed is introduced to the apparatus but remains blocked. A de novo "Chamber D = juice reward" pattern is generated by: (i) extrapolating place-field tuning to CA1 units whose spatial tuning under the existing map would align with Chamber D's position; (ii) applying the calibrated MIMO model to generate a CA1 output pattern consistent with reward consumption at that position (Hampson et al., 2013); (iii) projecting the result onto the intrinsic hippocampal manifold (Gallego et al., 2017; Karpowicz et al., 2025); and (iv) computationally verifying that CA3 recurrent simulation from a 25% seed converges to the target with cosine similarity $\geq 0.90$ without falling into any Chamber A, B, or C attractor basin (Watson et al., 2024). Orthogonality follows the empirical threshold $\mu_{s_\text{nat}} + 2\sigma_{s_\text{nat}}$ derived from the calibration attractor inventory (§3.6 of previous).
+
+### 3.6 Phase 2 — Injection (Week 11)
+
+Injection occurs during quiet wakefulness with confirmed low locomotion and low theta/delta ratio in hippocampal LFP, matching the previous protocol (§3.7 of previous). Stimulation parameters are scaled to macaque hippocampal volume and single-unit density, interpolated between mouse (10–50 μA; Experiment 1 previous) and human (20–80 μA; Experiment 2 previous): 15–60 μA per microwire, charge-balanced biphasic pulses (200 μs per phase), theta-trough-locked (180° ± 15°), 20 theta cycles (≈ 3.3 s at 6 Hz) per epoch, 5 epochs spaced 20 minutes apart. Ventral tegmental area stimulation at 30 μA is delivered 500 ms after each epoch to co-engage the dopaminergic plasticity axis (Lisman & Grace, 2005; Tsetsenis et al., 2023). Charge density stays below the 1.7 mC/cm² benchmark (Chen et al., 2020; Kim et al., 2025) at the microwire–tissue interface. A nested inhibition-respecting control sub-condition uses 25% lower per-channel current to reduce recruited volume (Liao et al., 2024; Hughes et al., 2026).
+
+### 3.7 Phase 3 — Verification (Weeks 11–14)
+
+On Day 1 post-injection, Chamber D is unblocked and the animal freely explores all four chambers for 20 minutes with no reward in any chamber; time spent in Chamber D is the primary behavioral outcome. On Days 1–14, retrieval-evoked hippocampal ensemble activity during first Chamber D exposures is decoded and matched to the injected template by cosine similarity; threshold 0.80 (Vaz et al., 2020; Joo & Frank, 2018). Spontaneous SWR content is decoded using the extended Bayesian decoder (Zhang et al., 2025) with community-consensus detection (Liu et al., 2022), and the proportion of SWR events classified as Chamber D content is compared to Chambers A, B, C and to chance by permutation test (500 shuffles).
+
+### 3.8 Control groups (within-animal crossover)
+
+| Condition | Content | Stimulation | Purpose |
+|-----------|---------|-------------|---------|
+| **Target injection** | Chamber D code | MIMO-coded, manifold-constrained | Primary |
+| **Sham** | Chamber D code | No stimulation, anesthesia equivalent | Controls for surgical, arousal effects |
+| **Off-manifold** | Chamber D code | Same content forced off-manifold | Tests necessity of manifold adherence (Sadtler et al., 2014) |
+| **Random-manifold** | Random | Manifold-constrained random pattern | Controls for non-specific stimulation |
+
+### 3.9 Expected results
+
+Given the documented facilitation-scale MIMO effects in NHP (Hampson et al., 2013; Deadwyler et al., 2017) and the contemporary electrode hardware available (Trautmann et al., 2025), a modest but significant preference shift of roughly 5–15 percentage points over chance on the behavioral outcome is plausible. Retrieval-pattern fidelity above 0.80 is the most biologically restrictive signature, and the SWR content signature is the most diagnostic of genuine incorporation (Fernández-Ruiz et al., 2019; Robinson et al., 2026; Yang et al., 2024). Results are reported with credible intervals per §2.6 rather than as binary accept/reject.
+
+### 3.10 Translational significance
+
+By using human-compatible BF electrode geometry in a behaviorally sophisticated NHP model — where hippocampal neurons integrate perception, memory, and spatial context (Gulli et al., 2019; Xu et al., 2024; Yang et al., 2023) — Experiment 1.5A satisfies the conventional FDA "species-bridge" expectation before any human de novo writing attempt, and provides the first empirical answer to whether the MIMO framework transfers across both species and electrode geometry.
+
+---
+
+## 4. Experiment 1.5B — Mouse SWR-triggered Closed-Loop Injection
+
+### 4.1 Rationale
+
+Experiment 1 (previous, §3.7) delivers MIMO-derived injection during quiet wakefulness defined by low theta/delta ratio and absence of locomotion but does not trigger on individual SWR events. Evidence is accumulating that SWRs are not a passive readout of consolidation but an active selection mechanism: awake SWR content selectively predicts which experiences are subsequently replayed during sleep (Yang et al., 2024), large SWRs — not all SWRs — are linked to successful hippocampal–cortical memory reactivation (Robinson et al., 2026), and replay can occur without ripples but ripples selectively tag a subset of replays for consolidation (Widloski & Foster, 2025). Injecting at the precise moment of endogenous replay exploits this tagging mechanism. Direct SWR-interruption and SWR-prolongation experiments establish the methodological feasibility (Fernández-Ruiz et al., 2019; Aleman-Zapata et al., 2021; Dutta et al., 2018; Sethi et al., 2014).
+
+### 4.2 Hypothesis and pre-registered decision rules
+
+**Primary hypothesis.** SWR-triggered injection of MIMO-derived target CA1 patterns during quiet wake, delivered within the first 30 ms of a detected ripple, produces higher replay incorporation, behavioral preference, and retrieval-pattern fidelity — at lower total injected charge — than epoch-based injection as used in previous Experiment 1 Phase 3.
+
+**Pre-registered decision rules.** Two head-to-head comparisons are pre-registered: (a) Arm X preference at lower per-animal total charge in SWR-triggered than in epoch-based injection; (b) Arm X SWR-replay incorporation at higher per-animal frequency in SWR-triggered than in epoch-based injection. Both comparisons are evaluated by paired permutation test across matched animal pairs at α = 0.05. Failing comparison (a) with comparison (b) passing indicates that SWR-triggering improves neural incorporation but not behavior, a partial-result outcome reported with credible intervals (§2.6). Failing both falsifies the hypothesis for the parameter regime tested and leaves epoch-based injection as the operative protocol for previous Experiments 2 and 3.
+
+### 4.3 Subjects
+
+Adult male and female C57BL/6J mice (n = 48, 12 per condition across four conditions), aged 10–14 weeks at surgery. Electrode implants follow the previous Experiment 1 specification (bilateral Neuropixels 2.0, CA1, CA3, and DG coverage, ~200–400 well-isolated units per hemisphere) (Ye et al., 2025).
+
+### 4.4 Real-time SWR detection
+
+Detection follows community consensus (Liu et al., 2022) adapted for low-latency online processing (Dutta et al., 2018; Sethi et al., 2014): ripple-band (150–250 Hz) root-mean-square power exceeding 4 SD above the 30-s rolling baseline, held above 2 SD for ≥ 15 ms, with concurrent sharp-wave negative deflection detected in the hippocampal fissure reference channel. Detection-to-stimulation latency is measured per animal and must fall below 20 ms for the animal to remain in the SWR-triggered condition; otherwise the animal is reassigned to the epoch-based condition. Closed-loop system implementation and calibration follow published open-source tooling (Dutta et al., 2018) and reported best-practice for small-volume animal studies (Reith et al., 2025).
+
+### 4.5 Phase 1 — Calibration (Days 1–21)
+
+Calibration mirrors previous Experiment 1 Phase 1 (radial 8-arm maze with 4 rewarded and 2 blocked arms, 14 days). During the final 7 days of calibration, the real-time SWR detector is tuned to the animal's characteristic ripple power distribution; false-positive rate (detections during non-ripple periods) must be < 1 per minute.
+
+### 4.6 Phase 2 — SWR-triggered injection (Day 22)
+
+Mice in the SWR-triggered condition undergo injection in a quiet home-cage setting. On every detected SWR, a single 3-cycle theta-nested injection of the MIMO-derived Arm X target pattern is delivered within 30 ms of ripple onset. The closed-loop update rule incorporates SWR-triggering into the finite-difference Jacobian framework (previous §3.10):
+
+```math
+\Delta \mathbf{I}_t \;=\; -\eta\,\hat{J}_t^{\top}(\mathbf{r}_t - \mathbf{p}_\text{target})\,\cdot\, \mathbb{1}[\text{SWR}_t],
+```
+
+where $\mathbb{1}[\text{SWR}_t]$ is an indicator function that is 1 only within 30 ms after a detected ripple onset. Injection continues for 90 minutes or 200 SWR-triggered epochs, whichever comes first. Total injected charge is logged and compared across conditions. A nested low-current sub-condition (25% lower current) tests whether SWR-timing compensates for lower per-channel charge.
+
+### 4.7 Phase 3 — Verification (Days 23–30)
+
+Behavioral, retrieval-decoding, and SWR-replay assays follow previous Experiment 1 Phase 4, with two additions: (i) per-animal total charge is recorded and used as a covariate in the across-condition comparison; (ii) SWR-replay content is decoded not only for the overall chance-baseline comparison but also stratified by ripple duration, enabling a test of whether long-duration ripples selectively carry written content as predicted by Fernández-Ruiz et al. (2019) and Widloski & Foster (2025).
+
+### 4.8 Control groups
+
+| Condition | Trigger | Content | Purpose |
+|-----------|---------|---------|---------|
+| **SWR-triggered** (n = 12) | First 30 ms of detected SWR | Arm X MIMO code | Primary |
+| **Epoch-based** (n = 12) | Quiet-wake epochs (previous protocol) | Arm X MIMO code | Head-to-head comparator |
+| **SWR-yoked random** (n = 12) | SWR-triggered, random manifold-constrained | Content control for SWR timing | Tests content-specificity under same timing |
+| **Sham** (n = 12) | SWR-triggered | No stimulation | Surgical/arousal control |
+
+### 4.9 Expected results
+
+SWR-triggered injection should at minimum match epoch-based injection on all three signatures, and should produce higher replay-incorporation under the hypothesis that the CA3 network is in an attractor-completion state during spontaneous ripples (Widloski & Foster, 2025; Robinson et al., 2026; Watson et al., 2024). A secondary expected finding is that SWR-triggered stimulation produces more long-duration ripples containing target content, mirroring the prolongation effect observed with optogenetic ripple stimulation (Fernández-Ruiz et al., 2019). The experiment directly tests whether the previous Experiment 2 protocol should adopt SWR-triggered human injection rather than quiet-rest epoch injection, a design update that would substantially lower per-session charge burden and respect the 1.7 mC/cm² chronic safety limit (Chen et al., 2020; Kim et al., 2025).
+
+### 4.10 Translational significance
+
+The result constrains $P(\text{replay})$ empirically (§2.6) and informs whether previous Experiment 2 (human) should incorporate SWR-triggered injection. Because human intracranial SWR detection has been performed non-invasively to the recording mission (Zhang et al., 2018; Norman et al., 2019; Geva-Sagiv et al., 2023), the methodology is directly translatable.
+
+---
+
+## 5. Experiment 1.5C — Human LC/Novelty Co-Engagement Pilot
+
+### 5.1 Rationale
+
+Previous Experiment 2 substitutes juice reward for the VTA co-stimulation used in previous Experiment 1 (previous §4.4, Phase 4), on the reasoning that VTA stimulation is not standard in human epilepsy monitoring. This substitution rests on two untested premises: that behaviorally evoked catecholaminergic engagement is sufficient to support synaptic tagging and capture (Frey & Morris, 1997; Chong et al., 2025) in an artificial-write context, and that the LC is a viable surrogate for VTA given recent evidence that LC TH+ neurons are the dominant source of hippocampal dopamine (Takeuchi et al., 2016; Kempadoo et al., 2016). Experiment 1.5C tests both premises in a small human pilot before full Experiment 2 is initiated.
+
+### 5.2 Hypothesis and pre-registered decision rules
+
+**Primary hypothesis.** In epilepsy monitoring patients with bilateral hippocampal and amygdalar BF depth electrodes, pupil-dilation-triggered novelty cues paired with monetary reward produce (a) P3 event-related potential amplitudes and hippocampal theta–gamma coupling in the range established for naturalistic memory encoding, and (b) hippocampal CA1/CA3 single-unit responses whose post-cue time course matches those measured in published VTA co-stimulation studies in the NHP (Hampson et al., 2013; Deadwyler et al., 2017).
+
+**Pre-registered decision rules.** The null (LC/novelty engagement does not substitute for VTA co-stimulation) is rejected only if (i) P3 amplitude on novelty trials exceeds P3 amplitude on matched standard trials by at least 3 μV at a posterior midline site with p < 0.05 across participants (Murphy et al., 2011), (ii) pupil dilation amplitude predicts subsequent recognition performance on encoded items at p < 0.05 across participants (Hämmerer et al., 2018; Hoffing et al., 2015; Yebra et al., 2017), and (iii) pre-registered hippocampal theta (4–8 Hz)–gamma (30–80 Hz) phase-amplitude coupling increases on novelty+reward trials relative to neutral trials at p < 0.05. If any one of (i)–(iii) fails, the juice-reward substitution in previous Experiment 2 is marked contingent and requires replication in a larger cohort before de novo writing is attempted.
+
+### 5.3 Participants
+
+Six adults aged 18–65 with drug-resistant epilepsy undergoing stereo-EEG monitoring, with bilateral hippocampal depth electrodes (CA1, CA3), amygdalar coverage, and at least one posterior midline electrode for P3 recording (Smeijers et al., 2024). Inclusion and exclusion criteria follow previous Experiment 2 §4.3. This sample size is sufficient to detect the within-subject effects of the pre-registered decision rules at α = 0.05, power = 0.80, and expected effect sizes derived from published human intracranial studies of novelty and arousal (Kaminski et al., 2018; Clewett et al., 2018; Clewett et al., 2025). Informed consent is obtained under IRB-approved protocols emphasizing that the pilot does not attempt de novo memory writing (Gordon et al., 2024; Lavazza et al., 2025).
+
+### 5.4 Experimental design
+
+**Phase 0 — Baseline pupillometry and LFP characterization (Day 1).** Participants perform an auditory-oddball P3 task while pupil diameter is continuously tracked (Privitera et al., 2020; Murphy et al., 2011). Concurrent hippocampal, amygdalar, and posterior-midline LFP are recorded. Baseline noradrenergic indices (tonic and phasic pupil; P3 amplitude) and hippocampal theta–gamma coupling are characterized.
+
+**Phase 1 — Novelty-triggered associative encoding (Day 2).** Participants perform a 60-trial object–scene associative encoding task. On 20 target trials, an unexpected novel image is presented as a temporal oddball (Bunzeck & Düzel, 2006; Wittmann et al., 2007; Kaminski et al., 2018) immediately preceding the to-be-remembered object–scene pair. Monetary reward ($0.50 per correct recall) is available for all trials. The remaining 40 trials serve as matched controls (standard preceding image, no reward or low reward). Pupil size, P3, hippocampal and amygdalar single-unit firing, and theta–gamma coupling are recorded throughout.
+
+**Phase 2 — Recognition test (Day 3, 24 hours post-encoding).** Participants complete a forced-choice recognition test on the encoded pairs (chance = 25%). Hippocampal retrieval activity is decoded and compared to encoding-phase signatures.
+
+### 5.5 Statistical analysis
+
+The primary analysis is a single-trial mixed-effects model with pupil dilation amplitude as the primary predictor, hippocampal theta–gamma coupling as a secondary predictor, P3 amplitude as a tertiary predictor, and subsequent recognition accuracy as outcome. Random intercepts per participant and per item; pre-registered α = 0.05 two-tailed. A mediation analysis tests whether pupil dilation → hippocampal theta–gamma coupling → recognition accuracy holds at p < 0.05 (Yebra et al., 2017; Clewett et al., 2018; Nassar, 2024).
+
+### 5.6 Expected results
+
+On the basis of published effect sizes for pupil-linked memory enhancement (Hämmerer et al., 2018; Hoffing et al., 2015; Yebra et al., 2017; Clewett et al., 2018), subsequent recognition accuracy for novelty+reward trials is expected to exceed standard-trial accuracy by 8–15 percentage points at group level, with a pupil × hippocampal coupling mediation accounting for a meaningful portion of this effect. Failure modes include pupil signals that do not track hippocampal engagement in the epilepsy-patient population (plausibly due to peri-ictal arousal variability) or decoupling of novelty from reward (Duszkiewicz et al., 2019), both of which would contraindicate the juice-reward substitution in previous Experiment 2.
+
+### 5.7 Translational significance
+
+A positive Experiment 1.5C result validates the substitution, constrains $P(\text{STC capture})$ in the human setting, and provides a pre-registered neuromodulation protocol that previous Experiment 2 can adopt. A negative result prevents proceeding to human de novo writing until alternative neuromodulatory support (e.g., focused ultrasound of vagus nerve; Griffiths et al., 2026) is demonstrated adequate.
+
+---
+
+## 6. Experiment 2.5A — Sequential Multi-Pair Writing with Schema-Emergence Readout
+
+### 6.1 Rationale
+
+Previous Experiment 2 writes a single word–image pair per participant (previous §4.4). Previous Experiment 3 writes a semantic fact embedded in an existing cortical network. The intermediate problem — writing several related pairs sequentially and measuring whether their neural representations begin to cluster into a schema-like geometry — has not been addressed. Natural schemas emerge over days to weeks of related-item encoding, with convergent representations arising in vmPFC and lateral occipital cortex (Zhou et al., 2020; van Kesteren et al., 2013; Bein et al., 2025). If written pairs acquire analogous schema-like geometry, this supports Experiment 3's extension to semantic content; if written pairs remain isolated, Experiment 3's assumption that written content can integrate into existing schemas is undermined (Audrain et al., 2022; Sommer et al., 2022).
+
+### 6.2 Hypothesis and pre-registered decision rules
+
+**Primary hypothesis.** Sequential writing of five structurally related word–image pairs produces neural geometry — measured by representational dissimilarity matrices (RDMs; Nili et al., 2014) across hippocampus and temporal cortex — that mirrors the geometry of matched naturally learned pairs, as assessed by Spearman correlation between written-set and naturally-learned-set RDMs (target $\rho \geq 0.5$ at p < 0.05 permutation).
+
+**Pre-registered decision rules.** The null is rejected only if (i) retrieval fidelity for the written pairs individually exceeds the 0.80 threshold of previous Experiment 2 on ≥ 50% of correct-response trials, (ii) the RDM correlation between written and natural sets exceeds $\rho = 0.5$ at p < 0.05 by participant-wise permutation, and (iii) interference analysis shows that writing pair $k$ does not degrade retrieval of pairs $1, \ldots, k-1$ by more than 0.05 in cosine fidelity.
+
+### 6.3 Participants
+
+Ten adults aged 18–65 with drug-resistant epilepsy, as in previous Experiment 2, with bilateral hippocampal and temporal-lobe coverage.
+
+### 6.4 Experimental design
+
+**Phase 1 — Calibration (Days 1–3).** Participants learn 15 naturally presented word–image pairs spanning a semantically coherent category (e.g., "unfamiliar instrument–sound" pairs or "novel tool–function" pairs), drawn from normed databases (Gilboa & Marlatte, 2017; van Kesteren et al., 2013). Calibration yields participant-specific hippocampal single-unit and temporal-cortex patterns for each of the 15 natural items.
+
+**Phase 2 — Pattern generation for 5 novel related pairs (Day 4).** Five novel pairs structurally related to the naturally learned set are constructed. For each target pair, the hippocampal MIMO code is generated per previous §4.3, with the orthogonality constraint enforced against (a) all calibrated templates in the category and (b) each previously written template in the sequence. The orthogonality threshold is re-evaluated after each write using the empirical $\mu + 2\sigma$ inter-memory similarity rule (previous §3.6).
+
+**Phase 3 — Sequential injection (Day 5).** Each pair is injected using the previous Experiment 2 protocol (previous §4.4, Phase 4) — 20–80 μA, biphasic, theta-trough-locked, 15-cycle epochs, 5 epochs, paired with juice reward. Pairs are injected sequentially with 45-minute inter-pair intervals to allow synaptic tagging (Frey & Morris, 1997; Chong et al., 2025) for each pair before the next is initiated. After each pair's injection, a brief probe of the previously written pairs (forced-choice retrieval, hippocampal decoding) is performed to measure interference dynamics before proceeding.
+
+**Phase 4 — Schema-emergence readout (Day 5–Day 12).** At 2 hours, 24 hours, and 1 week post-injection, participants complete forced-choice recognition and cued recall on all 5 written pairs and on 5 matched calibration-set natural pairs. Hippocampal and temporal-cortex retrieval patterns are extracted. RDMs are computed for the written set and the natural set by pairwise correlation distance (Nili et al., 2014). The similarity between the two RDMs is the primary schema-emergence metric.
+
+### 6.5 RSA-based schema-emergence formalism
+
+Let $\mathbf{r}_i^\text{(W)}$ and $\mathbf{r}_i^\text{(N)}$ denote the temporal-cortex retrieval vectors for written pair $i$ and matched natural pair $i$, respectively. The within-set RDMs are
+
+```math
+D^{(W)}_{ij} \;=\; 1 - \rho\bigl(\mathbf{r}_i^\text{(W)}, \mathbf{r}_j^\text{(W)}\bigr),\qquad D^{(N)}_{ij} \;=\; 1 - \rho\bigl(\mathbf{r}_i^\text{(N)}, \mathbf{r}_j^\text{(N)}\bigr),
+```
+
+where $\rho$ denotes Pearson correlation. The schema-emergence score is the Spearman correlation between the lower triangles of $D^{(W)}$ and $D^{(N)}$. Null distributions are constructed by permuting pair identities across 5,000 iterations within each participant (Nili et al., 2014). A positive score indicates that the written set's representational geometry mirrors the natural set's.
+
+### 6.6 Interference metric
+
+For each pair $k \in \{2, \ldots, 5\}$, the interference score is
+
+```math
+\mathcal{I}_k \;=\; \frac{1}{k-1}\sum_{j=1}^{k-1} \bigl(f_j^\text{pre-}k - f_j^\text{post-}k\bigr),
+```
+
+where $f_j^\text{pre-}k$ is the retrieval fidelity of pair $j$ before pair $k$'s injection and $f_j^\text{post-}k$ is the retrieval fidelity immediately after. The pre-registered tolerance is $\mathcal{I}_k < 0.05$ for all $k$; above this, the protocol is flagged as interference-limited and the maximum write capacity per session is reported (Spens & Burgess, 2024).
+
+### 6.7 Expected results
+
+Under naturally learned conditions, related-item RDMs share structure with the category schema (Zhou et al., 2020; Audrain et al., 2022; Bein et al., 2025). Two outcomes are informative: (a) mirroring of the written-set RDM to the natural-set RDM at $\rho \geq 0.5$ supports schema emergence; (b) absence of mirroring but individual-pair retrieval above 0.80 indicates content is successfully written but remains structurally isolated — a constraint that previous Experiment 3's schema-embedded semantic writing must address by explicitly injecting into cortical schema regions. Interference scores above tolerance define a per-participant write capacity below 5 pairs per day, yielding an operational upper bound for clinical deployment (Frey & Morris, 1997; Chong et al., 2025).
+
+### 6.8 Translational significance
+
+Experiment 2.5A answers whether the previous pipeline can scale past a single associative pair, provides a per-participant write-capacity estimate, and produces the first quantitative readout of schema-like structure in artificially written content — a necessary precursor to Experiment 3 (Preston & Eichenbaum, 2013; Gilboa & Marlatte, 2017).
+
+---
+
+## 7. Experiment 2.5B — Hippocampal-Only Schema-Accelerated Consolidation
+
+### 7.1 Rationale
+
+Previous Experiment 3 writes to hippocampus and lateral temporal cortex simultaneously (previous §5.4, Phase 3). The rationale for dual-region injection is that semantic content must be represented in cortex, and hippocampal indexing alone would require long (weeks-scale) systems consolidation to build the cortical representation. Yet Tse et al. (2007) showed in rats that, with a pre-existing cortical schema, a single-trial hippocampal-dependent encoding of a new paired associate becomes hippocampus-independent within 48 hours, and Tse et al. (2011) showed that this acceleration is associated with rapid prelimbic immediate-early-gene up-regulation at encoding time. Extensions in mice demonstrate that schema-based encoding is supported by myelination in anterior cingulate cortex within 24 hours (Hasan et al., 2019), and that schema-consistent items integrate into mPFC over 72 hours with anterior hippocampal–mPFC coupling at encoding predicting consolidation (Audrain et al., 2022; Sommer et al., 2022). If the same acceleration holds for artificially injected content, multi-region injection is an acceleration of natural schema-accelerated consolidation rather than a necessity. Experiment 2.5B tests this distinction directly.
+
+### 7.2 Hypothesis and pre-registered decision rules
+
+**Primary hypothesis.** In epilepsy monitoring patients with bilateral hippocampal and temporal-cortex depth/subdural electrodes, injection of a single novel fact that fits a pre-existing participant schema (e.g., a novel country–capital pair fitting the participant's existing geography schema) into hippocampus alone produces cortical high-gamma reinstatement within 48 hours that approximates the reinstatement magnitude observed for naturally known matched facts (Yaffe et al., 2017; Vaz et al., 2020).
+
+**Pre-registered decision rules.** The null is rejected only if cortical high-gamma (70–150 Hz) reinstatement at 48 hours post-injection reaches ≥ 60% of the reinstatement magnitude observed for naturally known facts, with p < 0.05 by participant-wise permutation test. At 2 hours and 24 hours, reinstatement is reported with no pre-registered threshold; the trajectory across timepoints is the secondary outcome. Failure at 48 hours falsifies the acceleration hypothesis for this regime and supports previous Experiment 3's multi-region approach as necessary rather than accelerating.
+
+### 7.3 Participants
+
+Ten adults aged 18–65 as in previous Experiment 3, with bilateral hippocampal depth electrodes and subdural lateral temporal-cortex coverage.
+
+### 7.4 Experimental design
+
+**Phase 1 — Schema identification (Days 1–2).** The participant's existing geography (or analogous) schema is mapped via factual retrieval of 40 known country–capital pairs; for each correctly retrieved pair, the temporal-cortex retrieval pattern is extracted and RSA is used to derive the participant's schema topology (Nili et al., 2014; Gilboa & Marlatte, 2017). The chosen written fact must sit well within the schema — its nearest-neighbor distance in the RDM must fall at the 25th–75th percentile of intra-schema distances (Bein et al., 2025).
+
+**Phase 2 — Hippocampal-only pattern generation and injection (Day 3).** The hippocampal MIMO code is generated per previous §4.3 with orthogonality verified (previous §3.6), and cross-region coherence is checked by estimating the expected cortical activation $T(\mathbf{h})$ from the hippocampal–cortical transfer function, requiring $\text{sim}(T(\mathbf{h}), \mathbf{t}_\text{schema}) > 0.5$ where $\mathbf{t}_\text{schema}$ is the schema-centroid cortical pattern. This relaxed threshold (compared to the 0.75 used in previous Experiment 3) reflects that the cortical pattern is *not* directly injected here — natural consolidation must build it. Injection parameters follow previous Experiment 2 Phase 4 (20–80 μA, biphasic, theta-trough-locked), but with juice-reward pairing as validated in Experiment 1.5C (or updated as that bridge dictates).
+
+**Phase 3 — Temporal-cortex reinstatement across timepoints (Days 3, 4, 5, 10).** High-gamma (70–150 Hz) power during retrieval of the written fact is extracted in temporal-cortex contacts and compared to matched high-gamma retrieval of 5 known facts and 5 control facts (Yaffe et al., 2017; Vaz et al., 2020). Reinstatement is defined as the proportion of the natural-retrieval high-gamma envelope recovered:
+
+```math
+\text{reinstatement}_t = \frac{\text{cov}\bigl(\mathbf{c}_t^\text{written}, \bar{\mathbf{c}}^\text{natural}\bigr)}{\text{var}\bigl(\bar{\mathbf{c}}^\text{natural}\bigr)}
+```
+
+, where $\mathbf{c}_t^\text{written}$ is the cortical high-gamma envelope during retrieval at time $t$, and $\bar{\mathbf{c}}^\text{natural}$ is the participant's average cortical high-gamma envelope during natural-fact retrieval. Values near 1 indicate full reinstatement.
+
+### 7.5 Parallel condition: non-schema-compatible written fact
+
+A within-participant control is the injection of a matched novel fact that does **not** fit the existing schema (e.g., a pair whose nearest-neighbor distance falls at the 95th percentile of intra-schema distances). Under the schema-acceleration hypothesis, this condition should show little or no cortical reinstatement within 48 hours, consistent with animal findings that non-schema-consistent learning requires prolonged consolidation (Tse et al., 2007; Sommer et al., 2022).
+
+### 7.6 Expected results
+
+The hypothesis predicts a pattern of reinstatement rising across 2 h → 24 h → 48 h that is significantly more rapid for schema-compatible than non-schema-compatible writes. The effect size is constrained by published animal work showing that the schema-acceleration mechanism operates on hours-to-days scales (Tse et al., 2011; Hasan et al., 2019). A null result at 48 hours on both conditions falsifies the hypothesis and strengthens previous Experiment 3's multi-region approach. A positive result at 48 hours for schema-compatible writes redefines previous Experiment 3's multi-region injection as an *acceleration* mechanism — with plausibly reduced total charge and side-effect burden — rather than a necessity (Spens & Burgess, 2024).
+
+### 7.7 Translational significance
+
+Experiment 2.5B reveals the minimal intervention required for cortically represented semantic knowledge, bounds previous Experiment 3's multi-region-injection value, and anchors schema-based rapid cortical writing (Preston & Eichenbaum, 2013; Bein et al., 2025; Audrain et al., 2022) as the operative mechanism for accelerated learning applications proposed in the clinical-implications section of the previous experiments.
+
+---
+
+## 8. Consolidated Improvements to the Experiment 1 → Experiment 2 Transition
+
+The three E1→E2 bridges (1.5A, 1.5B, 1.5C) collectively improve the accuracy of the prior experimental transition along five dimensions. First, the **species-gap falsifier** becomes explicit: Experiment 1.5A's pre-registered decision rules either provide an NHP-based empirical estimate of $P(\text{MIMO fidelity})$ at human-compatible electrode geometry or falsify the transfer of the MIMO framework to primate at this scale — in either case converting an implicit assumption in the previous pipeline into a testable prediction (Trautmann et al., 2025; Smeijers et al., 2024; Xu et al., 2024). Second, the **injection-timing falsifier** distinguishes the quiet-wake epoch protocol of previous Experiment 1 Phase 3 from an endogenous-SWR-triggered alternative, and provides a head-to-head behavioral and neural comparison whose result dictates whether previous Experiment 2 should be amended to adopt SWR-triggered injection (Fernández-Ruiz et al., 2019; Yang et al., 2024; Robinson et al., 2026; Widloski & Foster, 2025). Third, the **neuromodulation substitution falsifier** replaces the previous pipeline's reliance on behavioral juice-reward as a VTA surrogate with an empirical test in humans of whether pupil-linked LC/novelty engagement produces the required P3, theta–gamma, and mnemonic signatures (Takeuchi et al., 2016; Kempadoo et al., 2016; Clewett et al., 2018; Hämmerer et al., 2018; Murphy et al., 2011). Fourth, this research brings contemporary human intracranial, NHP, and rodent closed-loop evidence (Geva-Sagiv et al., 2023; Robinson et al., 2026; Reith et al., 2025; Kleinman et al., 2025) to bear on previous-pipeline claims that were supported by older or preclinical literature alone. Fifth, the **Bayesian posterior updates** — explicit in §2.6 of this document — convert the previous pipeline's $P(\text{manifold}), P(\text{attractor}), P(\text{MIMO fidelity}), P(\text{STC capture}), P(\text{replay})$ from priors into a sequence of posteriors whose credible intervals are reported rather than collapsed into a single product. No sentence in the previous experiments is contradicted by the bridges; rather, each prior the previous marks as uncertain is given a falsifier and an empirical update path.
+
+---
+
+## 9. Discussion
+
+### 9.1 What the bridges collectively accomplish
+
+The five bridges convert two categories of assumption in the previous pipeline into experimentally resolved findings. The first category — species transfer and electrode geometry — is resolved by Experiment 1.5A. The second category — state-dependent writing dynamics and neuromodulatory substitution — is resolved by Experiments 1.5B and 1.5C. Experiments 2.5A and 2.5B resolve a third, related category that sits at the boundary between associative and semantic writing: whether multi-pair writes form schemas, and whether hippocampal-only writes can recruit cortical traces under existing schemas. After the five bridges, previous Experiments 2 and 3 can be attempted with substantially reduced Bayesian risk on the conditionally independent factors of the $P(\text{success})$ product.
+
+### 9.2 Open questions raised
+
+Three open questions remain after the bridges succeed. First, **chronic stability of artificially written traces**. Previous Experiments 2 and 3 track memories for up to one week; the bridges extend to two weeks in the human cortical reinstatement measurement (Experiment 2.5B) but do not address durability at months to years scales, which is the relevant horizon for clinical accelerated-learning applications (Berdugo-Vega et al., 2026). Second, **inter-subject generalization of schema-accelerated writes**. Experiment 2.5B uses within-participant schemas, and its generalization to shared schemas across participants requires future work analogous to between-subjects RSA studies (Gilboa & Marlatte, 2017). Third, **safety of repeated SWR-triggered injection in the clinical setting**. Experiment 1.5B extends the previous pipeline's closed-loop safety envelope only in rodents; a dedicated human safety study — drawing on >168 million ICMS pulses of human precedent in somatosensory cortex (Hughes et al., 2026) — is required before SWR-triggered human hippocampal injection is attempted.
+
+### 9.3 Concerns the bridges do *not* resolve
+
+The bridges do not resolve two obstacles that remain open from the previous experiments. **Obstacle (b) content-specificity** is improved by Experiment 1.5A's nested inhibition-respecting contrast and by Experiment 1.5B's SWR-triggered injection (which may reduce off-target recruitment by timing writes to moments of CA3 attractor completion), but electrical stimulation still lacks optogenetic cell-type specificity (Hughes et al., 2026). **Obstacle (c) verification** is improved by adding RSA-based schema readouts (Experiment 2.5A) and cortical reinstatement time courses (Experiment 2.5B), but the fundamental problem that behavioral outcomes admit multiple interpretations remains — only the multi-modal convergent-evidence structure of previous §2.11 is enlarged.
+
+### 9.4 Neuroethics of the bridge pathway
+
+The bridge experiments involve three human studies (Experiments 1.5C, 2.5A, 2.5B) conducted in epilepsy patients. All three follow the neuroethics framework articulated in the previous experiments (Gordon et al., 2024; Goering et al., 2021; Lavazza et al., 2025), with three bridge-specific additions. First, Experiment 1.5C is explicitly non-write: it tests LC/novelty engagement in a paradigm where memories are encoded naturally rather than artificially written, lowering the authenticity risk (González-Márquez, 2023). Second, Experiments 2.5A and 2.5B involve written content with substantive informational structure (multi-pair schemas, consolidated facts), and participants are informed in advance that written memories may feel subjectively indistinguishable from natural memories and may modify belief states in ways that cannot be fully anticipated (Gordon et al., 2024). Third, the RSA-based schema-emergence readout of Experiment 2.5A produces participant-specific neural data that are treated as sensitive neural data under current and proposed legislative frameworks (Lavazza et al., 2025). All three additions are pre-registered with IRB-approved consent language.
+
+### 9.5 Priority of bridges
+
+Under instructions4.md rule 14, the primary obstacle requiring resolution before previous Experiment 2 is initiated is operationalized here as the **NHP species-gap** (Experiment 1.5A), because this is the conventional regulatorily expected intermediate. Experiment 1.5B (SWR-triggered mouse) and Experiment 1.5C (human LC/novelty pilot) are co-dependent and can proceed in parallel with Experiment 1.5A, because each updates a different factor of the $P(\text{success})$ product. Experiments 2.5A and 2.5B are gated on Experiment 2 (previous) succeeding at its single-pair objective; until a single pair can be written and verified, the multi-pair and schema-acceleration experiments cannot be meaningfully performed.
+
+---
+
+## 10. References
+
+* [Memory.md](Memory.md)
+* [References.md](References.md)
+
+- Aleman-Zapata, A., van der Meij, J., & Genzel, L. (2022). Disrupting ripples: Methods, results, and caveats in closed-loop approaches in rodents. *Journal of Sleep Research*, 31(1), e13532. https://doi.org/10.1111/jsr.13532
+
+- Audrain, S., & McAndrews, M. P. (2022). Schemas provide a scaffold for neocortical integration of new memories over time. *Nature Communications*, 13(1), 5795. https://doi.org/10.1038/s41467-022-33517-0
+
+- Baraduc, P., Duhamel, J.-R., & Wirth, S. (2021). Primate memory, from simple associations to abstract concepts. *Comptes Rendus Biologies*, 344(3), 205–220. https://doi.org/10.5802/crbiol.68
+
+- Bein, O., Niv, Y. (2025). Schemas, reinforcement learning and the medial prefrontal cortex. *Nature Reviews Neuroscience*, 26(3), 141–157. https://doi.org/10.1038/s41583-024-00893-z
+
+- Bunzeck, N., & Düzel, E. (2006). Absolute coding of stimulus novelty in the human substantia nigra/VTA. *Neuron*, 51(3), 369–379. https://doi.org/10.1016/j.neuron.2006.06.021
+
+- Clewett, D., Huang, R., & Davachi, L. (2025). Locus coeruleus activation "resets" hippocampal event representations and separates adjacent memories. *Neuron*, 113(15), 2521–2535.e8. https://doi.org/10.1016/j.neuron.2025.05.013
+
+- Clewett, D. V., Huang, R., Velasco, R., Lee, T.-H., & Mather, M. (2018). Locus coeruleus activity strengthens prioritized memories under arousal. *The Journal of Neuroscience*, 38(6), 1558–1574. https://doi.org/10.1523/JNEUROSCI.2097-17.2017
+
+- Dahl, M. J., Mather, M., Düzel, S., Bodammer, N. C., Lindenberger, U., Kühn, S., & Werkle-Bergner, M. (2019). Rostral locus coeruleus integrity is associated with better memory performance in older adults. *Nature Human Behaviour*, 3(11), 1203–1214. https://doi.org/10.1038/s41562-019-0715-2
+
+- Ding, H., Fan, S., Rugg, M. D., & Ko, P. C. (2025). Pupil fluctuations signal intentional forgetting of natural scenes. *Psychophysiology*, 62(4), e14520. https://doi.org/10.1111/psyp.14520
+
+- Duszkiewicz, A. J., McNamara, C. G., Takeuchi, T., & Genzel, L. (2019). Novelty and dopaminergic modulation of memory persistence: A tale of two systems. *Trends in Neurosciences*, 42(2), 102–114. https://doi.org/10.1016/j.tins.2018.10.002
+
+- Dutta, S., Ackermann, E., & Kemere, C. (2019). Analysis of an open source, closed-loop, realtime system for hippocampal sharp-wave ripple disruption. *Journal of Neural Engineering*, 16(1), 016009. https://doi.org/10.1088/1741-2552/aaefb1
+
+- Elliott, B. L., D'Ardenne, K., Mukherjee, P., Schweitzer, J. B., & McClure, S. M. (2022). Midbrain–hippocampus structural connectivity selectively predicts motivated memory encoding. *The Journal of Neuroscience*, 42(47), 8996–9010. https://doi.org/10.1523/JNEUROSCI.0945-22.2022
+
+- Forcelli, P. A., West, E. A., Murnen, A. T., & Malkova, L. (2024). Hippocampal lesions impair non-navigational spatial memory in macaques. *Hippocampus*, 34(1), 56–68. https://doi.org/10.1002/hipo.23589
+
+- Garwood, I. C., Major, A. J., Antonini, M. J., Burton, J., Hahn, B., Park, Y. J., Sahasrabudhe, A., Taylor, A., Sahin, M., Graybiel, A. M., Desimone, R., Miller, E. K., & Anikeeva, P. (2022). Multifunctional fibers enable modulation of cortical and deep brain activity during cognitive behavior in macaques. *Science Advances*, 8(49), eabq1073. https://doi.org/10.1126/sciadv.abq1073
+
+- Geva-Sagiv, M., Mankin, E. A., Eliashiv, D., Epstein, S., Cherry, N., Kalender, G., Tchemodanov, N., Nir, Y., & Fried, I. (2023). Augmenting hippocampal–prefrontal neuronal synchrony during sleep enhances memory consolidation in humans. *Nature Neuroscience*, 26(6), 1100–1110. https://doi.org/10.1038/s41593-023-01324-5
+
+- Gilboa, A., & Marlatte, H. (2017). Neurobiology of schemas and schema-mediated memory. *Trends in Cognitive Sciences*, 21(8), 618–631. https://doi.org/10.1016/j.tics.2017.04.013
+
+- Gulli, R. A., Duong, L. R., Corrigan, B. W., Doucet, G., Williams, S., Fusi, S., & Martinez-Trujillo, J. C. (2020). Context-dependent representations of objects and space in the primate hippocampus during virtual navigation. *Nature Neuroscience*, 23(1), 103–112. https://doi.org/10.1038/s41593-019-0548-3
+
+- Hagena, H., Feldmann, H., & Manahan-Vaughan, D. (2024). Oppositional and competitive instigation of hippocampal synaptic plasticity by the VTA and locus coeruleus. *Proceedings of the National Academy of Sciences*, 121(30), e2402356121. https://doi.org/10.1073/pnas.2402356121
+
+- Hämmerer, D., Callaghan, M. F., Hopkins, A., Kosciessa, J., Betts, M., Cardenas-Blanco, A., Kanowski, M., Weiskopf, N., Dayan, P., Dolan, R. J., & Düzel, E. (2018). Locus coeruleus integrity in old age is selectively related to memories linked with salient negative events. *Proceedings of the National Academy of Sciences*, 115(9), 2228–2233. https://doi.org/10.1073/pnas.1712268115
+
+- Hasan, M., Kanna, M. S., Jun, W., Ramkrishnan, A. S., Iqbal, Z., Lee, Y., & Li, Y. (2019). Schema-like learning and memory consolidation acting through myelination. *The FASEB Journal*, 33(11), 11758–11775. https://doi.org/10.1096/fj.201900910R
+
+- Hoffing, R. C., & Seitz, A. R. (2015). Pupillometry as a glimpse into the neurochemical basis of human memory encoding. *Journal of Cognitive Neuroscience*, 27(4), 765–774. https://doi.org/10.1162/jocn_a_00749
+
+- Hussin, A. T., Leonard, T. K., & Hoffman, K. L. (2021). Retrosplenial and hippocampal synchrony during retrieval of old memories in macaques. *The Journal of Neuroscience*, 41(45), 9440–9454. https://doi.org/10.1523/JNEUROSCI.1809-20.2021
+
+- Kaminski, J., Mamelak, A. N., Birch, K., Mosher, C. P., Tagliati, M., & Rutishauser, U. (2018). Novelty-sensitive dopaminergic neurons in the human substantia nigra predict success of declarative memory formation. *Current Biology*, 28(9), 1333–1343.e4. https://doi.org/10.1016/j.cub.2018.03.024
+
+- Kempadoo, K. A., Mosharov, E. V., Choi, S. J., Sulzer, D., & Kandel, E. R. (2016). Dopamine release from the locus coeruleus to the dorsal hippocampus promotes spatial learning and memory. *Proceedings of the National Academy of Sciences*, 113(51), 14835–14840. https://doi.org/10.1073/pnas.1616515114
+
+- Kim, C., Park, J., & Lee, I. (2022). Simultaneous cellular imaging, electrical recording and stimulation of hippocampal activity in freely behaving mice. *Experimental Neurobiology*, 31(6), 361–375. https://doi.org/10.5607/en22029
+
+- Kleinman, M. R., Foster, D. J., & Tank, D. W. (2025). Spatial localization of hippocampal replay requires dopamine signaling. *eLife*, 14, e97108. https://doi.org/10.7554/eLife.97108
+
+- Lee, J. Y., Jun, H., Soma, S., Nakazono, T., Shiraiwa, K., Dasgupta, A., Nakagawa, T., Xie, J. L., Chavez, J., Romo, R., Yungblut, S., Hagihara, M., Murata, K., & Igarashi, K. M. (2021). Dopamine facilitates associative memory encoding in the entorhinal cortex. *Nature*, 598(7880), 321–326. https://doi.org/10.1038/s41586-021-03948-8
+
+- Lisman, J. E., & Grace, A. A. (2005). The hippocampal–VTA loop: Controlling the entry of information into long-term memory. *Neuron*, 46(5), 703–713. https://doi.org/10.1016/j.neuron.2005.05.002
+
+- Murphy, P. R., O'Connell, R. G., O'Sullivan, M., Robertson, I. H., & Balsters, J. H. (2014). Pupil diameter covaries with BOLD activity in human locus coeruleus. *Human Brain Mapping*, 35(8), 4140–4154. https://doi.org/10.1002/hbm.22466
+
+- Murphy, P. R., Robertson, I. H., Balsters, J. H., & O'Connell, R. G. (2011). Pupillometry and P3 index the locus coeruleus-noradrenergic arousal function in humans. *Psychophysiology*, 48(11), 1532–1543. https://doi.org/10.1111/j.1469-8986.2011.01226.x
+
+- Nassar, M. R. (2024). Toward a computational role for locus coeruleus/norepinephrine arousal systems. *Current Opinion in Behavioral Sciences*, 57, 101372. https://doi.org/10.1016/j.cobeha.2024.101372
+
+- O'Callaghan, C., Hall, J. M., Tomassini, A., Muhammed, K., Kaur, G., Naismith, S. L., Lewis, S. J. G., & Husain, M. (2025). Pharmacological and pupillary evidence for the noradrenergic contribution to reinforcement learning in Parkinson's disease. *Communications Biology*, 8, 114. https://doi.org/10.1038/s42003-025-07520-8
+
+- Preston, A. R., & Eichenbaum, H. (2013). Interplay of hippocampus and prefrontal cortex in memory. *Current Biology*, 23(17), R764–R773. https://doi.org/10.1016/j.cub.2013.05.041
+
+- Privitera, M., Ferrari, K. D., von Ziegler, L. M., Sturman, O., Duss, S. N., Floriou-Servou, A., Germain, P.-L., Vermeiren, Y., Wyss, M. T., De Deyn, P. P., Weber, B., & Bohacek, J. (2020). A complete pupillometry toolbox for real-time monitoring of locus coeruleus activity in rodents. *Nature Protocols*, 15(8), 2301–2320. https://doi.org/10.1038/s41596-020-0324-6
+
+- Reith, T., & Born, J. (2025). Closed-loop stimulation approaches and memory consolidation in animals. *Current Sleep Medicine Reports*, 11, 10. https://doi.org/10.1007/s40675-025-00324-0
+
+- Ripollés, P., Marco-Pallarés, J., Alicart, H., Tempelmann, C., Rodríguez-Fornells, A., & Noesselt, T. (2016). Intrinsic monitoring of learning success facilitates memory encoding via the activation of the SN/VTA-hippocampal loop. *eLife*, 5, e17441. https://doi.org/10.7554/eLife.17441
+
+- Sethi, A., & Kemere, C. (2014). Real time algorithms for sharp wave ripple detection. In *2014 36th Annual International Conference of the IEEE Engineering in Medicine and Biology Society* (pp. 2637–2640). IEEE. https://doi.org/10.1109/EMBC.2014.6944162
+
+- Sierra, R. O., Pedraza, L. K., Barcsai, L., Pejin, A., Li, Q., Kozák, G., Takeuchi, Y., Nagy, A. J., Lőrincz, M. L., Devinsky, O., Buzsáki, G., & Berényi, A. (2023). Closed-loop brain stimulation augments fear extinction in male rats. *Nature Communications*, 14, 3972. https://doi.org/10.1038/s41467-023-39546-7
+
+- Smeijers, S., Hermans, T., De Vloo, P., Van Paesschen, W., Theys, T., & Van Loon, J. (2024). Direct visualization of microwires in hybrid depth electrodes using high-resolution photon-counting CT. *Epilepsia Open*, 9(6), 2428–2435. https://doi.org/10.1002/epi4.13080
+
+- Sommer, T., Hennies, N., Lewis, P. A., & Alink, A. (2022). The assimilation of novel information into schemata and its efficient consolidation. *The Journal of Neuroscience*, 42(27), 5340–5349. https://doi.org/10.1523/JNEUROSCI.2373-21.2022
+
+- Spens, E., & Burgess, N. (2024). A generative model of memory construction and consolidation. *Nature Human Behaviour*, 8(3), 526–543. https://doi.org/10.1038/s41562-023-01799-z
+
+- Takeuchi, T., Duszkiewicz, A. J., Sonneborn, A., Spooner, P. A., Yamasaki, M., Watanabe, M., Smith, C. C., Fernández, G., Deisseroth, K., Greene, R. W., & Morris, R. G. M. (2016). Locus coeruleus and dopaminergic consolidation of everyday memory. *Nature*, 537(7620), 357–362. https://doi.org/10.1038/nature19325
+
+- Talakoub, O., Gomez Palacio Schjetnan, A., Valiante, T. A., Popovic, M. R., & Hoffman, K. L. (2016). Closed-loop interruption of hippocampal ripples through fornix stimulation in the non-human primate. *Brain Stimulation*, 9(6), 911–918. https://doi.org/10.1016/j.brs.2016.07.010
+
+- Trautmann, E. M., Hesse, J. K., Stine, G. M., Xia, R., Zhu, S., O'Shea, D. J., Karsh, B., Colonell, J., Lanfranchi, F. F., Vyas, S., Zimnik, A., Steinmann, N. A., Wagenaar, D. A., Andrei, A., Lopez, C. M., O'Callaghan, J., Putzeys, J., Raducanu, B. C., Welkenhuysen, M., Churchland, M. M., … Shenoy, K. V. (2025). Large-scale high-density brain-wide neural recording in nonhuman primates. *Nature Neuroscience*, 28(3), 640–652. https://doi.org/10.1038/s41593-025-01876-8
+
+- Tse, D., Langston, R. F., Kakeyama, M., Bethus, I., Spooner, P. A., Wood, E. R., Witter, M. P., & Morris, R. G. M. (2007). Schemas and memory consolidation. *Science*, 316(5821), 76–82. https://doi.org/10.1126/science.1135935
+
+- Tse, D., Takeuchi, T., Kakeyama, M., Kajii, Y., Okuno, H., Tohyama, C., Bito, H., & Morris, R. G. M. (2011). Schema-dependent gene activation and memory encoding in neocortex. *Science*, 333(6044), 891–895. https://doi.org/10.1126/science.1205274
+
+- Tsetsenis, T., Broussard, J. I., & Dani, J. A. (2023). Dopaminergic regulation of hippocampal plasticity, learning, and memory. *Frontiers in Behavioral Neuroscience*, 16, 1092420. https://doi.org/10.3389/fnbeh.2022.1092420
+
+- van Kesteren, M. T. R., Beul, S. F., Takashima, A., Henson, R. N., Ruiter, D. J., & Fernández, G. (2013). Differential roles for medial prefrontal and medial temporal cortices in schema-dependent encoding: From congruent to incongruent. *Neuropsychologia*, 51(12), 2352–2359. https://doi.org/10.1016/j.neuropsychologia.2013.05.027
+
+- Waters, S. J., West, E. A., Meier, R. M., Hazaveh, S., & Malkova, L. (2024). Reevaluating the role of the hippocampus in memory: A meta-analysis of neurotoxic lesion studies in nonhuman primates. *Hippocampus*, 34(5), 230–249. https://doi.org/10.1002/hipo.23596
+
+- Wittmann, B. C., Bunzeck, N., Dolan, R. J., & Düzel, E. (2007). Anticipation of novelty recruits reward system and hippocampus while promoting recollection. *NeuroImage*, 38(1), 194–202. https://doi.org/10.1016/j.neuroimage.2007.06.038
+
+- Xu, X., Chang, C., Li, H., Qin, H., & Lu, W. (2024). Spatial dissociation between recognition and navigation in the primate hippocampus. *Science Advances*, 10(13), eadn8439. https://doi.org/10.1126/sciadv.adn8439
+
+- Yang, C., Chen, H., Naya, Y. (2023). Sequential involvements of the perirhinal cortex and hippocampus in the recall of item-location associative memory in macaques. *PLOS Biology*, 21(10), e3002339. https://doi.org/10.1371/journal.pbio.3002339
+
+- Yebra, M., Galarza-Vallejo, A., Soto-Leon, V., Gonzalez-Rosa, J. J., de Berker, A. O., Bestmann, S., Oliviero, A., Kroes, M. C. W., & Strange, B. A. (2019). Action boosts episodic memory encoding in humans via engagement of a noradrenergic system. *Nature Communications*, 10(1), 3534. https://doi.org/10.1038/s41467-019-11358-8
+
+- Zhang, H., Fell, J., & Axmacher, N. (2018). Electrophysiological mechanisms of human memory consolidation. *Nature Communications*, 9, 4103. https://doi.org/10.1038/s41467-018-06553-y
+
+- Zhou, J., Montesinos-Cartagena, M., Wikenheiser, A. M., Gardner, M. P. H., Niv, Y., & Schoenbaum, G. (2019). Evolving schema representations in orbitofrontal ensembles during learning. *Nature*, 590(7847), 606–610. https://doi.org/10.1038/s41586-020-03061-2
