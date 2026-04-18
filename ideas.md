@@ -1725,7 +1725,7 @@ Sharp-wave ripples (SWRs) — approximately 100-ms bursts of 150–250 Hz oscill
 
 ### 2.3 The locus coeruleus–hippocampus plasticity axis and non-invasive proxies
 
-The LC and VTA were traditionally considered parallel but independent sources of hippocampal catecholaminergic input, but more recent anatomical and optogenetic evidence shows that a substantial fraction of hippocampal dopamine originates from LC tyrosine-hydroxylase-positive (TH+) neurons rather than from VTA (Takeuchi et al., 2016; Kempadoo et al., 2016). LC TH+ neurons project more profusely to the hippocampus than VTA TH+ neurons, and their optogenetic activation mimics the memory enhancement that follows novelty exposure, with the enhancement blocked by hippocampal D1/D5 but not adrenergic receptor antagonism (Takeuchi et al., 2016). The two catecholaminergic systems can act competitively rather than cooperatively: high-frequency VTA activation induces long-term potentiation in the Schaffer-collateral–CA1 synapse, whereas low-frequency LC activation induces long-term depression, both in a D1/D5-dependent manner (Hagena et al., 2024). Novel experiences that share some overlap with prior knowledge preferentially engage the VTA system to promote semantic consolidation, while novelty distinct from prior experience preferentially engages the LC to create vivid episodic memories (Duszkiewicz et al., 2019). Non-invasive LC proxies include pupil dilation, which covaries with LC BOLD activity during oddball and rest conditions (Murphy et al., 2014), the P3 event-related potential, whose amplitude and pupil covaries track LC arousal mode (Murphy et al., 2011), and neuromelanin-sensitive MRI, which indexes structural LC integrity and correlates with memory performance across the lifespan (Dahl et al., 2019; Hämmerer et al., 2018). Phasic LC activation tracks prioritized encoding of behaviorally relevant stimuli in humans under threat of loss (Clewett et al., 2018) and at event boundaries (Clewett et al., 2025), and LC-mediated pupil responses index action-driven memory enhancement (Yebra et al., 2017). Computational accounts place the LC in a role of facilitating internal state transitions that promote accurate credit assignment, particularly in non-stationary environments (Nassar, 2024). Pharmacological manipulation of noradrenaline in Parkinson's disease produces quantifiable pupil and behavioral shifts consistent with exploitation-biased reinforcement learning (O'Callaghan et al., 2025), and pupillometry indexes successful intentional forgetting at retrieval (Ding et al., 2025). Practical pupillometry is supported by open-source, low-cost hardware and software toolboxes (Privitera et al., 2020). For the purposes of bridging Experiment 1 and Experiment 2, these results jointly support the hypothesis that pupil-triggered novelty cues and monetary reward can engage the LC-hippocampal dopaminergic system sufficiently to support plasticity-related-protein delivery without requiring VTA microstimulation.
+The LC and VTA were traditionally considered parallel but independent sources of hippocampal catecholaminergic input, but more recent anatomical and optogenetic evidence shows that a substantial fraction of hippocampal dopamine originates from LC tyrosine-hydroxylase-positive (TH+) neurons rather than from VTA (Takeuchi et al., 2016; Kempadoo et al., 2016). LC TH+ neurons project more profusely to the hippocampus than VTA TH+ neurons, and their optogenetic activation mimics the memory enhancement that follows novelty exposure, with the enhancement blocked by hippocampal D1/D5 but not adrenergic receptor antagonism (Takeuchi et al., 2016). The two catecholaminergic systems can act competitively rather than cooperatively: high-frequency VTA activation induces long-term potentiation in the Schaffer-collateral–CA1 synapse, whereas low-frequency LC activation induces long-term depression, both in a D1/D5-dependent manner (Hagena et al., 2025). Novel experiences that share some overlap with prior knowledge preferentially engage the VTA system to promote semantic consolidation, while novelty distinct from prior experience preferentially engages the LC to create vivid episodic memories (Duszkiewicz et al., 2019). Non-invasive LC proxies include pupil dilation, which covaries with LC BOLD activity during oddball and rest conditions (Murphy et al., 2014), the P3 event-related potential, whose amplitude and pupil covaries track LC arousal mode (Murphy et al., 2011), and neuromelanin-sensitive MRI, which indexes structural LC integrity and correlates with memory performance across the lifespan (Dahl et al., 2019; Hämmerer et al., 2018). Phasic LC activation tracks prioritized encoding of behaviorally relevant stimuli in humans under threat of loss (Clewett et al., 2018) and at event boundaries (Clewett et al., 2025), and LC-mediated pupil responses index action-driven memory enhancement (Yebra et al., 2017). Computational accounts place the LC in a role of facilitating internal state transitions that promote accurate credit assignment, particularly in non-stationary environments (Nassar, 2024). Pharmacological manipulation of noradrenaline in Parkinson's disease produces quantifiable pupil and behavioral shifts consistent with exploitation-biased reinforcement learning (O'Callaghan et al., 2025), and pupillometry indexes successful intentional forgetting at retrieval (Ding et al., 2025). Practical pupillometry is supported by open-source, low-cost hardware and software toolboxes (Privitera et al., 2020). For the purposes of bridging Experiment 1 and Experiment 2, these results jointly support the hypothesis that pupil-triggered novelty cues and monetary reward can engage the LC-hippocampal dopaminergic system sufficiently to support plasticity-related-protein delivery without requiring VTA microstimulation.
 
 ### 2.4 Schema-accelerated consolidation
 
@@ -2072,7 +2072,7 @@ The primary obstacle requiring resolution before previous Experiment 2 is initia
 
 - Gulli, R. A., Duong, L. R., Corrigan, B. W., Doucet, G., Williams, S., Fusi, S., & Martinez-Trujillo, J. C. (2020). Context-dependent representations of objects and space in the primate hippocampus during virtual navigation. *Nature Neuroscience*, 23(1), 103–112. https://doi.org/10.1038/s41593-019-0548-3
 
-- Hagena, H., Feldmann, H., & Manahan-Vaughan, D. (2024). Oppositional and competitive instigation of hippocampal synaptic plasticity by the VTA and locus coeruleus. *Proceedings of the National Academy of Sciences*, 121(30), e2402356121. https://doi.org/10.1073/pnas.2402356121
+- Hagena, H., & Manahan-Vaughan, D. (2025). Oppositional and competitive instigation of hippocampal synaptic plasticity by the VTA and locus coeruleus, Proc. Natl. Acad. Sci. U.S.A. 122 (1) e2402356122, https://doi.org/10.1073/pnas.2402356122
 
 - Hämmerer, D., Callaghan, M. F., Hopkins, A., Kosciessa, J., Betts, M., Cardenas-Blanco, A., Kanowski, M., Weiskopf, N., Dayan, P., Dolan, R. J., & Düzel, E. (2018). Locus coeruleus integrity in old age is selectively related to memories linked with salient negative events. *Proceedings of the National Academy of Sciences*, 115(9), 2228–2233. https://doi.org/10.1073/pnas.1712268115
 
@@ -2080,15 +2080,15 @@ The primary obstacle requiring resolution before previous Experiment 2 is initia
 
 - Hoffing, R. C., & Seitz, A. R. (2015). Pupillometry as a glimpse into the neurochemical basis of human memory encoding. *Journal of Cognitive Neuroscience*, 27(4), 765–774. https://doi.org/10.1162/jocn_a_00749
 
-- Hussin, A. T., Leonard, T. K., & Hoffman, K. L. (2021). Retrosplenial and hippocampal synchrony during retrieval of old memories in macaques. *The Journal of Neuroscience*, 41(45), 9440–9454. https://doi.org/10.1523/JNEUROSCI.1809-20.2021
+- Hussin, A. T., Abbaspoor, S., & Hoffman, K. L. (2022). Retrosplenial and Hippocampal Synchrony during Retrieval of Old Memories in Macaques. The Journal of neuroscience : the official journal of the Society for Neuroscience, 42(42), 7947–7956. https://doi.org/10.1523/JNEUROSCI.0001-22.2022
 
 - Kaminski, J., Mamelak, A. N., Birch, K., Mosher, C. P., Tagliati, M., & Rutishauser, U. (2018). Novelty-sensitive dopaminergic neurons in the human substantia nigra predict success of declarative memory formation. *Current Biology*, 28(9), 1333–1343.e4. https://doi.org/10.1016/j.cub.2018.03.024
 
 - Kempadoo, K. A., Mosharov, E. V., Choi, S. J., Sulzer, D., & Kandel, E. R. (2016). Dopamine release from the locus coeruleus to the dorsal hippocampus promotes spatial learning and memory. *Proceedings of the National Academy of Sciences*, 113(51), 14835–14840. https://doi.org/10.1073/pnas.1616515114
 
-- Kim, C., Park, J., & Lee, I. (2022). Simultaneous cellular imaging, electrical recording and stimulation of hippocampal activity in freely behaving mice. *Experimental Neurobiology*, 31(6), 361–375. https://doi.org/10.5607/en22029
+- Kim, C. Y., Kim, S. J., & Kloosterman, F. (2022). Simultaneous Cellular Imaging, Electrical Recording and Stimulation of Hippocampal Activity in Freely Behaving Mice. Experimental neurobiology, 31(3), 208–220. https://doi.org/10.5607/en22011
 
-- Kleinman, M. R., Foster, D. J., & Tank, D. W. (2025). Spatial localization of hippocampal replay requires dopamine signaling. *eLife*, 14, e97108. https://doi.org/10.7554/eLife.97108
+- Kleinman, M. R., & Foster, D. J. (2024). Spatial localization of hippocampal replay requires dopamine signaling. bioRxiv : the preprint server for biology, 2024.06.04.597435. https://doi.org/10.1101/2024.06.04.597435
 
 - Lee, J. Y., Jun, H., Soma, S., Nakazono, T., Shiraiwa, K., Dasgupta, A., Nakagawa, T., Xie, J. L., Chavez, J., Romo, R., Yungblut, S., Hagihara, M., Murata, K., & Igarashi, K. M. (2021). Dopamine facilitates associative memory encoding in the entorhinal cortex. *Nature*, 598(7880), 321–326. https://doi.org/10.1038/s41586-021-03948-8
 
@@ -2098,9 +2098,9 @@ The primary obstacle requiring resolution before previous Experiment 2 is initia
 
 - Murphy, P. R., Robertson, I. H., Balsters, J. H., & O'Connell, R. G. (2011). Pupillometry and P3 index the locus coeruleus-noradrenergic arousal function in humans. *Psychophysiology*, 48(11), 1532–1543. https://doi.org/10.1111/j.1469-8986.2011.01226.x
 
-- Nassar, M. R. (2024). Toward a computational role for locus coeruleus/norepinephrine arousal systems. *Current Opinion in Behavioral Sciences*, 57, 101372. https://doi.org/10.1016/j.cobeha.2024.101372
+- Nassar, M. R. (2024). Toward a computational role for locus coeruleus/norepinephrine arousal systems. Current opinion in behavioral sciences, 59, 101407.
 
-- O'Callaghan, C., Hall, J. M., Tomassini, A., Muhammed, K., Kaur, G., Naismith, S. L., Lewis, S. J. G., & Husain, M. (2025). Pharmacological and pupillary evidence for the noradrenergic contribution to reinforcement learning in Parkinson's disease. *Communications Biology*, 8, 114. https://doi.org/10.1038/s42003-025-07520-8
+- O'Callaghan, C., Hezemans, F. H., Subramaniam, N., Ye, R., Tsvetanov, K. A., Murley, A. G., Holland, N., Orlando, I. F., Regenthal, R., Barker, R. A., Williams-Gray, C. H., Passamonti, L., Robbins, T. W., & Rowe, J. B. (2025). Pharmacological and pupillary evidence for the noradrenergic contribution to reinforcement learning in Parkinson's disease. Communications biology, 8(1), 1223. https://doi.org/10.1038/s42003-025-08627-2
 
 - Preston, A. R., & Eichenbaum, H. (2013). Interplay of hippocampus and prefrontal cortex in memory. *Current Biology*, 23(17), R764–R773. https://doi.org/10.1016/j.cub.2013.05.041
 
@@ -2110,7 +2110,7 @@ The primary obstacle requiring resolution before previous Experiment 2 is initia
 
 - Ripollés, P., Marco-Pallarés, J., Alicart, H., Tempelmann, C., Rodríguez-Fornells, A., & Noesselt, T. (2016). Intrinsic monitoring of learning success facilitates memory encoding via the activation of the SN/VTA-hippocampal loop. *eLife*, 5, e17441. https://doi.org/10.7554/eLife.17441
 
-- Sethi, A., & Kemere, C. (2014). Real time algorithms for sharp wave ripple detection. In *2014 36th Annual International Conference of the IEEE Engineering in Medicine and Biology Society* (pp. 2637–2640). IEEE. https://doi.org/10.1109/EMBC.2014.6944162
+- Sethi, A., & Kemere, C. (2014). Real time algorithms for sharp wave ripple detection. Annual International Conference of the IEEE Engineering in Medicine and Biology Society. IEEE Engineering in Medicine and Biology Society. Annual International Conference, 2014, 2637–2640. https://doi.org/10.1109/EMBC.2014.6944164
 
 - Sierra, R. O., Pedraza, L. K., Barcsai, L., Pejin, A., Li, Q., Kozák, G., Takeuchi, Y., Nagy, A. J., Lőrincz, M. L., Devinsky, O., Buzsáki, G., & Berényi, A. (2023). Closed-loop brain stimulation augments fear extinction in male rats. *Nature Communications*, 14, 3972. https://doi.org/10.1038/s41467-023-39546-7
 
@@ -2126,7 +2126,7 @@ The primary obstacle requiring resolution before previous Experiment 2 is initia
 
 - Trautmann, E. M., Hesse, J. K., Stine, G. M., Xia, R., Zhu, S., O'Shea, D. J., Karsh, B., Colonell, J., Lanfranchi, F. F., Vyas, S., Zimnik, A., Steinmann, N. A., Wagenaar, D. A., Andrei, A., Lopez, C. M., O'Callaghan, J., Putzeys, J., Raducanu, B. C., Welkenhuysen, M., Churchland, M. M., … Shenoy, K. V. (2025). Large-scale high-density brain-wide neural recording in nonhuman primates. *Nature Neuroscience*, 28(3), 640–652. https://doi.org/10.1038/s41593-025-01876-8
 
-- Tse, D., Langston, R. F., Kakeyama, M., Bethus, I., Spooner, P. A., Wood, E. R., Witter, M. P., & Morris, R. G. M. (2007). Schemas and memory consolidation. *Science*, 316(5821), 76–82. https://doi.org/10.1126/science.1135935
+- Tse, D., Langston, R. F., Kakeyama, M., Bethus, I., Spooner, P. A., Wood, E. R., Witter, M. P., & Morris, R. G. (2007). Schemas and memory consolidation. Science (New York, N.Y.), 316(5821), 76–82. https://doi.org/10.1126/science.1135935
 
 - Tse, D., Takeuchi, T., Kakeyama, M., Kajii, Y., Okuno, H., Tohyama, C., Bito, H., & Morris, R. G. M. (2011). Schema-dependent gene activation and memory encoding in neocortex. *Science*, 333(6044), 891–895. https://doi.org/10.1126/science.1205274
 
@@ -2134,16 +2134,18 @@ The primary obstacle requiring resolution before previous Experiment 2 is initia
 
 - van Kesteren, M. T. R., Beul, S. F., Takashima, A., Henson, R. N., Ruiter, D. J., & Fernández, G. (2013). Differential roles for medial prefrontal and medial temporal cortices in schema-dependent encoding: From congruent to incongruent. *Neuropsychologia*, 51(12), 2352–2359. https://doi.org/10.1016/j.neuropsychologia.2013.05.027
 
-- Waters, S. J., West, E. A., Meier, R. M., Hazaveh, S., & Malkova, L. (2024). Reevaluating the role of the hippocampus in memory: A meta-analysis of neurotoxic lesion studies in nonhuman primates. *Hippocampus*, 34(5), 230–249. https://doi.org/10.1002/hipo.23596
+- Waters, S. J., Basile, B. M., & Murray, E. A. (2023). Reevaluating the role of the hippocampus in memory: A meta-analysis of neurotoxic lesion studies in nonhuman primates. Hippocampus, 33(6), 787–807. https://doi.org/10.1002/hipo.23499
 
 - Wittmann, B. C., Bunzeck, N., Dolan, R. J., & Düzel, E. (2007). Anticipation of novelty recruits reward system and hippocampus while promoting recollection. *NeuroImage*, 38(1), 194–202. https://doi.org/10.1016/j.neuroimage.2007.06.038
 
-- Xu, X., Chang, C., Li, H., Qin, H., & Lu, W. (2024). Spatial dissociation between recognition and navigation in the primate hippocampus. *Science Advances*, 10(13), eadn8439. https://doi.org/10.1126/sciadv.adn8439
+- Xu, X., Du, K., & Mao, D. (2024). Spatial dissociation between recognition and navigation in the primate hippocampus. Science advances, 10(38), eado7392. https://doi.org/10.1126/sciadv.ado7392
 
-- Yang, C., Chen, H., Naya, Y. (2023). Sequential involvements of the perirhinal cortex and hippocampus in the recall of item-location associative memory in macaques. *PLOS Biology*, 21(10), e3002339. https://doi.org/10.1371/journal.pbio.3002339
+- Yang, C., & Naya, Y. (2023). Sequential involvements of the perirhinal cortex and hippocampus in the recall of item-location associative memory in macaques. PLoS biology, 21(6), e3002145. https://doi.org/10.1371/journal.pbio.3002145
 
 - Yebra, M., Galarza-Vallejo, A., Soto-Leon, V., Gonzalez-Rosa, J. J., de Berker, A. O., Bestmann, S., Oliviero, A., Kroes, M. C. W., & Strange, B. A. (2019). Action boosts episodic memory encoding in humans via engagement of a noradrenergic system. *Nature Communications*, 10(1), 3534. https://doi.org/10.1038/s41467-019-11358-8
 
 - Zhang, H., Fell, J., & Axmacher, N. (2018). Electrophysiological mechanisms of human memory consolidation. *Nature Communications*, 9, 4103. https://doi.org/10.1038/s41467-018-06553-y
 
 - Zhou, J., Montesinos-Cartagena, M., Wikenheiser, A. M., Gardner, M. P. H., Niv, Y., & Schoenbaum, G. (2019). Evolving schema representations in orbitofrontal ensembles during learning. *Nature*, 590(7847), 606–610. https://doi.org/10.1038/s41586-020-03061-2
+
+- Sehgal, M., Filho, D.A., Kastellakis, G. et al. Compartmentalized dendritic plasticity in the mouse retrosplenial cortex links contextual memories formed close in time. Nat Neurosci 28, 602–615 (2025). https://doi.org/10.1038/s41593-025-01876-8
