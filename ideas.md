@@ -1685,7 +1685,7 @@ Several limitations constrain the proposed experiments. (i) All human work is co
 
 - Zaccaria, C., Malkoç, A., Auslender, I., Heydari, Y., Canossa, M., Vignoli, B., & Pavesi, L. (2026). Investigation of synaptic connectivity in functional in vitro neuronal assemblies. Cell Reports Methods, 6(1).
 
-# Gap Bridging Experiments (verify)
+# Gap Bridging Experiments (Verify)
 
 ---
 
