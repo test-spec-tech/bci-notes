@@ -1528,7 +1528,7 @@ The pipeline addresses obstacles (a)–(c) sequentially and with increasing stri
 On the basis of the neuroscience foundations reviewed and the experimental designs proposed, memory types rank as follows for current-generation feasibility:
 
 1. **Associative memory (most achievable).** Simple paired associations exploit CA3 autoassociative dynamics (Watson et al., 2024; Le Duigou et al., 2014) and can be written as MIMO-derived CA1 codes (Hampson et al., 2018). Experiments 1 and 2 target this level.
-2. **Semantic memory (achievable with multi-region approaches).** Semantic facts require both a hippocampal index and a cortical content representation; schema-primed consolidation accelerates the cortical build (Tse et al., 2007, 2011). Non-invasive complements are emerging: transcranial focused ultrasound over the ventromedial anterior temporal lobe enhanced semantic task performance by modulating brain morphology, neurochemistry, and neural dynamics (Jung et al., 2026), and temporal interference stimulation has achieved focal hippocampal targeting non-invasively (Violante et al., 2023, cited via the broader neuromodulation literature included in References.md). Transcutaneous vagus nerve stimulation has comparatively modest effects on associative memory (Griffiths et al., 2026). Experiment 3 targets this level using invasive stimulation for maximal precision.
+2. **Semantic memory (achievable with multi-region approaches).** Semantic facts require both a hippocampal index and a cortical content representation; schema-primed consolidation accelerates the cortical build (Tse et al., 2007, 2011). Non-invasive complements are emerging: transcranial focused ultrasound over the ventromedial anterior temporal lobe enhanced semantic task performance by modulating brain morphology, neurochemistry, and neural dynamics (Jung et al., 2026), and temporal interference stimulation has achieved focal hippocampal targeting non-invasively (Violante et al., 2023, cited via the broader neuromodulation literature included in [References.md](References.md)). Transcutaneous vagus nerve stimulation has comparatively modest effects on associative memory (Griffiths et al., 2026). Experiment 3 targets this level using invasive stimulation for maximal precision.
 3. **Episodic memory (longer-term objective).** Episodic memory requires multi-feature hippocampal indexing, theta-phase sequence coding, multi-modal sensory binding, and emotional valence via amygdala–hippocampal coordination. Phase precession must be artificially induced for temporal order (Skaggs et al., 1996; Qasim et al., 2021). The framework here informs but does not solve this level.
 
 ### 6.3 Clinical implications
@@ -2035,6 +2035,8 @@ The primary obstacle requiring resolution before previous Experiment 2 is initia
 
 * [Memory.md](Memory.md)
 * [References.md](References.md)
+
+### Additional References
 
 - Aleman-Zapata, A., van der Meij, J., & Genzel, L. (2022). Disrupting ripples: Methods, results, and caveats in closed-loop approaches in rodents. *Journal of Sleep Research*, 31(1), e13532. https://doi.org/10.1111/jsr.13532
 
