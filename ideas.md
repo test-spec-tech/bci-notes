@@ -2038,114 +2038,114 @@ The primary obstacle requiring resolution before previous Experiment 2 is initia
 
 ### Additional References
 
-- Aleman-Zapata, A., van der Meij, J., & Genzel, L. (2022). Disrupting ripples: Methods, results, and caveats in closed-loop approaches in rodents. *Journal of Sleep Research*, 31(1), e13532. https://doi.org/10.1111/jsr.13532
+- Aleman-Zapata, A., van der Meij, J., & Genzel, L. (2022). Disrupting ripples: Methods, results, and caveats in closed-loop approaches in rodents. Journal of sleep research, 31(6), e13532. https://doi.org/10.1111/jsr.13532
 
-- Audrain, S., & McAndrews, M. P. (2022). Schemas provide a scaffold for neocortical integration of new memories over time. *Nature Communications*, 13(1), 5795. https://doi.org/10.1038/s41467-022-33517-0
+- Audrain, S., & McAndrews, M. P. (2022). Schemas provide a scaffold for neocortical integration of new memories over time. Nature communications, 13(1), 5795. https://doi.org/10.1038/s41467-022-33517-0
 
 - Baraduc, P., & Wirth, S. (2021). Primate memory, from simple associations to abstract concepts. Comptes rendus biologies, 343(3), 235–246. https://doi.org/10.5802/crbiol.33
 
-- Bein, O., Niv, Y. (2025). Schemas, reinforcement learning and the medial prefrontal cortex. *Nature Reviews Neuroscience*, 26(3), 141–157. https://doi.org/10.1038/s41583-024-00893-z
+- Bein, O., & Niv, Y. (2025). Schemas, reinforcement learning and the medial prefrontal cortex. Nature reviews. Neuroscience, 26(3), 141–157. https://doi.org/10.1038/s41583-024-00893-z
 
-- Bunzeck, N., & Düzel, E. (2006). Absolute coding of stimulus novelty in the human substantia nigra/VTA. *Neuron*, 51(3), 369–379. https://doi.org/10.1016/j.neuron.2006.06.021
+- Bunzeck, N., & Düzel, E. (2006). Absolute coding of stimulus novelty in the human substantia nigra/VTA. Neuron, 51(3), 369–379. https://doi.org/10.1016/j.neuron.2006.06.021
 
-- Clewett, D., Huang, R., & Davachi, L. (2025). Locus coeruleus activation "resets" hippocampal event representations and separates adjacent memories. *Neuron*, 113(15), 2521–2535.e8. https://doi.org/10.1016/j.neuron.2025.05.013
+- Clewett, D., Huang, R., & Davachi, L. (2025). Locus coeruleus activation 'resets' hippocampal event representations and separates adjacent memories. bioRxiv : the preprint server for biology, 2024.08.15.608148. https://doi.org/10.1101/2024.08.15.608148
 
-- Clewett, D. V., Huang, R., Velasco, R., Lee, T.-H., & Mather, M. (2018). Locus coeruleus activity strengthens prioritized memories under arousal. *The Journal of Neuroscience*, 38(6), 1558–1574. https://doi.org/10.1523/JNEUROSCI.2097-17.2017
+- Clewett, D. V., Huang, R., Velasco, R., Lee, T. H., & Mather, M. (2018). Locus Coeruleus Activity Strengthens Prioritized Memories Under Arousal. The Journal of neuroscience : the official journal of the Society for Neuroscience, 38(6), 1558–1574. https://doi.org/10.1523/JNEUROSCI.2097-17.2017
 
-- Dahl, M. J., Mather, M., Düzel, S., Bodammer, N. C., Lindenberger, U., Kühn, S., & Werkle-Bergner, M. (2019). Rostral locus coeruleus integrity is associated with better memory performance in older adults. *Nature Human Behaviour*, 3(11), 1203–1214. https://doi.org/10.1038/s41562-019-0715-2
+- Dahl, M. J., Mather, M., Düzel, S., Bodammer, N. C., Lindenberger, U., Kühn, S., & Werkle-Bergner, M. (2019). Rostral locus coeruleus integrity is associated with better memory performance in older adults. Nature human behaviour, 3(11), 1203–1214. https://doi.org/10.1038/s41562-019-0715-2
 
 - Ding, H., Whitlock, J., & Sahakyan, L. (2025). Pupil Fluctuations Signal Intentional Forgetting of Natural Scenes. Psychophysiology, 62(8), e70119. https://doi.org/10.1111/psyp.70119
 
-- Duszkiewicz, A. J., McNamara, C. G., Takeuchi, T., & Genzel, L. (2019). Novelty and dopaminergic modulation of memory persistence: A tale of two systems. *Trends in Neurosciences*, 42(2), 102–114. https://doi.org/10.1016/j.tins.2018.10.002
+- Duszkiewicz, A. J., McNamara, C. G., Takeuchi, T., & Genzel, L. (2019). Novelty and Dopaminergic Modulation of Memory Persistence: A Tale of Two Systems. Trends in neurosciences, 42(2), 102–114. https://doi.org/10.1016/j.tins.2018.10.002
 
 - Dutta, S., Ackermann, E., & Kemere, C. (2019). Analysis of an open source, closed-loop, realtime system for hippocampal sharp-wave ripple disruption. Journal of neural engineering, 16(1), 016009. https://doi.org/10.1088/1741-2552/aae90e
 
-- Elliott, B. L., D'Ardenne, K., Mukherjee, P., Schweitzer, J. B., & McClure, S. M. (2022). Midbrain–hippocampus structural connectivity selectively predicts motivated memory encoding. *The Journal of Neuroscience*, 42(47), 8996–9010. https://doi.org/10.1523/JNEUROSCI.0945-22.2022
+- Elliott, B. L., D'Ardenne, K., Murty, V. P., Brewer, G. A., & McClure, S. M. (2022). Midbrain-Hippocampus Structural Connectivity Selectively Predicts Motivated Memory Encoding. The Journal of neuroscience : the official journal of the Society for Neuroscience, 42(50), 9426–9434. https://doi.org/10.1523/JNEUROSCI.0945-22.2022
 
 - Forcelli, P. A., LaFlamme, E. M., Waguespack, H. F., Saunders, R. C., & Malkova, L. (2024). Hippocampal lesions impair non-navigational spatial memory in macaques. Hippocampus, 34(5), 261–275. https://doi.org/10.1002/hipo.23603
 
 - Garwood, I. C., Major, A. J., Antonini, M. J., Correa, J., Lee, Y., Sahasrabudhe, A., Mahnke, M. K., Miller, E. K., Brown, E. N., & Anikeeva, P. (2023). Multifunctional fibers enable modulation of cortical and deep brain activity during cognitive behavior in macaques. Science advances, 9(40), eadh0974. https://doi.org/10.1126/sciadv.adh0974
 
-- Geva-Sagiv, M., Mankin, E. A., Eliashiv, D., Epstein, S., Cherry, N., Kalender, G., Tchemodanov, N., Nir, Y., & Fried, I. (2023). Augmenting hippocampal–prefrontal neuronal synchrony during sleep enhances memory consolidation in humans. *Nature Neuroscience*, 26(6), 1100–1110. https://doi.org/10.1038/s41593-023-01324-5
+- Geva-Sagiv, M., Mankin, E. A., Eliashiv, D., Epstein, S., Cherry, N., Kalender, G., Tchemodanov, N., Nir, Y., & Fried, I. (2023). Augmenting hippocampal-prefrontal neuronal synchrony during sleep enhances memory consolidation in humans. Nature neuroscience, 26(6), 1100–1110. https://doi.org/10.1038/s41593-023-01324-5
 
-- Gilboa, A., & Marlatte, H. (2017). Neurobiology of schemas and schema-mediated memory. *Trends in Cognitive Sciences*, 21(8), 618–631. https://doi.org/10.1016/j.tics.2017.04.013
+- Gilboa, A., & Marlatte, H. (2017). Neurobiology of schemas and schema-mediated memory. Trends in cognitive sciences, 21(8), 618-631. https://doi.org/10.1016/j.tics.2017.04.013
 
-- Gulli, R. A., Duong, L. R., Corrigan, B. W., Doucet, G., Williams, S., Fusi, S., & Martinez-Trujillo, J. C. (2020). Context-dependent representations of objects and space in the primate hippocampus during virtual navigation. *Nature Neuroscience*, 23(1), 103–112. https://doi.org/10.1038/s41593-019-0548-3
+- Gulli, R. A., Duong, L. R., Corrigan, B. W., Doucet, G., Williams, S., Fusi, S., & Martinez-Trujillo, J. C. (2020). Context-dependent representations of objects and space in the primate hippocampus during virtual navigation. Nature neuroscience, 23(1), 103–112. https://doi.org/10.1038/s41593-019-0548-3
 
 - Hagena, H., & Manahan-Vaughan, D. (2025). Oppositional and competitive instigation of hippocampal synaptic plasticity by the VTA and locus coeruleus, Proc. Natl. Acad. Sci. U.S.A. 122 (1) e2402356122, https://doi.org/10.1073/pnas.2402356122
 
-- Hämmerer, D., Callaghan, M. F., Hopkins, A., Kosciessa, J., Betts, M., Cardenas-Blanco, A., Kanowski, M., Weiskopf, N., Dayan, P., Dolan, R. J., & Düzel, E. (2018). Locus coeruleus integrity in old age is selectively related to memories linked with salient negative events. *Proceedings of the National Academy of Sciences*, 115(9), 2228–2233. https://doi.org/10.1073/pnas.1712268115
+- Hämmerer, D., Callaghan, M. F., Hopkins, A., Kosciessa, J., Betts, M., Cardenas-Blanco, A., Kanowski, M., Weiskopf, N., Dayan, P., Dolan, R. J., & Düzel, E. (2018). Locus coeruleus integrity in old age is selectively related to memories linked with salient negative events. Proceedings of the National Academy of Sciences of the United States of America, 115(9), 2228–2233. https://doi.org/10.1073/pnas.1712268115
 
-- Hasan, M., Kanna, M. S., Jun, W., Ramkrishnan, A. S., Iqbal, Z., Lee, Y., & Li, Y. (2019). Schema-like learning and memory consolidation acting through myelination. *The FASEB Journal*, 33(11), 11758–11775. https://doi.org/10.1096/fj.201900910R
+- Hasan, M., Kanna, M. S., Jun, W., Ramkrishnan, A. S., Iqbal, Z., Lee, Y., & Li, Y. (2019). Schema-like learning and memory consolidation acting through myelination. FASEB journal : official publication of the Federation of American Societies for Experimental Biology, 33(11), 11758–11775. https://doi.org/10.1096/fj.201900910R
 
-- Hoffing, R. C., & Seitz, A. R. (2015). Pupillometry as a glimpse into the neurochemical basis of human memory encoding. *Journal of Cognitive Neuroscience*, 27(4), 765–774. https://doi.org/10.1162/jocn_a_00749
+- Hoffing, R. C., & Seitz, A. R. (2015). Pupillometry as a glimpse into the neurochemical basis of human memory encoding. Journal of cognitive neuroscience, 27(4), 765–774. https://doi.org/10.1162/jocn_a_00749
 
 - Hussin, A. T., Abbaspoor, S., & Hoffman, K. L. (2022). Retrosplenial and Hippocampal Synchrony during Retrieval of Old Memories in Macaques. The Journal of neuroscience : the official journal of the Society for Neuroscience, 42(42), 7947–7956. https://doi.org/10.1523/JNEUROSCI.0001-22.2022
 
-- Kaminski, J., Mamelak, A. N., Birch, K., Mosher, C. P., Tagliati, M., & Rutishauser, U. (2018). Novelty-sensitive dopaminergic neurons in the human substantia nigra predict success of declarative memory formation. *Current Biology*, 28(9), 1333–1343.e4. https://doi.org/10.1016/j.cub.2018.03.024
+- Kamiński, J., Mamelak, A. N., Birch, K., Mosher, C. P., Tagliati, M., & Rutishauser, U. (2018). Novelty-Sensitive Dopaminergic Neurons in the Human Substantia Nigra Predict Success of Declarative Memory Formation. Current biology : CB, 28(9), 1333–1343.e4. https://doi.org/10.1016/j.cub.2018.03.024
 
-- Kempadoo, K. A., Mosharov, E. V., Choi, S. J., Sulzer, D., & Kandel, E. R. (2016). Dopamine release from the locus coeruleus to the dorsal hippocampus promotes spatial learning and memory. *Proceedings of the National Academy of Sciences*, 113(51), 14835–14840. https://doi.org/10.1073/pnas.1616515114
+- Kempadoo, K. A., Mosharov, E. V., Choi, S. J., Sulzer, D., & Kandel, E. R. (2016). Dopamine release from the locus coeruleus to the dorsal hippocampus promotes spatial learning and memory. Proceedings of the National Academy of Sciences, 113(51), 14835-14840. https://doi.org/10.1073/pnas.1616515114
 
 - Kim, C. Y., Kim, S. J., & Kloosterman, F. (2022). Simultaneous Cellular Imaging, Electrical Recording and Stimulation of Hippocampal Activity in Freely Behaving Mice. Experimental neurobiology, 31(3), 208–220. https://doi.org/10.5607/en22011
 
 - Kleinman, M. R., & Foster, D. J. (2024). Spatial localization of hippocampal replay requires dopamine signaling. bioRxiv : the preprint server for biology, 2024.06.04.597435. https://doi.org/10.1101/2024.06.04.597435
 
-- Lee, J. Y., Jun, H., Soma, S., Nakazono, T., Shiraiwa, K., Dasgupta, A., Nakagawa, T., Xie, J. L., Chavez, J., Romo, R., Yungblut, S., Hagihara, M., Murata, K., & Igarashi, K. M. (2021). Dopamine facilitates associative memory encoding in the entorhinal cortex. *Nature*, 598(7880), 321–326. https://doi.org/10.1038/s41586-021-03948-8
+- Lee, J. Y., Jun, H., Soma, S., Nakazono, T., Shiraiwa, K., Dasgupta, A., Nakagawa, T., Xie, J. L., Chavez, J., Romo, R., Yungblut, S., Hagihara, M., Murata, K., & Igarashi, K. M. (2021). Dopamine facilitates associative memory encoding in the entorhinal cortex. Nature, 598(7880), 321–326. https://doi.org/10.1038/s41586-021-03948-8
 
-- Lisman, J. E., & Grace, A. A. (2005). The hippocampal–VTA loop: Controlling the entry of information into long-term memory. *Neuron*, 46(5), 703–713. https://doi.org/10.1016/j.neuron.2005.05.002
+- Lisman, J. E., & Grace, A. A. (2005). The hippocampal-VTA loop: controlling the entry of information into long-term memory. Neuron, 46(5), 703–713. https://doi.org/10.1016/j.neuron.2005.05.002
 
-- Murphy, P. R., O'Connell, R. G., O'Sullivan, M., Robertson, I. H., & Balsters, J. H. (2014). Pupil diameter covaries with BOLD activity in human locus coeruleus. *Human Brain Mapping*, 35(8), 4140–4154. https://doi.org/10.1002/hbm.22466
+- Murphy, P. R., O'Connell, R. G., O'Sullivan, M., Robertson, I. H., & Balsters, J. H. (2014). Pupil diameter covaries with BOLD activity in human locus coeruleus. Human brain mapping, 35(8), 4140–4154. https://doi.org/10.1002/hbm.22466
 
-- Murphy, P. R., Robertson, I. H., Balsters, J. H., & O'Connell, R. G. (2011). Pupillometry and P3 index the locus coeruleus-noradrenergic arousal function in humans. *Psychophysiology*, 48(11), 1532–1543. https://doi.org/10.1111/j.1469-8986.2011.01226.x
+- Murphy, P. R., Robertson, I. H., Balsters, J. H., & O'connell, R. G. (2011). Pupillometry and P3 index the locus coeruleus-noradrenergic arousal function in humans. Psychophysiology, 48(11), 1532–1543. https://doi.org/10.1111/j.1469-8986.2011.01226.x
 
 - Nassar, M. R. (2024). Toward a computational role for locus coeruleus/norepinephrine arousal systems. Current opinion in behavioral sciences, 59, 101407.
 
 - O'Callaghan, C., Hezemans, F. H., Subramaniam, N., Ye, R., Tsvetanov, K. A., Murley, A. G., Holland, N., Orlando, I. F., Regenthal, R., Barker, R. A., Williams-Gray, C. H., Passamonti, L., Robbins, T. W., & Rowe, J. B. (2025). Pharmacological and pupillary evidence for the noradrenergic contribution to reinforcement learning in Parkinson's disease. Communications biology, 8(1), 1223. https://doi.org/10.1038/s42003-025-08627-2
 
-- Preston, A. R., & Eichenbaum, H. (2013). Interplay of hippocampus and prefrontal cortex in memory. *Current Biology*, 23(17), R764–R773. https://doi.org/10.1016/j.cub.2013.05.041
+- Preston, A. R., & Eichenbaum, H. (2013). Interplay of hippocampus and prefrontal cortex in memory. Current biology : CB, 23(17), R764–R773. https://doi.org/10.1016/j.cub.2013.05.041
 
-- Privitera, M., Ferrari, K. D., von Ziegler, L. M., Sturman, O., Duss, S. N., Floriou-Servou, A., Germain, P.-L., Vermeiren, Y., Wyss, M. T., De Deyn, P. P., Weber, B., & Bohacek, J. (2020). A complete pupillometry toolbox for real-time monitoring of locus coeruleus activity in rodents. *Nature Protocols*, 15(8), 2301–2320. https://doi.org/10.1038/s41596-020-0324-6
+- Privitera, M., Ferrari, K.D., von Ziegler, L.M. et al. A complete pupillometry toolbox for real-time monitoring of locus coeruleus activity in rodents. Nat Protoc 15, 2301–2320 (2020). https://doi.org/10.1038/s41596-020-0324-6
 
-- Reith, T., & Born, J. (2025). Closed-loop stimulation approaches and memory consolidation in animals. *Current Sleep Medicine Reports*, 11, 10. https://doi.org/10.1007/s40675-025-00324-0
+- Reith, T., Zhang, S., & Marshall, L. (2025). Closed-Loop Stimulation Approaches and Memory Consolidation in Animals. Current Sleep Medicine Reports, 11(1), 11. https://doi.org/10.1007/s40675-025-00324-0
 
-- Ripollés, P., Marco-Pallarés, J., Alicart, H., Tempelmann, C., Rodríguez-Fornells, A., & Noesselt, T. (2016). Intrinsic monitoring of learning success facilitates memory encoding via the activation of the SN/VTA-hippocampal loop. *eLife*, 5, e17441. https://doi.org/10.7554/eLife.17441
+- Ripollés, P., Marco-Pallarés, J., Alicart, H., Tempelmann, C., Rodríguez-Fornells, A., & Noesselt, T. (2016). Intrinsic monitoring of learning success facilitates memory encoding via the activation of the SN/VTA-Hippocampal loop. eLife, 5, e17441. https://doi.org/10.7554/eLife.17441
 
 - Sethi, A., & Kemere, C. (2014). Real time algorithms for sharp wave ripple detection. Annual International Conference of the IEEE Engineering in Medicine and Biology Society. IEEE Engineering in Medicine and Biology Society. Annual International Conference, 2014, 2637–2640. https://doi.org/10.1109/EMBC.2014.6944164
 
-- Sierra, R. O., Pedraza, L. K., Barcsai, L., Pejin, A., Li, Q., Kozák, G., Takeuchi, Y., Nagy, A. J., Lőrincz, M. L., Devinsky, O., Buzsáki, G., & Berényi, A. (2023). Closed-loop brain stimulation augments fear extinction in male rats. *Nature Communications*, 14, 3972. https://doi.org/10.1038/s41467-023-39546-7
+- Sierra, R. O., Pedraza, L. K., Barcsai, L., Pejin, A., Li, Q., Kozák, G., Takeuchi, Y., Nagy, A. J., Lőrincz, M. L., Devinsky, O., Buzsáki, G., & Berényi, A. (2023). Closed-loop brain stimulation augments fear extinction in male rats. Nature communications, 14(1), 3972. https://doi.org/10.1038/s41467-023-39546-7
 
-- Smeijers, S., Hermans, T., De Vloo, P., Van Paesschen, W., Theys, T., & Van Loon, J. (2024). Direct visualization of microwires in hybrid depth electrodes using high-resolution photon-counting CT. *Epilepsia Open*, 9(6), 2428–2435. https://doi.org/10.1002/epi4.13080
+- Smeijers, S., Coudyzer, W., Keirse, E., Bougou, V., Decramer, T., & Theys, T. (2024). Direct visualization of microwires in hybrid depth electrodes using high-resolution photon-counting CT. Epilepsia open, 9(6), 2518–2521. https://doi.org/10.1002/epi4.13080
 
-- Sommer, T., Hennies, N., Lewis, P. A., & Alink, A. (2022). The assimilation of novel information into schemata and its efficient consolidation. *The Journal of Neuroscience*, 42(27), 5340–5349. https://doi.org/10.1523/JNEUROSCI.2373-21.2022
+- Sommer, T., Hennies, N., Lewis, P. A., & Alink, A. (2022). The Assimilation of Novel Information into Schemata and Its Efficient Consolidation. The Journal of neuroscience : the official journal of the Society for Neuroscience, 42(30), 5916–5929. https://doi.org/10.1523/JNEUROSCI.2373-21.2022
 
-- Spens, E., & Burgess, N. (2024). A generative model of memory construction and consolidation. *Nature Human Behaviour*, 8(3), 526–543. https://doi.org/10.1038/s41562-023-01799-z
+- Spens, E., & Burgess, N. (2024). A generative model of memory construction and consolidation. Nature human behaviour, 8(3), 526–543. https://doi.org/10.1038/s41562-023-01799-z
 
-- Takeuchi, T., Duszkiewicz, A. J., Sonneborn, A., Spooner, P. A., Yamasaki, M., Watanabe, M., Smith, C. C., Fernández, G., Deisseroth, K., Greene, R. W., & Morris, R. G. M. (2016). Locus coeruleus and dopaminergic consolidation of everyday memory. *Nature*, 537(7620), 357–362. https://doi.org/10.1038/nature19325
+- Takeuchi, T., Duszkiewicz, A. J., Sonneborn, A., Spooner, P. A., Yamasaki, M., Watanabe, M., Smith, C. C., Fernández, G., Deisseroth, K., Greene, R. W., & Morris, R. G. (2016). Locus coeruleus and dopaminergic consolidation of everyday memory. Nature, 537(7620), 357–362. https://doi.org/10.1038/nature19325
 
-- Talakoub, O., Gomez Palacio Schjetnan, A., Valiante, T. A., Popovic, M. R., & Hoffman, K. L. (2016). Closed-loop interruption of hippocampal ripples through fornix stimulation in the non-human primate. *Brain Stimulation*, 9(6), 911–918. https://doi.org/10.1016/j.brs.2016.07.010
+- Talakoub, O., Gomez Palacio Schjetnan, A., Valiante, T. A., Popovic, M. R., & Hoffman, K. L. (2016). Closed-Loop Interruption of Hippocampal Ripples through Fornix Stimulation in the Non-Human Primate. Brain stimulation, 9(6), 911–918. https://doi.org/10.1016/j.brs.2016.07.010
 
-- Trautmann, E. M., Hesse, J. K., Stine, G. M., Xia, R., Zhu, S., O'Shea, D. J., Karsh, B., Colonell, J., Lanfranchi, F. F., Vyas, S., Zimnik, A., Steinmann, N. A., Wagenaar, D. A., Andrei, A., Lopez, C. M., O'Callaghan, J., Putzeys, J., Raducanu, B. C., Welkenhuysen, M., Churchland, M. M., … Shenoy, K. V. (2025). Large-scale high-density brain-wide neural recording in nonhuman primates. *Nature Neuroscience*, 28(3), 640–652. https://doi.org/10.1038/s41593-025-01876-8
+- rautmann, E.M., Hesse, J.K., Stine, G.M. et al. Large-scale high-density brain-wide neural recording in nonhuman primates. Nat Neurosci 28, 1562–1575 (2025). https://doi.org/10.1038/s41593-025-01976-5
 
 - Tse, D., Langston, R. F., Kakeyama, M., Bethus, I., Spooner, P. A., Wood, E. R., Witter, M. P., & Morris, R. G. (2007). Schemas and memory consolidation. Science (New York, N.Y.), 316(5821), 76–82. https://doi.org/10.1126/science.1135935
 
-- Tse, D., Takeuchi, T., Kakeyama, M., Kajii, Y., Okuno, H., Tohyama, C., Bito, H., & Morris, R. G. M. (2011). Schema-dependent gene activation and memory encoding in neocortex. *Science*, 333(6044), 891–895. https://doi.org/10.1126/science.1205274
+- Tse, D., Takeuchi, T., Kakeyama, M., Kajii, Y., Okuno, H., Tohyama, C., Bito, H., & Morris, R. G. (2011). Schema-dependent gene activation and memory encoding in neocortex. Science (New York, N.Y.), 333(6044), 891–895. https://doi.org/10.1126/science.1205274
 
-- Tsetsenis, T., Broussard, J. I., & Dani, J. A. (2023). Dopaminergic regulation of hippocampal plasticity, learning, and memory. *Frontiers in Behavioral Neuroscience*, 16, 1092420. https://doi.org/10.3389/fnbeh.2022.1092420
+- Tsetsenis, T., Broussard, J. I., & Dani, J. A. (2023). Dopaminergic regulation of hippocampal plasticity, learning, and memory. Frontiers in behavioral neuroscience, 16, 1092420. https://doi.org/10.3389/fnbeh.2022.1092420
 
-- van Kesteren, M. T. R., Beul, S. F., Takashima, A., Henson, R. N., Ruiter, D. J., & Fernández, G. (2013). Differential roles for medial prefrontal and medial temporal cortices in schema-dependent encoding: From congruent to incongruent. *Neuropsychologia*, 51(12), 2352–2359. https://doi.org/10.1016/j.neuropsychologia.2013.05.027
+- van Kesteren, M. T., Beul, S. F., Takashima, A., Henson, R. N., Ruiter, D. J., & Fernández, G. (2013). Differential roles for medial prefrontal and medial temporal cortices in schema-dependent encoding: from congruent to incongruent. Neuropsychologia, 51(12), 2352–2359. https://doi.org/10.1016/j.neuropsychologia.2013.05.027
 
 - Waters, S. J., Basile, B. M., & Murray, E. A. (2023). Reevaluating the role of the hippocampus in memory: A meta-analysis of neurotoxic lesion studies in nonhuman primates. Hippocampus, 33(6), 787–807. https://doi.org/10.1002/hipo.23499
 
-- Wittmann, B. C., Bunzeck, N., Dolan, R. J., & Düzel, E. (2007). Anticipation of novelty recruits reward system and hippocampus while promoting recollection. *NeuroImage*, 38(1), 194–202. https://doi.org/10.1016/j.neuroimage.2007.06.038
+- Wittmann, B. C., Bunzeck, N., Dolan, R. J., & Düzel, E. (2007). Anticipation of novelty recruits reward system and hippocampus while promoting recollection. NeuroImage, 38(1), 194–202. https://doi.org/10.1016/j.neuroimage.2007.06.038
 
 - Xu, X., Du, K., & Mao, D. (2024). Spatial dissociation between recognition and navigation in the primate hippocampus. Science advances, 10(38), eado7392. https://doi.org/10.1126/sciadv.ado7392
 
 - Yang, C., & Naya, Y. (2023). Sequential involvements of the perirhinal cortex and hippocampus in the recall of item-location associative memory in macaques. PLoS biology, 21(6), e3002145. https://doi.org/10.1371/journal.pbio.3002145
 
-- Yebra, M., Galarza-Vallejo, A., Soto-Leon, V., Gonzalez-Rosa, J. J., de Berker, A. O., Bestmann, S., Oliviero, A., Kroes, M. C. W., & Strange, B. A. (2019). Action boosts episodic memory encoding in humans via engagement of a noradrenergic system. *Nature Communications*, 10(1), 3534. https://doi.org/10.1038/s41467-019-11358-8
+- Yebra, M., Galarza-Vallejo, A., Soto-Leon, V. et al. Action boosts episodic memory encoding in humans via engagement of a noradrenergic system. Nat Commun 10, 3534 (2019). https://doi.org/10.1038/s41467-019-11358-8
 
-- Zhang, H., Fell, J., & Axmacher, N. (2018). Electrophysiological mechanisms of human memory consolidation. *Nature Communications*, 9, 4103. https://doi.org/10.1038/s41467-018-06553-y
+- Zhang, H., Fell, J. & Axmacher, N. Electrophysiological mechanisms of human memory consolidation. Nat Commun 9, 4103 (2018). https://doi.org/10.1038/s41467-018-06553-y
 
-- Zhou, J., Montesinos-Cartagena, M., Wikenheiser, A. M., Gardner, M. P. H., Niv, Y., & Schoenbaum, G. (2019). Evolving schema representations in orbitofrontal ensembles during learning. *Nature*, 590(7847), 606–610. https://doi.org/10.1038/s41586-020-03061-2
+- Zhou, J., Jia, C., Montesinos-Cartagena, M., Gardner, M. P. H., Zong, W., & Schoenbaum, G. (2021). Evolving schema representations in orbitofrontal ensembles during learning. Nature, 590(7847), 606–611. https://doi.org/10.1038/s41586-020-03061-2
 
 - Sehgal, M., Filho, D.A., Kastellakis, G. et al. Compartmentalized dendritic plasticity in the mouse retrosplenial cortex links contextual memories formed close in time. Nat Neurosci 28, 602–615 (2025). https://doi.org/10.1038/s41593-025-01876-8
