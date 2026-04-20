@@ -1,4 +1,4 @@
-# brain computer interface notes
+# [brain computer interface notes](https://github.com/test-spec-tech/bci-notes/blob/demo-v0/index.html)
 
 # [references](https://github.com/test-spec-tech/bci-notes/blob/main/References.md)
 
