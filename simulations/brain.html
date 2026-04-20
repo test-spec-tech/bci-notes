@@ -1,0 +1,1241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simulation · In-Silico Brain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles/tokens.css" />
+<style>
+  html, body { height: 100%; overflow: hidden; }
+  body { display: flex; flex-direction: column; background: var(--bg-0); color: var(--fg-1); font-family: var(--f-sans); font-size: 13px; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-bottom: 1px solid var(--line); background: var(--bg-1); flex-shrink: 0; }
+  .topbar .brand { display: flex; gap: 10px; align-items: baseline; }
+  .topbar .brand .b1 { font-family: var(--f-display); font-size: 18px; color: var(--fg-0); }
+  .topbar .brand .b2 { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; }
+  .topbar nav { display: flex; gap: 16px; align-items: center; }
+  .topbar nav a { font-family: var(--f-mono); font-size: 11px; color: var(--fg-2); letter-spacing: 0.08em; text-transform: uppercase; }
+  .topbar nav a:hover { color: var(--hot-0); }
+  .topbar nav a.active { color: var(--hot-0); border-bottom: 1px solid var(--hot-0); padding-bottom: 3px; }
+
+  main { flex: 1; display: grid; grid-template-columns: 1fr 1.15fr; min-height: 0; }
+  section.left, section.right { display: flex; flex-direction: column; min-height: 0; }
+  section.left { border-right: 1px solid var(--line); }
+
+  .stim-head { padding: 16px 24px; border-bottom: 1px solid var(--line); display: flex; gap: 16px; align-items: center; }
+  .stim-head .title { font-family: var(--f-display); font-size: 22px; color: var(--fg-0); }
+  .stim-head .sub { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; }
+
+  .stim-body { padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border-bottom: 1px solid var(--line); }
+  .card { background: var(--bg-1); border: 1px solid var(--line); display: flex; flex-direction: column; }
+  .card .ch { padding: 10px 14px; border-bottom: 1px solid var(--line); font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+  .card .ch .pill { color: var(--hot-0); border: 1px solid var(--hot-0); padding: 2px 6px; font-size: 9px; }
+
+  .video-tile { aspect-ratio: 16/10; position: relative; background: var(--bg-3); background-image: repeating-linear-gradient(135deg, rgba(0,0,0,0.03) 0 3px, transparent 3px 9px); overflow: hidden; }
+  .video-tile .ph-label { position: absolute; left: 12px; top: 12px; font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); letter-spacing: 0.1em; }
+  .video-tile .time-hud { position: absolute; right: 12px; top: 12px; font-family: var(--f-mono); font-size: 10px; color: var(--hot-0); letter-spacing: 0.1em; }
+  .video-tile .ocean { position: absolute; inset: 20% 12% 18% 12%; background: linear-gradient(180deg, #0e7c70 0%, #084a43 60%, #0a2a25 100%); overflow: hidden; }
+  .video-tile .diver { position: absolute; left: 45%; top: 40%; width: 22px; height: 36px; background: var(--fg-0); opacity: 0.6; border-radius: 40% 40% 20% 20%; }
+  .video-tile .bubbles { position: absolute; inset: 0; }
+  .video-tile .bubble { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.5); animation: rise 4s linear infinite; }
+  @keyframes rise { 0% { transform: translateY(100%); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100%); opacity: 0; } }
+  .video-tile .frame-corners { position: absolute; inset: 8px; pointer-events: none; }
+  .video-tile .fc { position: absolute; width: 10px; height: 10px; border: 1px solid var(--fg-0); opacity: 0.5; }
+  .video-tile .fc.tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+  .video-tile .fc.tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+  .video-tile .fc.bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+  .video-tile .fc.br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+  .audio-tile { height: 80px; padding: 10px; display: flex; align-items: center; border-top: 1px solid var(--line); }
+  .audio-tile .wvb { display: flex; gap: 2px; flex: 1; align-items: center; height: 100%; }
+  .audio-tile .wvb i { flex: 1; background: var(--fg-0); opacity: 0.7; border-radius: 1px; }
+  .audio-tile .lab { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.1em; margin-right: 12px; }
+
+  .text-tile { padding: 12px 14px; font-family: var(--f-mono); font-size: 11px; color: var(--fg-1); line-height: 1.6; border-top: 1px solid var(--line); min-height: 52px; }
+  .text-tile .tok { display: inline-block; padding: 1px 4px; margin: 1px; background: var(--bg-2); border: 1px solid var(--line); transition: all 0.2s; }
+  .text-tile .tok.active { background: rgba(214,74,10,0.15); border-color: var(--hot-0); color: var(--hot-0); }
+
+  .encoders { display: flex; flex-direction: column; gap: 6px; padding: 12px; }
+  .enc { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); background: var(--bg-2); }
+  .enc .ei { width: 28px; height: 28px; background: var(--fg-0); color: var(--bg-0); font-family: var(--f-mono); font-size: 9px; display: flex; align-items: center; justify-content: center; letter-spacing: 0.05em; }
+  .enc .en { flex: 1; }
+  .enc .en .nm { font-size: 12px; color: var(--fg-0); }
+  .enc .en .dm { font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.05em; }
+  .enc .act { width: 80px; height: 20px; position: relative; background: var(--bg-1); border: 1px solid var(--line); overflow: hidden; }
+  .enc .act i { position: absolute; top: 0; bottom: 0; background: var(--hot-0); width: 0%; transition: width 0.15s; }
+  .enc .act span { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-family: var(--f-mono); font-size: 9px; color: var(--fg-0); letter-spacing: 0.05em; }
+
+  .controls { padding: 16px 24px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .ctrl label { display: block; font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+  .ctrl select, .ctrl input[type=range] { width: 100%; font-family: var(--f-mono); font-size: 11px; background: var(--bg-2); border: 1px solid var(--line-2); color: var(--fg-0); padding: 6px 8px; }
+  .ctrl input[type=range] { padding: 0; }
+
+  .tabs { display: flex; border-bottom: 1px solid var(--line); background: var(--bg-1); }
+  .tabs button { padding: 12px 18px; background: transparent; border: 0; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--fg-2); text-transform: uppercase; cursor: pointer; border-bottom: 2px solid transparent; border-right: 1px solid var(--line); }
+  .tabs button.active { color: var(--hot-0); border-bottom-color: var(--hot-0); background: var(--bg-2); }
+  .tabs .rside { margin-left: auto; display: flex; align-items: center; gap: 12px; padding: 0 18px; font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); letter-spacing: 0.1em; }
+
+  .tab-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+  .tab-body[hidden] { display: none; }
+
+  .brain-head { padding: 16px 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+  .brain-head .title { font-family: var(--f-display); font-size: 22px; color: var(--fg-0); }
+  .brain-head .heat-legend { display: flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); letter-spacing: 0.1em; }
+  .heat-strip { width: 160px; height: 10px; background: linear-gradient(to right, #fbfaf6, #ffe082, #ffb347, #d64a0a, #8a2a00); border: 1px solid var(--line-2); }
+  .heat-strip.diff { background: linear-gradient(to right, #2166ac, #6baed6, #f0ede6, #e97514, #b63c00); }
+
+  .brain-viewer { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; background: var(--bg-0); background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 20px 20px; min-height: 0; }
+  #brain-svg { width: 95%; height: 95%; max-width: 620px; max-height: 620px; }
+
+  .brain-controls { padding: 12px 24px; border-top: 1px solid var(--line); display: flex; gap: 8px; flex-wrap: wrap; background: var(--bg-1); }
+  .bcbtn { padding: 6px 10px; background: transparent; border: 1px solid var(--line-2); font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--fg-2); text-transform: uppercase; cursor: pointer; }
+  .bcbtn.active { background: var(--fg-0); color: var(--bg-0); border-color: var(--fg-0); }
+  .bcbtn:hover { color: var(--hot-0); border-color: var(--hot-0); }
+  .bcbtn.active:hover { color: var(--bg-0); background: var(--fg-0); border-color: var(--fg-0); }
+
+  .readout { padding: 16px 24px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 160px 1fr 90px; gap: 14px; align-items: center; background: var(--bg-1); }
+  .readout .rh { font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; }
+  .readout .rv { font-family: var(--f-display); font-size: 22px; color: var(--fg-0); line-height: 1; }
+  .readout .rs { font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); margin-top: 3px; }
+  .readout svg { width: 100%; height: 54px; }
+
+  .ex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .ex-card { border: 1px solid var(--line); padding: 10px; background: var(--bg-1); cursor: pointer; transition: all 0.15s; }
+  .ex-card:hover { border-color: var(--hot-0); }
+  .ex-card.active { border-color: var(--hot-0); background: rgba(214,74,10,0.04); }
+  .ex-card .th { height: 80px; background: var(--bg-3); background-image: repeating-linear-gradient(135deg, rgba(0,0,0,0.04) 0 3px, transparent 3px 9px); display: flex; align-items: center; justify-content: center; font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.1em; margin-bottom: 8px; }
+  .ex-card .nm { font-size: 12px; color: var(--fg-0); font-weight: 500; }
+  .ex-card .dm { font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.08em; margin-top: 2px; }
+
+  .perf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+  .perf-cell { padding: 14px; border: 1px solid var(--line); background: var(--bg-1); }
+  .perf-cell .k { font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; }
+  .perf-cell .v { font-family: var(--f-display); font-size: 32px; color: var(--fg-0); line-height: 1; margin-top: 6px; }
+  .perf-cell .d { font-family: var(--f-mono); font-size: 10px; color: var(--hot-0); letter-spacing: 0.05em; margin-top: 4px; }
+
+  .perf-chart { border: 1px solid var(--line); background: var(--bg-1); padding: 16px; }
+  .perf-chart svg { width: 100%; height: 180px; }
+
+  .multi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .multi-cell { border: 1px solid var(--line); background: var(--bg-1); padding: 12px; }
+  .multi-cell .nm { font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); letter-spacing: 0.1em; margin-bottom: 8px; }
+  .multi-cell .vbar { height: 5px; background: var(--bg-3); position: relative; margin-bottom: 4px; }
+  .multi-cell .vbar i { position: absolute; inset: 0 auto 0 0; background: var(--hot-0); }
+  .multi-cell .vb-label { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.05em; }
+
+  .ins-list { display: flex; flex-direction: column; gap: 8px; }
+  .ins-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--line); background: var(--bg-1); }
+  .ins-row .nm { font-size: 12px; color: var(--fg-0); }
+  .ins-row .ds { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.05em; margin-top: 2px; }
+  .ins-row .rn { font-family: var(--f-mono); font-size: 10px; color: var(--hot-0); letter-spacing: 0.1em; }
+  .ins-row:hover { border-color: var(--hot-0); cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <a href="../index.html" style="text-decoration: none;"><span class="b1">BCI · Memory R/W</span></a>
+    <span class="b2">Simulation 02 · In-Silico Brain</span>
+  </div>
+  <nav>
+    <a href="../index.html">← Landing</a>
+    <a href="flow.html">Flow</a>
+    <a href="brain.html" class="active">Brain</a>
+  </nav>
+  <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">SUBJ 017 · 1.5mm ISO · 286k VOX</div>
+</div>
+
+<main>
+  <section class="left">
+    <div class="stim-head">
+      <div><div class="title">Stimulus</div><div class="sub">Memory encoding phase · fMRI trial</div></div>
+    </div>
+
+    <div class="stim-body">
+      <div class="card" style="grid-column: span 2;">
+        <div class="ch"><span>fMRI stimulus · memory trial</span><span class="pill" id="phase-pill">RETRIEVE</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--line);">
+          <div class="video-tile" style="aspect-ratio:unset;height:160px;border-right:1px solid var(--line);">
+            <div class="ph-label" id="stim-label">01 · CA3 ATTRACTOR COMPLETION</div>
+            <div class="time-hud" id="time-hud">0.42s</div>
+            <div class="ocean" id="stim-vis" style="inset:10% 8% 10% 8%;">
+              <div class="diver"></div>
+              <div class="bubbles">
+                <span class="bubble" style="left:20%;animation-delay:0s;"></span>
+                <span class="bubble" style="left:40%;animation-delay:0.8s;"></span>
+                <span class="bubble" style="left:65%;animation-delay:1.6s;"></span>
+                <span class="bubble" style="left:80%;animation-delay:2.4s;"></span>
+              </div>
+            </div>
+            <div class="frame-corners"><div class="fc tl"></div><div class="fc tr"></div><div class="fc bl"></div><div class="fc br"></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;">
+            <div class="audio-tile" style="flex:1;">
+              <span class="lab">AUDIO</span>
+              <div class="wvb" id="waveform"></div>
+            </div>
+            <div class="text-tile" id="text-transcript" style="border-top:1px solid var(--line);">
+              <span class="tok">partial</span> <span class="tok">cue</span> <span class="tok">activates</span>
+              <span class="tok">CA3</span> <span class="tok">recurrent</span> <span class="tok">network</span>
+              <span class="tok">attractor</span> <span class="tok">converges</span> <span class="tok">full</span> <span class="tok">engram</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-bottom:1px solid var(--line);">
+          <div style="padding:10px 14px;border-right:1px solid var(--line);">
+            <div style="font-family:var(--f-mono);font-size:9px;color:var(--fg-3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;">Memory Phase</div>
+            <div id="phase-row" style="display:flex;gap:6px;flex-wrap:wrap;">
+              <span style="font-family:var(--f-mono);font-size:10px;padding:3px 8px;border:1px solid var(--line);color:var(--fg-3);">ENCODE</span>
+              <span style="font-family:var(--f-mono);font-size:10px;padding:3px 8px;border:1px solid var(--line);color:var(--fg-3);">CONSOLIDATE</span>
+              <span style="font-family:var(--f-mono);font-size:10px;padding:3px 8px;border:1px solid var(--hot-0);color:var(--hot-0);">● RETRIEVE</span>
+            </div>
+          </div>
+          <div style="padding:10px 14px;border-right:1px solid var(--line);">
+            <div style="font-family:var(--f-mono);font-size:9px;color:var(--fg-3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;">Oscillatory signature</div>
+            <div id="osc-row" style="font-family:var(--f-mono);font-size:10px;color:var(--fg-1);">θ · CA3 recurrent attractor · 20% seed → full engram · &lt;200 ms completion</div>
+          </div>
+          <div style="padding:10px 14px;">
+            <div style="font-family:var(--f-mono);font-size:9px;color:var(--fg-3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;">Prediction error</div>
+            <div id="pe-bar" style="height:10px;background:var(--bg-3);margin-top:4px;"><i id="pe-fill" style="display:block;height:100%;background:var(--hot-0);width:28%;transition:width 0.3s;"></i></div>
+            <div style="font-family:var(--f-mono);font-size:9px;color:var(--fg-3);margin-top:3px;">novelty index · <span id="pe-val">0.28</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="ctrl">
+        <label>SUBJECT</label>
+        <select id="sel-subject">
+          <option>017 · 24F · R‑hand</option>
+          <option>022 · 31M · R‑hand</option>
+          <option>041 · 28F · L‑hand</option>
+          <option>103 · 37M · R‑hand</option>
+          <option>NOVEL · held‑out</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>STIMULUS</label>
+        <select id="sel-stim">
+          <option>01 · CA3 completion · partial cue</option>
+          <option>02 · false engram · Ramirez '13</option>
+          <option>03 · NREM · SWR replay · SO-spindle</option>
+          <option>04 · reconsolidation · memory edit</option>
+          <option>05 · grid cell scaffold · memory palace</option>
+          <option>NOVEL · L5 episodic · phase precession</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>TIME (s)</label>
+        <input type="range" id="sel-time" min="0" max="900" step="1" value="420" />
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="active" data-tab="examples">Examples</button>
+      <button data-tab="performance">Performance</button>
+      <button data-tab="insilico">In-Silico</button>
+      <button data-tab="multi">Multimodality</button>
+      <span class="rside">TRIBE-class · 1,000 hr fMRI · 720 subj</span>
+    </div>
+
+    <div class="tab-body" id="tab-examples">
+      <div class="ex-grid">
+        <div class="ex-card active"><div class="th">RETRIEVE · 00:42</div><div class="nm">CA3 attractor completion</div><div class="dm">20% seed pattern → full engram via recurrent CA3</div></div>
+        <div class="ex-card"><div class="th">ENCODE · 01:18</div><div class="nm">False engram (Ramirez '13)</div><div class="dm">place-cell reactivation during fear conditioning · L2 write</div></div>
+        <div class="ex-card"><div class="th">CONSOLIDATE · rest</div><div class="nm">NREM · SWR replay</div><div class="dm">SO→spindle→ripple coupling · CA1 replay · 150-250 Hz</div></div>
+        <div class="ex-card"><div class="th">RETRIEVE→ENCODE</div><div class="nm">Reconsolidation edit</div><div class="dm">lability window · AMPAR internalization · modified injection</div></div>
+        <div class="ex-card"><div class="th">ENCODE · 05:00</div><div class="nm">Grid cell memory palace</div><div class="dm">entorhinal toroidal scaffold · method of loci · 6-fold symmetry</div></div>
+        <div class="ex-card"><div class="th">ENCODE · NOVEL</div><div class="nm">L5 phase-sequence write</div><div class="dm">θ phase precession · 5–7 elements/cycle · STDP chain</div></div>
+      </div>
+    </div>
+
+    <div class="tab-body" id="tab-performance" hidden>
+      <div class="perf-grid">
+        <div class="perf-cell"><div class="k">r, novel stim</div><div class="v serif">0.52</div><div class="d">+4.2× linear baseline</div></div>
+        <div class="perf-cell"><div class="k">r, novel subj</div><div class="v serif">0.44</div><div class="d">+3.7× linear baseline</div></div>
+        <div class="perf-cell"><div class="k">r, novel task</div><div class="v serif">0.38</div><div class="d">+2.9× linear baseline</div></div>
+        <div class="perf-cell"><div class="k">top-5 voxel</div><div class="v serif">0.71</div><div class="d">cortico-limbic</div></div>
+      </div>
+      <div class="perf-chart">
+        <div style="font-family:var(--f-mono);font-size:10px;color:var(--fg-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">Predicted vs. measured · voxel r · by region</div>
+        <svg viewBox="0 0 600 180" preserveAspectRatio="none">
+          <line x1="40" y1="160" x2="600" y2="160" stroke="#d0cdc3"/>
+          <line x1="40" y1="10" x2="40" y2="160" stroke="#d0cdc3"/>
+          <g font-family="JetBrains Mono" font-size="9" fill="#9a968c" letter-spacing="1">
+            <text x="0" y="14">1.0</text><text x="0" y="90">0.5</text><text x="0" y="163">0.0</text>
+          </g>
+          <rect x="55" y="50" width="30" height="110" fill="#d64a0a"/>
+          <rect x="100" y="40" width="30" height="120" fill="#d64a0a"/>
+          <rect x="145" y="68" width="30" height="92" fill="#d64a0a"/>
+          <rect x="190" y="78" width="30" height="82" fill="#d64a0a"/>
+          <rect x="235" y="58" width="30" height="102" fill="#d64a0a"/>
+          <rect x="280" y="88" width="30" height="72" fill="#d64a0a"/>
+          <rect x="325" y="98" width="30" height="62" fill="#d64a0a"/>
+          <rect x="370" y="108" width="30" height="52" fill="#d64a0a"/>
+          <rect x="415" y="98" width="30" height="62" fill="#d64a0a"/>
+          <rect x="460" y="93" width="30" height="67" fill="#d64a0a"/>
+          <g font-family="JetBrains Mono" font-size="8" fill="#6a6a66" letter-spacing="0.5">
+            <text x="55" y="175">V1</text><text x="100" y="175">V2</text><text x="145" y="175">MT</text>
+            <text x="190" y="175">FFA</text><text x="235" y="175">A1</text><text x="280" y="175">STS</text>
+            <text x="325" y="175">IFG</text><text x="370" y="175">ANG</text><text x="415" y="175">PFC</text><text x="460" y="175">HIP</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="tab-body" id="tab-insilico" hidden>
+      <div class="ins-list">
+        <div class="ins-row"><div><div class="nm">Cortical sensory hierarchy (Felleman & Van Essen '91)</div><div class="ds">V1 → V2 → V4 → IT progression in predicted activity · recovered</div></div><div class="rn">r = 0.87</div></div>
+        <div class="ins-row"><div><div class="nm">FFA selectivity for faces (Kanwisher '97)</div><div class="ds">face &gt; scene contrast · matches literature · 1.8× object baseline</div></div><div class="rn">d = 1.81</div></div>
+        <div class="ins-row"><div><div class="nm">N400 semantic surprise (Kutas & Hillyard '80)</div><div class="ds">anterior temporal activation grows with cloze-probability surprisal</div></div><div class="rn">β = 0.42</div></div>
+        <div class="ins-row"><div><div class="nm">Hippocampal replay post-encoding (Davidson '09)</div><div class="ds">CA1 ripple-band power elevation during 5–15 min rest windows</div></div><div class="rn">Δ = +3.2σ</div></div>
+        <div class="ins-row"><div><div class="nm">Theta-gamma PAC in WM load (Lisman & Jensen '13)</div><div class="ds">MI rises monotonically with WM item count · matches empirical</div></div><div class="rn">MI = 0.19</div></div>
+      </div>
+    </div>
+
+    <div class="tab-body" id="tab-multi" hidden>
+      <div class="multi-grid">
+        <div class="multi-cell"><div class="nm">V1 · V2 · MT</div><div class="vbar"><i style="width:82%"></i></div><div class="vb-label"><span>video</span><span>0.82</span></div><div class="vbar"><i style="width:11%"></i></div><div class="vb-label"><span>audio</span><span>0.11</span></div><div class="vbar"><i style="width:6%"></i></div><div class="vb-label"><span>text</span><span>0.06</span></div></div>
+        <div class="multi-cell"><div class="nm">A1 · STG</div><div class="vbar"><i style="width:12%"></i></div><div class="vb-label"><span>video</span><span>0.12</span></div><div class="vbar"><i style="width:78%"></i></div><div class="vb-label"><span>audio</span><span>0.78</span></div><div class="vbar"><i style="width:10%"></i></div><div class="vb-label"><span>text</span><span>0.10</span></div></div>
+        <div class="multi-cell"><div class="nm">IFG · ANG · MTG</div><div class="vbar"><i style="width:14%"></i></div><div class="vb-label"><span>video</span><span>0.14</span></div><div class="vbar"><i style="width:21%"></i></div><div class="vb-label"><span>audio</span><span>0.21</span></div><div class="vbar"><i style="width:65%"></i></div><div class="vb-label"><span>text</span><span>0.65</span></div></div>
+        <div class="multi-cell"><div class="nm">STS (multisensory)</div><div class="vbar"><i style="width:33%"></i></div><div class="vb-label"><span>video</span><span>0.33</span></div><div class="vbar"><i style="width:32%"></i></div><div class="vb-label"><span>audio</span><span>0.32</span></div><div class="vbar"><i style="width:35%"></i></div><div class="vb-label"><span>text</span><span>0.35</span></div></div>
+        <div class="multi-cell"><div class="nm">Hippocampus</div><div class="vbar"><i style="width:27%"></i></div><div class="vb-label"><span>video</span><span>0.27</span></div><div class="vbar"><i style="width:31%"></i></div><div class="vb-label"><span>audio</span><span>0.31</span></div><div class="vbar"><i style="width:42%"></i></div><div class="vb-label"><span>text</span><span>0.42</span></div></div>
+        <div class="multi-cell"><div class="nm">mPFC</div><div class="vbar"><i style="width:19%"></i></div><div class="vb-label"><span>video</span><span>0.19</span></div><div class="vbar"><i style="width:26%"></i></div><div class="vb-label"><span>audio</span><span>0.26</span></div><div class="vbar"><i style="width:55%"></i></div><div class="vb-label"><span>text</span><span>0.55</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="right">
+    <div class="brain-head">
+      <div>
+        <div class="title" id="brain-title">Predicted brain activity</div>
+        <div style="font-family:var(--f-mono);font-size:10px;color:var(--fg-3);letter-spacing:0.15em;text-transform:uppercase;">coronal · 286k voxels · bold · t = <span id="t-sec">0.42</span>s</div>
+      </div>
+      <div class="heat-legend">
+        <span>LOW</span>
+        <div class="heat-strip" id="heat-strip"></div>
+        <span id="heat-label">HIGH · BOLD</span>
+      </div>
+    </div>
+
+    <div class="brain-viewer">
+      <svg id="brain-svg" viewBox="0 0 600 600"></svg>
+    </div>
+
+    <div class="brain-controls">
+      <div class="bcbtn active" data-opt="view" data-v="pred">Predicted</div>
+      <div class="bcbtn" data-opt="view" data-v="true">True</div>
+      <div class="bcbtn" data-opt="view" data-v="diff">Diff</div>
+      <span style="width:1px;background:var(--line);"></span>
+      <div class="bcbtn active" data-opt="surface" data-v="normal">Normal</div>
+      <div class="bcbtn" data-opt="surface" data-v="inflated">Inflated</div>
+      <span style="width:1px;background:var(--line);"></span>
+      <div class="bcbtn active" data-opt="slice" data-v="coronal">Coronal</div>
+      <div class="bcbtn" data-opt="slice" data-v="sagittal">Sagittal</div>
+      <div class="bcbtn" data-opt="slice" data-v="axial">Axial</div>
+      <span style="width:1px;background:var(--line);"></span>
+      <div class="bcbtn active" data-opt="region" data-v="all">All</div>
+      <div class="bcbtn" data-opt="region" data-v="hip">Hippocampus</div>
+      <div class="bcbtn" data-opt="region" data-v="cx">Visual cx</div>
+      <div class="bcbtn" data-opt="region" data-v="aud">Auditory cx</div>
+      <div class="bcbtn" data-opt="region" data-v="pfc">PFC</div>
+      <div class="bcbtn" data-opt="region" data-v="thal">Thalamus</div>
+      <div class="bcbtn" data-opt="region" data-v="cbl">Cerebellum</div>
+    </div>
+
+    <div class="readout">
+      <div>
+        <div class="rh">Selected voxel</div>
+        <div class="rv serif" id="voxel-id">L-HIP · 42</div>
+        <div class="rs" id="voxel-coord">MNI ( -28, -22, -14 )</div>
+      </div>
+      <div>
+        <svg id="voxel-trace" viewBox="0 0 600 54" preserveAspectRatio="none"></svg>
+      </div>
+      <div>
+        <div class="rh">r</div>
+        <div class="rv serif" id="voxel-r" style="color:var(--hot-0);">0.81</div>
+        <div class="rs">pred vs. true</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================================================================
+   In-silico brain simulator v2 — anatomically accurate human brain
+   ================================================================ */
+
+// ---- Waveform ----
+(function(){
+  const el = document.getElementById('waveform');
+  for (let i = 0; i < 80; i++) {
+    const bar = document.createElement('i');
+    bar.style.height = Math.min(60, 10 + Math.abs(Math.sin(i * 0.35) * 22 + Math.random() * 18)) + 'px';
+    bar.style.opacity = 0.4 + Math.random() * 0.5;
+    el.appendChild(bar);
+  }
+})();
+
+// ================================================================
+// ANATOMICAL BRAIN SHAPES — SVG paths for 3 orientations
+// All coordinates in 600×600 viewBox.
+// ================================================================
+const BRAIN_SHAPES = {
+
+  coronal: {
+    // Outer cortical boundary — coronal section ~y=−22mm MNI (hippocampus level)
+    // Roughly butterfly/heart shaped with temporal lobe wings
+    outline: `M 300 88
+      C 352 82,442 94,498 142
+      C 528 168,536 232,528 298
+      C 520 338,506 366,492 388
+      C 476 412,462 440,448 466
+      C 430 488,398 506,360 512
+      C 338 516,316 518,300 518
+      C 284 518,262 516,240 512
+      C 202 506,170 488,152 466
+      C 138 440,124 412,108 388
+      C 94 366,80 338,72 298
+      C 64 232,72 168,102 142
+      C 158 94,248 82,300 88 Z`,
+
+    sulci: [
+      // Interhemispheric fissure (medial longitudinal)
+      `M 300 88 L 300 210`,
+      // Right Sylvian / lateral fissure
+      `M 528 298 C 510 302,496 314,490 332`,
+      // Left Sylvian / lateral fissure
+      `M 72 298 C 90 302,104 314,110 332`,
+      // Right superior temporal sulcus
+      `M 494 350 C 480 366,468 384,464 402`,
+      // Left superior temporal sulcus
+      `M 106 350 C 120 366,132 384,136 402`,
+      // Right cingulate sulcus (medial)
+      `M 340 105 C 338 130,335 158,332 178`,
+      // Left cingulate sulcus
+      `M 260 105 C 262 130,265 158,268 178`,
+    ],
+
+    // Internal structures — drawn as filled shapes beneath voxels
+    structures: [
+      {
+        id: 'cc',
+        label: 'Corpus callosum',
+        region: null,
+        exclude: true,
+        fill: '#ddd8c8',
+        stroke: '#c8c2b0',
+        path: `M 252 222 C 252 196,300 186,348 196
+               C 348 214,348 226,300 232
+               C 252 226,252 222,252 222 Z`,
+      },
+      {
+        id: 'vent-r',
+        label: null,
+        region: null,
+        exclude: true,
+        fill: '#c2dce8',
+        stroke: '#a8ccd8',
+        path: `M 318 206 C 344 200,374 208,386 226
+               C 395 242,382 262,360 268
+               C 342 272,322 260,318 244
+               C 315 230,315 212,318 206 Z`,
+      },
+      {
+        id: 'vent-l',
+        label: null,
+        region: null,
+        exclude: true,
+        fill: '#c2dce8',
+        stroke: '#a8ccd8',
+        path: `M 282 206 C 256 200,226 208,214 226
+               C 205 242,218 262,240 268
+               C 258 272,278 260,282 244
+               C 285 230,285 212,282 206 Z`,
+      },
+      {
+        id: 'thal-r',
+        label: 'Thalamus',
+        region: 'thal',
+        exclude: false,
+        fill: '#d2c4a8',
+        stroke: '#b8aa90',
+        path: `M 328 278 C 328 262,356 256,372 266
+               C 382 275,380 292,364 299
+               C 346 305,328 299,328 278 Z`,
+      },
+      {
+        id: 'thal-l',
+        label: null,
+        region: 'thal',
+        exclude: false,
+        fill: '#d2c4a8',
+        stroke: '#b8aa90',
+        path: `M 272 278 C 272 262,244 256,228 266
+               C 218 275,220 292,236 299
+               C 254 305,272 299,272 278 Z`,
+      },
+      {
+        id: 'hip-r',
+        label: 'Hippocampus',
+        region: 'hip',
+        exclude: false,
+        fill: '#c8a882',
+        stroke: '#b09070',
+        path: `M 360 390 C 360 378,378 373,393 380
+               C 404 387,407 402,398 414
+               C 386 424,364 420,357 408
+               C 352 400,356 394,360 390 Z`,
+      },
+      {
+        id: 'hip-l',
+        label: null,
+        region: 'hip',
+        exclude: false,
+        fill: '#c8a882',
+        stroke: '#b09070',
+        path: `M 240 390 C 240 378,222 373,207 380
+               C 196 387,193 402,202 414
+               C 214 424,236 420,243 408
+               C 248 400,244 394,240 390 Z`,
+      },
+    ],
+
+    assignRegion(x, y) {
+      if (y < 200 && Math.abs(x - 300) < 160) return 'pfc';
+      if (y < 200 && Math.abs(x - 300) >= 160) return 'cx';
+      if (y >= 338 && (x < 188 || x > 412)) return 'aud';
+      return 'other';
+    },
+
+    labels: [
+      { t: 'CORTEX', x: 300, y: 135 },
+      { t: 'L TEMPORAL', x: 128, y: 445 },
+      { t: 'R TEMPORAL', x: 472, y: 445 },
+      { t: 'THALAMUS', x: 300, y: 255 },
+      { t: 'HIPPOCAMPUS', x: 300, y: 462 },
+    ],
+  },
+
+  sagittal: {
+    // Lateral brain profile — recognizable human brain silhouette
+    // Shows frontal, parietal, occipital, temporal lobes + cerebellum
+    outline: `M 112 286
+      C 112 228,142 158,192 116
+      C 232 82,272 68,308 66
+      C 344 64,386 80,424 118
+      C 458 150,482 188,492 224
+      C 500 258,498 292,488 318
+      C 476 342,452 360,434 378
+      C 416 394,408 410,406 424
+      C 432 414,470 408,498 425
+      C 522 442,526 472,512 492
+      C 496 510,460 518,428 514
+      C 398 510,374 494,360 472
+      C 343 448,328 426,316 410
+      C 302 392,290 368,282 344
+      C 272 318,268 290,268 266
+      C 268 242,270 218,274 198
+      C 278 178,274 156,250 144
+      C 224 132,182 148,156 178
+      C 132 206,112 250,112 286 Z`,
+
+    sulci: [
+      // Central sulcus (between frontal & parietal, runs superior-to-inferior)
+      `M 302 68 C 300 96,296 128,292 162 C 289 182,285 198,282 214`,
+      // Lateral (Sylvian) fissure — deep horizontal cleft
+      `M 160 270 C 202 260,248 254,290 253 C 326 253,362 258,395 272`,
+      // Superior temporal sulcus (parallel to Sylvian, inferior)
+      `M 182 316 C 222 308,268 304,310 306 C 346 308,378 318,402 334`,
+      // Postcentral sulcus
+      `M 318 68 C 318 96,316 128,315 160`,
+      // Calcarine sulcus (occipital, roughly horizontal)
+      `M 434 286 C 456 295,475 308,488 322`,
+      // Parieto-occipital sulcus
+      `M 420 120 C 425 148,430 175,432 200`,
+    ],
+
+    structures: [
+      // Cerebellum (roughly oval, inferior posterior)
+      {
+        id: 'cbl',
+        label: 'Cerebellum',
+        region: 'cbl',
+        exclude: false,
+        fill: '#e4dfd4',
+        stroke: '#c8c2b4',
+        path: `M 408 424 C 432 414,470 408,498 425
+               C 522 442,526 472,512 492
+               C 496 510,460 518,428 514
+               C 398 510,374 494,360 472
+               C 344 450,345 430,360 424
+               C 378 418,396 420,408 424 Z`,
+      },
+      // Cerebellar sulci lines (will draw as internal lines)
+    ],
+
+    assignRegion(x, y) {
+      if (x > 406 && y >= 424) return 'cbl';
+      if (x > 412 && y < 340) return 'cx';      // occipital lobe
+      if (x < 245 && y < 310) return 'pfc';     // frontal lobe
+      if (y > 330 && x < 335) return 'aud';     // temporal lobe (STG region)
+      // Hippocampal region (medial temporal, behind Sylvian)
+      if (y > 295 && y < 400 && x > 260 && x < 370) return 'hip';
+      return 'other';
+    },
+
+    labels: [
+      { t: 'FRONTAL', x: 165, y: 200 },
+      { t: 'PARIETAL', x: 355, y: 115 },
+      { t: 'OCCIPITAL', x: 460, y: 200 },
+      { t: 'TEMPORAL', x: 215, y: 400 },
+      { t: 'CEREBELLUM', x: 440, y: 468 },
+    ],
+  },
+
+  axial: {
+    // Top-down view (~z = 0mm MNI) — two hemispheres with interhemispheric fissure
+    // Left hemisphere (medial wall at x=295)
+    outline: `M 295 172
+      C 266 165,224 170,184 193
+      C 144 218,108 264,96 310
+      C 84 354,98 402,130 430
+      C 158 456,200 468,240 464
+      C 270 460,290 450,295 440
+      L 295 172 Z
+      M 305 172
+      C 334 165,376 170,416 193
+      C 456 218,492 264,504 310
+      C 516 354,502 402,470 430
+      C 442 456,400 468,360 464
+      C 330 460,310 450,305 440
+      L 305 172 Z`,
+
+    sulci: [
+      // Left lateral sulcus / central
+      `M 155 205 C 142 248,134 292,132 336`,
+      // Right lateral sulcus / central
+      `M 445 205 C 458 248,466 292,468 336`,
+      // Left superior frontal sulcus
+      `M 220 173 C 214 210,210 250,208 288`,
+      // Right superior frontal sulcus
+      `M 380 173 C 386 210,390 250,392 288`,
+      // Left occipital sulci
+      `M 168 410 C 202 426,236 434,265 436`,
+      // Right occipital sulci
+      `M 432 410 C 398 426,364 434,335 436`,
+      // Interhemispheric fissure line (gap between two outlines)
+      `M 300 172 L 300 440`,
+    ],
+
+    structures: [
+      {
+        id: 'bg-r',
+        label: 'Basal ganglia',
+        region: 'thal',
+        exclude: false,
+        fill: '#d2c4a8',
+        stroke: '#b8aa90',
+        path: `M 338 278 C 338 262,358 256,374 266
+               C 385 275,383 294,366 301
+               C 348 307,338 300,338 278 Z`,
+      },
+      {
+        id: 'bg-l',
+        label: null,
+        region: 'thal',
+        exclude: false,
+        fill: '#d2c4a8',
+        stroke: '#b8aa90',
+        path: `M 262 278 C 262 262,242 256,226 266
+               C 215 275,217 294,234 301
+               C 252 307,262 300,262 278 Z`,
+      },
+    ],
+
+    assignRegion(x, y) {
+      if (y < 228) return 'cx';       // posterior occipital (top of axial = posterior)
+      if (y > 392) return 'pfc';      // anterior frontal (bottom of axial = anterior)
+      const dx = Math.abs(x - 300);
+      if (dx > 158 && y > 240 && y < 395) return 'aud'; // lateral temporal
+      if (y > 305 && y < 385 &&
+          ((x > 225 && x < 280) || (x > 320 && x < 375))) return 'hip'; // medial temporal
+      return 'other';
+    },
+
+    labels: [
+      { t: 'OCCIPITAL', x: 300, y: 195 },
+      { t: 'L TEMPORAL', x: 122, y: 320 },
+      { t: 'R TEMPORAL', x: 478, y: 320 },
+      { t: 'FRONTAL', x: 300, y: 418 },
+    ],
+  },
+};
+
+// ================================================================
+// Offscreen canvas for point-in-path tests
+// ================================================================
+const _testCanvas = document.createElement('canvas');
+_testCanvas.width = 600; _testCanvas.height = 600;
+const _testCtx = _testCanvas.getContext('2d');
+
+// Pre-built Path2D objects, cached per slice
+const _pathCache = {};
+function getSlicePaths(slice) {
+  if (_pathCache[slice]) return _pathCache[slice];
+  const shape = BRAIN_SHAPES[slice];
+  _pathCache[slice] = {
+    outline: new Path2D(shape.outline),
+    structures: shape.structures.map(s => ({ ...s, path2d: new Path2D(s.path) })),
+  };
+  return _pathCache[slice];
+}
+
+// ================================================================
+// Seeded deterministic voxel layout (recompute only on slice change)
+// ================================================================
+let _voxelCache = null;
+let _voxelSlice = null;
+
+function seededRand(seed) {
+  let s = (seed ^ 0xdeadbeef) >>> 0;
+  return function() {
+    s ^= s << 13; s ^= s >> 17; s ^= s << 5;
+    return ((s >>> 0) / 0xffffffff);
+  };
+}
+
+function generateVoxels() {
+  const slice = state.slice;
+  if (_voxelSlice === slice && _voxelCache) return _voxelCache;
+
+  const paths = getSlicePaths(slice);
+  const shape = BRAIN_SHAPES[slice];
+  const rand = seededRand(slice === 'coronal' ? 1 : slice === 'sagittal' ? 2 : 3);
+  const V = [];
+
+  // Grid step — adjust for density
+  const step = 11;
+  for (let gy = 78; gy <= 530; gy += step) {
+    for (let gx = 78; gx <= 530; gx += step) {
+      // Jitter for organic look
+      const x = gx + (rand() - 0.5) * 6;
+      const y = gy + (rand() - 0.5) * 6;
+
+      if (!_testCtx.isPointInPath(paths.outline, x, y)) continue;
+
+      // Check exclusion zones (ventricles, corpus callosum)
+      let excluded = false;
+      for (const s of paths.structures) {
+        if (s.exclude && _testCtx.isPointInPath(s.path2d, x, y)) {
+          excluded = true; break;
+        }
+      }
+      if (excluded) continue;
+
+      // Region assignment: structure containment first, then geometric
+      let region = 'other';
+      for (const s of paths.structures) {
+        if (!s.exclude && s.region && _testCtx.isPointInPath(s.path2d, x, y)) {
+          region = s.region; break;
+        }
+      }
+      if (region === 'other') region = shape.assignRegion(x, y);
+
+      V.push({ x, y, region });
+    }
+  }
+
+  _voxelSlice = slice;
+  _voxelCache = V;
+  return V;
+}
+
+// ================================================================
+// Activity model
+// ================================================================
+const state = {
+  view: 'pred', surface: 'normal', slice: 'coronal',
+  region: 'all', time: 420, tab: 'examples',
+  voxel: { id: 'L-HIP · 42', x: -28, y: -22, z: -14, r: 0.81 },
+};
+
+// Simplified HRF (double-gamma)
+function hrf(t) {
+  if (t <= 0) return 0;
+  const a1 = 6, a2 = 16, b = 1;
+  return Math.pow(t, a1) * Math.exp(-t/b) / 720 - 0.35 * Math.pow(t, a2) * Math.exp(-t/b) / 1.2e13;
+}
+
+function hrfEnvelope(timeMs) {
+  // Map slider (0-900) to repeating HRF cycles (~30s TR blocks)
+  const trLen = 180; // TR block in slider units
+  const phase = (timeMs % trLen) / trLen * 20; // 0..20 seconds
+  return Math.max(0, hrf(phase) * 12);
+}
+
+// Memory phase / oscillation metadata per stimulus
+// Each stimulus is grounded in a specific mechanism from ideas.md
+const STIM_META = {
+  'ca3': {
+    phase: 'RETRIEVE',
+    osc:   'θ · CA3 recurrent attractor · 20% seed → full engram · <200 ms completion',
+    pe:    0.28,
+    label: '01 · CA3 ATTRACTOR COMPLETION',
+    tokens: ['partial','cue','activates','CA3','recurrent','network','attractor','converges','full','engram'],
+  },
+  'false': {
+    phase: 'ENCODE',
+    osc:   'θ-γ PAC · place-cell + amygdala co-activation · L2 contextual binding',
+    pe:    0.92,
+    label: '02 · FALSE ENGRAM · RAMIREZ \'13',
+    tokens: ['context','A','place-cells','reactivated','fear','conditioning','context','B','false','memory'],
+  },
+  'nrem': {
+    phase: 'CONSOLIDATE',
+    osc:   'SWR · 150-250 Hz · SO→spindle→ripple coupling · CA1 forward+reverse replay',
+    pe:    0.06,
+    label: '03 · NREM · SWR REPLAY',
+    tokens: ['slow','oscillation','up-state','spindle','trough','ripple','CA1','replay','forward','reverse'],
+  },
+  'recon': {
+    phase: 'RETRIEVE',
+    osc:   'β-γ · AMPAR internalization · lability window 6 hr · protein synthesis block',
+    pe:    0.58,
+    label: '04 · RECONSOLIDATION EDIT',
+    tokens: ['target','memory','reactivated','lability','confirmed','modified','pattern','injected','restabilization','verified'],
+  },
+  'grid': {
+    phase: 'ENCODE',
+    osc:   'θ · entorhinal grid cells · toroidal manifold · 6-fold symmetry · method of loci',
+    pe:    0.74,
+    label: '05 · GRID CELL MEMORY PALACE',
+    tokens: ['entorhinal','grid','cell','toroidal','scaffold','memory','palace','spatial','loci','navigation'],
+  },
+  'phase': {
+    phase: 'ENCODE',
+    osc:   'θ phase precession · 5-7 elements/cycle · STDP chain · CA3→CA1 sequence binding',
+    pe:    0.88,
+    label: 'NOVEL · L5 PHASE-SEQUENCE WRITE',
+    tokens: ['theta','phase','precession','sequence','elements','temporal','binding','STDP','theta','cycle'],
+  },
+};
+
+function stimKey() {
+  const v = document.getElementById('sel-stim').value;
+  if (v.includes('CA3') || v.includes('completion'))    return 'ca3';
+  if (v.includes('false') || v.includes('Ramirez'))     return 'false';
+  if (v.includes('NREM') || v.includes('SWR'))          return 'nrem';
+  if (v.includes('recon'))                              return 'recon';
+  if (v.includes('grid') || v.includes('palace'))       return 'grid';
+  return 'phase';
+}
+
+function currentCompo() {
+  const k = stimKey();
+  // v = visual/spatial weight · a = hippocampal/subcortical weight · t = PFC/language weight
+  if (k === 'ca3')   return { v: 0.10, a: 0.25, t: 0.65 }; // retrieval: PFC + CA3 hippocampus
+  if (k === 'false') return { v: 0.42, a: 0.20, t: 0.38 }; // place-cells: visual context + HPC + amygdala
+  if (k === 'nrem')  return { v: 0.05, a: 0.08, t: 0.87 }; // sleep: hippocampus replay dominant, quiet cortex
+  if (k === 'recon') return { v: 0.16, a: 0.26, t: 0.58 }; // reconsolidation: PFC + HPC + amygdala
+  if (k === 'grid')  return { v: 0.55, a: 0.18, t: 0.27 }; // grid cells: entorhinal/visual dominant
+  return { v: 0.28, a: 0.30, t: 0.42 };                    // phase-sequence: full hippocampal-cortical
+}
+
+function updateStimMeta() {
+  const m = STIM_META[stimKey()];
+  const phases = ['ENCODE','CONSOLIDATE','RETRIEVE'];
+  const phaseEl = document.getElementById('phase-row');
+  if (phaseEl) {
+    phaseEl.innerHTML = phases.map(p =>
+      `<span style="font-family:var(--f-mono);font-size:10px;padding:3px 8px;border:1px solid ${p===m.phase?'var(--hot-0)':'var(--line)'};color:${p===m.phase?'var(--hot-0)':'var(--fg-3)'};">${p===m.phase?'● ':''} ${p}</span>`
+    ).join('');
+  }
+  const oscEl = document.getElementById('osc-row');
+  if (oscEl) oscEl.textContent = m.osc;
+  const peFill = document.getElementById('pe-fill');
+  if (peFill) peFill.style.width = (m.pe * 100) + '%';
+  const peVal = document.getElementById('pe-val');
+  if (peVal) peVal.textContent = m.pe.toFixed(2);
+  const stimLabel = document.getElementById('stim-label');
+  if (stimLabel) stimLabel.textContent = m.label;
+  const pill = document.getElementById('phase-pill');
+  if (pill) pill.textContent = m.phase;
+
+  // Update transcript tokens
+  const transcript = document.getElementById('text-transcript');
+  if (transcript && m.tokens) {
+    transcript.innerHTML = m.tokens
+      .map(t => `<span class="tok">${t}</span>`)
+      .join(' ');
+    // Re-apply active state for current time position
+    const toks = transcript.querySelectorAll('.tok');
+    const slider = document.getElementById('sel-time');
+    const pos = Math.floor((+slider.value / 900) * toks.length);
+    toks.forEach((t, i) => t.classList.toggle('active', i === pos));
+  }
+}
+
+function activityFor(vx, mode, compo) {
+  const base = {
+    cx:    { v: 0.90, a: 0.08, t: 0.05 },
+    aud:   { v: 0.10, a: 0.88, t: 0.12 },
+    pfc:   { v: 0.18, a: 0.25, t: 0.62 },
+    hip:   { v: 0.26, a: 0.30, t: 0.48 },
+    thal:  { v: 0.35, a: 0.35, t: 0.32 },
+    cbl:   { v: 0.22, a: 0.15, t: 0.10 },
+    other: { v: 0.12, a: 0.12, t: 0.12 },
+  }[vx.region] || { v: 0.12, a: 0.12, t: 0.12 };
+
+  let a = base.v * compo.v + base.a * compo.a + base.t * compo.t;
+
+  // HRF modulation
+  const hrfMod = hrfEnvelope(state.time);
+  a = a * (0.6 + hrfMod * 0.5);
+
+  // Spatial autocorrelation via bucket seed
+  const bx = Math.floor(vx.x / 20), by = Math.floor(vx.y / 20);
+  const bucketSeed = ((bx * 9301 + by * 49297) % 233280) / 233280;
+  const voxelSeed  = ((vx.x * 6151 + vx.y * 7919) % 233280) / 233280;
+  const noise = 0.7 * bucketSeed + 0.3 * voxelSeed;
+  a += (noise - 0.5) * 0.28;
+
+  // Slow temporal ripple
+  a += Math.sin((state.time / 80) + (vx.x + vx.y) * 0.025) * 0.08;
+
+  a = Math.max(0, Math.min(1, a));
+
+  if (mode === 'pred') return a;
+  if (mode === 'true') {
+    const gtSeed = ((vx.x * 7853 + vx.y * 3571) % 233280) / 233280;
+    return Math.max(0, Math.min(1, a + (gtSeed - 0.5) * 0.16));
+  }
+  if (mode === 'diff') {
+    // Signed: pred − true
+    const gtSeed = ((vx.x * 7853 + vx.y * 3571) % 233280) / 233280;
+    const t = Math.max(0, Math.min(1, a + (gtSeed - 0.5) * 0.16));
+    return a - t; // signed [-0.5 .. 0.5]
+  }
+  return a;
+}
+
+function heatColor(a) {
+  if (a < 0.12) return 'none';
+  if (a < 0.25) return '#fff3c4';
+  if (a < 0.40) return '#ffe082';
+  if (a < 0.55) return '#ffb347';
+  if (a < 0.70) return '#e97514';
+  if (a < 0.82) return '#c84800';
+  return '#8a2a00';
+}
+
+function diffColor(d) {
+  // d is signed (pred - true)
+  if (d >  0.30) return '#8a2a00';
+  if (d >  0.16) return '#d64a0a';
+  if (d >  0.06) return '#ffb347';
+  if (d > -0.06) return '#f0ede6';
+  if (d > -0.16) return '#6baed6';
+  if (d > -0.30) return '#2b8cbe';
+  return '#084594';
+}
+
+// ================================================================
+// Render
+// ================================================================
+function renderBrain() {
+  const svg = document.getElementById('brain-svg');
+  svg.innerHTML = '';
+
+  const shape = BRAIN_SHAPES[state.slice];
+  const compo = currentCompo();
+  const voxels = generateVoxels();
+
+  const NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs) {
+    const e = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+    return e;
+  }
+
+  // SVG defs — blur filter for soft BOLD appearance
+  const defs = el('defs', {});
+  defs.innerHTML = `
+    <filter id="vblur" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3.5"/>
+    </filter>
+    <filter id="sblur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1"/>
+    </filter>
+    <clipPath id="brainclip">
+      <path d="${shape.outline}"/>
+    </clipPath>`;
+  svg.appendChild(defs);
+
+  // Background of viewer
+  svg.appendChild(el('rect', { x: 0, y: 0, width: 600, height: 600, fill: 'transparent' }));
+
+  // Brain tissue fill
+  const brainFill = state.surface === 'inflated' ? '#ede8da' : '#f5f1e8';
+  const strokeCol = state.surface === 'inflated' ? '#b8b2a2' : '#c8c2b4';
+
+  // For axial, outline has two sub-paths (left + right hemisphere)
+  // Draw as filled path
+  const outerPath = el('path', {
+    d: shape.outline,
+    fill: brainFill,
+    stroke: strokeCol,
+    'stroke-width': '1.5',
+  });
+  svg.appendChild(outerPath);
+
+  // Internal structures (corpus callosum, ventricles, hippocampus outlines, etc.)
+  for (const s of shape.structures) {
+    const sp = el('path', {
+      d: s.path,
+      fill: s.fill,
+      stroke: s.stroke,
+      'stroke-width': '0.8',
+    });
+    svg.appendChild(sp);
+  }
+
+  // Sulci lines
+  for (const sulcusD of shape.sulci) {
+    const line = el('path', {
+      d: sulcusD,
+      fill: 'none',
+      stroke: state.surface === 'inflated' ? '#b0a898' : '#c0bab0',
+      'stroke-width': state.surface === 'inflated' ? '0.6' : '0.9',
+      'stroke-linecap': 'round',
+    });
+    svg.appendChild(line);
+  }
+
+  // Voxel activity layer — clipped to brain outline
+  const voxGroup = el('g', { 'clip-path': 'url(#brainclip)' });
+
+  voxels.forEach(vx => {
+    // Region filter
+    if (state.region !== 'all' && vx.region !== state.region) return;
+
+    const a = activityFor(vx, state.view, compo);
+
+    if (state.view === 'diff') {
+      if (Math.abs(a) < 0.04) return;
+      const c = diffColor(a);
+      const circ = el('circle', {
+        cx: vx.x, cy: vx.y, r: 5.5,
+        fill: c, opacity: 0.80,
+        filter: 'url(#vblur)',
+      });
+      voxGroup.appendChild(circ);
+    } else {
+      const c = heatColor(a);
+      if (c === 'none') return;
+      const circ = el('circle', {
+        cx: vx.x, cy: vx.y, r: 5.5,
+        fill: c, opacity: (0.65 + a * 0.35).toFixed(2),
+        filter: 'url(#vblur)',
+      });
+      voxGroup.appendChild(circ);
+    }
+  });
+  svg.appendChild(voxGroup);
+
+  // Clickable voxel dots (sharp, on top of blurred layer)
+  const clickGroup = el('g', { 'clip-path': 'url(#brainclip)' });
+  voxels.forEach(vx => {
+    if (state.region !== 'all' && vx.region !== state.region) return;
+    const hit = el('circle', {
+      cx: vx.x, cy: vx.y, r: 6,
+      fill: 'transparent', style: 'cursor:pointer',
+    });
+    hit.addEventListener('click', () => {
+      const a = activityFor(vx, 'pred', compo);
+      state.voxel = {
+        id: vx.region.toUpperCase() + ' · ' + (Math.abs(Math.floor(vx.x * 3 + vx.y)) % 100),
+        x: Math.round((vx.x - 300) * 0.23),
+        y: Math.round((vx.y - 300) * 0.20),
+        z: Math.round(Math.sin(vx.x * 0.015) * 30),
+        r: (0.38 + a * 0.48).toFixed(2),
+      };
+      updateReadout();
+    });
+    clickGroup.appendChild(hit);
+  });
+  svg.appendChild(clickGroup);
+
+  // Region labels with pointer lines
+  for (const L of shape.labels) {
+    const txt = el('text', {
+      x: L.x, y: L.y,
+      'font-family': 'JetBrains Mono',
+      'font-size': '8.5',
+      fill: '#787470',
+      'letter-spacing': '0.8',
+      'text-anchor': 'middle',
+    });
+    txt.textContent = L.t;
+    svg.appendChild(txt);
+  }
+
+  // HUD
+  const hud = el('text', {
+    x: 16, y: 26, 'font-family': 'JetBrains Mono',
+    'font-size': '9.5', fill: '#d64a0a', 'letter-spacing': '0.8',
+  });
+  hud.textContent = (state.view === 'pred' ? 'PREDICTED' :
+                     state.view === 'true' ? 'MEASURED'  : 'SIGNED DIFF') +
+                    ' · ' + state.slice.toUpperCase() + ' · ' +
+                    (state.surface === 'inflated' ? 'INFLATED' : 'NORMAL');
+  svg.appendChild(hud);
+
+  const hud2 = el('text', {
+    x: 584, y: 26, 'font-family': 'JetBrains Mono',
+    'font-size': '9.5', fill: '#9a968c', 'letter-spacing': '0.8',
+    'text-anchor': 'end',
+  });
+  hud2.textContent = 't = ' + (state.time / 100).toFixed(2) + 's  k=' + voxels.length;
+  svg.appendChild(hud2);
+
+  // Crosshair on last selected voxel (nearest)
+  const selVx = voxels.reduce((best, vx) => {
+    const mnix = Math.round((vx.x - 300) * 0.23);
+    const mniy = Math.round((vx.y - 300) * 0.20);
+    const d = Math.abs(mnix - state.voxel.x) + Math.abs(mniy - state.voxel.y);
+    return d < best.d ? { d, vx } : best;
+  }, { d: Infinity, vx: null }).vx;
+
+  if (selVx) {
+    const xh = el('g', { stroke: '#d64a0a', fill: 'none', 'stroke-width': '1' });
+    xh.appendChild(el('circle', { cx: selVx.x, cy: selVx.y, r: 14, 'stroke-dasharray': '3 3' }));
+    xh.appendChild(el('line', { x1: selVx.x - 20, y1: selVx.y, x2: selVx.x + 20, y2: selVx.y, 'stroke-width': '0.6' }));
+    xh.appendChild(el('line', { x1: selVx.x, y1: selVx.y - 20, x2: selVx.x, y2: selVx.y + 20, 'stroke-width': '0.6' }));
+    svg.appendChild(xh);
+  }
+
+  // Update diff legend
+  const strip = document.getElementById('heat-strip');
+  const hlabel = document.getElementById('heat-label');
+  if (state.view === 'diff') {
+    strip.className = 'heat-strip diff';
+    hlabel.textContent = '← TRUE  PRED →';
+  } else {
+    strip.className = 'heat-strip';
+    hlabel.textContent = 'HIGH · BOLD';
+  }
+}
+
+function updateReadout() {
+  document.getElementById('voxel-id').textContent = state.voxel.id;
+  document.getElementById('voxel-coord').textContent =
+    `MNI ( ${state.voxel.x}, ${state.voxel.y}, ${state.voxel.z} )`;
+  document.getElementById('voxel-r').textContent = state.voxel.r;
+
+  const svg = document.getElementById('voxel-trace');
+  svg.innerHTML = '';
+  const W = 600, H = 54, N = 80;
+  const pred = [], truth = [];
+  for (let i = 0; i < N; i++) {
+    const p = (i / N) * Math.PI * 4;
+    const base = 26 + Math.sin(p) * 13 + Math.sin(p * 2.3) * 5;
+    pred.push(base + Math.sin(i * 0.7) * 2.5);
+    truth.push(base + Math.sin(i * 0.7) * 2.5 + (Math.random() - 0.5) * 5.5);
+  }
+  const NS = 'http://www.w3.org/2000/svg';
+  const mkPath = (data, stroke, dash) => {
+    const p = document.createElementNS(NS, 'path');
+    const d = data.map((v, i) => `${i === 0 ? 'M' : 'L'} ${(i / (N-1)) * W} ${H - v}`).join(' ');
+    p.setAttribute('d', d); p.setAttribute('stroke', stroke);
+    p.setAttribute('fill', 'none'); p.setAttribute('stroke-width', '1');
+    if (dash) p.setAttribute('stroke-dasharray', dash);
+    return p;
+  };
+  svg.appendChild(mkPath(truth, '#6a6a66'));
+  svg.appendChild(mkPath(pred, '#d64a0a'));
+  const lg = document.createElementNS(NS, 'g');
+  lg.innerHTML = `
+    <text x="4" y="12" font-family="JetBrains Mono" font-size="9" fill="#6a6a66" letter-spacing="1">TRUE</text>
+    <line x1="38" y1="9" x2="52" y2="9" stroke="#6a6a66" stroke-width="1"/>
+    <text x="60" y="12" font-family="JetBrains Mono" font-size="9" fill="#d64a0a" letter-spacing="1">PRED</text>
+    <line x1="94" y1="9" x2="108" y2="9" stroke="#d64a0a" stroke-width="1"/>`;
+  svg.appendChild(lg);
+}
+
+// ================================================================
+// Controls wiring
+// ================================================================
+document.querySelectorAll('.bcbtn').forEach(b => {
+  b.onclick = () => {
+    const opt = b.dataset.opt, v = b.dataset.v;
+    state[opt] = v;
+    document.querySelectorAll(`.bcbtn[data-opt="${opt}"]`).forEach(x =>
+      x.classList.toggle('active', x.dataset.v === v));
+    // Invalidate voxel cache on slice change
+    if (opt === 'slice') { _voxelCache = null; _voxelSlice = null; }
+    renderBrain();
+    if (opt === 'view') {
+      document.getElementById('brain-title').textContent =
+        state.view === 'pred' ? 'Predicted brain activity' :
+        state.view === 'true' ? 'Measured brain activity (fMRI)' :
+        'Prediction error (pred − true, signed)';
+    }
+  };
+});
+
+['sel-subject', 'sel-stim'].forEach(id =>
+  document.getElementById(id).addEventListener('change', () => { updateStimMeta(); renderBrain(); }));
+
+document.getElementById('sel-time').addEventListener('input', e => {
+  state.time = +e.target.value;
+  document.getElementById('t-sec').textContent = (state.time / 100).toFixed(2);
+  document.getElementById('time-hud').textContent = (state.time / 100).toFixed(2) + 's';
+
+  const toks = document.querySelectorAll('#text-transcript .tok');
+  toks.forEach((t, i) => t.classList.toggle('active', i === Math.floor((state.time / 900) * toks.length)));
+
+  renderBrain();
+});
+
+document.querySelectorAll('#tabs [data-tab]').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('#tabs [data-tab]').forEach(x => x.classList.toggle('active', x === b));
+    document.querySelectorAll('.tab-body').forEach(x => x.hidden = true);
+    document.getElementById('tab-' + b.dataset.tab).hidden = false;
+  };
+});
+
+document.querySelectorAll('.ex-card').forEach((c, i) => {
+  c.onclick = () => {
+    document.querySelectorAll('.ex-card').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    document.getElementById('sel-stim').selectedIndex = Math.min(i, 5);
+    updateStimMeta();
+    renderBrain();
+  };
+});
+
+// Initial render
+updateStimMeta();
+renderBrain();
+updateReadout();
+document.getElementById('sel-time').dispatchEvent(new Event('input'));
+
+// Auto-advance
+let autoPlay = true;
+setInterval(() => {
+  if (!autoPlay) return;
+  const s = document.getElementById('sel-time');
+  let v = +s.value + 3; if (v > 900) v = 0;
+  s.value = v; s.dispatchEvent(new Event('input'));
+}, 80);
+</script>
+</body>
+</html>
