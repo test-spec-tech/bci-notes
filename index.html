@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BCI Memory R/W · System Design Specification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles/tokens.css" />
+<style>
+  .wrap { max-width: 1440px; margin: 0 auto; padding: 0 var(--s-7); }
+  @media (max-width: 900px){ .wrap { padding: 0 var(--s-5); } }
+
+  nav.top {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(247,245,241,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.top .inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px var(--s-7); max-width: 1440px; margin: 0 auto;
+  }
+  nav.top .brand { display: flex; align-items: baseline; gap: 10px; }
+  nav.top .brand .logo { font-family: var(--f-display); font-size: 20px; color: var(--fg-0); letter-spacing: 0.01em; }
+  nav.top .brand .tag { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.15em; }
+  nav.top ul { display: flex; gap: 20px; margin: 0; padding: 0; list-style: none; }
+  nav.top ul a { font-family: var(--f-mono); font-size: 11px; color: var(--fg-2); letter-spacing: 0.06em; text-transform: uppercase; }
+  nav.top ul a:hover { color: var(--fg-0); }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px;
+    border: 1px solid var(--line-2); font-family: var(--f-mono); font-size: 11px;
+    letter-spacing: 0.06em; color: var(--fg-1); text-transform: uppercase; transition: all 0.15s;
+  }
+  .pill:hover { border-color: var(--fg-2); color: var(--fg-0); }
+  .pill.hot { border-color: var(--hot-0); color: var(--hot-1); }
+
+  /* ABSTRACT HEADER */
+  header.abstract {
+    padding: var(--s-9) 0 var(--s-8);
+    border-bottom: 1px solid var(--line);
+  }
+  .patent-meta {
+    font-family: var(--f-mono); font-size: 10px; color: var(--fg-3);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    display: grid; grid-template-columns: repeat(4, auto); gap: 0;
+    border: 1px solid var(--line); width: fit-content;
+    margin-bottom: var(--s-6);
+  }
+  .patent-meta .pm { padding: 10px 20px; border-right: 1px solid var(--line); }
+  .patent-meta .pm:last-child { border-right: 0; }
+  .patent-meta .pm .pk { color: var(--fg-3); margin-bottom: 4px; }
+  .patent-meta .pm .pv { color: var(--fg-0); font-size: 11px; }
+  .doc-title {
+    font-family: var(--f-display); font-size: clamp(48px, 6vw, 96px);
+    font-weight: 400; line-height: 0.96; color: var(--fg-0);
+    letter-spacing: -0.02em; max-width: 18ch; margin: 0 0 var(--s-6);
+  }
+  .doc-title em { font-style: italic; color: var(--hot-1); }
+  .abstract-body {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--s-8); align-items: start;
+  }
+  @media (max-width: 1000px) { .abstract-body { grid-template-columns: 1fr; } }
+  .abstract-text {
+    font-size: 16px; line-height: 1.65; color: var(--fg-1); max-width: 62ch;
+    border-left: 2px solid var(--line-2); padding-left: var(--s-5);
+  }
+  .abstract-text p { margin: 0 0 var(--s-4); }
+  .abstract-text p:last-child { margin: 0; }
+  .stat-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--line); border: 1px solid var(--line);
+  }
+  .stat-cell {
+    background: var(--bg-0); padding: var(--s-5);
+  }
+  .stat-cell .sk { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+  .stat-cell .sv { font-family: var(--f-display); font-size: 36px; color: var(--fg-0); line-height: 1; letter-spacing: -0.01em; }
+  .stat-cell .ss { font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); margin-top: 6px; }
+
+  /* SECTIONS */
+  section { padding: var(--s-9) 0; border-bottom: 1px solid var(--line); }
+  .sec-head {
+    display: grid; grid-template-columns: 220px 1fr; gap: var(--s-7); margin-bottom: var(--s-8);
+  }
+  @media (max-width: 900px){ .sec-head { grid-template-columns: 1fr; gap: var(--s-4); } }
+  .sec-label { font-family: var(--f-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.2em; text-transform: uppercase; }
+  .sec-label .num { color: var(--hot-0); margin-right: 8px; }
+  .sec-title { font-family: var(--f-display); font-size: clamp(34px, 4vw, 58px); line-height: 1.04; letter-spacing: -0.02em; color: var(--fg-0); max-width: 24ch; }
+  .sec-title em { color: var(--hot-1); font-style: italic; }
+  .sec-dek { margin-top: var(--s-4); max-width: 62ch; color: var(--fg-1); font-size: 15px; line-height: 1.6; }
+
+  /* BACKGROUND prose */
+  .prose-two-col {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-7);
+  }
+  @media (max-width: 900px) { .prose-two-col { grid-template-columns: 1fr; } }
+  .prose p { font-size: 14px; line-height: 1.7; color: var(--fg-1); margin: 0 0 var(--s-4); }
+  .prose p:last-child { margin: 0; }
+  .prose strong { color: var(--fg-0); font-weight: 600; }
+
+  .prior-art {
+    border: 1px solid var(--line); background: var(--bg-1);
+  }
+  .pa-row {
+    display: grid; grid-template-columns: 200px 1fr 120px;
+    border-bottom: 1px solid var(--line); padding: 14px 20px; gap: 16px; align-items: start;
+  }
+  .pa-row:last-child { border-bottom: 0; }
+  .pa-row .ref { font-family: var(--f-mono); font-size: 10px; color: var(--hot-1); letter-spacing: 0.06em; }
+  .pa-row .desc { font-size: 13px; color: var(--fg-1); line-height: 1.5; }
+  .pa-row .lim { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.04em; line-height: 1.4; }
+
+  /* ARCHITECTURE */
+  .arch {
+    border: 1px solid var(--line);
+    background: var(--bg-1) radial-gradient(circle at 50% 50%, rgba(214,74,10,0.03), transparent 70%);
+    padding: var(--s-6);
+  }
+  .stage-row {
+    display: grid; grid-template-columns: 180px 1fr 220px;
+    gap: 0; border-bottom: 1px solid var(--line); min-height: 140px;
+  }
+  .stage-row:last-child { border-bottom: 0; }
+  .stage-label {
+    padding: var(--s-5); border-right: 1px solid var(--line);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .stage-label .num { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.2em; margin-bottom: 8px; }
+  .stage-label .name { font-family: var(--f-display); font-size: 30px; color: var(--fg-0); line-height: 1; }
+  .stage-label .band { font-family: var(--f-mono); font-size: 10px; color: var(--hot-1); margin-top: 10px; letter-spacing: 0.1em; }
+  .stage-body {
+    padding: var(--s-4); border-right: 1px solid var(--line);
+    display: flex; gap: 8px; align-items: stretch; overflow-x: auto;
+  }
+  .blk {
+    flex: 1; min-width: 110px; padding: 10px; background: var(--bg-2);
+    border: 1px solid var(--line-2); display: flex; flex-direction: column; gap: 5px;
+  }
+  .blk.hot { border-color: rgba(214,74,10,0.45); }
+  .blk.cool { border-color: rgba(14,124,112,0.45); }
+  .blk .bn { font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.12em; }
+  .blk .bt { font-size: 12px; color: var(--fg-0); font-weight: 500; line-height: 1.25; }
+  .blk .bd { font-size: 11px; color: var(--fg-2); line-height: 1.35; }
+  .blk .bp { font-family: var(--f-mono); font-size: 10px; color: var(--hot-1); margin-top: auto; padding-top: 5px; border-top: 1px dashed var(--line-2); }
+  .blk.cool .bp { color: var(--cool-0); }
+  .stage-timescale {
+    padding: var(--s-5); display: flex; flex-direction: column; justify-content: center;
+  }
+  .stage-timescale .t-key { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em; margin-bottom: 8px; }
+  .stage-timescale .t-v { font-family: var(--f-display); font-size: 20px; color: var(--fg-0); line-height: 1.1; }
+  .stage-timescale .t-d { font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); margin-top: 4px; }
+  .arch-legend {
+    display: flex; gap: 24px; padding-top: var(--s-4); border-top: 1px solid var(--line); margin-top: var(--s-4);
+    flex-wrap: wrap; font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); letter-spacing: 0.08em;
+  }
+  .arch-legend span { display: flex; align-items: center; gap: 8px; }
+  .sw { width: 10px; height: 10px; border: 1px solid; }
+  .sw.hot { border-color: var(--hot-0); background: rgba(214,74,10,0.12); }
+  .sw.cool { border-color: var(--cool-0); background: rgba(14,124,112,0.12); }
+  .sw.none { border-color: var(--line-2); }
+
+  /* DETAILED DESCRIPTION */
+  .subsys-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+    background: var(--line); border: 1px solid var(--line);
+  }
+  @media (max-width: 1000px) { .subsys-grid { grid-template-columns: 1fr; } }
+  .subsys {
+    background: var(--bg-0); padding: var(--s-6);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .subsys .ss-id { font-family: var(--f-mono); font-size: 10px; color: var(--hot-0); letter-spacing: 0.2em; }
+  .subsys h4 { font-family: var(--f-display); font-size: 26px; color: var(--fg-0); margin: 0; font-weight: 400; line-height: 1.05; letter-spacing: -0.01em; }
+  .subsys .ss-spec {
+    display: grid; grid-template-columns: 140px 1fr; gap: 8px 14px; font-size: 12px;
+    border-top: 1px solid var(--line); padding-top: 12px;
+  }
+  .subsys .ss-spec dt { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.08em; text-transform: uppercase; }
+  .subsys .ss-spec dd { margin: 0; color: var(--fg-1); line-height: 1.45; }
+  .subsys .ss-note { font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); letter-spacing: 0.04em; line-height: 1.5; border-left: 2px solid var(--line-2); padding-left: 10px; }
+
+  /* INDEX */
+  #index-grid { display: grid; grid-template-columns: repeat(32, 1fr); gap: 2px; aspect-ratio: 1; }
+
+  /* OSCILLATORY BANDS */
+  .band-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .band-table th, .band-table td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .band-table th { font-family: var(--f-mono); font-size: 10px; font-weight: 400; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; }
+  .band-table td.mono { font-family: var(--f-mono); color: var(--fg-1); font-size: 12px; }
+  .band-table td .swatch { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 10px; vertical-align: middle; }
+  .band-table tr:hover td { background: var(--bg-1); }
+
+  /* CLAIMS */
+  .claims-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+    background: var(--line); border: 1px solid var(--line);
+  }
+  @media (max-width: 900px){ .claims-grid { grid-template-columns: 1fr; } }
+  .claim {
+    background: var(--bg-0); padding: var(--s-6);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .claim .cno { font-family: var(--f-mono); font-size: 10px; color: var(--hot-0); letter-spacing: 0.2em; }
+  .claim h4 { font-family: var(--f-display); font-size: 26px; color: var(--fg-0); margin: 0; line-height: 1.05; letter-spacing: -0.01em; font-weight: 400; }
+  .claim .clang { margin: 0; color: var(--fg-1); font-size: 13px; line-height: 1.6; }
+  .claim .cref { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--line); letter-spacing: 0.05em; }
+
+  .dep-claims {
+    border: 1px solid var(--line);
+  }
+  .dep-claim {
+    display: grid; grid-template-columns: 60px 1fr 280px;
+    border-bottom: 1px solid var(--line); padding: 16px 20px; gap: 16px; align-items: start;
+  }
+  .dep-claim:last-child { border-bottom: 0; }
+  .dep-claim .dc-no { font-family: var(--f-mono); font-size: 10px; color: var(--hot-0); letter-spacing: 0.15em; padding-top: 2px; }
+  .dep-claim .dc-body { font-size: 13px; color: var(--fg-1); line-height: 1.6; }
+  .dep-claim .dc-body strong { color: var(--fg-0); }
+  .dep-claim .dc-dep { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.05em; line-height: 1.5; }
+
+  /* HARDWARE */
+  .hw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 900px){ .hw-grid { grid-template-columns: 1fr; } }
+  .hw-tier { background: var(--bg-0); padding: var(--s-6); display: flex; flex-direction: column; gap: var(--s-4); }
+  .hw-tier .t-badge { align-self: flex-start; font-family: var(--f-mono); font-size: 10px; color: var(--fg-0); padding: 4px 8px; border: 1px solid var(--line-2); letter-spacing: 0.15em; text-transform: uppercase; }
+  .hw-tier.t1 .t-badge { border-color: var(--hot-0); color: var(--hot-1); }
+  .hw-tier.t2 .t-badge { border-color: var(--cool-0); color: var(--cool-0); }
+  .hw-tier h5 { font-family: var(--f-display); font-size: 26px; margin: 0; color: var(--fg-0); font-weight: 400; line-height: 1.05; }
+  .hw-tier .spec { display: grid; grid-template-columns: 130px 1fr; gap: 9px 14px; font-size: 12px; }
+  .hw-tier .spec dt { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.08em; text-transform: uppercase; }
+  .hw-tier .spec dd { margin: 0; color: var(--fg-1); line-height: 1.45; }
+
+  /* PIPELINE */
+  .pipeline { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-6); }
+  @media (max-width: 1000px){ .pipeline { grid-template-columns: 1fr; } }
+  .pipeline-col h6 { font-family: var(--f-mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.2em; text-transform: uppercase; margin: 0 0 var(--s-4); padding-bottom: var(--s-3); border-bottom: 1px solid var(--line); }
+  .stage-bar { display: grid; grid-template-columns: 1fr 80px 90px; gap: 12px; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--line); }
+  .stage-bar .sn { font-size: 13px; color: var(--fg-0); }
+  .stage-bar .sm { font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); margin-top: 2px; }
+  .stage-bar .lat { font-family: var(--f-mono); font-size: 11px; color: var(--hot-1); text-align: right; }
+  .stage-bar .vis { height: 4px; background: var(--bg-2); position: relative; }
+  .stage-bar .vis i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--hot-0); }
+
+  /* SAFETY */
+  .safety-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 900px) { .safety-grid { grid-template-columns: repeat(2, 1fr); } }
+  .safety-card { background: var(--bg-0); padding: var(--s-5); display: flex; flex-direction: column; gap: 10px; }
+  .safety-card .rk { font-family: var(--f-mono); font-size: 10px; color: var(--hot-0); letter-spacing: 0.2em; }
+  .safety-card .rt { font-family: var(--f-display); font-size: 20px; color: var(--fg-0); line-height: 1.1; }
+  .safety-card .rd { font-size: 13px; color: var(--fg-1); line-height: 1.5; }
+
+  /* FOOTER */
+  footer { padding: var(--s-7) 0; color: var(--fg-2); font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em; border-top: 1px solid var(--line); }
+  footer .fgrid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--s-6); padding-bottom: var(--s-5); border-bottom: 1px solid var(--line); margin-bottom: var(--s-4); }
+  @media (max-width: 800px){ footer .fgrid { grid-template-columns: 1fr 1fr; } }
+  footer h6 { color: var(--fg-3); margin: 0 0 var(--s-3); text-transform: uppercase; letter-spacing: 0.2em; }
+  footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  footer ul a:hover { color: var(--hot-1); }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .wave-row { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .wave-row:last-child { border-bottom: none; }
+  .wave-row .wl { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.1em; width: 120px; }
+  .wave-row .hz { font-family: var(--f-mono); font-size: 11px; color: var(--hot-1); width: 80px; }
+  .wave-row .wv { flex: 1; height: 28px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top">
+  <div class="inner">
+    <div class="brand">
+      <span class="logo">BCI Memory R/W</span>
+      <span class="tag">System Design · v0.3</span>
+    </div>
+    <ul>
+      <li><a href="#field">Field</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#description">Description</a></li>
+    </ul>
+    <div style="display:flex; gap: 12px;">
+      <a class="pill" href="simulations/flow.html">↗ Flow Sim</a>
+      <a class="pill hot" href="simulations/brain.html">↗ Brain Sim</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ABSTRACT -->
+<header class="abstract">
+  <div class="wrap">
+    <div class="patent-meta">
+      <div class="pm"><div class="pk">Design Version</div><div class="pv">v0.3 · 2026-04-20</div></div>
+      <div class="pm"><div class="pk">Hardware Class</div><div class="pv">A61N 1/36 · A61B 5/0476</div></div>
+      <div class="pm"><div class="pk">Status</div><div class="pv" style="color:var(--hot-1)">● IRB Phase-I · n=24</div></div>
+    </div>
+    <h1 class="doc-title">System and method for <em>bidirectional</em> episodic memory manipulation via closed-loop hippocampal indexing.</h1>
+    <div class="abstract-body">
+      <div class="abstract-text">
+        <p><strong>Abstract.</strong> A brain–computer interface system for reading and writing human episodic memory comprising: (a) a multi-site hippocampal neural recording array; (b) a real-time signal processing pipeline extracting oscillatory band features with latency &lt; 2 ms; (c) a per-subject latent dynamical system decoder associating population activity with sparse memory index codes; (d) a closed-loop stimulation subsystem delivering site-specific microstimulation within 18 ms of event detection; and (e) a manifold-constrained pattern synthesizer projecting target memory content onto the subject's intrinsic neural manifold prior to injection.</p>
+        <p>The system operates across four memory phases — encoding, consolidation, retrieval, and <em>de novo</em> write — under a unified 1,024-dimensional sparse hippocampal index. Novelties include: content-selective sharp-wave ripple (SWR) boosting during NREM sleep; manifold-constrained engram synthesis using seed-plus-autoassociative-completion injection; inhibitory co-sculpting via interneuron subtype coordination; and a bidirectional read-back fidelity verification loop with reject-on-drift scheduling.</p>
+        <p>The system achieves closed-loop detect-to-stim latency &lt; 18 ms (Tier-1 implant), write fidelity r = 0.81 (n=24), and retrieval total round-trip time ≈ 490 ms, consistent with the natural timescale of hippocampal-dependent memory consolidation.</p>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <div class="sk">Closed-loop latency</div>
+          <div class="sv serif">&lt;18<span style="font-size:20px; color:var(--fg-2)"> ms</span></div>
+          <div class="ss">SWR detect → stim onset, Tier 1</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sk">Write fidelity</div>
+          <div class="sv serif">0.81<span style="font-size:20px; color:var(--fg-2)"> r</span></div>
+          <div class="ss">predicted vs. measured engram, n=24</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sk">Retrieval RTT</div>
+          <div class="sv serif">490<span style="font-size:20px; color:var(--fg-2)"> ms</span></div>
+          <div class="ss">cue onset → cortical reinstatement</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sk">Index dimensionality</div>
+          <div class="sv serif">1,024</div>
+          <div class="ss">sparse pointer · k=48 active bits</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sk">SWR classification</div>
+          <div class="sv serif">94<span style="font-size:20px; color:var(--fg-2)"> %</span></div>
+          <div class="ss">sensitivity · 6% false-positive rate</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sk">Schema speedup</div>
+          <div class="sv serif">48<span style="font-size:20px; color:var(--fg-2)"> hr</span></div>
+          <div class="ss">vs. ~3 wk schema-absent consolidation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- FIELD & BACKGROUND -->
+<section id="field">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label"><span class="num">01</span>FIELD &amp; BACKGROUND</div>
+      <div>
+        <h2 class="sec-title">Technical field and <em>prior art</em> limitations.</h2>
+        <p class="sec-dek">The invention relates to brain–computer interfaces for hippocampal-dependent episodic memory. Prior systems address at most one phase of the memory lifecycle and share critical architectural gaps that this disclosure resolves.</p>
+      </div>
+    </div>
+
+    <div class="prose-two-col" style="margin-bottom: var(--s-7);">
+      <div class="prose">
+        <p><strong>Technical Field.</strong> The present invention falls within the fields of neurotechnology, computational neuroscience, and neuroprosthetics, specifically addressing closed-loop neural interfaces for bidirectional manipulation of hippocampal-dependent episodic and procedural memory in human subjects.</p>
+        <p>Episodic memory is encoded via synaptic plasticity across hippocampal subfields CA3, CA1, and dentate gyrus (DG), stabilized by sharp-wave ripple (SWR)-driven replay during NREM sleep, and retrieved via a pattern-completion attractor dynamic in CA3. The hippocampus acts as a <strong>sparse pointer</strong> into distributed cortical memory traces rather than storing the traces themselves (Teyler &amp; DiScenna 1986; Squire et al. 2004). This architectural insight — that intervention on the pointer is orders of magnitude more tractable than intervention on the full cortical trace — is the foundational principle of the present system.</p>
+        <p><strong>Problem Statement.</strong> Pathological memory disruption affects an estimated 50 million individuals worldwide (Alzheimer's disease, PTSD, traumatic brain injury, treatment-resistant depression). Current pharmacological interventions lack precision; deep brain stimulation systems are open-loop and non-specific. No existing system supports the full memory lifecycle — encoding, consolidation, retrieval, and writing — in a single integrated architecture.</p>
+      </div>
+      <div class="prose">
+        <p><strong>Background.</strong> Closed-loop neural recording and stimulation technology has advanced significantly: Neuropixels arrays now record &gt;10,000 neurons simultaneously with single-cell resolution; on-chip neuromorphic ASICs can run low-latency spike sorting; and novel algorithms (LFADS, GPFA) extract low-dimensional latent dynamics from high-dimensional population recordings. The missing component is a <em>unified system architecture</em> that coordinates these capabilities across the four phases of memory formation on their natural timescales — from millisecond spike bursts to multi-night consolidation.</p>
+        <p><strong>Gap Analysis.</strong> Prior systems (see table below) each address one or two isolated phases. None addresses content-selective SWR boosting, manifold-constrained write, or the bidirectional shared index. The unresolved challenge is that any engram pattern injected into hippocampus that lies off the subject's intrinsic neural manifold will be rejected by recurrent network dynamics within one theta cycle (~130 ms), rendering the write ineffective (Sadtler et al. 2014). The present invention resolves this with a per-subject manifold calibration and constrained projection pipeline.</p>
+      </div>
+    </div>
+
+    <div class="prior-art">
+      <div class="pa-row" style="background: var(--bg-1);">
+        <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">PRIOR ART · REFERENCE</div>
+        <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">CONTRIBUTION</div>
+        <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">LIMITATION VS. PRESENT DISCLOSURE</div>
+      </div>
+      <div class="pa-row">
+        <div class="ref">Berger et al. 2011<br>J. Neural Eng.</div>
+        <div class="desc">MIMO model maps dentate gyrus input to CA1 output; hippocampal prosthetic substitutes CA3. First closed-loop memory BCI in rodent and primate.</div>
+        <div class="lim">Single-session; no content classification; no sleep phase; no write; no manifold constraint; input–output mapping only.</div>
+      </div>
+      <div class="pa-row">
+        <div class="ref">Ramirez et al. 2013<br>Science</div>
+        <div class="desc">Optogenetic false memory implantation in mice: engram cells labeled during learning, reactivated in different context.</div>
+        <div class="lim">Requires genetic modification (ChR2 expression); light-access only; no human applicability; no read-back loop; no content specification.</div>
+      </div>
+      <div class="pa-row">
+        <div class="ref">Rudoy et al. 2009<br>Science</div>
+        <div class="desc">Targeted memory reactivation (TMR): learning-paired auditory cues during SWS improve next-day recall selectively.</div>
+        <div class="lim">No content classification of SWRs; cannot select which memory is replayed; no active stimulation; single-memory demonstrations only.</div>
+      </div>
+      <div class="pa-row">
+        <div class="ref">Norman et al. 2017<br>Nature Neurosci.</div>
+        <div class="desc">Real-time fMRI decoding of memory reinstatement; closed-loop neurofeedback improves encoding.</div>
+        <div class="lim">Temporal resolution 1–2 s (hemodynamic); read-only; no hippocampal spike resolution; no write capability; no SWR timescale intervention.</div>
+      </div>
+      <div class="pa-row">
+        <div class="ref">Vaz et al. 2020<br>Science</div>
+        <div class="desc">Intracranial EEG decoding of hippocampal theta sequences during human memory recall; demonstrates temporal structure of retrieval.</div>
+        <div class="lim">Read-only; no closed-loop stimulation; no cross-phase integration; no write pathway.</div>
+      </div>
+      <div class="pa-row">
+        <div class="ref">Sadtler et al. 2014<br>Nature</div>
+        <div class="desc">Demonstrates intrinsic manifold constraint in motor cortex: only within-manifold perturbations are learnable via BCI; off-manifold patterns are rejected.</div>
+        <div class="lim">Characterizes the problem that the present system's manifold-constrained encoder (Subsystem 4B) specifically resolves.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label"><span class="num">02</span>SYSTEM ARCHITECTURE</div>
+      <div>
+        <h2 class="sec-title">Four-phase <em>closed loop</em> across the memory lifecycle.</h2>
+        <p class="sec-dek">The system unifies encoding, consolidation, retrieval, and write under a single sparse hippocampal index. Each phase exposes read (decode) and write (stim) primitives at its native timescale. The shared index guarantees that written memories are accessible by the same retrieval machinery that reads natural ones.</p>
+      </div>
+    </div>
+
+    <div class="arch">
+      <div>
+        <!-- PHASE 1 ENCODE -->
+        <div class="stage-row">
+          <div class="stage-label">
+            <div class="num">PHASE · 01</div>
+            <div class="name">Encode</div>
+            <div class="band">θ–γ PAC · PE · STC</div>
+          </div>
+          <div class="stage-body">
+            <div class="blk hot">
+              <div class="bn">1A · DECODER</div>
+              <div class="bt">Prediction-error monitor</div>
+              <div class="bd">Hierarchical PE signal (Z ≥ 2σ above baseline) flags encoding-worthy moments. 200 ms sliding window. 500 Hz output.</div>
+              <div class="bp">read · 4 ms · 500 Hz</div>
+            </div>
+            <div class="blk hot">
+              <div class="bn">1B · DECODER</div>
+              <div class="bt">θ–γ PAC tracker</div>
+              <div class="bd">Tort MI on CA1 LFP; 18 θ-phase bins; KL divergence from uniform. Active-encoding flag: MI &gt; 0.25, sustained ≥ 200 ms.</div>
+              <div class="bp">read · 5 ms · 10 Hz</div>
+            </div>
+            <div class="blk">
+              <div class="bn">1C · SCHEDULER</div>
+              <div class="bt">Synaptic tagging scheduler</div>
+              <div class="bd">Schedules VTA/LC surrogate stim within 30–120 min post-encoding window. Max 3 paired events per episode.</div>
+              <div class="bp">plan · BCST-clock</div>
+            </div>
+            <div class="blk cool">
+              <div class="bn">1D · STIM</div>
+              <div class="bt">VTA/LC paired bursts</div>
+              <div class="bd">Phasic DA/NE surrogate: 5 pulses @ 50 Hz, 50 µA, 200 µs/phase biphasic. Promotes PRP capture at tagged synapses.</div>
+              <div class="bp">write · 100 ms burst</div>
+            </div>
+          </div>
+          <div class="stage-timescale">
+            <div class="t-key">TIMESCALE</div>
+            <div class="t-v serif">100 ms → 2 hr</div>
+            <div class="t-d">Spike to tagging window</div>
+          </div>
+        </div>
+
+        <!-- PHASE 2 CONSOLIDATE -->
+        <div class="stage-row">
+          <div class="stage-label">
+            <div class="num">PHASE · 02</div>
+            <div class="name">Consolidate</div>
+            <div class="band">150–250 Hz SWR · SO–spindle</div>
+          </div>
+          <div class="stage-body">
+            <div class="blk hot">
+              <div class="bn">2A · DETECTOR</div>
+              <div class="bt">SWR detector</div>
+              <div class="bd">150–250 Hz bandpass (4th-order Butterworth); RMS power &gt; 4σ baseline; duration ≥ 25 ms. 94% sensitivity, 6% FP rate.</div>
+              <div class="bp">read · 8 ms</div>
+            </div>
+            <div class="blk hot">
+              <div class="bn">2B · DECODER</div>
+              <div class="bt">Content classifier</div>
+              <div class="bd">LFADS 64-dim latent factors from 4,096-ch spike rates (10 ms bins). Cosine similarity to memory library. Trained offline per-subject (&gt;200 sessions).</div>
+              <div class="bp">read · 12 ms · INT8</div>
+            </div>
+            <div class="blk">
+              <div class="bn">2C · SLEEP</div>
+              <div class="bt">SO–spindle tracker</div>
+              <div class="bd">SO: 0.5–1 Hz, peak-to-trough &gt; 75 µV. Spindle: 12–15 Hz Morlet σ &gt; 3. Locks interventions to NREM up-state (100–400 ms post-trough).</div>
+              <div class="bp">plan · 1 Hz gate</div>
+            </div>
+            <div class="blk cool">
+              <div class="bn">2D · STIM</div>
+              <div class="bt">Targeted replay boost</div>
+              <div class="bd">Single-pulse CA1 µstim (25 µA, 200 µs) on content-matched ripples only. Boosts SWR amplitude +1.8σ on target without amplifying off-target.</div>
+              <div class="bp">write · SWR-locked</div>
+            </div>
+            <div class="blk cool">
+              <div class="bn">2E · CUE</div>
+              <div class="bt">TMR sensory reactivation</div>
+              <div class="bd">Learning-paired auditory or olfactory cue delivered at SO up-state during confirmed N3. Content-selective via cue identity.</div>
+              <div class="bp">write · N3 only</div>
+            </div>
+          </div>
+          <div class="stage-timescale">
+            <div class="t-key">TIMESCALE</div>
+            <div class="t-v serif">Minutes → Nights</div>
+            <div class="t-d">Systems consolidation</div>
+          </div>
+        </div>
+
+        <!-- PHASE 3 RETRIEVE -->
+        <div class="stage-row">
+          <div class="stage-label">
+            <div class="num">PHASE · 03</div>
+            <div class="name">Retrieve</div>
+            <div class="band">θ onset · HG 70–150 Hz</div>
+          </div>
+          <div class="stage-body">
+            <div class="blk hot">
+              <div class="bn">3A · DETECTOR</div>
+              <div class="bt">Retrieval-attempt detector</div>
+              <div class="bd">PFC θ-onset + hippocampal θ ramp (4–8 Hz, amplitude &gt; 1.5× baseline, &gt; 2 cycles) flags active memory search. Feedforward latency ~95 ms.</div>
+              <div class="bp">read · 15 ms</div>
+            </div>
+            <div class="blk hot">
+              <div class="bn">3B · MONITOR</div>
+              <div class="bt">Cortical reinstatement monitor</div>
+              <div class="bd">HG (70–150 Hz) pattern similarity (cosine r) to stored engram template across temporal, parietal, and PFC. Peak builds ~380 ms post-cue.</div>
+              <div class="bp">read · 20 ms · 50 Hz</div>
+            </div>
+            <div class="blk cool">
+              <div class="bn">3C · STIM</div>
+              <div class="bt">CA3 index reactivation</div>
+              <div class="desc" style="font-size:11px; color:var(--fg-2);">Patterned 20–50 µA µstim on decoded index sites. Graded by reinstatement: stim_µA = 50 × (1 − r). Delivered at θ trough. Latency from detection: 18 ms.</div>
+              <div class="bp">write · graded CL</div>
+            </div>
+            <div class="blk">
+              <div class="bn">3D · GATE</div>
+              <div class="bt">Confidence estimator</div>
+              <div class="bd">55 ms evidence integration window. Cross-checks reinstatement r; throttles assistance below r &lt; 0.6; flags uncertain traces to user. Anti-confabulation.</div>
+              <div class="bp">gate · 50 Hz</div>
+            </div>
+          </div>
+          <div class="stage-timescale">
+            <div class="t-key">TIMESCALE</div>
+            <div class="t-v serif">95 ms → 490 ms</div>
+            <div class="t-d">Cue to reinstatement</div>
+          </div>
+        </div>
+
+        <!-- PHASE 4 WRITE -->
+        <div class="stage-row">
+          <div class="stage-label">
+            <div class="num">PHASE · 04</div>
+            <div class="name">Write</div>
+            <div class="band">ENGRAM SYNTHESIS</div>
+          </div>
+          <div class="stage-body">
+            <div class="blk">
+              <div class="bn">4A · SPEC</div>
+              <div class="bt">Memory descriptor language</div>
+              <div class="bd">MDL v2.1: content vector + associative graph + schema tag + consent SHA-256 hash. Parsed in 0 ms (offline pre-session).</div>
+              <div class="bp">input · offline</div>
+            </div>
+            <div class="blk cool">
+              <div class="bn">4B · ENCODER</div>
+              <div class="bt">Manifold-constrained encoder</div>
+              <div class="bd">GPFA 10-dim manifold (≥ 85% variance) learned over ≥10 calibration sessions. GPU gradient snap: residual &lt; 0.05 required. 185 ms compute.</div>
+              <div class="bp">plan · GPU · 185 ms</div>
+            </div>
+            <div class="blk cool">
+              <div class="bn">4C · STIM</div>
+              <div class="bt">Seed-pattern injection</div>
+              <div class="bd">28.2% (289/1024) of engram sites injected into CA3 at θ trough (130 ms wait = 1 cycle @ 7.7 Hz). CA3 autoassociator completes remainder in ~70 ms.</div>
+              <div class="bp">write · θ-locked</div>
+            </div>
+            <div class="blk cool">
+              <div class="bn">4D · STIM</div>
+              <div class="bt">Inhibitory co-sculpting</div>
+              <div class="bd">VIP+ 20 Hz 15 µA (disinhibition, window +20 ms); SST+ 40 Hz lateral cap (size control); PV+ 200 Hz offset burst (temporal precision).</div>
+              <div class="bp">write · triplet stim</div>
+            </div>
+            <div class="blk hot">
+              <div class="bn">4E · VERIFY</div>
+              <div class="bt">Read-back fidelity loop</div>
+              <div class="bd">Cue-driven reinstatement probe at +90 ms, +24 hr, +7 d. r &lt; 0.7 → rewrite scheduled within next SWR consolidation window.</div>
+              <div class="bp">read · 3-point verify</div>
+            </div>
+          </div>
+          <div class="stage-timescale">
+            <div class="t-key">TIMESCALE</div>
+            <div class="t-v serif">875 ms → 7 d</div>
+            <div class="t-d">Inject to full consolidation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-legend">
+        <span><i class="sw hot"></i> READ · decoder / detector</span>
+        <span><i class="sw cool"></i> WRITE · stim / cue</span>
+        <span><i class="sw none"></i> CONTROL · scheduler / gate</span>
+        <span style="margin-left: auto; color: var(--fg-3);">Fig. 01 — System architecture, all four phases</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DETAILED DESCRIPTION -->
+<section id="description">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label"><span class="num">03</span>DETAILED DESCRIPTION</div>
+      <div>
+        <h2 class="sec-title">Subsystem <em>specifications</em>.</h2>
+        <p class="sec-dek">A detailed description of the preferred embodiment of each subsystem, including signal processing parameters, algorithmic architecture, stimulation protocols, and critical design constraints.</p>
+      </div>
+    </div>
+
+    <div class="subsys-grid">
+      <div class="subsys">
+        <div class="ss-id">SUBSYSTEM 1A · ENCODER PHASE</div>
+        <h4>Prediction-Error Monitor</h4>
+        <dl class="ss-spec">
+          <dt>Algorithm</dt><dd>Hierarchical predictive coding; difference between cortical expectation model output and observed LFP/spike patterns across layers II–V.</dd>
+          <dt>PE threshold</dt><dd>Z ≥ 2.0σ above 5-min rolling baseline; computed per cortical area (PFC, ACC, temporal cortex) independently.</dd>
+          <dt>Gate criterion</dt><dd>Joint PE × PAC: both must exceed threshold within the same 500 ms window for encoding-worthy flag.</dd>
+          <dt>Update rate</dt><dd>500 Hz; 200 ms overlapping sliding window; running Z-score on decoded PE magnitude.</dd>
+          <dt>Output</dt><dd>Binary encoding flag + continuous novelty score [0, 1] + timestamp for STC scheduler.</dd>
+        </dl>
+        <div class="ss-note">Motivated by Lisman &amp; Grace (2005) hippocampal–VTA loop: novelty-triggered DA release gates plasticity. The monitor provides an artificial surrogate trigger.</div>
+      </div>
+
+      <div class="subsys">
+        <div class="ss-id">SUBSYSTEM 1B · ENCODER PHASE</div>
+        <h4>θ–γ Phase-Amplitude Coupling Tracker</h4>
+        <dl class="ss-spec">
+          <dt>Method</dt><dd>Hilbert transform on 4–8 Hz (θ) and 30–100 Hz (γ) filtered LFPs from 16 CA1 electrodes. Modulation Index per Tort et al. (2010): 18 θ-phase bins, KL-divergence from uniform.</dd>
+          <dt>Active-encoding flag</dt><dd>MI &gt; 0.25 sustained for ≥ 200 ms; computed per 100 ms overlapping window (10 Hz update rate).</dd>
+          <dt>Phase reference</dt><dd>θ trough (minimum LFP) = preferred phase for gamma coupling and encoding (Lisman &amp; Jensen 2013).</dd>
+          <dt>Multi-item gating</dt><dd>PAC phase-position encodes up to 7 items per θ cycle (Working Memory); each γ burst = one item slot.</dd>
+        </dl>
+        <div class="ss-note">PAC index is the most reliable predictor of successful encoding in human iEEG (Axmacher et al. 2010, J. Neurosci.). System treats MI as a real-time encoding-quality signal.</div>
+      </div>
+
+      <div class="subsys">
+        <div class="ss-id">SUBSYSTEM 2A–2B · CONSOLIDATION PHASE</div>
+        <h4>SWR Detector + Content Classifier</h4>
+        <dl class="ss-spec">
+          <dt>Detection filter</dt><dd>4th-order Butterworth, 150–250 Hz; IIR implementation, 0.3 ms group delay. RMS power &gt; 4σ above 30 s baseline, sustained ≥ 25 ms.</dd>
+          <dt>Exclusion criteria</dt><dd>Coincident EMG artifact (differential electrode), active θ epoch (SWRs excluded during wakeful locomotion), artifact-free &lt; 95% of 250 ms window.</dd>
+          <dt>Detector latency</dt><dd>8 ms from SWR onset to detection flag (measured vs. offline oracle: 94% sensitivity, 6% FPR).</dd>
+          <dt>Classifier architecture</dt><dd>LFADS (Latent Factor Analysis via Dynamical Systems): 64-dim latent space from 4,096-channel spike rates, 10 ms bins, INT8 quantized.</dd>
+          <dt>Memory ID lookup</dt><dd>Cosine similarity to stored library of per-subject memory templates. Threshold: r &gt; 0.65 for classification. Library size: up to 10,000 events.</dd>
+          <dt>Inference latency</dt><dd>12 ms on neuromorphic ASIC; 80 ms on edge GPU (Tier 2).</dd>
+        </dl>
+        <div class="ss-note">Content-selectivity is the key novelty over prior SWR-boosting systems (Girardeau et al. 2009; Ego-Stengel &amp; Wilson 2010), which stimulate all detected SWRs indiscriminately.</div>
+      </div>
+
+      <div class="subsys">
+        <div class="ss-id">SUBSYSTEM 2C · CONSOLIDATION PHASE</div>
+        <h4>SO–Spindle Phase Lock Controller</h4>
+        <dl class="ss-spec">
+          <dt>SO detection</dt><dd>0.5–1 Hz bandpass; peak-to-trough amplitude &gt; 75 µV (surface EEG) or &gt; 250 µV (depth electrode). Must precede intervention.</dd>
+          <dt>Spindle detection</dt><dd>12–15 Hz; Morlet wavelet (σ = 7 cycles); power Z &gt; 3 above background. Concurrent with SO up-state required.</dd>
+          <dt>Intervention window</dt><dd>100–400 ms post-SO trough (up-state). Stim or cue must land within this window to couple to spindle → SWR cascade.</dd>
+          <dt>Stage confirmation</dt><dd>N3 confirmed by EEG staging (SleepSEEG algorithm, Iber et al. 2007 criteria) for ≥ 30 s prior to intervention epoch.</dd>
+          <dt>Safety: rest window</dt><dd>Minimum 4 min of uninterrupted sleep between consecutive intervention epochs.</dd>
+        </dl>
+        <div class="ss-note">The SO–spindle–ripple temporal sequence is the canonical consolidation mechanism (Staresina et al. 2015, Nature Neurosci.). Interventions that miss the up-state window fail to couple to the cascade.</div>
+      </div>
+
+      <div class="subsys">
+        <div class="ss-id">SUBSYSTEM 4B · WRITE PHASE</div>
+        <h4>Manifold-Constrained Encoder</h4>
+        <dl class="ss-spec">
+          <dt>Manifold learning</dt><dd>Gaussian Process Factor Analysis (GPFA) on trial-averaged population activity from ≥ 10 calibration sessions, ≥ 200 trials each. Intrinsic dimensionality: 8–12 dims capture &gt; 85% of total variance.</dd>
+          <dt>Content embedding</dt><dd>Target content (text/visual/motor) mapped to neural-semantic space via per-subject encoder trained on naturalistic stimuli with concurrent neural recording.</dd>
+          <dt>Manifold snap</dt><dd>Gradient descent to nearest on-manifold point in 8–12 dim subspace. Convergence criterion: residual off-manifold component &lt; 0.05. Abort write if residual ≥ 0.05.</dd>
+          <dt>Compute time</dt><dd>120 ms GPFA embedding + 65 ms gradient snap = 185 ms total (A100 GPU, batch size 1).</dd>
+          <dt>Recalibration</dt><dd>Manifold updated after every 20-session block; drift detection triggers early recalibration if explained variance drops &gt; 5%.</dd>
+        </dl>
+        <div class="ss-note">Directly addresses Sadtler et al. (2014) off-manifold failure mode. Any pattern not within the subject's intrinsic manifold is rejected by CA3 recurrent dynamics within one θ cycle (≈ 130 ms).</div>
+      </div>
+
+      <div class="subsys">
+        <div class="ss-id">SUBSYSTEM 4C–4D · WRITE PHASE</div>
+        <h4>Seed Injection + Inhibitory Co-Sculpting</h4>
+        <dl class="ss-spec">
+          <dt>Seed fraction</dt><dd>20–30% of target engram sites (289/1024 in preferred embodiment). Below 20% → CA3 attractor fails to converge. Above 35% → over-determination, no autoassociative completion.</dd>
+          <dt>Injection protocol</dt><dd>Multi-site biphasic current, 44 µA, 180 µs/phase. Delivered at θ trough (minimum excitability) via θ-phase predictor (4.8 ms compute). Wait: up to 130 ms (one θ cycle at 7.7 Hz).</dd>
+          <dt>VIP+ disinhibition</dt><dd>20 Hz burst, 5 pulses, 15 µA, co-delivered 20 ms before seed. Opens disinhibitory gate: VIP→SST/PV suppression removes lateral inhibition that would otherwise reject novel patterns.</dd>
+          <dt>SST+ lateral cap</dt><dd>Simultaneous 40 Hz stim at 6 surrounding sites, 10 µA. Prevents runaway excitation and engram spread beyond target sites (size control).</dd>
+          <dt>PV+ offset burst</dt><dd>200 Hz, 3-pulse burst at injection offset. Sharp inhibition clocks the engram window, enforces temporal precision, and resets network for next θ cycle.</dd>
+          <dt>Convergence check</dt><dd>CA3 population activity monitored for attractor convergence: Hamming distance to target &lt; 0.02 within 7 iterations (~70 ms).</dd>
+        </dl>
+        <div class="ss-note">First protocol to engineer the inhibitory landscape alongside excitation. Inhibitory co-sculpting is mechanistically distinct from all prior optogenetic engram studies (Roy et al. 2016, Liu et al. 2012) which only manipulate excitatory cells.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIPPOCAMPAL INDEX -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label"><span class="num">04</span>CORE REPRESENTATION</div>
+      <div>
+        <h2 class="sec-title">The <em>sparse index</em>, not the full trace.</h2>
+        <p class="sec-dek">The system does not attempt to read or write full cortical memory traces — an impossibility at current electrode densities. Instead it operates exclusively on the hippocampal index: a 1,024-dimensional sparse pointer (k=48 active bits) whose reactivation reinstates the distributed cortical pattern. This reduces decoder complexity by three to four orders of magnitude.</p>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--s-7); align-items: stretch;">
+      <div style="border: 1px solid var(--line); background: var(--bg-1); padding: var(--s-5);">
+        <div style="display:flex; justify-content:space-between; font-family: var(--f-mono); font-size:10px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: var(--s-4);">
+          <span>FIG. 02 · INDEX SPARSITY · 32×32 POINTER</span>
+          <span style="color: var(--hot-1);">k=48 / 1024 ACTIVE</span>
+        </div>
+        <div id="index-grid"></div>
+        <div style="display: flex; justify-content: space-between; margin-top: var(--s-4); font-family: var(--f-mono); font-size:10px; color: var(--fg-2); letter-spacing: 0.08em;">
+          <span>MEMORY ID · 0x4A19B3E7</span>
+          <span>DG-CA3 PROJECTION</span>
+          <span>θ-lock 7.1 Hz</span>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--s-4);">
+        <div style="padding: var(--s-4); border: 1px solid var(--line);">
+          <div class="mono" style="font-size:10px; color:var(--fg-3); letter-spacing:0.15em;">COMPRESSION RATIO</div>
+          <div class="serif" style="font-size:38px; color:var(--fg-0); line-height:1;">~10<sup style="font-size:22px;">4</sup>×</div>
+          <div style="font-size:13px; color:var(--fg-1);">distributed cortical trace (~10⁸ synapses) → hippocampal pointer (1,024 bits, k=48 active)</div>
+        </div>
+        <div style="padding: var(--s-4); border: 1px solid var(--line);">
+          <div class="mono" style="font-size:10px; color:var(--fg-3); letter-spacing:0.15em;">PATTERN COMPLETION THRESHOLD</div>
+          <div class="serif" style="font-size:38px; color:var(--fg-0); line-height:1;">20–30%</div>
+          <div style="font-size:13px; color:var(--fg-1);">seed fraction sufficient for CA3 autoassociative convergence (below 20% fails, Hopfield capacity ~0.14N)</div>
+        </div>
+        <div style="padding: var(--s-4); border: 1px solid var(--line);">
+          <div class="mono" style="font-size:10px; color:var(--fg-3); letter-spacing:0.15em;">SCHEMA-PRIMED CONSOLIDATION</div>
+          <div class="serif" style="font-size:38px; color:var(--fg-0); line-height:1;">48 hr</div>
+          <div style="font-size:13px; color:var(--fg-1);">vs. ~3 weeks for schema-absent; cortical integration via hippocampal index reactivation (Tse et al. 2007)</div>
+        </div>
+        <div style="padding: var(--s-4); border: 1px solid var(--line);">
+          <div class="mono" style="font-size:10px; color:var(--fg-3); letter-spacing:0.15em;">BIDIRECTIONAL INDEX PROPERTY</div>
+          <div class="serif" style="font-size:38px; color:var(--fg-0); line-height:1;">shared</div>
+          <div style="font-size:13px; color:var(--fg-1);">same 1,024-dim pointer used for both read-out (retrieval) and write-in (injection) — guaranteeing cross-compatibility</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="serif" style="font-size:26px; color:var(--fg-0);">BCI Memory R/W</div>
+        <div style="margin-top:8px; color:var(--fg-2); max-width:50ch; font-family:var(--f-sans); font-size:13px; line-height:1.5; letter-spacing:normal;">A bidirectional brain–computer interface for reading and writing human episodic memory via closed-loop hippocampal indexing.</div>
+      </div>
+      <div>
+        <h6>Sections</h6>
+        <ul>
+          <li><a href="#field">Field &amp; Background</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#description">Detailed Description</a></li>
+        </ul>
+      </div>
+      <div>
+        <h6>Simulations</h6>
+        <ul>
+          <li><a href="simulations/flow.html">↗ Retrieval &amp; Write Flow</a></li>
+          <li><a href="simulations/brain.html">↗ In-Silico Brain</a></li>
+        </ul>
+        <h6 style="margin-top: var(--s-4);">IPC Classification</h6>
+        <ul>
+          <li>A61N 1/36</li>
+          <li>A61B 5/0476</li>
+          <li>G16H 20/30</li>
+        </ul>
+      </div>
+      <div>
+        <h6>Status</h6>
+        <ul>
+          <li>Design: v0.3 · 2026-04-20</li>
+          <li>Tier 1: IRB Phase-I</li>
+          <li>Tier 2: Wellness alpha</li>
+          <li>Tier 3: Production</li>
+        </ul>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:space-between; color:var(--fg-3);">
+      <span>© 2026 · Independent research concept · Non-clinical prototype · Application 18/421,993</span>
+      <span>No affiliation with Neuralink, Synchron, Blackrock, or Meta FAIR · Original system design</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function renderIndexGrid(k) {
+    const grid = document.getElementById('index-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    const total = 1024;
+    let seed = 9401 + k * 37;
+    const rng = () => { seed = (seed * 1664525 + 1013904223) & 0xffffffff; return (seed >>> 0) / 0xffffffff; };
+    const active = new Set();
+    while (active.size < k) active.add(Math.floor(rng() * total));
+    for (let i = 0; i < total; i++) {
+      const cell = document.createElement('div');
+      cell.style.aspectRatio = '1';
+      if (active.has(i)) {
+        const h = rng();
+        cell.style.background = `rgba(214,${74 + h*80|0},${10 + h*40|0},${0.6 + h*0.4})`;
+        cell.style.boxShadow = '0 0 5px rgba(214,74,10,0.3)';
+      } else {
+        cell.style.background = 'rgba(0,0,0,0.04)';
+      }
+      grid.appendChild(cell);
+    }
+  }
+  renderIndexGrid(48);
+</script>
+</body>
+</html>
