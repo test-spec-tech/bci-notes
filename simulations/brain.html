@@ -8,9 +8,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="../styles/tokens.css" />
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <style>
   html, body { height: 100%; overflow: hidden; }
-  body { display: flex; flex-direction: column; background: var(--bg-0); color: var(--fg-1); font-family: var(--f-sans); font-size: 13px; }
+  body {
+    display: flex; flex-direction: column;
+    background: var(--bg-0); color: var(--fg-1);
+    font-family: var(--f-sans); font-size: 13px;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  /* All numerics use tabular figures — aligned columns for scanner-style readouts */
+  .num, .serif, [class*="hud-"], .rv, .k, .v, .sub, .subt,
+  .perf-cell .v, .stat-cell .sv, .readout .rv, .readout .rs,
+  .multi-cell .vb-label, .ex-card .th, .time-hud,
+  #heat-ticks, .heat-legend span {
+    font-variant-numeric: tabular-nums;
+  }
 
   .topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-bottom: 1px solid var(--line); background: var(--bg-1); flex-shrink: 0; }
   .topbar .brand { display: flex; gap: 10px; align-items: baseline; }
@@ -30,19 +44,36 @@
   .stim-head .sub { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; }
 
   .stim-body { padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border-bottom: 1px solid var(--line); }
-  .card { background: var(--bg-1); border: 1px solid var(--line); display: flex; flex-direction: column; }
-  .card .ch { padding: 10px 14px; border-bottom: 1px solid var(--line); font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
-  .card .ch .pill { color: var(--hot-0); border: 1px solid var(--hot-0); padding: 2px 6px; font-size: 9px; }
+  .card {
+    background: var(--bg-1); border: 1px solid var(--line);
+    display: flex; flex-direction: column;
+    box-shadow: 0 1px 3px rgba(30,26,20,0.04);
+  }
+  .card .ch {
+    padding: 10px 14px; border-bottom: 1px solid var(--line);
+    font-family: var(--f-mono); font-size: 10px; color: var(--fg-3);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(250,246,236,0.6), transparent);
+    font-weight: 500;
+  }
+  .card .ch .pill {
+    color: var(--hot-0); border: 1px solid var(--hot-0);
+    padding: 2px 7px; font-size: 8.5px;
+    letter-spacing: 0.2em; font-weight: 600;
+    background: rgba(255,240,220,0.4);
+  }
+  .card .ch .pill::before {
+    content: ''; display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--hot-0); margin-right: 5px; vertical-align: middle;
+    animation: hudpulse 2.4s infinite;
+  }
 
   .video-tile { aspect-ratio: 16/10; position: relative; background: var(--bg-3); background-image: repeating-linear-gradient(135deg, rgba(0,0,0,0.03) 0 3px, transparent 3px 9px); overflow: hidden; }
-  .video-tile .ph-label { position: absolute; left: 12px; top: 12px; font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); letter-spacing: 0.1em; }
-  .video-tile .time-hud { position: absolute; right: 12px; top: 12px; font-family: var(--f-mono); font-size: 10px; color: var(--hot-0); letter-spacing: 0.1em; }
-  .video-tile .ocean { position: absolute; inset: 20% 12% 18% 12%; background: linear-gradient(180deg, #0e7c70 0%, #084a43 60%, #0a2a25 100%); overflow: hidden; }
-  .video-tile .diver { position: absolute; left: 45%; top: 40%; width: 22px; height: 36px; background: var(--fg-0); opacity: 0.6; border-radius: 40% 40% 20% 20%; }
-  .video-tile .bubbles { position: absolute; inset: 0; }
-  .video-tile .bubble { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.5); animation: rise 4s linear infinite; }
-  @keyframes rise { 0% { transform: translateY(100%); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100%); opacity: 0; } }
-  .video-tile .frame-corners { position: absolute; inset: 8px; pointer-events: none; }
+  .video-tile .ph-label { position: absolute; left: 12px; top: 12px; font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); letter-spacing: 0.1em; z-index: 2; }
+  .video-tile .time-hud { position: absolute; right: 12px; top: 12px; font-family: var(--f-mono); font-size: 10px; color: var(--hot-0); letter-spacing: 0.1em; z-index: 2; }
+  .video-tile .scene { position: absolute; inset: 10% 8% 10% 8%; overflow: hidden; }
+  .video-tile .frame-corners { position: absolute; inset: 8px; pointer-events: none; z-index: 2; }
   .video-tile .fc { position: absolute; width: 10px; height: 10px; border: 1px solid var(--fg-0); opacity: 0.5; }
   .video-tile .fc.tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
   .video-tile .fc.tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
@@ -58,16 +89,6 @@
   .text-tile .tok { display: inline-block; padding: 1px 4px; margin: 1px; background: var(--bg-2); border: 1px solid var(--line); transition: all 0.2s; }
   .text-tile .tok.active { background: rgba(214,74,10,0.15); border-color: var(--hot-0); color: var(--hot-0); }
 
-  .encoders { display: flex; flex-direction: column; gap: 6px; padding: 12px; }
-  .enc { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); background: var(--bg-2); }
-  .enc .ei { width: 28px; height: 28px; background: var(--fg-0); color: var(--bg-0); font-family: var(--f-mono); font-size: 9px; display: flex; align-items: center; justify-content: center; letter-spacing: 0.05em; }
-  .enc .en { flex: 1; }
-  .enc .en .nm { font-size: 12px; color: var(--fg-0); }
-  .enc .en .dm { font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.05em; }
-  .enc .act { width: 80px; height: 20px; position: relative; background: var(--bg-1); border: 1px solid var(--line); overflow: hidden; }
-  .enc .act i { position: absolute; top: 0; bottom: 0; background: var(--hot-0); width: 0%; transition: width 0.15s; }
-  .enc .act span { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-family: var(--f-mono); font-size: 9px; color: var(--fg-0); letter-spacing: 0.05em; }
-
   .controls { padding: 16px 24px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
   .ctrl label { display: block; font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
   .ctrl select, .ctrl input[type=range] { width: 100%; font-family: var(--f-mono); font-size: 11px; background: var(--bg-2); border: 1px solid var(--line-2); color: var(--fg-0); padding: 6px 8px; }
@@ -81,27 +102,233 @@
   .tab-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
   .tab-body[hidden] { display: none; }
 
-  .brain-head { padding: 16px 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
-  .brain-head .title { font-family: var(--f-display); font-size: 22px; color: var(--fg-0); }
-  .brain-head .heat-legend { display: flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); letter-spacing: 0.1em; }
-  .heat-strip { width: 160px; height: 10px; background: linear-gradient(to right, #fbfaf6, #ffe082, #ffb347, #d64a0a, #8a2a00); border: 1px solid var(--line-2); }
-  .heat-strip.diff { background: linear-gradient(to right, #2166ac, #6baed6, #f0ede6, #e97514, #b63c00); }
+  /* ============ RIGHT PANEL ============ */
+  .brain-head {
+    padding: 14px 24px; border-bottom: 1px solid var(--line);
+    display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 18px; align-items: center;
+    background: linear-gradient(to bottom, var(--bg-1), rgba(248,240,220,0.8));
+  }
+  .brain-head .title {
+    font-family: var(--f-display); font-size: 24px; color: var(--fg-0); line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .brain-head .subt {
+    font-family: var(--f-mono); font-size: 10px; color: var(--fg-3);
+    letter-spacing: 0.18em; text-transform: uppercase; margin-top: 5px;
+    font-weight: 500;
+  }
+  .brain-head .heat-legend {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 3px;
+    font-family: var(--f-mono); font-size: 9px; color: var(--fg-2);
+    letter-spacing: 0.12em; justify-content: flex-end;
+  }
+  .heat-legend .hl-top {
+    display: flex; justify-content: space-between; width: 160px;
+    color: var(--fg-3); font-size: 8px; letter-spacing: 0.1em;
+  }
+  .heat-legend .hl-unit {
+    display: flex; justify-content: space-between; width: 160px;
+    margin-top: 2px;
+    color: var(--fg-2); font-size: 8.5px; letter-spacing: 0.15em;
+    font-weight: 500;
+  }
+  .heat-legend .hl-unit .lab { color: var(--hot-0); letter-spacing: 0.2em; }
+  .heat-strip {
+    width: 160px; height: 9px; position: relative;
+    background: linear-gradient(to right,
+      #fbfaf6 0%, #fff3c4 12%, #ffe08a 24%, #ffc44a 38%,
+      #ff8a20 54%, #e0550a 70%, #a2320a 86%, #5c1a06 100%);
+    border: 1px solid rgba(122,108,84,0.45);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 1px 2px rgba(30,26,20,0.08);
+  }
+  .heat-strip.diff {
+    background: linear-gradient(to right,
+      #0a3a8c 0%, #1e68b0 15%, #6ba8d6 30%, #cadceb 44%,
+      #f0ede6 50%, #ffd48a 56%, #ff9244 70%, #e0550a 85%, #8a2a06 100%);
+  }
+  .heat-strip::after {
+    content: ""; position: absolute; inset: 0;
+    background: repeating-linear-gradient(to right,
+      transparent 0, transparent 39px, rgba(30,26,20,0.35) 39px, rgba(30,26,20,0.35) 40px);
+    pointer-events: none;
+  }
 
-  .brain-viewer { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; background: var(--bg-0); background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 20px 20px; min-height: 0; }
-  #brain-svg { width: 95%; height: 95%; max-width: 620px; max-height: 620px; }
+  /* Mini-view navigator — shows all 3 slices at once */
+  .view-nav {
+    display: flex; gap: 5px; padding: 5px;
+    background: rgba(234,220,192,0.5); border: 1px solid var(--line);
+    box-shadow: inset 0 1px 2px rgba(30,26,20,0.06);
+  }
+  .view-nav .mvi {
+    position: relative; width: 62px; height: 62px; cursor: pointer;
+    border: 1px solid rgba(122,108,84,0.25);
+    background: rgba(251,246,232,0.6);
+    transition: all 0.18s ease;
+    overflow: hidden;
+  }
+  .view-nav .mvi svg, .view-nav .mvi canvas {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+  }
+  .view-nav .mvi canvas { pointer-events: none; }
+  .view-nav .mvi.active {
+    border-color: var(--hot-0);
+    box-shadow: 0 0 0 1px var(--hot-0) inset, 0 0 8px rgba(214,74,10,0.25);
+  }
+  .view-nav .mvi:hover:not(.active) {
+    border-color: rgba(122,108,84,0.6);
+    background: rgba(251,246,232,0.85);
+  }
+  .view-nav .mvi .mvl {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    font-family: var(--f-mono); font-size: 7.5px; color: var(--fg-3);
+    letter-spacing: 0.2em; text-transform: uppercase; text-align: center;
+    font-weight: 600;
+    background: linear-gradient(to top, rgba(251,246,232,0.95), rgba(251,246,232,0.7) 70%, transparent);
+    padding: 4px 0 2px;
+  }
+  .view-nav .mvi.active .mvl {
+    color: var(--hot-0);
+    background: linear-gradient(to top, rgba(255,240,220,0.98), rgba(255,240,220,0.75) 70%, transparent);
+  }
 
-  .brain-controls { padding: 12px 24px; border-top: 1px solid var(--line); display: flex; gap: 8px; flex-wrap: wrap; background: var(--bg-1); }
-  .bcbtn { padding: 6px 10px; background: transparent; border: 1px solid var(--line-2); font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--fg-2); text-transform: uppercase; cursor: pointer; }
-  .bcbtn.active { background: var(--fg-0); color: var(--bg-0); border-color: var(--fg-0); }
+  .brain-viewer {
+    flex: 1; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    background-color: #ebe2c8;
+    background-image:
+      radial-gradient(ellipse at 50% 45%, rgba(251,246,228,0.85) 0%, rgba(232,220,188,0) 60%),
+      radial-gradient(circle at 50% 50%, rgba(0,0,0,0.035) 1px, transparent 1.4px);
+    background-size: 100% 100%, 22px 22px;
+    background-position: center, 0 0;
+    min-height: 0; overflow: hidden;
+  }
+  .brain-viewer::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 120%, rgba(74,60,40,0.14), transparent 55%);
+  }
+  .brain-viewer::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.28;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0.4  0 0 0 0 0.3  0 0 0 0 0.2  0 0 0 0.35 0'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>");
+    mix-blend-mode: multiply;
+  }
+  .brain-stage {
+    position: absolute; inset: 0;
+  }
+  #brain-3d {
+    position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab;
+  }
+  #brain-3d:active { cursor: grabbing; }
+
+  /* Corner HUD overlays — styled like real neuroimaging viewer chrome */
+  .hud-overlay {
+    position: absolute; pointer-events: none;
+    font-family: var(--f-mono); font-size: 9px;
+    color: var(--fg-2); letter-spacing: 0.15em;
+    text-transform: uppercase; font-weight: 500;
+    background: rgba(251,246,232,0.92);
+    padding: 5px 9px;
+    border: 1px solid rgba(122,108,84,0.4);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 1px 2px rgba(30,26,20,0.06);
+  }
+  .hud-overlay.tl { top: 12px; left: 12px; }
+  .hud-overlay.tr {
+    top: 12px; right: 12px; color: var(--hot-0);
+    border-color: rgba(214,74,10,0.45);
+    background: rgba(255,248,236,0.95);
+    letter-spacing: 0.18em;
+  }
+  .hud-overlay.tr::before {
+    content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--hot-0); margin-right: 6px; vertical-align: middle;
+    animation: hudpulse 2.4s ease-in-out infinite;
+  }
+  @keyframes hudpulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; box-shadow: 0 0 6px var(--hot-0); } }
+  .hud-overlay.br { bottom: 12px; right: 12px; }
+  .hud-overlay.bl { bottom: 12px; left: 12px; display: flex; gap: 12px; align-items: center; }
+  .hud-overlay .k { color: var(--fg-3); margin-right: 4px; }
+  .hud-overlay .v { color: var(--fg-0); font-weight: 600; }
+  .hud-overlay .sep { color: rgba(122,108,84,0.3); }
+
+  /* Slice position indicator — small orthographic reference in corner */
+  .slice-pos {
+    position: absolute; bottom: 12px; right: 12px;
+    width: 90px; height: 44px;
+    background: rgba(251,246,232,0.92);
+    border: 1px solid rgba(122,108,84,0.4);
+    padding: 4px;
+    display: flex; gap: 4px;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+  }
+  .slice-pos .spv { flex: 1; position: relative; background: rgba(234,217,186,0.4); }
+  .slice-pos .spv svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .slice-pos .spv .splab {
+    position: absolute; top: 1px; left: 3px;
+    font-family: var(--f-mono); font-size: 7.5px;
+    color: var(--fg-3); letter-spacing: 0.1em;
+  }
+
+  /* Slice-position indicator — small reference brain showing slice location */
+  .slice-indicator {
+    position: absolute; bottom: 10px; right: 10px;
+    width: 64px; height: 64px;
+    background: rgba(251,250,246,0.95);
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    padding: 4px;
+  }
+
+  .brain-controls {
+    padding: 10px 20px; border-top: 1px solid var(--line);
+    display: flex; gap: 4px; flex-wrap: wrap; background: var(--bg-1);
+    align-items: center;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(240,232,212,0.25));
+  }
+  .bcgroup { display: flex; gap: 3px; padding-right: 10px; margin-right: 6px; border-right: 1px solid var(--line); align-items: center; }
+  .bcgroup:last-child { border-right: 0; }
+  .bcgroup .gl {
+    font-family: var(--f-mono); font-size: 8.5px;
+    color: var(--fg-3); letter-spacing: 0.18em;
+    text-transform: uppercase; font-weight: 500;
+    padding-right: 6px; border-right: 1px dashed transparent;
+  }
+  .bcbtn {
+    padding: 5px 9px; background: transparent;
+    border: 1px solid var(--line-2);
+    font-family: var(--f-mono); font-size: 9.5px;
+    letter-spacing: 0.06em; color: var(--fg-2);
+    text-transform: uppercase; cursor: pointer; white-space: nowrap;
+    transition: all 0.12s ease;
+    font-weight: 500;
+  }
+  .bcbtn.active {
+    background: var(--fg-0); color: var(--bg-0);
+    border-color: var(--fg-0);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 1px 2px rgba(0,0,0,0.15);
+  }
   .bcbtn:hover { color: var(--hot-0); border-color: var(--hot-0); }
   .bcbtn.active:hover { color: var(--bg-0); background: var(--fg-0); border-color: var(--fg-0); }
+  .bcbtn.toggle { position: relative; padding-left: 18px; }
+  .bcbtn.toggle::before {
+    content: ''; position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
+    width: 7px; height: 7px; border-radius: 50%;
+    border: 1px solid var(--fg-3);
+    background: transparent; transition: all 0.12s;
+  }
+  .bcbtn.toggle.active::before {
+    background: var(--hot-0); border-color: var(--hot-0);
+    box-shadow: 0 0 6px rgba(214,74,10,0.5);
+  }
+  .bcbtn.toggle.active { background: transparent; color: var(--fg-0); border-color: var(--hot-0); }
 
-  .readout { padding: 16px 24px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 160px 1fr 90px; gap: 14px; align-items: center; background: var(--bg-1); }
+  .readout { padding: 14px 24px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 180px 1fr 100px; gap: 16px; align-items: center; background: var(--bg-1); }
   .readout .rh { font-family: var(--f-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; }
   .readout .rv { font-family: var(--f-display); font-size: 22px; color: var(--fg-0); line-height: 1; }
   .readout .rs { font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); margin-top: 3px; }
-  .readout svg { width: 100%; height: 54px; }
+  .readout svg { width: 100%; height: 60px; }
 
+  /* Examples / perf / insilico / multi tabs */
   .ex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .ex-card { border: 1px solid var(--line); padding: 10px; background: var(--bg-1); cursor: pointer; transition: all 0.15s; }
   .ex-card:hover { border-color: var(--hot-0); }
@@ -132,6 +359,23 @@
   .ins-row .ds { font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.05em; margin-top: 2px; }
   .ins-row .rn { font-family: var(--f-mono); font-size: 10px; color: var(--hot-0); letter-spacing: 0.1em; }
   .ins-row:hover { border-color: var(--hot-0); cursor: pointer; }
+
+  /* Scene primitives for stimulus visualizations */
+  .scene .dot { position: absolute; border-radius: 50%; }
+  .scene .square { position: absolute; }
+  .scene .wave {
+    position: absolute; left: 0; right: 0;
+    height: 2px; background: rgba(214,74,10,0.4);
+    transform-origin: center;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.9; } }
+  @keyframes drift { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
+  @keyframes rise { 0% { transform: translateY(100%); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100%); opacity: 0; } }
+  @keyframes ring {
+    0% { transform: scale(0.2); opacity: 0; }
+    20% { opacity: 0.9; }
+    100% { transform: scale(2.5); opacity: 0; }
+  }
 </style>
 </head>
 <body>
@@ -146,7 +390,7 @@
     <a href="flow.html">Flow</a>
     <a href="brain.html" class="active">Brain</a>
   </nav>
-  <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">SUBJ 017 · 1.5mm ISO · 286k VOX</div>
+  <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">SUBJ 017 · 1.5mm ISO · 286k VOX · fsaverage</div>
 </div>
 
 <main>
@@ -157,25 +401,17 @@
 
     <div class="stim-body">
       <div class="card" style="grid-column: span 2;">
-        <div class="ch"><span>stimulus · memory trial</span><span class="pill" id="phase-pill">RETRIEVE</span></div>
-        <!-- <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--line);">
-          <div class="video-tile" style="aspect-ratio:unset;height:160px;border-right:1px solid var(--line);">
+        <div class="ch"><span>fMRI stimulus · memory trial</span><span class="pill" id="phase-pill">RETRIEVE</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--line);">
+          <div class="video-tile" style="aspect-ratio:unset;height:170px;border-right:1px solid var(--line);">
             <div class="ph-label" id="stim-label">01 · CA3 ATTRACTOR COMPLETION</div>
             <div class="time-hud" id="time-hud">0.42s</div>
-            <div class="ocean" id="stim-vis" style="inset:10% 8% 10% 8%;">
-              <div class="diver"></div>
-              <div class="bubbles">
-                <span class="bubble" style="left:20%;animation-delay:0s;"></span>
-                <span class="bubble" style="left:40%;animation-delay:0.8s;"></span>
-                <span class="bubble" style="left:65%;animation-delay:1.6s;"></span>
-                <span class="bubble" style="left:80%;animation-delay:2.4s;"></span>
-              </div>
-            </div>
+            <div class="scene" id="stim-scene"></div>
             <div class="frame-corners"><div class="fc tl"></div><div class="fc tr"></div><div class="fc bl"></div><div class="fc br"></div></div>
-          </div> -->
+          </div>
           <div style="display:flex;flex-direction:column;">
             <div class="audio-tile" style="flex:1;">
-              <span class="lab">AUDIO</span>
+              <span class="lab">LFP</span>
               <div class="wvb" id="waveform"></div>
             </div>
             <div class="text-tile" id="text-transcript" style="border-top:1px solid var(--line);">
@@ -240,7 +476,7 @@
       <button data-tab="performance">Performance</button>
       <button data-tab="insilico">In-Silico</button>
       <button data-tab="multi">Multimodality</button>
-      <span class="rside">test-class · 1,000 hr fMRI · 720 subj</span>
+      <span class="rside">TRIBE-class · 1,000 hr fMRI · 720 subj</span>
     </div>
 
     <div class="tab-body" id="tab-examples">
@@ -310,42 +546,95 @@
     </div>
   </section>
 
+  <!-- ================= RIGHT PANEL · BRAIN VIEWER ================= -->
   <section class="right">
     <div class="brain-head">
       <div>
         <div class="title" id="brain-title">Predicted brain activity</div>
-        <div style="font-family:var(--f-mono);font-size:10px;color:var(--fg-3);letter-spacing:0.15em;text-transform:uppercase;">coronal · 286k voxels · bold · t = <span id="t-sec">0.42</span>s</div>
+        <div class="subt">coronal · 286k voxels · bold · t = <span id="t-sec">0.42</span>s</div>
+      </div>
+      <div class="view-nav" id="view-nav">
+        <div class="mvi active" data-slice="coronal">
+          <svg viewBox="0 0 600 600" id="mini-coronal-bg"></svg>
+          <canvas id="mini-coronal-canvas" width="600" height="600"></canvas>
+          <svg viewBox="0 0 600 600" id="mini-coronal-fg"></svg>
+          <div class="mvl">COR</div>
+        </div>
+        <div class="mvi" data-slice="sagittal">
+          <svg viewBox="0 0 600 600" id="mini-sagittal-bg"></svg>
+          <canvas id="mini-sagittal-canvas" width="600" height="600"></canvas>
+          <svg viewBox="0 0 600 600" id="mini-sagittal-fg"></svg>
+          <div class="mvl">SAG</div>
+        </div>
+        <div class="mvi" data-slice="axial">
+          <svg viewBox="0 0 600 600" id="mini-axial-bg"></svg>
+          <canvas id="mini-axial-canvas" width="600" height="600"></canvas>
+          <svg viewBox="0 0 600 600" id="mini-axial-fg"></svg>
+          <div class="mvl">AXI</div>
+        </div>
       </div>
       <div class="heat-legend">
-        <span>LOW</span>
+        <div class="hl-top"><span>0.00</span><span>0.25</span><span>0.50</span><span>0.75</span><span>1.00</span></div>
         <div class="heat-strip" id="heat-strip"></div>
-        <span id="heat-label">HIGH · BOLD</span>
+        <div class="hl-unit"><span>BOLD</span><span class="lab" id="heat-label">% signal Δ</span></div>
       </div>
     </div>
 
     <div class="brain-viewer">
-      <svg id="brain-svg" viewBox="0 0 600 600"></svg>
+      <div class="brain-stage">
+        <canvas id="brain-3d"></canvas>
+        <div class="hud-overlay tl" id="hud-tl">MNI · 1.5 mm</div>
+        <div class="hud-overlay tr" id="hud-tr">PREDICTED</div>
+        <div class="hud-overlay bl" id="hud-bl">
+          <span><span class="k">k</span><span class="v" id="hud-vox">0</span></span>
+          <span class="sep">│</span>
+          <span><span class="k">TR</span><span class="v">1.50s</span></span>
+          <span class="sep">│</span>
+          <span><span class="k">σ</span><span class="v" id="hud-sigma">0.28</span></span>
+        </div>
+        <div class="slice-pos" id="slice-pos">
+          <div class="spv" data-view="coronal"><div class="splab">COR</div><svg viewBox="0 0 100 100" id="spv-cor"></svg></div>
+          <div class="spv" data-view="sagittal"><div class="splab">SAG</div><svg viewBox="0 0 100 100" id="spv-sag"></svg></div>
+          <div class="spv" data-view="axial"><div class="splab">AXI</div><svg viewBox="0 0 100 100" id="spv-axi"></svg></div>
+        </div>
+      </div>
     </div>
 
     <div class="brain-controls">
-      <div class="bcbtn active" data-opt="view" data-v="pred">Predicted</div>
-      <div class="bcbtn" data-opt="view" data-v="true">True</div>
-      <div class="bcbtn" data-opt="view" data-v="diff">Diff</div>
-      <span style="width:1px;background:var(--line);"></span>
-      <div class="bcbtn active" data-opt="surface" data-v="normal">Normal</div>
-      <div class="bcbtn" data-opt="surface" data-v="inflated">Inflated</div>
-      <span style="width:1px;background:var(--line);"></span>
-      <div class="bcbtn active" data-opt="slice" data-v="coronal">Coronal</div>
-      <div class="bcbtn" data-opt="slice" data-v="sagittal">Sagittal</div>
-      <div class="bcbtn" data-opt="slice" data-v="axial">Axial</div>
-      <span style="width:1px;background:var(--line);"></span>
-      <div class="bcbtn active" data-opt="region" data-v="all">All</div>
-      <div class="bcbtn" data-opt="region" data-v="hip">Hippocampus</div>
-      <div class="bcbtn" data-opt="region" data-v="cx">Visual cx</div>
-      <div class="bcbtn" data-opt="region" data-v="aud">Auditory cx</div>
-      <div class="bcbtn" data-opt="region" data-v="pfc">PFC</div>
-      <div class="bcbtn" data-opt="region" data-v="thal">Thalamus</div>
-      <div class="bcbtn" data-opt="region" data-v="cbl">Cerebellum</div>
+      <div class="bcgroup">
+        <span class="gl">map</span>
+        <div class="bcbtn active" data-opt="view" data-v="pred">Predicted</div>
+        <div class="bcbtn" data-opt="view" data-v="true">True</div>
+        <div class="bcbtn" data-opt="view" data-v="diff">Diff</div>
+      </div>
+      <div class="bcgroup">
+        <span class="gl">surface</span>
+        <div class="bcbtn active" data-opt="surface" data-v="normal">Normal</div>
+        <div class="bcbtn" data-opt="surface" data-v="inflated">Inflated</div>
+        <div class="bcbtn" data-opt="surface" data-v="glass">Glass</div>
+      </div>
+      <div class="bcgroup">
+        <span class="gl">slice</span>
+        <div class="bcbtn active" data-opt="slice" data-v="coronal">Coronal</div>
+        <div class="bcbtn" data-opt="slice" data-v="sagittal">Sagittal</div>
+        <div class="bcbtn" data-opt="slice" data-v="axial">Axial</div>
+      </div>
+      <div class="bcgroup">
+        <span class="gl">region</span>
+        <div class="bcbtn active" data-opt="region" data-v="all">All</div>
+        <div class="bcbtn" data-opt="region" data-v="hip">HPC</div>
+        <div class="bcbtn" data-opt="region" data-v="cx">Vis</div>
+        <div class="bcbtn" data-opt="region" data-v="aud">Aud</div>
+        <div class="bcbtn" data-opt="region" data-v="pfc">PFC</div>
+        <div class="bcbtn" data-opt="region" data-v="thal">Thal</div>
+        <div class="bcbtn" data-opt="region" data-v="cbl">Cbl</div>
+        <div class="bcbtn" data-opt="region" data-v="amy">Amy</div>
+      </div>
+      <div class="bcgroup">
+        <span class="gl">overlay</span>
+        <div class="bcbtn toggle" data-opt="atlas">Atlas</div>
+        <div class="bcbtn toggle" data-opt="labels">Labels</div>
+      </div>
     </div>
 
     <div class="readout">
@@ -355,7 +644,7 @@
         <div class="rs" id="voxel-coord">MNI ( -28, -22, -14 )</div>
       </div>
       <div>
-        <svg id="voxel-trace" viewBox="0 0 600 54" preserveAspectRatio="none"></svg>
+        <svg id="voxel-trace" viewBox="0 0 600 60" preserveAspectRatio="none"></svg>
       </div>
       <div>
         <div class="rh">r</div>
@@ -368,10 +657,14 @@
 
 <script>
 /* ================================================================
-   In-silico brain simulator v2 — anatomically accurate human brain
+   In-silico brain simulator v3 — high-fidelity Canvas rendering
+   with continuous BOLD colormap, Gaussian splat compositing,
+   multi-view navigator, atlas overlays, and per-stimulus animation.
    ================================================================ */
 
-// ---- Waveform ----
+// ================================================================
+// Waveform
+// ================================================================
 (function(){
   const el = document.getElementById('waveform');
   for (let i = 0; i < 80; i++) {
@@ -383,309 +676,407 @@
 })();
 
 // ================================================================
-// ANATOMICAL BRAIN SHAPES — SVG paths for 3 orientations
-// All coordinates in 600×600 viewBox.
+// Global state
+// ================================================================
+const state = {
+  view: 'pred',       // pred | true | diff
+  surface: 'normal',  // normal | inflated | glass
+  slice: 'coronal',   // coronal | sagittal | axial
+  region: 'all',      // all | hip | cx | aud | pfc | thal | cbl | amy
+  atlas: false,       // atlas parcellation overlay
+  labels: true,       // anatomical labels
+  time: 420,
+  frame: 0,           // animation frame counter
+  voxel: { id: 'L-HIP · 42', x: -28, y: -22, z: -14, r: 0.81 },
+};
+
+// ================================================================
+// ANATOMICAL BRAIN SHAPES — high-fidelity SVG paths per orientation
+// Coordinates in 600×600 viewBox.  Paths include gyral details,
+// subcortical structures, and per-slice anatomical labels.
 // ================================================================
 const BRAIN_SHAPES = {
 
+  // ---------- CORONAL (through hippocampus, y ≈ −22mm MNI) ----------
   coronal: {
-    // Outer cortical boundary — coronal section ~y=−22mm MNI (hippocampus level)
-    // Roughly butterfly/heart shaped with temporal lobe wings
-    outline: `M 300 88
-      C 352 82,442 94,498 142
-      C 528 168,536 232,528 298
-      C 520 338,506 366,492 388
-      C 476 412,462 440,448 466
-      C 430 488,398 506,360 512
-      C 338 516,316 518,300 518
-      C 284 518,262 516,240 512
-      C 202 506,170 488,152 466
-      C 138 440,124 412,108 388
-      C 94 366,80 338,72 298
-      C 64 232,72 168,102 142
-      C 158 94,248 82,300 88 Z`,
+    outline: `M 300 86
+      C 358 80,440 90,496 138
+      C 524 162,534 220,528 276
+      C 523 314,512 340,498 362
+      C 488 380,480 400,472 420
+      C 464 442,452 462,436 478
+      C 418 496,388 508,358 512
+      C 334 516,314 518,300 518
+      C 286 518,266 516,242 512
+      C 212 508,182 496,164 478
+      C 148 462,136 442,128 420
+      C 120 400,112 380,102 362
+      C 88 340,77 314,72 276
+      C 66 220,76 162,104 138
+      C 160 90,242 80,300 86 Z`,
 
+    // Major sulci visible in this slice
     sulci: [
-      // Interhemispheric fissure (medial longitudinal)
-      `M 300 88 L 300 210`,
-      // Right Sylvian / lateral fissure
-      `M 528 298 C 510 302,496 314,490 332`,
-      // Left Sylvian / lateral fissure
-      `M 72 298 C 90 302,104 314,110 332`,
-      // Right superior temporal sulcus
-      `M 494 350 C 480 366,468 384,464 402`,
-      // Left superior temporal sulcus
-      `M 106 350 C 120 366,132 384,136 402`,
-      // Right cingulate sulcus (medial)
-      `M 340 105 C 338 130,335 158,332 178`,
-      // Left cingulate sulcus
-      `M 260 105 C 262 130,265 158,268 178`,
+      { d: `M 300 86 L 300 206`, w: 1.4, label: 'Longitudinal fissure' },          // interhemispheric
+      { d: `M 528 276 C 510 283,495 295,488 315`, w: 1.0, label: null },           // R Sylvian
+      { d: `M 72 276 C 90 283,105 295,112 315`, w: 1.0, label: null },             // L Sylvian
+      { d: `M 498 360 C 484 374,472 392,466 410`, w: 0.8, label: null },           // R sup temp sulcus
+      { d: `M 102 360 C 116 374,128 392,134 410`, w: 0.8, label: null },           // L sup temp sulcus
+      { d: `M 438 280 C 424 288,412 300,404 316`, w: 0.7, label: null },           // R collateral sulcus
+      { d: `M 162 280 C 176 288,188 300,196 316`, w: 0.7, label: null },           // L collateral sulcus
+      { d: `M 346 118 C 342 142,338 170,334 192`, w: 0.6, label: null },           // R cingulate
+      { d: `M 254 118 C 258 142,262 170,266 192`, w: 0.6, label: null },           // L cingulate
+      { d: `M 432 450 C 416 462,398 470,378 476`, w: 0.5, label: null },           // R parahipp
+      { d: `M 168 450 C 184 462,202 470,222 476`, w: 0.5, label: null },           // L parahipp
     ],
 
-    // Internal structures — drawn as filled shapes beneath voxels
+    // Internal structures (drawn with distinct fills beneath BOLD layer)
     structures: [
-      {
-        id: 'cc',
-        label: 'Corpus callosum',
-        region: null,
-        exclude: true,
-        fill: '#ddd8c8',
-        stroke: '#c8c2b0',
-        path: `M 252 222 C 252 196,300 186,348 196
-               C 348 214,348 226,300 232
-               C 252 226,252 222,252 222 Z`,
-      },
-      {
-        id: 'vent-r',
-        label: null,
-        region: null,
-        exclude: true,
-        fill: '#c2dce8',
-        stroke: '#a8ccd8',
-        path: `M 318 206 C 344 200,374 208,386 226
-               C 395 242,382 262,360 268
-               C 342 272,322 260,318 244
-               C 315 230,315 212,318 206 Z`,
-      },
-      {
-        id: 'vent-l',
-        label: null,
-        region: null,
-        exclude: true,
-        fill: '#c2dce8',
-        stroke: '#a8ccd8',
-        path: `M 282 206 C 256 200,226 208,214 226
-               C 205 242,218 262,240 268
-               C 258 272,278 260,282 244
-               C 285 230,285 212,282 206 Z`,
-      },
-      {
-        id: 'thal-r',
-        label: 'Thalamus',
-        region: 'thal',
-        exclude: false,
-        fill: '#d2c4a8',
-        stroke: '#b8aa90',
-        path: `M 328 278 C 328 262,356 256,372 266
-               C 382 275,380 292,364 299
-               C 346 305,328 299,328 278 Z`,
-      },
-      {
-        id: 'thal-l',
-        label: null,
-        region: 'thal',
-        exclude: false,
-        fill: '#d2c4a8',
-        stroke: '#b8aa90',
-        path: `M 272 278 C 272 262,244 256,228 266
-               C 218 275,220 292,236 299
-               C 254 305,272 299,272 278 Z`,
-      },
-      {
-        id: 'hip-r',
-        label: 'Hippocampus',
-        region: 'hip',
-        exclude: false,
-        fill: '#c8a882',
-        stroke: '#b09070',
-        path: `M 360 390 C 360 378,378 373,393 380
-               C 404 387,407 402,398 414
-               C 386 424,364 420,357 408
-               C 352 400,356 394,360 390 Z`,
-      },
-      {
-        id: 'hip-l',
-        label: null,
-        region: 'hip',
-        exclude: false,
-        fill: '#c8a882',
-        stroke: '#b09070',
-        path: `M 240 390 C 240 378,222 373,207 380
-               C 196 387,193 402,202 414
-               C 214 424,236 420,243 408
-               C 248 400,244 394,240 390 Z`,
-      },
+      // Corpus callosum — arch between hemispheres
+      { id: 'cc', fill: '#e8e2d0', stroke: '#c2baa6', exclude: true, region: null,
+        path: `M 248 220 C 248 192,300 182,352 192
+               C 354 206,354 220,352 230
+               C 300 238,248 230,248 220 Z` },
+      // Right lateral ventricle
+      { id: 'v-r', fill: '#c4dce8', stroke: '#a8c8d6', exclude: true, region: null,
+        path: `M 316 206 C 340 200,368 208,382 222
+               C 394 236,386 256,364 262
+               C 346 266,324 258,318 244
+               C 314 230,314 212,316 206 Z` },
+      // Left lateral ventricle
+      { id: 'v-l', fill: '#c4dce8', stroke: '#a8c8d6', exclude: true, region: null,
+        path: `M 284 206 C 260 200,232 208,218 222
+               C 206 236,214 256,236 262
+               C 254 266,276 258,282 244
+               C 286 230,286 212,284 206 Z` },
+      // Third ventricle (midline slit)
+      { id: 'v3', fill: '#c4dce8', stroke: '#a8c8d6', exclude: true, region: null,
+        path: `M 296 250 L 304 250 L 304 290 L 300 298 L 296 290 Z` },
+      // Right thalamus
+      { id: 'thal-r', fill: '#d4c8ae', stroke: '#b8ac92', region: 'thal',
+        path: `M 306 258 C 306 246,332 242,348 252
+               C 360 262,358 282,342 290
+               C 322 296,306 288,306 258 Z` },
+      // Left thalamus
+      { id: 'thal-l', fill: '#d4c8ae', stroke: '#b8ac92', region: 'thal',
+        path: `M 294 258 C 294 246,268 242,252 252
+               C 240 262,242 282,258 290
+               C 278 296,294 288,294 258 Z` },
+      // Right putamen (basal ganglia)
+      { id: 'put-r', fill: '#d0c2a8', stroke: '#b4a68c', region: 'thal',
+        path: `M 356 248 C 376 245,394 254,400 272
+               C 404 290,390 304,372 302
+               C 358 300,352 282,354 262 Z` },
+      // Left putamen
+      { id: 'put-l', fill: '#d0c2a8', stroke: '#b4a68c', region: 'thal',
+        path: `M 244 248 C 224 245,206 254,200 272
+               C 196 290,210 304,228 302
+               C 242 300,248 282,246 262 Z` },
+      // Right hippocampus (curved hook — mammalian seahorse shape)
+      { id: 'hip-r', fill: '#caa888', stroke: '#a88860', region: 'hip',
+        path: `M 348 382 C 352 370,372 364,392 374
+               C 408 384,414 406,402 420
+               C 390 432,362 432,352 418
+               C 344 408,344 392,348 382 Z
+               M 362 396 C 370 392,382 394,388 402
+               C 392 410,384 418,374 416
+               C 366 414,360 406,362 396 Z` },
+      // Left hippocampus
+      { id: 'hip-l', fill: '#caa888', stroke: '#a88860', region: 'hip',
+        path: `M 252 382 C 248 370,228 364,208 374
+               C 192 384,186 406,198 420
+               C 210 432,238 432,248 418
+               C 256 408,256 392,252 382 Z
+               M 238 396 C 230 392,218 394,212 402
+               C 208 410,216 418,226 416
+               C 234 414,240 406,238 396 Z` },
+      // Right amygdala (almond-shaped, anterior to hippocampus)
+      { id: 'amy-r', fill: '#c0a080', stroke: '#a0805a', region: 'amy',
+        path: `M 358 348 C 378 343,396 353,400 368
+               C 402 382,388 390,372 386
+               C 360 382,352 372,354 358 Z` },
+      // Left amygdala
+      { id: 'amy-l', fill: '#c0a080', stroke: '#a0805a', region: 'amy',
+        path: `M 242 348 C 222 343,204 353,200 368
+               C 198 382,212 390,228 386
+               C 240 382,248 372,246 358 Z` },
+      // Brainstem — narrow inferior midline structure
+      { id: 'stem', fill: '#d4c8b0', stroke: '#b4a890', exclude: false, region: 'thal',
+        path: `M 278 484 C 278 468,290 462,300 462
+               C 310 462,322 468,322 484
+               C 322 500,310 510,300 512
+               C 290 510,278 500,278 484 Z` },
     ],
 
     assignRegion(x, y) {
-      if (y < 200 && Math.abs(x - 300) < 160) return 'pfc';
-      if (y < 200 && Math.abs(x - 300) >= 160) return 'cx';
-      if (y >= 338 && (x < 188 || x > 412)) return 'aud';
+      if (y < 200 && Math.abs(x - 300) < 170) return 'pfc';
+      if (y < 200 && Math.abs(x - 300) >= 170) return 'cx';
+      if (y >= 320 && (x < 180 || x > 420)) return 'aud';
+      if (y >= 440 && Math.abs(x - 300) < 110) return 'hip';
       return 'other';
     },
 
     labels: [
-      { t: 'CORTEX', x: 300, y: 135 },
-      { t: 'L TEMPORAL', x: 128, y: 445 },
-      { t: 'R TEMPORAL', x: 472, y: 445 },
-      { t: 'THALAMUS', x: 300, y: 255 },
-      { t: 'HIPPOCAMPUS', x: 300, y: 462 },
+      { t: 'CORTEX',       x: 300, y: 120, anchor: 'middle' },
+      { t: 'L TEMPORAL',   x: 128, y: 445, anchor: 'middle' },
+      { t: 'R TEMPORAL',   x: 472, y: 445, anchor: 'middle' },
+      { t: 'THALAMUS',     x: 300, y: 242, anchor: 'middle' },
+      { t: 'HIPPOCAMPUS',  x: 300, y: 460, anchor: 'middle' },
+      { t: 'AMYGDALA',     x: 300, y: 340, anchor: 'middle' },
+      { t: 'BRAINSTEM',    x: 300, y: 525, anchor: 'middle' },
+      { t: 'CC',           x: 300, y: 218, anchor: 'middle', small: true },
+    ],
+
+    // Functional atlas parcels (drawn as transparent colored overlays when atlas on)
+    atlas: [
+      { id: 'v1',  name: 'V1',    color: 'rgba(100,150,210,0.18)', path: `M 220 98 L 380 98 L 380 140 C 350 145,250 145,220 140 Z` },
+      { id: 'aud', name: 'A1',    color: 'rgba(210,150,100,0.18)', path: `M 96 302 C 110 330,130 350,148 360 L 180 340 C 166 320,148 305,130 294 Z
+                                                                          M 504 302 C 490 330,470 350,452 360 L 420 340 C 434 320,452 305,470 294 Z` },
+      { id: 'dmn', name: 'DMN',   color: 'rgba(180,120,200,0.15)', path: `M 260 140 C 275 160,275 180,260 200 L 240 220 C 250 200,250 180,260 140 Z
+                                                                          M 340 140 C 325 160,325 180,340 200 L 360 220 C 350 200,350 180,340 140 Z` },
     ],
   },
 
+  // ---------- SAGITTAL (lateral view, x ≈ ±45mm MNI) ----------
   sagittal: {
-    // Lateral brain profile — recognizable human brain silhouette
-    // Shows frontal, parietal, occipital, temporal lobes + cerebellum
-    outline: `M 112 286
-      C 112 228,142 158,192 116
-      C 232 82,272 68,308 66
-      C 344 64,386 80,424 118
-      C 458 150,482 188,492 224
-      C 500 258,498 292,488 318
-      C 476 342,452 360,434 378
-      C 416 394,408 410,406 424
-      C 432 414,470 408,498 425
-      C 522 442,526 472,512 492
-      C 496 510,460 518,428 514
-      C 398 510,374 494,360 472
-      C 343 448,328 426,316 410
-      C 302 392,290 368,282 344
-      C 272 318,268 290,268 266
-      C 268 242,270 218,274 198
-      C 278 178,274 156,250 144
-      C 224 132,182 148,156 178
-      C 132 206,112 250,112 286 Z`,
+    // Detailed lateral profile with visible gyral bumps
+    outline: `M 110 288
+      C 110 252,118 216,134 184
+      C 150 154,172 130,194 112
+      C 210 100,226 92,244 86
+      C 258 81,272 77,288 74
+      C 302 71,316 71,330 72
+      C 348 74,368 82,386 94
+      C 404 108,420 124,432 140
+      C 446 158,458 178,470 198
+      C 482 218,490 240,494 262
+      C 496 280,496 296,494 308
+      C 492 322,486 334,478 346
+      C 468 358,456 370,442 380
+      C 428 390,414 398,406 408
+      C 422 402,448 398,472 404
+      C 494 410,516 428,520 452
+      C 524 472,516 488,502 500
+      C 488 510,464 514,440 514
+      C 416 512,398 502,384 486
+      C 370 470,356 454,346 440
+      C 334 424,320 408,308 394
+      C 296 378,284 362,276 344
+      C 268 324,264 304,262 286
+      C 260 268,260 250,262 234
+      C 264 214,266 194,270 178
+      C 272 164,268 150,250 142
+      C 228 132,198 146,174 170
+      C 152 192,130 226,110 288 Z`,
 
+    // Major sulci + gyral separations
     sulci: [
-      // Central sulcus (between frontal & parietal, runs superior-to-inferior)
-      `M 302 68 C 300 96,296 128,292 162 C 289 182,285 198,282 214`,
-      // Lateral (Sylvian) fissure — deep horizontal cleft
-      `M 160 270 C 202 260,248 254,290 253 C 326 253,362 258,395 272`,
-      // Superior temporal sulcus (parallel to Sylvian, inferior)
-      `M 182 316 C 222 308,268 304,310 306 C 346 308,378 318,402 334`,
+      // Central sulcus (separates frontal/parietal)
+      { d: `M 302 72 C 298 100,292 132,286 168 C 282 188,276 204,270 218`, w: 1.6, label: 'Central sulcus' },
+      // Sylvian / lateral fissure (horizontal deep)
+      { d: `M 142 270 C 190 258,244 250,290 250 C 330 250,374 256,410 274`, w: 1.6, label: 'Lateral fissure' },
+      // Superior temporal sulcus
+      { d: `M 166 314 C 216 304,266 298,312 302 C 352 306,390 318,420 338`, w: 1.1, label: null },
+      // Inferior temporal sulcus
+      { d: `M 176 358 C 226 352,278 350,322 354 C 356 358,380 368,400 380`, w: 0.8, label: null },
       // Postcentral sulcus
-      `M 318 68 C 318 96,316 128,315 160`,
-      // Calcarine sulcus (occipital, roughly horizontal)
-      `M 434 286 C 456 295,475 308,488 322`,
+      { d: `M 324 72 C 322 100,318 134,314 168`, w: 1.2, label: null },
+      // Superior frontal sulcus
+      { d: `M 230 90 C 226 120,224 150,222 182`, w: 0.9, label: null },
+      // Inferior frontal sulcus
+      { d: `M 214 190 C 210 210,204 228,198 246`, w: 0.8, label: null },
+      // Intraparietal sulcus
+      { d: `M 355 88 C 362 118,370 148,378 180`, w: 1.0, label: null },
       // Parieto-occipital sulcus
-      `M 420 120 C 425 148,430 175,432 200`,
+      { d: `M 418 110 C 426 140,434 170,438 200`, w: 1.0, label: null },
+      // Calcarine (occipital)
+      { d: `M 438 280 C 460 292,478 304,490 318`, w: 1.0, label: null },
+      // Lateral occipital
+      { d: `M 460 336 C 446 346,430 354,414 360`, w: 0.8, label: null },
+      // Preoccipital notch
+      { d: `M 418 388 C 406 396,394 402,384 406`, w: 0.7, label: null },
+      // Cerebellar foliation lines (horizontal ridges)
+      { d: `M 418 430 C 450 426,482 426,508 434`, w: 0.5, label: null },
+      { d: `M 410 444 C 442 440,478 440,510 450`, w: 0.5, label: null },
+      { d: `M 406 460 C 440 456,476 456,510 466`, w: 0.5, label: null },
+      { d: `M 406 476 C 440 474,478 476,508 484`, w: 0.5, label: null },
+      { d: `M 410 492 C 442 492,478 494,504 500`, w: 0.5, label: null },
     ],
 
     structures: [
-      // Cerebellum (roughly oval, inferior posterior)
-      {
-        id: 'cbl',
-        label: 'Cerebellum',
-        region: 'cbl',
-        exclude: false,
-        fill: '#e4dfd4',
-        stroke: '#c8c2b4',
-        path: `M 408 424 C 432 414,470 408,498 425
-               C 522 442,526 472,512 492
-               C 496 510,460 518,428 514
-               C 398 510,374 494,360 472
-               C 344 450,345 430,360 424
-               C 378 418,396 420,408 424 Z`,
-      },
-      // Cerebellar sulci lines (will draw as internal lines)
+      // Cerebellum (distinct region with ridged surface)
+      { id: 'cbl', fill: '#e6ddc8', stroke: '#c4bba4', region: 'cbl',
+        path: `M 406 410 C 424 402,454 398,478 404
+               C 500 410,520 428,522 452
+               C 524 470,518 488,504 500
+               C 488 510,464 514,440 514
+               C 416 512,398 502,384 486
+               C 372 470,360 452,360 434
+               C 360 420,380 412,406 410 Z` },
+      // Brainstem (small stub at base, anterior to cerebellum)
+      { id: 'stem', fill: '#d0c4ac', stroke: '#b0a488', region: 'thal',
+        path: `M 336 432 C 338 452,346 472,352 488
+               C 360 504,368 508,376 506
+               C 384 502,384 490,378 478
+               C 370 464,360 448,354 430
+               C 348 420,340 420,336 432 Z` },
     ],
 
     assignRegion(x, y) {
-      if (x > 406 && y >= 424) return 'cbl';
-      if (x > 412 && y < 340) return 'cx';      // occipital lobe
-      if (x < 245 && y < 310) return 'pfc';     // frontal lobe
-      if (y > 330 && x < 335) return 'aud';     // temporal lobe (STG region)
-      // Hippocampal region (medial temporal, behind Sylvian)
-      if (y > 295 && y < 400 && x > 260 && x < 370) return 'hip';
+      // Occipital (posterior, upper) = visual
+      if (x > 410 && y < 350) return 'cx';
+      // Cerebellum (posterior-inferior blob)
+      if (x > 400 && y > 410) return 'cbl';
+      // Frontal lobe (anterior)
+      if (x < 240 && y < 290) return 'pfc';
+      // Temporal lobe (inferior, anterior to posterior)
+      if (y > 300 && x < 340 && x > 140) return 'aud';
+      // Medial temporal / hippocampal region
+      if (y > 290 && y < 400 && x > 255 && x < 360) return 'hip';
+      // Parietal
       return 'other';
     },
 
     labels: [
-      { t: 'FRONTAL', x: 165, y: 200 },
-      { t: 'PARIETAL', x: 355, y: 115 },
-      { t: 'OCCIPITAL', x: 460, y: 200 },
-      { t: 'TEMPORAL', x: 215, y: 400 },
-      { t: 'CEREBELLUM', x: 440, y: 468 },
+      { t: 'FRONTAL',    x: 170, y: 200, anchor: 'middle' },
+      { t: 'PARIETAL',   x: 350, y: 115, anchor: 'middle' },
+      { t: 'OCCIPITAL',  x: 458, y: 220, anchor: 'middle' },
+      { t: 'TEMPORAL',   x: 215, y: 400, anchor: 'middle' },
+      { t: 'CEREBELLUM', x: 450, y: 470, anchor: 'middle' },
+      { t: 'BRAINSTEM',  x: 372, y: 500, anchor: 'start', small: true },
+      { t: 'CENTRAL SULCUS', x: 286, y: 165, anchor: 'start', small: true },
+      { t: 'SYLVIAN', x: 276, y: 244, anchor: 'start', small: true },
+    ],
+
+    atlas: [
+      { id: 'v1',    name: 'V1',    color: 'rgba(100,150,210,0.18)', path: `M 442 276 C 468 290,484 302,490 316 L 478 340 C 460 324,442 306,436 288 Z` },
+      { id: 'mt',    name: 'MT',    color: 'rgba(100,180,190,0.18)', path: `M 398 340 C 418 332,434 330,448 334 L 440 360 C 422 356,408 354,396 358 Z` },
+      { id: 'ffa',   name: 'FFA',   color: 'rgba(210,140,180,0.18)', path: `M 330 380 C 350 374,370 372,390 378 L 384 400 C 366 396,348 396,334 400 Z` },
+      { id: 'a1',    name: 'A1',    color: 'rgba(210,150,100,0.18)', path: `M 236 262 C 256 258,282 256,304 256 L 304 280 C 282 282,256 284,236 288 Z` },
+      { id: 'broca', name: 'Broca', color: 'rgba(160,100,180,0.20)', path: `M 190 218 C 206 212,224 208,240 210 L 240 238 C 224 240,208 244,192 248 Z` },
+      { id: 'dmn',   name: 'DMN',   color: 'rgba(180,120,200,0.15)', path: `M 284 118 C 302 112,322 112,340 118 L 338 148 C 322 142,302 142,286 148 Z` },
     ],
   },
 
+  // ---------- AXIAL (top-down, z ≈ 0mm MNI) ----------
   axial: {
-    // Top-down view (~z = 0mm MNI) — two hemispheres with interhemispheric fissure
-    // Left hemisphere (medial wall at x=295)
-    outline: `M 295 172
-      C 266 165,224 170,184 193
-      C 144 218,108 264,96 310
-      C 84 354,98 402,130 430
-      C 158 456,200 468,240 464
-      C 270 460,290 450,295 440
-      L 295 172 Z
-      M 305 172
-      C 334 165,376 170,416 193
-      C 456 218,492 264,504 310
-      C 516 354,502 402,470 430
-      C 442 456,400 468,360 464
-      C 330 460,310 450,305 440
-      L 305 172 Z`,
+    // Two separate hemispheres with interhemispheric fissure
+    outline: `M 295 168
+      C 264 162,224 168,186 190
+      C 148 214,110 258,96 304
+      C 82 350,96 400,130 432
+      C 158 458,204 472,246 468
+      C 272 464,290 454,295 444
+      L 295 168 Z
+      M 305 168
+      C 336 162,376 168,414 190
+      C 452 214,490 258,504 304
+      C 518 350,504 400,470 432
+      C 442 458,396 472,354 468
+      C 328 464,310 454,305 444
+      L 305 168 Z`,
 
     sulci: [
-      // Left lateral sulcus / central
-      `M 155 205 C 142 248,134 292,132 336`,
-      // Right lateral sulcus / central
-      `M 445 205 C 458 248,466 292,468 336`,
+      // Left central sulcus (lateral)
+      { d: `M 156 204 C 146 248,140 290,140 332`, w: 1.2, label: null },
+      // Right central sulcus
+      { d: `M 444 204 C 454 248,460 290,460 332`, w: 1.2, label: null },
       // Left superior frontal sulcus
-      `M 220 173 C 214 210,210 250,208 288`,
+      { d: `M 222 172 C 216 206,212 240,210 278`, w: 0.9, label: null },
       // Right superior frontal sulcus
-      `M 380 173 C 386 210,390 250,392 288`,
-      // Left occipital sulci
-      `M 168 410 C 202 426,236 434,265 436`,
-      // Right occipital sulci
-      `M 432 410 C 398 426,364 434,335 436`,
-      // Interhemispheric fissure line (gap between two outlines)
-      `M 300 172 L 300 440`,
+      { d: `M 378 172 C 384 206,388 240,390 278`, w: 0.9, label: null },
+      // Left intraparietal
+      { d: `M 200 330 C 196 360,198 390,208 414`, w: 0.8, label: null },
+      // Right intraparietal
+      { d: `M 400 330 C 404 360,402 390,392 414`, w: 0.8, label: null },
+      // Left lateral occipital
+      { d: `M 166 408 C 198 422,228 432,254 436`, w: 0.8, label: null },
+      // Right lateral occipital
+      { d: `M 434 408 C 402 422,372 432,346 436`, w: 0.8, label: null },
+      // Interhemispheric fissure
+      { d: `M 300 168 L 300 444`, w: 1.4, label: null },
+      // Corpus callosum visible edge (thin midline)
+      { d: `M 272 280 C 272 268,278 262,300 262 C 322 262,328 268,328 280`, w: 0.6, label: null },
+      { d: `M 272 330 C 272 342,278 348,300 348 C 322 348,328 342,328 330`, w: 0.6, label: null },
     ],
 
     structures: [
-      {
-        id: 'bg-r',
-        label: 'Basal ganglia',
-        region: 'thal',
-        exclude: false,
-        fill: '#d2c4a8',
-        stroke: '#b8aa90',
-        path: `M 338 278 C 338 262,358 256,374 266
-               C 385 275,383 294,366 301
-               C 348 307,338 300,338 278 Z`,
-      },
-      {
-        id: 'bg-l',
-        label: null,
-        region: 'thal',
-        exclude: false,
-        fill: '#d2c4a8',
-        stroke: '#b8aa90',
-        path: `M 262 278 C 262 262,242 256,226 266
-               C 215 275,217 294,234 301
-               C 252 307,262 300,262 278 Z`,
-      },
+      // Right caudate (C-shape anterior)
+      { id: 'caud-r', fill: '#d4c8ae', stroke: '#b8ac92', region: 'thal',
+        path: `M 312 248 C 328 242,348 246,358 258
+               C 366 270,362 284,350 286
+               C 338 288,322 282,316 270
+               C 312 260,310 252,312 248 Z` },
+      // Left caudate
+      { id: 'caud-l', fill: '#d4c8ae', stroke: '#b8ac92', region: 'thal',
+        path: `M 288 248 C 272 242,252 246,242 258
+               C 234 270,238 284,250 286
+               C 262 288,278 282,284 270
+               C 288 260,290 252,288 248 Z` },
+      // Right putamen (lens shape)
+      { id: 'put-r', fill: '#d0c2a8', stroke: '#b4a68c', region: 'thal',
+        path: `M 336 290 C 360 286,378 298,382 316
+               C 384 334,372 346,354 348
+               C 340 348,332 340,330 322 Z` },
+      // Left putamen
+      { id: 'put-l', fill: '#d0c2a8', stroke: '#b4a68c', region: 'thal',
+        path: `M 264 290 C 240 286,222 298,218 316
+               C 216 334,228 346,246 348
+               C 260 348,268 340,270 322 Z` },
+      // Right thalamus (posterior medial)
+      { id: 'thal-r', fill: '#d6cab0', stroke: '#bab08c', region: 'thal',
+        path: `M 308 310 C 322 306,340 312,344 326
+               C 346 340,338 352,324 354
+               C 314 354,306 346,306 334 Z` },
+      // Left thalamus
+      { id: 'thal-l', fill: '#d6cab0', stroke: '#bab08c', region: 'thal',
+        path: `M 292 310 C 278 306,260 312,256 326
+               C 254 340,262 352,276 354
+               C 286 354,294 346,294 334 Z` },
+      // Third ventricle (midline thin slit)
+      { id: 'v3', fill: '#c4dce8', stroke: '#a8c8d6', exclude: true, region: null,
+        path: `M 298 300 L 302 300 L 302 360 L 298 360 Z` },
     ],
 
     assignRegion(x, y) {
-      if (y < 228) return 'cx';       // posterior occipital (top of axial = posterior)
-      if (y > 392) return 'pfc';      // anterior frontal (bottom of axial = anterior)
+      // Posterior (top of axial view = occipital)
+      if (y < 220) return 'cx';
+      // Anterior (bottom of axial = frontal)
+      if (y > 400) return 'pfc';
       const dx = Math.abs(x - 300);
-      if (dx > 158 && y > 240 && y < 395) return 'aud'; // lateral temporal
-      if (y > 305 && y < 385 &&
-          ((x > 225 && x < 280) || (x > 320 && x < 375))) return 'hip'; // medial temporal
+      // Lateral temporal (wings)
+      if (dx > 160 && y > 240 && y < 400) return 'aud';
+      // Medial temporal (hippocampal)
+      if (y > 300 && y < 390 && ((x > 225 && x < 280) || (x > 320 && x < 375))) return 'hip';
       return 'other';
     },
 
     labels: [
-      { t: 'OCCIPITAL', x: 300, y: 195 },
-      { t: 'L TEMPORAL', x: 122, y: 320 },
-      { t: 'R TEMPORAL', x: 478, y: 320 },
-      { t: 'FRONTAL', x: 300, y: 418 },
+      { t: 'OCCIPITAL',  x: 300, y: 192, anchor: 'middle' },
+      { t: 'L TEMPORAL', x: 120, y: 320, anchor: 'middle' },
+      { t: 'R TEMPORAL', x: 480, y: 320, anchor: 'middle' },
+      { t: 'FRONTAL',    x: 300, y: 424, anchor: 'middle' },
+      { t: 'CAUDATE',    x: 300, y: 268, anchor: 'middle', small: true },
+      { t: 'PUTAMEN',    x: 198, y: 318, anchor: 'start',  small: true },
+      { t: 'THALAMUS',   x: 300, y: 340, anchor: 'middle', small: true },
+    ],
+
+    atlas: [
+      { id: 'v1',     name: 'V1',    color: 'rgba(100,150,210,0.18)', path: `M 240 176 C 272 172,328 172,360 176 L 358 212 C 322 216,278 216,242 212 Z` },
+      { id: 'motor',  name: 'M1',    color: 'rgba(200,110,110,0.18)', path: `M 212 266 C 202 286,198 308,200 332 L 232 330 C 232 308,236 288,244 272 Z
+                                                                              M 388 266 C 398 286,402 308,400 332 L 368 330 C 368 308,364 288,356 272 Z` },
+      { id: 'dmn',    name: 'DMN',   color: 'rgba(180,120,200,0.15)', path: `M 240 410 C 268 398,332 398,360 410 L 358 442 C 330 448,270 448,242 442 Z` },
     ],
   },
 };
 
 // ================================================================
-// Offscreen canvas for point-in-path tests
+// Offscreen canvas for Path2D point-in-path tests
 // ================================================================
 const _testCanvas = document.createElement('canvas');
 _testCanvas.width = 600; _testCanvas.height = 600;
 const _testCtx = _testCanvas.getContext('2d');
 
-// Pre-built Path2D objects, cached per slice
 const _pathCache = {};
 function getSlicePaths(slice) {
   if (_pathCache[slice]) return _pathCache[slice];
@@ -698,90 +1089,67 @@ function getSlicePaths(slice) {
 }
 
 // ================================================================
-// Seeded deterministic voxel layout (recompute only on slice change)
+// Seeded PRNG for voxel placement (actual generation below)
 // ================================================================
-let _voxelCache = null;
-let _voxelSlice = null;
-
 function seededRand(seed) {
   let s = (seed ^ 0xdeadbeef) >>> 0;
   return function() {
-    s ^= s << 13; s ^= s >> 17; s ^= s << 5;
-    return ((s >>> 0) / 0xffffffff);
+    s ^= s << 13; s >>>= 0;
+    s ^= s >>> 17;
+    s ^= s << 5; s >>>= 0;
+    return (s & 0xffffffff) / 0xffffffff;
   };
 }
 
-function generateVoxels() {
-  const slice = state.slice;
-  if (_voxelSlice === slice && _voxelCache) return _voxelCache;
+// ================================================================
+// Continuous color look-up tables
+// ================================================================
+const HEAT_STOPS = [
+  [0.00, 251, 250, 246],   // paper
+  [0.10, 255, 246, 210],   // cream
+  [0.22, 255, 228, 142],   // pale yellow
+  [0.38, 255, 182,  72],   // orange
+  [0.55, 235, 110,  18],   // hot orange
+  [0.72, 196,  64,  14],   // deep red
+  [0.88, 144,  42,  10],   // maroon
+  [1.00, 100,  28,   6],   // dark burn
+];
 
-  const paths = getSlicePaths(slice);
-  const shape = BRAIN_SHAPES[slice];
-  const rand = seededRand(slice === 'coronal' ? 1 : slice === 'sagittal' ? 2 : 3);
-  const V = [];
+const DIFF_STOPS = [
+  [0.00,   8,  69, 148],   // deep blue (-)
+  [0.18,  52, 120, 180],
+  [0.35, 128, 180, 220],
+  [0.48, 220, 220, 215],
+  [0.52, 220, 220, 215],   // zero band
+  [0.65, 255, 182,  72],
+  [0.82, 214,  74,  10],
+  [1.00, 140,  40,   8],   // deep red (+)
+];
 
-  // Grid step — adjust for density
-  const step = 11;
-  for (let gy = 78; gy <= 530; gy += step) {
-    for (let gx = 78; gx <= 530; gx += step) {
-      // Jitter for organic look
-      const x = gx + (rand() - 0.5) * 6;
-      const y = gy + (rand() - 0.5) * 6;
-
-      if (!_testCtx.isPointInPath(paths.outline, x, y)) continue;
-
-      // Check exclusion zones (ventricles, corpus callosum)
-      let excluded = false;
-      for (const s of paths.structures) {
-        if (s.exclude && _testCtx.isPointInPath(s.path2d, x, y)) {
-          excluded = true; break;
-        }
-      }
-      if (excluded) continue;
-
-      // Region assignment: structure containment first, then geometric
-      let region = 'other';
-      for (const s of paths.structures) {
-        if (!s.exclude && s.region && _testCtx.isPointInPath(s.path2d, x, y)) {
-          region = s.region; break;
-        }
-      }
-      if (region === 'other') region = shape.assignRegion(x, y);
-
-      V.push({ x, y, region });
+function lutInterp(stops, t) {
+  t = Math.max(0, Math.min(1, t));
+  for (let i = 0; i < stops.length - 1; i++) {
+    if (t <= stops[i + 1][0]) {
+      const [t0, r0, g0, b0] = stops[i];
+      const [t1, r1, g1, b1] = stops[i + 1];
+      const u = (t - t0) / Math.max(1e-9, (t1 - t0));
+      return [r0 + (r1 - r0) * u, g0 + (g1 - g0) * u, b0 + (b1 - b0) * u];
     }
   }
+  const last = stops[stops.length - 1];
+  return [last[1], last[2], last[3]];
+}
 
-  _voxelSlice = slice;
-  _voxelCache = V;
-  return V;
+function heatLUT(t) { return lutInterp(HEAT_STOPS, t); }
+function diffLUT(signed) {
+  // signed in [-0.5, 0.5] → [0, 1]
+  const t = Math.max(0, Math.min(1, 0.5 + signed));
+  return lutInterp(DIFF_STOPS, t);
 }
 
 // ================================================================
-// Activity model
+// HRF + stimulus metadata
 // ================================================================
-const state = {
-  view: 'pred', surface: 'normal', slice: 'coronal',
-  region: 'all', time: 420, tab: 'examples',
-  voxel: { id: 'L-HIP · 42', x: -28, y: -22, z: -14, r: 0.81 },
-};
-
-// Simplified HRF (double-gamma)
-function hrf(t) {
-  if (t <= 0) return 0;
-  const a1 = 6, a2 = 16, b = 1;
-  return Math.pow(t, a1) * Math.exp(-t/b) / 720 - 0.35 * Math.pow(t, a2) * Math.exp(-t/b) / 1.2e13;
-}
-
-function hrfEnvelope(timeMs) {
-  // Map slider (0-900) to repeating HRF cycles (~30s TR blocks)
-  const trLen = 180; // TR block in slider units
-  const phase = (timeMs % trLen) / trLen * 20; // 0..20 seconds
-  return Math.max(0, hrf(phase) * 12);
-}
-
-// Memory phase / oscillation metadata per stimulus
-// Each stimulus is grounded in a specific mechanism from ideas.md
 const STIM_META = {
   'ca3': {
     phase: 'RETRIEVE',
@@ -789,6 +1157,7 @@ const STIM_META = {
     pe:    0.28,
     label: '01 · CA3 ATTRACTOR COMPLETION',
     tokens: ['partial','cue','activates','CA3','recurrent','network','attractor','converges','full','engram'],
+    animKind: 'ca3',
   },
   'false': {
     phase: 'ENCODE',
@@ -796,6 +1165,7 @@ const STIM_META = {
     pe:    0.92,
     label: '02 · FALSE ENGRAM · RAMIREZ \'13',
     tokens: ['context','A','place-cells','reactivated','fear','conditioning','context','B','false','memory'],
+    animKind: 'false',
   },
   'nrem': {
     phase: 'CONSOLIDATE',
@@ -803,6 +1173,7 @@ const STIM_META = {
     pe:    0.06,
     label: '03 · NREM · SWR REPLAY',
     tokens: ['slow','oscillation','up-state','spindle','trough','ripple','CA1','replay','forward','reverse'],
+    animKind: 'nrem',
   },
   'recon': {
     phase: 'RETRIEVE',
@@ -810,6 +1181,7 @@ const STIM_META = {
     pe:    0.58,
     label: '04 · RECONSOLIDATION EDIT',
     tokens: ['target','memory','reactivated','lability','confirmed','modified','pattern','injected','restabilization','verified'],
+    animKind: 'recon',
   },
   'grid': {
     phase: 'ENCODE',
@@ -817,6 +1189,7 @@ const STIM_META = {
     pe:    0.74,
     label: '05 · GRID CELL MEMORY PALACE',
     tokens: ['entorhinal','grid','cell','toroidal','scaffold','memory','palace','spatial','loci','navigation'],
+    animKind: 'grid',
   },
   'phase': {
     phase: 'ENCODE',
@@ -824,6 +1197,7 @@ const STIM_META = {
     pe:    0.88,
     label: 'NOVEL · L5 PHASE-SEQUENCE WRITE',
     tokens: ['theta','phase','precession','sequence','elements','temporal','binding','STDP','theta','cycle'],
+    animKind: 'phase',
   },
 };
 
@@ -839,22 +1213,1169 @@ function stimKey() {
 
 function currentCompo() {
   const k = stimKey();
-  // v = visual/spatial weight · a = hippocampal/subcortical weight · t = PFC/language weight
-  if (k === 'ca3')   return { v: 0.10, a: 0.25, t: 0.65 }; // retrieval: PFC + CA3 hippocampus
-  if (k === 'false') return { v: 0.42, a: 0.20, t: 0.38 }; // place-cells: visual context + HPC + amygdala
-  if (k === 'nrem')  return { v: 0.05, a: 0.08, t: 0.87 }; // sleep: hippocampus replay dominant, quiet cortex
-  if (k === 'recon') return { v: 0.16, a: 0.26, t: 0.58 }; // reconsolidation: PFC + HPC + amygdala
-  if (k === 'grid')  return { v: 0.55, a: 0.18, t: 0.27 }; // grid cells: entorhinal/visual dominant
-  return { v: 0.28, a: 0.30, t: 0.42 };                    // phase-sequence: full hippocampal-cortical
+  if (k === 'ca3')   return { v: 0.10, a: 0.25, t: 0.65 };
+  if (k === 'false') return { v: 0.42, a: 0.20, t: 0.38 };
+  if (k === 'nrem')  return { v: 0.05, a: 0.08, t: 0.87 };
+  if (k === 'recon') return { v: 0.16, a: 0.26, t: 0.58 };
+  if (k === 'grid')  return { v: 0.55, a: 0.18, t: 0.27 };
+  return { v: 0.28, a: 0.30, t: 0.42 };
 }
 
+function hrf(t) {
+  if (t <= 0) return 0;
+  return Math.pow(t, 6) * Math.exp(-t) / 720 - 0.35 * Math.pow(t, 16) * Math.exp(-t) / 1.2e13;
+}
+function hrfEnvelope(timeMs) {
+  const trLen = 180;
+  const phase = (timeMs % trLen) / trLen * 20;
+  return Math.max(0, hrf(phase) * 12);
+}
+
+// ================================================================
+// Per-stimulus animation modulator
+// Returns an activity multiplier based on voxel position + time.
+// ================================================================
+function stimAnim(vx, frame) {
+  const k = stimKey();
+  const time = state.time;
+  const slice = state.slice;
+  const t = frame * 0.08;
+
+  if (k === 'nrem') {
+    // Sharp-wave ripple: short, bright pulses in hippocampus at ~150ms intervals
+    const period = 90;  // frames
+    const phase = (frame % period) / period;
+    const burst = Math.exp(-phase * 12) * 1.0 + Math.exp(-Math.abs(phase - 0.3) * 18) * 0.6;
+    if (vx.region === 'hip') return 0.5 + burst * 2.2;
+    if (vx.region === 'thal') return 0.3 + burst * 0.8;
+    // Subtle SO wave in cortex
+    const so = 0.5 + 0.3 * Math.sin(frame * 0.03);
+    return so * 0.4;
+  }
+
+  if (k === 'ca3') {
+    // Pattern completion: wave expanding outward from CA3 seed point
+    const cue = slice === 'coronal' ? { x: 380, y: 400 }
+              : slice === 'sagittal' ? { x: 305, y: 340 }
+              : { x: 350, y: 350 };
+    const dist = Math.sqrt((vx.x - cue.x) ** 2 + (vx.y - cue.y) ** 2);
+    const wavefront = (frame * 2.2) % 220;
+    const gaussian = Math.exp(-((dist - wavefront) ** 2) / 600);
+    const base = dist < wavefront ? 0.6 : 0.2;
+    return base + gaussian * 1.4;
+  }
+
+  if (k === 'grid') {
+    // Hexagonal lattice modulation (grid cell scaffold)
+    const hex = Math.cos(vx.x * 0.055) * Math.cos(vx.y * 0.055 * 0.866 + vx.x * 0.055 * 0.5)
+              + Math.cos(vx.x * 0.055) * Math.cos(vx.y * 0.055 * 0.866 - vx.x * 0.055 * 0.5);
+    return 1 + 0.35 * hex + 0.2 * Math.sin(t);
+  }
+
+  if (k === 'phase') {
+    // Theta wave traveling posterior → anterior (through hippocampus)
+    const phaseField = Math.sin((vx.x * 0.012) - t * 1.6);
+    return 1 + 0.5 * phaseField;
+  }
+
+  if (k === 'false') {
+    // Two binding loci alternately flickering (place + fear contexts)
+    const ctxPhase = (Math.floor(frame / 30) % 2 === 0) ? 1.0 : 0.4;
+    const ctxAlt   = 1.4 - ctxPhase;
+    if (vx.region === 'hip' || vx.region === 'amy') return 0.6 + ctxPhase * 0.9;
+    if (vx.region === 'cx') return 0.5 + ctxAlt * 0.5;
+    return 1 + 0.2 * Math.sin(t + vx.x * 0.02);
+  }
+
+  if (k === 'recon') {
+    // Slow flicker between retrieve (low) and inject (high) phases
+    const mod = 0.5 + 0.5 * Math.sin(frame * 0.025);
+    if (vx.region === 'hip' || vx.region === 'pfc') return 0.5 + mod * 1.2;
+    return 0.5 + mod * 0.4;
+  }
+
+  return 1.0;
+}
+
+function activityFor(vx, mode, compo) {
+  const base = {
+    cx:    { v: 0.90, a: 0.08, t: 0.05 },
+    aud:   { v: 0.10, a: 0.88, t: 0.12 },
+    pfc:   { v: 0.18, a: 0.25, t: 0.62 },
+    hip:   { v: 0.26, a: 0.30, t: 0.48 },
+    thal:  { v: 0.35, a: 0.35, t: 0.32 },
+    cbl:   { v: 0.22, a: 0.15, t: 0.10 },
+    amy:   { v: 0.20, a: 0.20, t: 0.42 },
+    other: { v: 0.12, a: 0.12, t: 0.12 },
+  }[vx.region] || { v: 0.12, a: 0.12, t: 0.12 };
+
+  let a = base.v * compo.v + base.a * compo.a + base.t * compo.t;
+
+  // HRF modulation
+  const hrfMod = hrfEnvelope(state.time);
+  a = a * (0.55 + hrfMod * 0.5);
+
+  // Per-stimulus animation overlay
+  a *= stimAnim(vx, state.frame);
+
+  // Spatial autocorrelation noise
+  const bx = Math.floor(vx.x / 20), by = Math.floor(vx.y / 20);
+  const bucketSeed = ((bx * 9301 + by * 49297) % 233280) / 233280;
+  const voxelSeed  = vx.seed;
+  const noise = 0.7 * bucketSeed + 0.3 * voxelSeed;
+  a += (noise - 0.5) * 0.22;
+
+  // Slow ripple
+  a += Math.sin((state.time / 80) + (vx.x + vx.y) * 0.02) * 0.06;
+
+  a = Math.max(0, Math.min(1, a));
+
+  if (mode === 'pred') return a;
+  if (mode === 'true') {
+    const gt = ((vx.x * 7853 + vx.y * 3571) % 233280) / 233280;
+    return Math.max(0, Math.min(1, a + (gt - 0.5) * 0.14));
+  }
+  if (mode === 'diff') {
+    const gt = ((vx.x * 7853 + vx.y * 3571) % 233280) / 233280;
+    const t = Math.max(0, Math.min(1, a + (gt - 0.5) * 0.14));
+    return a - t;
+  }
+  return a;
+}
+
+// ================================================================
+// Canvas BOLD rendering — Gaussian splats with additive compositing
+// ================================================================
+function renderBOLD(canvas, shape, voxels, opts) {
+  opts = opts || {};
+  const mini = !!opts.mini;
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  const W = 600, H = 600;
+
+  // DPR-aware buffer sizing for crisp rendering at any pixel density
+  const bufW = W * dpr, bufH = H * dpr;
+  if (canvas.width !== bufW || canvas.height !== bufH) {
+    canvas.width = bufW; canvas.height = bufH;
+  }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, W, H);
+
+  const compo = currentCompo();
+  const view = state.view;
+  const regionFilter = state.region;
+  const splatR = mini ? 9 : 12;
+  const alphaK = mini ? 0.30 : 0.30;
+
+  // Pre-compute active voxels (skip expensive computation for filtered-out voxels)
+  const active = [];
+  for (const vx of voxels) {
+    if (regionFilter !== 'all' && vx.region !== regionFilter) continue;
+    const a = activityFor(vx, view, compo);
+    const intensity = Math.abs(a);
+    if (view === 'diff' ? intensity < 0.04 : intensity < 0.06) continue;
+    active.push([vx, a, intensity]);
+  }
+
+  // Render BOLD to an isolated offscreen canvas so additive 'lighter'
+  // compositing never interferes with the clipping path. After drawing,
+  // mask the offscreen to the brain outline with destination-in, then
+  // blit it onto the main canvas through a canvas clip — two independent
+  // layers of containment that are reliable across all browsers.
+  if (!shape._clipPath) shape._clipPath = new Path2D(shape.outline);
+  const clipPath = shape._clipPath;
+
+  let off = canvas._boldOff;
+  if (!off || off.width !== bufW || off.height !== bufH) {
+    off = document.createElement('canvas');
+    off.width = bufW; off.height = bufH;
+    canvas._boldOff = off;
+  }
+  const octx = off.getContext('2d');
+  octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  octx.clearRect(0, 0, W, H);
+
+  // Pass 1 — additive Gaussian splats on the offscreen canvas
+  octx.globalCompositeOperation = 'lighter';
+  const SIGMA = 0.32;
+  const NSTOPS = mini ? 6 : 9;
+  for (const [vx, a, intensity] of active) {
+    const [r, g, b] = view === 'diff' ? diffLUT(a) : heatLUT(Math.max(0.03, intensity));
+    const rad = splatR + intensity * 7;
+    const alpha = Math.min(1, alphaK + intensity * 0.6);
+    const grad = octx.createRadialGradient(vx.x, vx.y, 0, vx.x, vx.y, rad);
+    for (let i = 0; i <= NSTOPS; i++) {
+      const t = i / NSTOPS;
+      const g2 = Math.exp(-(t * t) / (2 * SIGMA * SIGMA));
+      grad.addColorStop(t, `rgba(${r|0},${g|0},${b|0},${(alpha * g2).toFixed(4)})`);
+    }
+    octx.fillStyle = grad;
+    octx.beginPath();
+    octx.arc(vx.x, vx.y, rad, 0, Math.PI * 2);
+    octx.fill();
+  }
+
+  // Pass 2 — bloom halo for high-intensity voxels
+  if (!mini) {
+    for (const [vx, a, intensity] of active) {
+      if (intensity < 0.55) continue;
+      const [r, g, b] = view === 'diff' ? diffLUT(a) : heatLUT(intensity);
+      const bRad = 18 + intensity * 7;
+      const bAlpha = (intensity - 0.55) * 0.5;
+      const grad = octx.createRadialGradient(vx.x, vx.y, 0, vx.x, vx.y, bRad);
+      grad.addColorStop(0.00, `rgba(${r|0},${g|0},${b|0},${(bAlpha * 0.26).toFixed(4)})`);
+      grad.addColorStop(0.40, `rgba(${r|0},${g|0},${b|0},${(bAlpha * 0.10).toFixed(4)})`);
+      grad.addColorStop(1.00, `rgba(${r|0},${g|0},${b|0},0)`);
+      octx.fillStyle = grad;
+      octx.beginPath();
+      octx.arc(vx.x, vx.y, bRad, 0, Math.PI * 2);
+      octx.fill();
+    }
+  }
+
+  // Mask offscreen to brain outline — destination-in erases everything outside
+  octx.save();
+  octx.globalCompositeOperation = 'destination-in';
+  octx.fillStyle = '#fff';
+  octx.fill(clipPath, 'nonzero');
+  octx.restore();
+
+  // Blit masked offscreen onto main canvas through a canvas clip (double containment)
+  ctx.save();
+  ctx.clip(clipPath, 'nonzero');
+  ctx.drawImage(off, 0, 0, W, H);
+  ctx.restore();
+}
+
+// ================================================================
+// SVG rendering — split into BG (outline + structures) and FG
+// (sulci + labels + atlas + crosshair + hit-zones) with the Canvas
+// BOLD layer sandwiched between them.
+// ================================================================
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v !== null && v !== undefined) e.setAttribute(k, v);
+  }
+  return e;
+}
+
+// Background layer: brain tissue (GM/WM layers), subcortical structures.
+// Uses SVG feTurbulence + feDisplacementMap to create natural gyral folding.
+function renderAnatomyBG(svg, shape, opts) {
+  opts = opts || {};
+  const mini = !!opts.mini;
+  const uid = opts.uid || (mini ? 'm' : 'x');
+  svg.innerHTML = '';
+
+  const defs = el('defs', {});
+  const isGlass = state.surface === 'glass';
+  const isInflated = state.surface === 'inflated';
+
+  // Tissue palette — mimics T1 MRI contrast translated to warm paper tones
+  // WM: lighter cream (high signal analogue)  ·  GM: darker tan (low signal analogue)
+  const wmCore   = isGlass ? '#fbf4dd' : isInflated ? '#f4ebd4' : '#f6edd4';
+  const wmMid    = isGlass ? '#f0e5c6' : isInflated ? '#e8ddbf' : '#ead9ba';
+  const gmRing   = isGlass ? '#d8c9a6' : isInflated ? '#c6b892' : '#c2b18a';
+  const gmEdge   = isGlass ? '#a89876' : isInflated ? '#96866a' : '#8a7a60';
+  const outlineColor = isGlass ? '#7a6f58' : '#5c5240';
+
+  const coreOp  = isGlass ? 0.32 : 1;
+  const midOp   = isGlass ? 0.24 : 0.95;
+  const ringOp  = isGlass ? 0.18 : 0.94;
+  const edgeOp  = isGlass ? 0.10 : 0.88;
+
+  // Gyral displacement disabled — SVG feTurbulence filter regions produce
+  // different turbulence patterns on SVG vs canvas, breaking clip alignment.
+  // The brain still reads as folded via sulci lines + GM/WM gradient + grain.
+
+  defs.innerHTML = `
+    <!-- Tissue radial gradient: cream WM center → tan GM ring → dark edge -->
+    <radialGradient id="dome-${uid}" cx="50%" cy="38%" r="72%">
+      <stop offset="0%"   stop-color="${wmCore}" stop-opacity="${coreOp}"/>
+      <stop offset="55%"  stop-color="${wmMid}"  stop-opacity="${midOp}"/>
+      <stop offset="82%"  stop-color="${gmRing}" stop-opacity="${ringOp}"/>
+      <stop offset="100%" stop-color="${gmEdge}" stop-opacity="${edgeOp}"/>
+    </radialGradient>
+
+    <!-- Specular highlight for pseudo-3D dome effect -->
+    <radialGradient id="spec-${uid}" cx="36%" cy="22%" r="38%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="${isGlass ? 0.09 : 0.24}"/>
+      <stop offset="55%"  stop-color="#ffffff" stop-opacity="${isGlass ? 0.03 : 0.08}"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Drop shadow -->
+    <filter id="drop-${uid}" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="${mini ? 1 : 4.5}"/>
+      <feOffset dx="${mini ? 0.5 : 2}" dy="${mini ? 1 : 6}" result="off"/>
+      <feFlood flood-color="#1e1a14" flood-opacity="${isGlass ? 0.05 : 0.28}"/>
+      <feComposite in2="off" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Subtle grain overlay for scanner-authentic texture -->
+    <filter id="grain-${uid}" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="7" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.12  0 0 0 0 0.08  0 0 0 ${mini ? 0.06 : 0.09} 0"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+
+    <!-- Clip path used for the grain and highlight overlays -->
+    <clipPath id="clip-${uid}"><path d="${shape.outline}"/></clipPath>
+  `;
+  svg.appendChild(defs);
+
+  // Drop-shadowed tissue body — smooth outline so canvas clip stays in sync
+  const outG = el('g', { filter: `url(#drop-${uid})` });
+  outG.appendChild(el('path', {
+    d: shape.outline,
+    fill: `url(#dome-${uid})`,
+    stroke: outlineColor,
+    'stroke-width': mini ? 0.8 : 1.6,
+    'stroke-linejoin': 'round',
+    'stroke-opacity': isGlass ? 0.5 : 0.82,
+  }));
+  svg.appendChild(outG);
+
+  // Specular dome highlight (clipped to outline)
+  const specG = el('g', { 'clip-path': `url(#clip-${uid})` });
+  specG.appendChild(el('path', {
+    d: shape.outline,
+    fill: `url(#spec-${uid})`,
+    'pointer-events': 'none',
+  }));
+  svg.appendChild(specG);
+
+  // Subtle scanner grain overlay inside brain (mini omits)
+  if (!mini && !isGlass) {
+    const grainG = el('g', { 'clip-path': `url(#clip-${uid})`, 'pointer-events': 'none' });
+    grainG.appendChild(el('rect', {
+      x: 0, y: 0, width: 600, height: 600,
+      fill: '#000', filter: `url(#grain-${uid})`, opacity: 0.35,
+    }));
+    svg.appendChild(grainG);
+  }
+
+  // Subcortical structures — drawn UNDER the BOLD layer, ABOVE tissue
+  for (const s of shape.structures) {
+    svg.appendChild(el('path', {
+      d: s.path,
+      fill: s.fill,
+      stroke: s.stroke,
+      'stroke-width': mini ? 0.4 : 0.9,
+      opacity: isGlass ? 0.5 : 1,
+    }));
+  }
+}
+
+// Foreground layer: sulci, labels, atlas, crosshair, hit zones
+function renderAnatomyFG(svg, shape, opts) {
+  opts = opts || {};
+  const mini = !!opts.mini;
+  svg.innerHTML = '';
+
+  const defs = el('defs', {});
+  defs.innerHTML = `<filter id="sulci-soften-${mini ? 'm' : 'x'}"><feGaussianBlur stdDeviation="0.3"/></filter>`;
+  svg.appendChild(defs);
+
+  // Sulci — dark grooves
+  const sulciGroup = el('g', {
+    fill: 'none',
+    stroke: state.surface === 'inflated' ? '#9a8c70' : state.surface === 'glass' ? '#847760' : '#766850',
+    'stroke-linecap': 'round',
+    opacity: state.surface === 'glass' ? 0.55 : 0.8,
+    filter: `url(#sulci-soften-${mini ? 'm' : 'x'})`,
+  });
+  for (const s of shape.sulci) {
+    sulciGroup.appendChild(el('path', {
+      d: s.d,
+      'stroke-width': (s.w || 1) * (mini ? 0.6 : 1),
+    }));
+  }
+  svg.appendChild(sulciGroup);
+
+  if (mini) return;  // mini-views stop here (no labels/crosshair)
+
+  // Atlas parcels (toggleable)
+  if (state.atlas && shape.atlas) {
+    const atlasGroup = el('g', { opacity: 0.9 });
+    for (const p of shape.atlas) {
+      atlasGroup.appendChild(el('path', {
+        d: p.path,
+        fill: p.color,
+        stroke: p.color.replace(/[\d.]+\)$/, '0.7)'),
+        'stroke-width': 1,
+        'stroke-dasharray': '3 2',
+      }));
+      const m = p.path.match(/M\s*(\d+)\s+(\d+)/);
+      if (m) {
+        const lt = el('text', {
+          x: +m[1] + 20, y: +m[2] + 18,
+          'font-family': 'JetBrains Mono',
+          'font-size': 8.5,
+          fill: '#5a5040',
+          'letter-spacing': 0.8,
+          opacity: 0.92,
+        });
+        lt.textContent = p.name;
+        atlasGroup.appendChild(lt);
+      }
+    }
+    svg.appendChild(atlasGroup);
+  }
+
+  // Anatomical labels (toggleable)
+  if (state.labels) {
+    for (const L of shape.labels) {
+      const txt = el('text', {
+        x: L.x, y: L.y,
+        'font-family': 'JetBrains Mono',
+        'font-size': L.small ? 7.5 : 9.5,
+        fill: L.small ? '#8a806e' : '#5a5040',
+        'letter-spacing': L.small ? 0.6 : 1.1,
+        'text-anchor': L.anchor || 'middle',
+        'font-weight': L.small ? 400 : 500,
+        opacity: 0.95,
+      });
+      txt.textContent = L.t;
+      svg.appendChild(txt);
+    }
+  }
+
+  // Orientation indicators — corner reference letters
+  const orientG = el('g', { 'font-family': 'JetBrains Mono', 'font-size': 11, fill: '#9a907c', 'letter-spacing': 1.2, 'font-weight': 500 });
+  const marks = {
+    coronal:  [['L', 28, 308], ['R', 572, 308], ['S', 300, 40],  ['I', 300, 576]],
+    sagittal: [['A', 28, 308], ['P', 572, 308], ['S', 300, 40],  ['I', 300, 576]],
+    axial:    [['L', 28, 308], ['R', 572, 308], ['A', 300, 576], ['P', 300, 40]],
+  }[state.slice];
+  for (const [t, x, y] of marks) {
+    const tx = el('text', { x, y, 'text-anchor': 'middle' });
+    tx.textContent = t;
+    orientG.appendChild(tx);
+  }
+  svg.appendChild(orientG);
+
+  // Voxel hit layer
+  const voxels = generateVoxels();
+  const hitGroup = el('g', {});
+  for (const vx of voxels) {
+    if (state.region !== 'all' && vx.region !== state.region) continue;
+    const hit = el('circle', { cx: vx.x, cy: vx.y, r: 5, fill: 'transparent', style: 'cursor:pointer' });
+    hit.addEventListener('click', () => {
+      const compo = currentCompo();
+      const a = activityFor(vx, 'pred', compo);
+      state.voxel = {
+        id: vx.region.toUpperCase() + ' · ' + (Math.abs(Math.floor(vx.x * 3 + vx.y)) % 100),
+        x: Math.round((vx.x - 300) * 0.23),
+        y: Math.round((vx.y - 300) * 0.20),
+        z: Math.round(Math.sin(vx.x * 0.015) * 30),
+        r: (0.38 + a * 0.48).toFixed(2),
+      };
+      updateReadout();
+      renderAnatomyFG(document.getElementById('brain-fg'), BRAIN_SHAPES[state.slice], { mini: false });
+    });
+    hitGroup.appendChild(hit);
+  }
+  svg.appendChild(hitGroup);
+
+  // Crosshair on nearest voxel to selected MNI coords
+  if (voxels.length > 0) {
+    const selVx = voxels.reduce((best, vx) => {
+      const mx = Math.round((vx.x - 300) * 0.23);
+      const my = Math.round((vx.y - 300) * 0.20);
+      const d = Math.abs(mx - state.voxel.x) + Math.abs(my - state.voxel.y);
+      return d < best.d ? { d, vx } : best;
+    }, { d: Infinity, vx: null }).vx;
+
+    if (selVx) {
+      const xh = el('g', { stroke: '#d64a0a', fill: 'none', 'stroke-width': 1.3 });
+      xh.appendChild(el('circle', { cx: selVx.x, cy: selVx.y, r: 16, 'stroke-dasharray': '3 3', opacity: 0.9 }));
+      xh.appendChild(el('circle', { cx: selVx.x, cy: selVx.y, r: 3.5, fill: '#d64a0a' }));
+      xh.appendChild(el('line', { x1: selVx.x - 28, y1: selVx.y, x2: selVx.x - 18, y2: selVx.y, 'stroke-width': 1 }));
+      xh.appendChild(el('line', { x1: selVx.x + 18, y1: selVx.y, x2: selVx.x + 28, y2: selVx.y, 'stroke-width': 1 }));
+      xh.appendChild(el('line', { x1: selVx.x, y1: selVx.y - 28, x2: selVx.x, y2: selVx.y - 18, 'stroke-width': 1 }));
+      xh.appendChild(el('line', { x1: selVx.x, y1: selVx.y + 18, x2: selVx.x, y2: selVx.y + 28, 'stroke-width': 1 }));
+      svg.appendChild(xh);
+    }
+  }
+}
+
+// ================================================================
+// Multi-slice voxel cache — keep all three slices computed
+// ================================================================
+const _sliceVoxels = { coronal: null, sagittal: null, axial: null };
+
+function generateVoxelsForSlice(slice) {
+  if (_sliceVoxels[slice]) return _sliceVoxels[slice];
+
+  const paths = getSlicePaths(slice);
+  const shape = BRAIN_SHAPES[slice];
+  const rand = seededRand(slice === 'coronal' ? 17 : slice === 'sagittal' ? 23 : 31);
+  const V = [];
+  const step = 9;
+  for (let gy = 70; gy <= 540; gy += step) {
+    for (let gx = 70; gx <= 540; gx += step) {
+      const jx = gx + (rand() - 0.5) * step * 0.85;
+      const jy = gy + (rand() - 0.5) * step * 0.85;
+      if (!_testCtx.isPointInPath(paths.outline, jx, jy)) continue;
+      let excluded = false;
+      for (const s of paths.structures) {
+        if (s.exclude && _testCtx.isPointInPath(s.path2d, jx, jy)) { excluded = true; break; }
+      }
+      if (excluded) continue;
+      let region = 'other';
+      for (const s of paths.structures) {
+        if (!s.exclude && s.region && _testCtx.isPointInPath(s.path2d, jx, jy)) { region = s.region; break; }
+      }
+      if (region === 'other') region = shape.assignRegion(jx, jy);
+      V.push({ x: jx, y: jy, region, seed: rand() });
+    }
+  }
+  _sliceVoxels[slice] = V;
+  return V;
+}
+
+// Override generateVoxels to use slice-keyed cache
+function generateVoxels() {
+  return generateVoxelsForSlice(state.slice);
+}
+
+// ================================================================
+// Main render — composes Canvas BOLD + SVG anatomy (BG + FG)
+//
+// Anatomy SVGs are rebuilt only on full renders (renderBrain);
+// per-frame animation uses renderFrame() which only redraws the
+// BOLD canvases.
+// ================================================================
+let _miniRenderCounter = 0;
+
+// ================================================================
+// THREE.JS 3D BRAIN RENDERER
+// ================================================================
+let _three = null;
+
+function assignRegion3D(nx, ny, nz) {
+  if (nz < -0.44) return 'cx';
+  if (nz > 0.44) return 'pfc';
+  if (Math.abs(nx) > 0.58 && ny < 0.22) return 'aud';
+  if (Math.abs(nx) > 0.35 && Math.abs(nx) < 0.68 && ny < -0.08 && Math.abs(nz) < 0.42) return 'hip';
+  if (Math.abs(nx) > 0.30 && Math.abs(nx) < 0.62 && ny < -0.05 && nz > 0.10 && nz < 0.55) return 'amy';
+  if (Math.abs(nx) < 0.35 && Math.abs(ny) < 0.35 && Math.abs(nz) < 0.35) return 'thal';
+  return 'other';
+}
+
+function buildBrainMesh(inflated) {
+  const gyrAmp  = inflated ? 0.20 : 1.0;
+  const fissAmp = inflated ? 0.30 : 1.0;
+
+  const geo = new THREE.SphereGeometry(1.0, 160, 80);
+  const pos = geo.attributes.position;
+  const N = pos.count;
+  const colBuf = new Float32Array(N * 3);
+  const voxelData = [];
+
+  for (let i = 0; i < N; i++) {
+    let x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
+    const len = Math.sqrt(x*x + y*y + z*z);
+    const nx = x/len, ny_ = y/len, nz = z/len;
+
+    // Brain ellipsoid: W×H×D = 1.0 × 0.82 × 1.15
+    x = nx  * 1.00;
+    y = ny_ * 0.82;
+    z = nz  * 1.15;
+
+    // Interhemispheric fissure — superior midline groove
+    if (Math.abs(nx) < 0.12 && ny_ > 0.14) {
+      const t = (ny_ - 0.14) / 0.86;
+      const w = 1 - Math.abs(nx) / 0.12;
+      x -= Math.sign(nx || 1e-6) * fissAmp * 0.22 * t * w;
+      y -= fissAmp * 0.18 * t * w;
+    }
+
+    // Inferior flattening
+    if (ny_ < -0.52) y *= 0.88;
+
+    // Gyral displacement — 3 octaves of sinusoidal folds
+    const g1 = 0.055*gyrAmp * Math.sin(8.2*nx+1.1)  * Math.sin(7.5*ny_+0.4)  * Math.sin(6.1*nz+2.1);
+    const g2 = 0.030*gyrAmp * Math.sin(14.0*nx+2.3) * Math.sin(12.8*ny_+1.8) * Math.sin(11.5*nz+0.7);
+    const g3 = 0.016*gyrAmp * Math.sin(22.0*nx+0.5) * Math.sin(19.5*ny_+3.1) * Math.sin(20.8*nz+1.5);
+    const gyral = g1 + g2 + g3;
+    const r = Math.sqrt(x*x + y*y + z*z);
+    const sc = (r + gyral) / r;
+    x *= sc; y *= sc; z *= sc;
+
+    pos.setXYZ(i, x, y, z);
+
+    const region = assignRegion3D(nx, ny_, nz);
+    const seed = ((i * 7853 + 3571) % 233280) / 233280;
+    // px/py map 3D surface to coronal-like 2D coords for existing BOLD logic
+    voxelData.push({ x: 300+nx*260, y: 300-ny_*220, region, seed, idx: i });
+
+    colBuf[i*3]   = 0.882;
+    colBuf[i*3+1] = 0.816;
+    colBuf[i*3+2] = 0.667;
+  }
+
+  geo.setAttribute('color', new THREE.BufferAttribute(colBuf, 3));
+  geo.computeVertexNormals();
+
+  const mat = new THREE.MeshPhongMaterial({
+    vertexColors: true, shininess: 30,
+    specular: new THREE.Color(0.12, 0.10, 0.08),
+  });
+
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.userData.voxelData = voxelData;
+  mesh.userData.inflated = inflated;
+  return mesh;
+}
+
+function buildCerebellumMesh() {
+  const geo = new THREE.SphereGeometry(1.0, 72, 36);
+  const pos = geo.attributes.position;
+  const N = pos.count;
+  const colBuf = new Float32Array(N * 3);
+  const voxelData = [];
+
+  for (let i = 0; i < N; i++) {
+    let x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
+    const len = Math.sqrt(x*x+y*y+z*z);
+    const nx = x/len, ny_ = y/len, nz = z/len;
+
+    x = nx * 0.36; y = ny_ * 0.25; z = nz * 0.24;
+
+    // Folia — fine horizontal ridges
+    const f1 = 0.022 * Math.sin(20*nx+0.9)  * Math.sin(16*ny_+2.1) * Math.sin(18*nz+1.3);
+    const f2 = 0.012 * Math.sin(30*nx+1.8)  * Math.sin(26*ny_+0.6) * Math.sin(28*nz+2.8);
+    const fold = f1 + f2;
+    const r = Math.sqrt(x*x+y*y+z*z);
+    const sc = (r + fold) / r;
+    x *= sc; y *= sc; z *= sc;
+
+    pos.setXYZ(i, x, y, z);
+
+    const seed = ((i * 5381 + 2971) % 233280) / 233280;
+    voxelData.push({ x: 300+nx*100, y: 300-ny_*100, region: 'cbl', seed, idx: i });
+
+    colBuf[i*3]   = 0.856;
+    colBuf[i*3+1] = 0.792;
+    colBuf[i*3+2] = 0.647;
+  }
+
+  geo.setAttribute('color', new THREE.BufferAttribute(colBuf, 3));
+  geo.computeVertexNormals();
+
+  const mat = new THREE.MeshPhongMaterial({
+    vertexColors: true, shininess: 22,
+    specular: new THREE.Color(0.10, 0.08, 0.06),
+  });
+
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(0, -0.70, -0.68);
+  mesh.userData.voxelData = voxelData;
+  return mesh;
+}
+
+function initThreeBrain() {
+  const canvas = document.getElementById('brain-3d');
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  const scene = new THREE.Scene();
+  scene.add(new THREE.AmbientLight(0xf8f0e0, 0.55));
+  const sun = new THREE.DirectionalLight(0xfff8f0, 1.1);
+  sun.position.set(2.5, 3.5, 2.0);
+  scene.add(sun);
+  scene.add(new THREE.HemisphereLight(0xf5ede0, 0x2a1a0c, 0.38));
+
+  const w = canvas.parentElement.offsetWidth  || 600;
+  const h = canvas.parentElement.offsetHeight || 600;
+  const camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 20);
+  camera.position.set(0, 0, 3.2);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(w, h, false);
+  renderer.setClearColor(0x000000, 0);
+
+  const brainGroup = new THREE.Group();
+  scene.add(brainGroup);
+  brainGroup.rotation.x = 0.14;  // slight downward tilt for natural view
+
+  const cerebralMesh    = buildBrainMesh(false);
+  const cerebellumMesh  = buildCerebellumMesh();
+  brainGroup.add(cerebralMesh);
+  brainGroup.add(cerebellumMesh);
+
+  _three = {
+    scene, camera, renderer, brainGroup,
+    cerebralMesh, cerebellumMesh,
+    targetRot:   { x: 0.14, y: 0 },
+    snapActive:  false,
+    lastInteract: 0,
+  };
+
+  setupBrainMouseDrag(canvas);
+  setupBrainResizeObserver(canvas);
+  updateBrainColors();
+}
+
+function setupBrainMouseDrag(canvas) {
+  let dragging = false, lastX = 0, lastY = 0;
+
+  canvas.addEventListener('mousedown', e => {
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    if (_three) _three.lastInteract = performance.now();
+  });
+  document.addEventListener('mousemove', e => {
+    if (!dragging || !_three) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    _three.brainGroup.rotation.y += dx * 0.008;
+    _three.brainGroup.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2,
+      _three.brainGroup.rotation.x + dy * 0.006));
+    lastX = e.clientX; lastY = e.clientY;
+    _three.lastInteract = performance.now();
+  });
+  document.addEventListener('mouseup', () => { dragging = false; });
+
+  canvas.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;
+    dragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+  }, { passive: true });
+  canvas.addEventListener('touchmove', e => {
+    if (!dragging || !_three || e.touches.length !== 1) return;
+    const dx = e.touches[0].clientX - lastX, dy = e.touches[0].clientY - lastY;
+    _three.brainGroup.rotation.y += dx * 0.008;
+    _three.brainGroup.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2,
+      _three.brainGroup.rotation.x + dy * 0.006));
+    lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+    _three.lastInteract = performance.now();
+  }, { passive: true });
+  canvas.addEventListener('touchend', () => { dragging = false; });
+}
+
+function setupBrainResizeObserver(canvas) {
+  if (typeof ResizeObserver === 'undefined') return;
+  new ResizeObserver(() => {
+    if (!_three) return;
+    const w = canvas.parentElement.offsetWidth;
+    const h = canvas.parentElement.offsetHeight;
+    if (w < 10 || h < 10) return;
+    _three.renderer.setSize(w, h, false);
+    _three.camera.aspect = w / h;
+    _three.camera.updateProjectionMatrix();
+  }).observe(canvas.parentElement);
+}
+
+function snapBrainToView(slice) {
+  if (!_three) return;
+  const targets = {
+    coronal:  { x:  0.14, y: 0 },
+    sagittal: { x:  0.14, y: Math.PI / 2 },
+    axial:    { x: -Math.PI / 2, y: 0 },
+  };
+  const t = targets[slice] || targets.coronal;
+  _three.targetRot.x = t.x;
+  _three.targetRot.y = t.y;
+  _three.snapActive  = true;
+  _three.lastInteract = performance.now();
+}
+
+function updateBrainMaterial() {
+  if (!_three) return;
+  const isGlass    = state.surface === 'glass';
+  const isInflated = state.surface === 'inflated';
+
+  // Rebuild cerebral mesh if inflation state changed
+  if (isInflated !== !!_three.cerebralMesh.userData.inflated) {
+    const newMesh = buildBrainMesh(isInflated);
+    newMesh.material = _three.cerebralMesh.material;
+    _three.brainGroup.remove(_three.cerebralMesh);
+    _three.cerebralMesh.geometry.dispose();
+    _three.cerebralMesh = newMesh;
+    _three.brainGroup.add(newMesh);
+    updateBrainColors();
+  }
+
+  for (const mesh of [_three.cerebralMesh, _three.cerebellumMesh]) {
+    const mat = mesh.material;
+    mat.transparent = isGlass;
+    mat.opacity     = isGlass ? 0.42 : 1.0;
+    mat.side        = isGlass ? THREE.DoubleSide : THREE.FrontSide;
+    mat.depthWrite  = !isGlass;
+    mat.needsUpdate = true;
+  }
+}
+
+function updateBrainColors() {
+  if (!_three) return;
+  const compo      = currentCompo();
+  const view       = state.view;
+  const regionFilter = state.region;
+
+  for (const mesh of [_three.cerebralMesh, _three.cerebellumMesh]) {
+    const vd = mesh.userData.voxelData;
+    if (!vd) continue;
+    const colAttr = mesh.geometry.attributes.color;
+
+    for (const vx of vd) {
+      if (regionFilter !== 'all' && vx.region !== regionFilter) {
+        colAttr.setXYZ(vx.idx, 0.76, 0.71, 0.58);
+        continue;
+      }
+
+      const a = activityFor(vx, view, compo);
+      const intensity = Math.abs(a);
+      let r, g, b;
+
+      if (view === 'diff') {
+        const [dr, dg, db] = diffLUT(a);
+        const f = Math.min(1, intensity * 1.8);
+        r = 0.882 + (dr/255 - 0.882) * f;
+        g = 0.816 + (dg/255 - 0.816) * f;
+        b = 0.667 + (db/255 - 0.667) * f;
+      } else if (intensity < 0.13) {
+        r = 0.882; g = 0.816; b = 0.667;
+      } else {
+        const [hr, hg, hb] = heatLUT(intensity);
+        const f = Math.min(1, (intensity - 0.13) / 0.65);
+        r = 0.882 + (hr/255 - 0.882) * f;
+        g = 0.816 + (hg/255 - 0.816) * f;
+        b = 0.667 + (hb/255 - 0.667) * f;
+      }
+
+      colAttr.setXYZ(vx.idx, r, g, b);
+    }
+    colAttr.needsUpdate = true;
+  }
+}
+
+function updateBrainLabels() {
+  let labelDiv = document.getElementById('brain-3d-labels');
+  if (!labelDiv) {
+    labelDiv = document.createElement('div');
+    labelDiv.id = 'brain-3d-labels';
+    labelDiv.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;';
+    const stage = document.querySelector('.brain-stage');
+    if (stage) stage.appendChild(labelDiv);
+  }
+  labelDiv.innerHTML = '';
+  if (!state.labels || !_three) return;
+
+  const LABELS_3D = [
+    { t: 'FRONTAL',    p: new THREE.Vector3( 0.00,  0.40,  1.20) },
+    { t: 'OCCIPITAL',  p: new THREE.Vector3( 0.00,  0.20, -1.22) },
+    { t: 'L TEMPORAL', p: new THREE.Vector3(-1.12, -0.10,  0.00) },
+    { t: 'R TEMPORAL', p: new THREE.Vector3( 1.12, -0.10,  0.00) },
+    { t: 'PARIETAL',   p: new THREE.Vector3( 0.00,  0.92,  0.00) },
+    { t: 'CEREBELLUM', p: new THREE.Vector3( 0.00, -0.96, -0.70) },
+  ];
+
+  const canvas = document.getElementById('brain-3d');
+  const cw = canvas.offsetWidth, ch = canvas.offsetHeight;
+
+  _three.brainGroup.updateMatrixWorld();
+  for (const L of LABELS_3D) {
+    const v = L.p.clone().applyMatrix4(_three.brainGroup.matrixWorld);
+    v.project(_three.camera);
+    if (v.z >= 1) continue;
+    const sx = (v.x *  0.5 + 0.5) * cw;
+    const sy = (v.y * -0.5 + 0.5) * ch;
+    const span = document.createElement('span');
+    span.style.cssText = `position:absolute;left:${sx.toFixed(1)}px;top:${sy.toFixed(1)}px;transform:translate(-50%,-50%);font-family:var(--f-mono);font-size:8.5px;color:rgba(60,52,38,0.88);letter-spacing:0.15em;text-transform:uppercase;font-weight:500;white-space:nowrap;text-shadow:0 1px 3px rgba(251,246,228,0.95),0 0 8px rgba(251,246,228,0.9);`;
+    span.textContent = L.t;
+    labelDiv.appendChild(span);
+  }
+}
+
+function updateHeatLegend() {
+  const strip  = document.getElementById('heat-strip');
+  const hlabel = document.getElementById('heat-label');
+  const hltop  = document.querySelector('.heat-legend .hl-top');
+  if (state.view === 'diff') {
+    strip.className = 'heat-strip diff';
+    hlabel.textContent = 'pred − true';
+    if (hltop) hltop.innerHTML = '<span>−0.50</span><span>−0.25</span><span>0.00</span><span>+0.25</span><span>+0.50</span>';
+  } else {
+    strip.className = 'heat-strip';
+    hlabel.textContent = state.view === 'true' ? '% measured' : '% signal Δ';
+    if (hltop) hltop.innerHTML = '<span>0.00</span><span>0.25</span><span>0.50</span><span>0.75</span><span>1.00</span>';
+  }
+  document.getElementById('brain-title').textContent =
+    state.view === 'pred' ? 'Predicted brain activity' :
+    state.view === 'true' ? 'Measured brain activity (fMRI)' :
+    'Prediction error (pred − true, signed)';
+}
+
+// Apply CSS clip-path to the canvas element in CSS pixel coordinates.
+// This is a third containment layer that operates entirely outside Canvas 2D,
+// making it immune to any Path2D clip / compositing bugs in the browser.
+function applyCSSBrainClip(canvas, shape) {
+  const w = canvas.offsetWidth;
+  if (!w) return;
+  const s = w / 600;
+  if (!shape._cssClipSrc || shape._cssClipSrc !== shape.outline + w) {
+    // Scale every coordinate value in the SVG path to CSS pixel space
+    shape._cssClipSrc = shape.outline + w;
+    shape._cssClipPath = shape.outline.replace(/-?[\d]+\.?[\d]*/g,
+      m => (parseFloat(m) * s).toFixed(1));
+  }
+  canvas.style.clipPath = `path('${shape._cssClipPath}')`;
+}
+
+function renderBrain() {
+  if (_three) {
+    updateBrainMaterial();
+    updateBrainColors();
+    updateBrainLabels();
+    snapBrainToView(state.slice);
+  }
+
+  // HUD overlays
+  document.getElementById('hud-tr').textContent =
+    state.view === 'pred' ? 'PREDICTED' :
+    state.view === 'true' ? 'MEASURED · fMRI' : 'SIGNED DIFF';
+  if (_three) {
+    const vCount = _three.cerebralMesh.geometry.attributes.position.count
+                 + _three.cerebellumMesh.geometry.attributes.position.count;
+    document.getElementById('hud-vox').textContent = vCount.toLocaleString();
+  }
+  document.getElementById('hud-tl').innerHTML =
+    `<span class="k">3D</span><span class="v">fsaverage</span> <span class="sep">│</span> <span class="k">MODE</span><span class="v">${state.surface.toUpperCase()}</span> <span class="sep">│</span> <span class="k">RES</span><span class="v">1.5mm</span>`;
+
+  // Heat legend + title
+  updateHeatLegend();
+
+  // 2D reference thumbnails (coronal/sagittal/axial mini views)
+  renderSlicePosIndicator();
+  renderMiniViews();
+}
+
+// Renders 3 tiny reference brain outlines with a crosshair line showing
+// where the current slice cuts through. Pure SVG, static-ish.
+function renderSlicePosIndicator() {
+  const views = [
+    { id: 'spv-cor', slice: 'coronal' },
+    { id: 'spv-sag', slice: 'sagittal' },
+    { id: 'spv-axi', slice: 'axial' },
+  ];
+  for (const v of views) {
+    const svg = document.getElementById(v.id);
+    if (!svg) continue;
+    svg.innerHTML = '';
+    const shape = BRAIN_SHAPES[v.slice];
+
+    // Scale the outline path from 600x600 to 100x100 via transform
+    const g = el('g', { transform: 'scale(0.1667) translate(0,0)' });
+    g.appendChild(el('path', {
+      d: shape.outline,
+      fill: '#d8c9a6', stroke: '#8a7a60', 'stroke-width': 4,
+      opacity: v.slice === state.slice ? 1 : 0.55,
+    }));
+    svg.appendChild(g);
+
+    // Show slice-cut indicator on OTHER views (showing where current slice intersects)
+    if (v.slice !== state.slice) {
+      // coronal cuts at mid-axial (y=50 horizontal line when viewing sagittal)
+      // coronal cuts at mid-axial (y=50 horizontal line when viewing axial)
+      // sagittal cuts at mid-saggital (x=50 vertical line)
+      const isHoriz = (state.slice === 'coronal' && v.slice === 'sagittal')
+                   || (state.slice === 'coronal' && v.slice === 'axial')
+                   || (state.slice === 'axial' && v.slice === 'sagittal');
+      const isVert = (state.slice === 'sagittal' && v.slice === 'coronal')
+                  || (state.slice === 'sagittal' && v.slice === 'axial')
+                  || (state.slice === 'axial' && v.slice === 'coronal');
+      if (isHoriz) {
+        svg.appendChild(el('line', {
+          x1: 10, y1: 50, x2: 90, y2: 50,
+          stroke: '#d64a0a', 'stroke-width': 1.2,
+          'stroke-dasharray': '2 2', opacity: 0.9,
+        }));
+      }
+      if (isVert) {
+        svg.appendChild(el('line', {
+          x1: 50, y1: 10, x2: 50, y2: 90,
+          stroke: '#d64a0a', 'stroke-width': 1.2,
+          'stroke-dasharray': '2 2', opacity: 0.9,
+        }));
+      }
+    }
+
+    // Highlight border for current slice
+    if (v.slice === state.slice) {
+      svg.appendChild(el('rect', {
+        x: 0.5, y: 0.5, width: 99, height: 99,
+        fill: 'none', stroke: '#d64a0a', 'stroke-width': 1.2, opacity: 0.9,
+      }));
+    }
+  }
+}
+
+// Updates the sweep marker on the voxel trace without full rebuild.
+function updateTraceMarker() {
+  const svg = document.getElementById('voxel-trace');
+  if (!svg) return;
+  // The marker is always the 2nd-to-last <line>-ish child we appended.
+  // Find by id or just re-find by last line that is straight vertical.
+  let marker = svg.querySelector('line.sweep-marker');
+  if (!marker) {
+    // Rebuild marker if missing — walks the SVG for a vertical line
+    const lines = svg.querySelectorAll('line');
+    for (const l of lines) {
+      if (l.getAttribute('stroke') === '#d64a0a'
+          && +l.getAttribute('x1') === +l.getAttribute('x2')) {
+        marker = l; marker.classList.add('sweep-marker'); break;
+      }
+    }
+  }
+  if (marker) {
+    const x = (state.time / 900) * 600;
+    marker.setAttribute('x1', x);
+    marker.setAttribute('x2', x);
+  }
+}
+
+// Light per-frame render — only redraws activity canvases.
+// Much cheaper than renderBrain: skips SVG anatomy rebuild.
+function renderFrame() {
+  if (_three) updateBrainColors();
+
+  // Mini-view 2D canvases update at reduced rate
+  _miniRenderCounter++;
+  if (_miniRenderCounter % 3 === 0) {
+    ['coronal', 'sagittal', 'axial'].forEach(slice => {
+      const sshape = BRAIN_SHAPES[slice];
+      const svoxels = generateVoxelsForSlice(slice).filter((_, i) => i % 2 === 0);
+      const savedSlice = state.slice; state.slice = slice;
+      renderBOLD(document.getElementById(`mini-${slice}-canvas`), sshape, svoxels, { mini: true });
+      state.slice = savedSlice;
+    });
+  }
+}
+
+// ================================================================
+// Mini-view navigator — 3 small thumbnails showing all slices
+// ================================================================
+function renderMiniView(slice) {
+  const bgSvg = document.getElementById(`mini-${slice}-bg`);
+  const fgSvg = document.getElementById(`mini-${slice}-fg`);
+  const canvas = document.getElementById(`mini-${slice}-canvas`);
+  const shape = BRAIN_SHAPES[slice];
+  const voxels = generateVoxelsForSlice(slice);
+
+  // Subsample voxels for performance
+  const subsampled = voxels.filter((_, i) => i % 2 === 0);
+
+  // Swap state.slice temporarily so activityFor / stimAnim use correct geometry
+  const savedSlice = state.slice;
+  state.slice = slice;
+  renderAnatomyBG(bgSvg, shape, { mini: true, uid: `mini-${slice}` });
+  renderBOLD(canvas, shape, subsampled, { mini: true });
+  renderAnatomyFG(fgSvg, shape, { mini: true });
+  state.slice = savedSlice;
+}
+
+function renderMiniViews() {
+  renderMiniView('coronal');
+  renderMiniView('sagittal');
+  renderMiniView('axial');
+}
+
+// ================================================================
+// Voxel readout trace
+// ================================================================
+function updateReadout() {
+  document.getElementById('voxel-id').textContent = state.voxel.id;
+  document.getElementById('voxel-coord').textContent =
+    `MNI ( ${state.voxel.x}, ${state.voxel.y}, ${state.voxel.z} )`;
+  document.getElementById('voxel-r').textContent = state.voxel.r;
+
+  const svg = document.getElementById('voxel-trace');
+  svg.innerHTML = '';
+  const W = 600, H = 60, N = 120;
+  const pred = [], truth = [];
+  // Use deterministic seeded variation based on selected voxel ID so
+  // different voxels produce different (stable) time-series.
+  const seed = (state.voxel.x * 131 + state.voxel.y * 317 + state.voxel.z * 73) | 0;
+  const rng = seededRand(seed);
+  for (let i = 0; i < N; i++) {
+    const p = (i / N) * Math.PI * 4;
+    const base = 30 + Math.sin(p) * 14 + Math.sin(p * 2.3 + seed * 0.01) * 5;
+    pred.push(base + Math.sin(i * 0.7) * 2.5);
+    truth.push(base + Math.sin(i * 0.7) * 2.5 + (rng() - 0.5) * 5.5);
+  }
+
+  // 1) Gridlines (horizontal at 25% / 50% / 75%)
+  const grid = document.createElementNS(NS, 'g');
+  [0.25, 0.50, 0.75].forEach(p => {
+    const y = H * (1 - p);
+    grid.innerHTML += `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="#d8cfb8" stroke-width="0.5" stroke-dasharray="2 3"/>`;
+  });
+  // Vertical TR markers every 2s
+  for (let t = 0; t <= 10; t++) {
+    const x = (t / 10) * W;
+    grid.innerHTML += `<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="#e6ddc6" stroke-width="0.5"/>`;
+  }
+  svg.appendChild(grid);
+
+  // 2) Confidence band around predicted (±1σ)
+  const band = document.createElementNS(NS, 'path');
+  const upper = pred.map((v, i) => [i / (N - 1) * W, H - (v + 3.5)]);
+  const lower = pred.map((v, i) => [i / (N - 1) * W, H - (v - 3.5)]).reverse();
+  band.setAttribute('d',
+    upper.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0]} ${p[1]}`).join(' ') +
+    lower.map(p => ` L ${p[0]} ${p[1]}`).join('') + ' Z');
+  band.setAttribute('fill', 'rgba(214,74,10,0.10)');
+  svg.appendChild(band);
+
+  const mkPath = (data, stroke, w, dash) => {
+    const p = document.createElementNS(NS, 'path');
+    const d = data.map((v, i) => `${i === 0 ? 'M' : 'L'} ${(i / (N - 1)) * W} ${H - v}`).join(' ');
+    p.setAttribute('d', d);
+    p.setAttribute('stroke', stroke);
+    p.setAttribute('fill', 'none');
+    p.setAttribute('stroke-width', w);
+    p.setAttribute('stroke-linejoin', 'round');
+    if (dash) p.setAttribute('stroke-dasharray', dash);
+    return p;
+  };
+  svg.appendChild(mkPath(truth, '#8a7a60', 0.9));
+  svg.appendChild(mkPath(pred, '#d64a0a', 1.5));
+
+  // 3) Current-time marker (vertical hot line showing playback position)
+  const curX = ((state.time / 900) * N / N) * W;
+  const marker = document.createElementNS(NS, 'line');
+  marker.setAttribute('x1', curX); marker.setAttribute('y1', 0);
+  marker.setAttribute('x2', curX); marker.setAttribute('y2', H);
+  marker.setAttribute('stroke', '#d64a0a');
+  marker.setAttribute('stroke-width', 1);
+  marker.setAttribute('opacity', 0.6);
+  svg.appendChild(marker);
+
+  // 4) Legend + axis labels
+  const lg = document.createElementNS(NS, 'g');
+  lg.innerHTML = `
+    <text x="4" y="11" font-family="JetBrains Mono" font-size="8.5" fill="#8a7a60" letter-spacing="1" font-weight="500">TRUE</text>
+    <line x1="36" y1="8" x2="50" y2="8" stroke="#8a7a60" stroke-width="1.1"/>
+    <text x="56" y="11" font-family="JetBrains Mono" font-size="8.5" fill="#d64a0a" letter-spacing="1" font-weight="500">PRED</text>
+    <line x1="88" y1="8" x2="102" y2="8" stroke="#d64a0a" stroke-width="1.5"/>
+    <text x="555" y="11" font-family="JetBrains Mono" font-size="8" fill="#a89a78" letter-spacing="1" text-anchor="end">−30s  ·  0s</text>
+    <text x="4" y="58" font-family="JetBrains Mono" font-size="7.5" fill="#a89a78" letter-spacing="0.8">BOLD%</text>`;
+  svg.appendChild(lg);
+}
+
+// ================================================================
+// Stimulus metadata UI update
+// ================================================================
 function updateStimMeta() {
   const m = STIM_META[stimKey()];
-  const phases = ['ENCODE','CONSOLIDATE','RETRIEVE'];
+  const phases = ['ENCODE', 'CONSOLIDATE', 'RETRIEVE'];
   const phaseEl = document.getElementById('phase-row');
   if (phaseEl) {
     phaseEl.innerHTML = phases.map(p =>
-      `<span style="font-family:var(--f-mono);font-size:10px;padding:3px 8px;border:1px solid ${p===m.phase?'var(--hot-0)':'var(--line)'};color:${p===m.phase?'var(--hot-0)':'var(--fg-3)'};">${p===m.phase?'● ':''} ${p}</span>`
+      `<span style="font-family:var(--f-mono);font-size:10px;padding:3px 8px;border:1px solid ${p === m.phase ? 'var(--hot-0)' : 'var(--line)'};color:${p === m.phase ? 'var(--hot-0)' : 'var(--fg-3)'};">${p === m.phase ? '● ' : ''}${p}</span>`
     ).join('');
   }
   const oscEl = document.getElementById('osc-row');
@@ -868,305 +2389,444 @@ function updateStimMeta() {
   const pill = document.getElementById('phase-pill');
   if (pill) pill.textContent = m.phase;
 
-  // Update transcript tokens
   const transcript = document.getElementById('text-transcript');
   if (transcript && m.tokens) {
-    transcript.innerHTML = m.tokens
-      .map(t => `<span class="tok">${t}</span>`)
-      .join(' ');
-    // Re-apply active state for current time position
+    transcript.innerHTML = m.tokens.map(t => `<span class="tok">${t}</span>`).join(' ');
     const toks = transcript.querySelectorAll('.tok');
     const slider = document.getElementById('sel-time');
     const pos = Math.floor((+slider.value / 900) * toks.length);
     toks.forEach((t, i) => t.classList.toggle('active', i === pos));
   }
-}
 
-function activityFor(vx, mode, compo) {
-  const base = {
-    cx:    { v: 0.90, a: 0.08, t: 0.05 },
-    aud:   { v: 0.10, a: 0.88, t: 0.12 },
-    pfc:   { v: 0.18, a: 0.25, t: 0.62 },
-    hip:   { v: 0.26, a: 0.30, t: 0.48 },
-    thal:  { v: 0.35, a: 0.35, t: 0.32 },
-    cbl:   { v: 0.22, a: 0.15, t: 0.10 },
-    other: { v: 0.12, a: 0.12, t: 0.12 },
-  }[vx.region] || { v: 0.12, a: 0.12, t: 0.12 };
-
-  let a = base.v * compo.v + base.a * compo.a + base.t * compo.t;
-
-  // HRF modulation
-  const hrfMod = hrfEnvelope(state.time);
-  a = a * (0.6 + hrfMod * 0.5);
-
-  // Spatial autocorrelation via bucket seed
-  const bx = Math.floor(vx.x / 20), by = Math.floor(vx.y / 20);
-  const bucketSeed = ((bx * 9301 + by * 49297) % 233280) / 233280;
-  const voxelSeed  = ((vx.x * 6151 + vx.y * 7919) % 233280) / 233280;
-  const noise = 0.7 * bucketSeed + 0.3 * voxelSeed;
-  a += (noise - 0.5) * 0.28;
-
-  // Slow temporal ripple
-  a += Math.sin((state.time / 80) + (vx.x + vx.y) * 0.025) * 0.08;
-
-  a = Math.max(0, Math.min(1, a));
-
-  if (mode === 'pred') return a;
-  if (mode === 'true') {
-    const gtSeed = ((vx.x * 7853 + vx.y * 3571) % 233280) / 233280;
-    return Math.max(0, Math.min(1, a + (gtSeed - 0.5) * 0.16));
-  }
-  if (mode === 'diff') {
-    // Signed: pred − true
-    const gtSeed = ((vx.x * 7853 + vx.y * 3571) % 233280) / 233280;
-    const t = Math.max(0, Math.min(1, a + (gtSeed - 0.5) * 0.16));
-    return a - t; // signed [-0.5 .. 0.5]
-  }
-  return a;
-}
-
-function heatColor(a) {
-  if (a < 0.12) return 'none';
-  if (a < 0.25) return '#fff3c4';
-  if (a < 0.40) return '#ffe082';
-  if (a < 0.55) return '#ffb347';
-  if (a < 0.70) return '#e97514';
-  if (a < 0.82) return '#c84800';
-  return '#8a2a00';
-}
-
-function diffColor(d) {
-  // d is signed (pred - true)
-  if (d >  0.30) return '#8a2a00';
-  if (d >  0.16) return '#d64a0a';
-  if (d >  0.06) return '#ffb347';
-  if (d > -0.06) return '#f0ede6';
-  if (d > -0.16) return '#6baed6';
-  if (d > -0.30) return '#2b8cbe';
-  return '#084594';
+  renderStimScene(m.animKind);
 }
 
 // ================================================================
-// Render
+// Stimulus scene visualization — per-kind animated scene
 // ================================================================
-function renderBrain() {
-  const svg = document.getElementById('brain-svg');
-  svg.innerHTML = '';
+function renderStimScene(kind) {
+  const scene = document.getElementById('stim-scene');
+  if (!scene) return;
+  scene.innerHTML = '';
+  scene.style.background = '';
 
-  const shape = BRAIN_SHAPES[state.slice];
-  const compo = currentCompo();
-  const voxels = generateVoxels();
-
-  const NS = 'http://www.w3.org/2000/svg';
-  function el(tag, attrs) {
-    const e = document.createElementNS(NS, tag);
-    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
-    return e;
-  }
-
-  // SVG defs — blur filter for soft BOLD appearance
-  const defs = el('defs', {});
-  defs.innerHTML = `
-    <filter id="vblur" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="3.5"/>
-    </filter>
-    <filter id="sblur" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="1"/>
-    </filter>
-    <clipPath id="brainclip">
-      <path d="${shape.outline}"/>
-    </clipPath>`;
-  svg.appendChild(defs);
-
-  // Background of viewer
-  svg.appendChild(el('rect', { x: 0, y: 0, width: 600, height: 600, fill: 'transparent' }));
-
-  // Brain tissue fill
-  const brainFill = state.surface === 'inflated' ? '#ede8da' : '#f5f1e8';
-  const strokeCol = state.surface === 'inflated' ? '#b8b2a2' : '#c8c2b4';
-
-  // For axial, outline has two sub-paths (left + right hemisphere)
-  // Draw as filled path
-  const outerPath = el('path', {
-    d: shape.outline,
-    fill: brainFill,
-    stroke: strokeCol,
-    'stroke-width': '1.5',
-  });
-  svg.appendChild(outerPath);
-
-  // Internal structures (corpus callosum, ventricles, hippocampus outlines, etc.)
-  for (const s of shape.structures) {
-    const sp = el('path', {
-      d: s.path,
-      fill: s.fill,
-      stroke: s.stroke,
-      'stroke-width': '0.8',
-    });
-    svg.appendChild(sp);
-  }
-
-  // Sulci lines
-  for (const sulcusD of shape.sulci) {
-    const line = el('path', {
-      d: sulcusD,
-      fill: 'none',
-      stroke: state.surface === 'inflated' ? '#b0a898' : '#c0bab0',
-      'stroke-width': state.surface === 'inflated' ? '0.6' : '0.9',
-      'stroke-linecap': 'round',
-    });
-    svg.appendChild(line);
-  }
-
-  // Voxel activity layer — clipped to brain outline
-  const voxGroup = el('g', { 'clip-path': 'url(#brainclip)' });
-
-  voxels.forEach(vx => {
-    // Region filter
-    if (state.region !== 'all' && vx.region !== state.region) return;
-
-    const a = activityFor(vx, state.view, compo);
-
-    if (state.view === 'diff') {
-      if (Math.abs(a) < 0.04) return;
-      const c = diffColor(a);
-      const circ = el('circle', {
-        cx: vx.x, cy: vx.y, r: 5.5,
-        fill: c, opacity: 0.80,
-        filter: 'url(#vblur)',
-      });
-      voxGroup.appendChild(circ);
-    } else {
-      const c = heatColor(a);
-      if (c === 'none') return;
-      const circ = el('circle', {
-        cx: vx.x, cy: vx.y, r: 5.5,
-        fill: c, opacity: (0.65 + a * 0.35).toFixed(2),
-        filter: 'url(#vblur)',
-      });
-      voxGroup.appendChild(circ);
+  if (kind === 'ca3') {
+    // Partial cue (left, active) → CA3 attractor completion (right, converging)
+    scene.style.background = 'radial-gradient(ellipse at 28% 50%, rgba(214,74,10,0.22), rgba(30,100,140,0.08) 55%, rgba(200,190,170,0.02) 100%)';
+    // Background grid lines (matrix-like)
+    const grid = document.createElement('div');
+    grid.style.cssText = 'position:absolute;inset:0;background-image:linear-gradient(to right,rgba(106,96,80,0.08) 1px,transparent 1px),linear-gradient(to bottom,rgba(106,96,80,0.08) 1px,transparent 1px);background-size:14px 14px;';
+    scene.appendChild(grid);
+    // Expanding concentric rings from cue point (left)
+    for (let i = 0; i < 4; i++) {
+      const d = document.createElement('div');
+      d.style.cssText = `position:absolute;left:28%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border:1.5px solid rgba(214,74,10,0.75);border-radius:50%;animation:ring 3s ${i * 0.75}s infinite ease-out;`;
+      scene.appendChild(d);
     }
-  });
-  svg.appendChild(voxGroup);
+    // Cue marker (origin)
+    const cue = document.createElement('div');
+    cue.style.cssText = 'position:absolute;left:28%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;background:#d64a0a;border-radius:50%;box-shadow:0 0 8px rgba(214,74,10,0.8);';
+    scene.appendChild(cue);
+    // Engram network: sparse 6x6 with some neurons "on" (active=orange)
+    for (let r = 0; r < 5; r++) {
+      for (let c = 0; c < 8; c++) {
+        const x = 12 + c * 11, y = 15 + r * 15;
+        // Activity likelihood: higher near the cue (left)
+        const distCue = Math.hypot(x - 28, y - 50);
+        const activeProb = Math.max(0, 1 - distCue * 0.02);
+        const active = (r * 7 + c * 3) % 10 < activeProb * 10;
+        const n = document.createElement('div');
+        n.style.cssText = `position:absolute;left:${x}%;top:${y}%;width:${active ? 5 : 3}px;height:${active ? 5 : 3}px;margin:${active ? -2.5 : -1.5}px;background:${active ? '#d64a0a' : 'rgba(106,96,80,0.35)'};border-radius:50%;animation:pulse ${1.5 + (r + c) % 3 * 0.3}s ${((r * 8) + c) * 0.08}s infinite;`;
+        if (active) n.style.boxShadow = '0 0 4px rgba(214,74,10,0.6)';
+        scene.appendChild(n);
+      }
+    }
+    // Label
+    const lab = document.createElement('div');
+    lab.style.cssText = 'position:absolute;left:8px;bottom:6px;font-family:JetBrains Mono;font-size:8.5px;color:rgba(214,74,10,0.85);letter-spacing:0.12em;font-weight:500;';
+    lab.textContent = 'CUE → ATTRACTOR · 20% SEED';
+    scene.appendChild(lab);
+    return;
+  }
 
-  // Clickable voxel dots (sharp, on top of blurred layer)
-  const clickGroup = el('g', { 'clip-path': 'url(#brainclip)' });
-  voxels.forEach(vx => {
-    if (state.region !== 'all' && vx.region !== state.region) return;
-    const hit = el('circle', {
-      cx: vx.x, cy: vx.y, r: 6,
-      fill: 'transparent', style: 'cursor:pointer',
+  if (kind === 'false') {
+    // Two contexts: place memory (A) ↔ fear conditioning (B), bound by false association
+    scene.style.background = 'linear-gradient(90deg, rgba(30,100,160,0.20) 0%, rgba(30,100,160,0.05) 35%, rgba(180,60,30,0.05) 65%, rgba(180,60,30,0.22) 100%)';
+
+    // Context A (place) — blue-themed with scatter of place cells
+    const ctxA = document.createElement('div');
+    ctxA.style.cssText = 'position:absolute;left:6%;top:20%;width:32%;height:60%;border:1px solid rgba(40,110,170,0.6);background:rgba(40,110,170,0.06);';
+    scene.appendChild(ctxA);
+    const labA = document.createElement('div');
+    labA.style.cssText = 'position:absolute;left:8%;top:23%;font-family:JetBrains Mono;font-size:8.5px;color:rgba(40,110,170,0.95);letter-spacing:0.18em;font-weight:600;';
+    labA.textContent = 'CONTEXT A · PLACE';
+    scene.appendChild(labA);
+    // Place cells in context A (blue dots)
+    for (let i = 0; i < 12; i++) {
+      const d = document.createElement('div');
+      const x = 8 + (i % 4) * 7;
+      const y = 35 + Math.floor(i / 4) * 14;
+      d.style.cssText = `position:absolute;left:${x}%;top:${y}%;width:4px;height:4px;margin:-2px;border-radius:50%;background:rgba(40,110,170,0.85);box-shadow:0 0 4px rgba(40,110,170,0.5);animation:pulse ${1.5 + (i % 3) * 0.3}s ${i * 0.12}s infinite;`;
+      scene.appendChild(d);
+    }
+
+    // Context B (fear) — red-themed
+    const ctxB = document.createElement('div');
+    ctxB.style.cssText = 'position:absolute;right:6%;top:20%;width:32%;height:60%;border:1px solid rgba(180,60,30,0.6);background:rgba(180,60,30,0.06);';
+    scene.appendChild(ctxB);
+    const labB = document.createElement('div');
+    labB.style.cssText = 'position:absolute;right:8%;top:23%;font-family:JetBrains Mono;font-size:8.5px;color:rgba(180,60,30,0.95);letter-spacing:0.18em;font-weight:600;text-align:right;';
+    labB.textContent = 'CONTEXT B · FEAR';
+    scene.appendChild(labB);
+    // Fear conditioning: reactivation markers (red dots pulsing)
+    for (let i = 0; i < 12; i++) {
+      const d = document.createElement('div');
+      const x = 63 + (i % 4) * 7;
+      const y = 35 + Math.floor(i / 4) * 14;
+      d.style.cssText = `position:absolute;left:${x}%;top:${y}%;width:4px;height:4px;margin:-2px;border-radius:50%;background:rgba(200,70,30,0.9);box-shadow:0 0 6px rgba(200,70,30,0.7);animation:pulse ${1.2 + (i % 3) * 0.3}s ${i * 0.1 + 0.8}s infinite;`;
+      scene.appendChild(d);
+    }
+
+    // Binding strand — animated dashed link between contexts
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 60');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.style.cssText = 'position:absolute;left:32%;right:32%;top:40%;width:36%;height:24%;pointer-events:none;';
+    const link = document.createElementNS(svgNS, 'path');
+    link.setAttribute('d', 'M 0 15 Q 50 5 100 15');
+    link.setAttribute('stroke', '#d64a0a');
+    link.setAttribute('stroke-width', 1.4);
+    link.setAttribute('stroke-dasharray', '4 2');
+    link.setAttribute('fill', 'none');
+    link.setAttribute('filter', 'drop-shadow(0 0 3px rgba(214,74,10,0.6))');
+    link.innerHTML = `<animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.2s" repeatCount="indefinite"/>`;
+    svg.appendChild(link);
+    scene.appendChild(svg);
+
+    // Center badge: "FALSE LINK"
+    const badge = document.createElement('div');
+    badge.style.cssText = 'position:absolute;left:50%;top:70%;transform:translateX(-50%);font-family:JetBrains Mono;font-size:7.5px;color:#d64a0a;letter-spacing:0.2em;background:rgba(251,246,228,0.92);padding:2px 6px;border:1px solid rgba(214,74,10,0.4);font-weight:600;';
+    badge.textContent = '⟷ FALSE ENGRAM';
+    scene.appendChild(badge);
+    return;
+  }
+
+  if (kind === 'nrem') {
+    // NREM sleep: SO → spindle → ripple coupling (authentic neurophysiology visualization)
+    scene.style.background = 'linear-gradient(180deg, #08121e 0%, #132234 100%)';
+
+    // Stars / noise background
+    const stars = document.createElement('div');
+    stars.style.cssText = 'position:absolute;inset:0;background-image:radial-gradient(ellipse at 30% 20%,rgba(140,180,220,0.08),transparent 40%),radial-gradient(ellipse at 70% 80%,rgba(180,220,255,0.06),transparent 50%);';
+    scene.appendChild(stars);
+
+    // Three-row LFP visualization: SO (cortex), spindle (thalamic), ripple (HPC)
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 60');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.style.cssText = 'position:absolute;inset:4px 4px 18px 4px;';
+
+    // Slow oscillation (cortex, ~1 Hz)
+    let soPath = 'M 0 14';
+    for (let x = 0; x <= 100; x += 1) {
+      const y = 14 + Math.sin(x * 0.1) * 5;
+      soPath += ` L ${x} ${y}`;
+    }
+    const so = document.createElementNS(svgNS, 'path');
+    so.setAttribute('d', soPath);
+    so.setAttribute('stroke', 'rgba(140,180,220,0.7)');
+    so.setAttribute('stroke-width', 0.8);
+    so.setAttribute('fill', 'none');
+    svg.appendChild(so);
+
+    // Spindle bursts (thalamic, ~12 Hz packets on SO up-states)
+    for (let burst = 0; burst < 3; burst++) {
+      const bx0 = 18 + burst * 30;
+      let spPath = `M ${bx0} 30`;
+      for (let dx = 0; dx <= 18; dx += 0.5) {
+        const env = Math.sin((dx / 18) * Math.PI);
+        const y = 30 + Math.sin(dx * 3.5) * env * 4;
+        spPath += ` L ${bx0 + dx} ${y}`;
+      }
+      const sp = document.createElementNS(svgNS, 'path');
+      sp.setAttribute('d', spPath);
+      sp.setAttribute('stroke', 'rgba(200,230,255,0.9)');
+      sp.setAttribute('stroke-width', 0.6);
+      sp.setAttribute('fill', 'none');
+      sp.innerHTML = `<animate attributeName="opacity" values="0.2;1;0.2" dur="3s" begin="${burst * 1.2}s" repeatCount="indefinite"/>`;
+      svg.appendChild(sp);
+    }
+
+    // Sharp-wave ripple bursts (HPC, ~200 Hz brief pulses locked to spindle troughs)
+    for (let i = 0; i < 6; i++) {
+      const rx = 14 + i * 14;
+      let rpath = `M ${rx} 48`;
+      for (let dx = 0; dx <= 5; dx += 0.2) {
+        const env = Math.exp(-Math.pow((dx - 2.5) / 1.2, 2));
+        const y = 48 + Math.sin(dx * 12) * env * 5;
+        rpath += ` L ${rx + dx} ${y}`;
+      }
+      const rip = document.createElementNS(svgNS, 'path');
+      rip.setAttribute('d', rpath);
+      rip.setAttribute('stroke', '#ffdd78');
+      rip.setAttribute('stroke-width', 0.9);
+      rip.setAttribute('fill', 'none');
+      rip.setAttribute('filter', 'drop-shadow(0 0 2px rgba(255,221,120,0.8))');
+      rip.innerHTML = `<animate attributeName="opacity" values="0;1;0" dur="0.8s" begin="${i * 0.35}s" repeatCount="indefinite"/>`;
+      svg.appendChild(rip);
+    }
+
+    // Row labels
+    const labs = [
+      ['SO · 1 Hz',     4, 'rgba(140,180,220,0.8)'],
+      ['SPINDLE · 12 Hz', 22, 'rgba(200,230,255,0.85)'],
+      ['SWR · 150-250 Hz', 40, 'rgba(255,221,120,0.9)'],
+    ];
+    for (const [text, y, color] of labs) {
+      const tx = document.createElementNS(svgNS, 'text');
+      tx.setAttribute('x', 96); tx.setAttribute('y', y);
+      tx.setAttribute('font-family', 'JetBrains Mono');
+      tx.setAttribute('font-size', 3);
+      tx.setAttribute('fill', color);
+      tx.setAttribute('text-anchor', 'end');
+      tx.setAttribute('letter-spacing', 0.15);
+      tx.textContent = text;
+      svg.appendChild(tx);
+    }
+    scene.appendChild(svg);
+
+    // Bottom label
+    const lab = document.createElement('div');
+    lab.style.cssText = 'position:absolute;left:8px;bottom:4px;font-family:JetBrains Mono;font-size:8.5px;color:rgba(255,221,120,0.85);letter-spacing:0.15em;font-weight:500;';
+    lab.textContent = 'SO → SPINDLE → RIPPLE COUPLING';
+    scene.appendChild(lab);
+    return;
+  }
+
+  if (kind === 'recon') {
+    // Reconsolidation: retrieved memory destabilizes → modified pattern injected → restabilizes
+    scene.style.background = 'linear-gradient(135deg, #e8dcc0 0%, #f0e4c8 100%)';
+
+    // Timeline track background
+    const track = document.createElement('div');
+    track.style.cssText = 'position:absolute;left:6%;right:6%;top:48%;height:2px;background:linear-gradient(to right,rgba(100,140,180,0.5) 0%,rgba(120,100,80,0.6) 50%,rgba(214,74,10,0.7) 100%);';
+    scene.appendChild(track);
+
+    // 3-stage visualization: retrieve → labile → modified
+    const stages = [
+      { x: 14, color: 'rgba(60,110,170,0.9)',  fill: 'rgba(60,110,170,0.22)', lab: 'RETRIEVE', state: 'stable' },
+      { x: 46, color: 'rgba(160,120,80,0.9)',  fill: 'rgba(160,120,80,0.22)',  lab: 'LABILE',   state: 'flux' },
+      { x: 78, color: 'rgba(214,74,10,0.95)',  fill: 'rgba(214,74,10,0.22)',  lab: 'MODIFIED', state: 'stable' },
+    ];
+    stages.forEach((s, i) => {
+      const box = document.createElement('div');
+      box.style.cssText = `position:absolute;left:${s.x}%;top:15%;width:16%;height:55%;background:${s.fill};border:1.5px solid ${s.color};`;
+      if (s.state === 'flux') {
+        box.style.animation = 'pulse 1.2s infinite';
+        box.style.borderStyle = 'dashed';
+      }
+      scene.appendChild(box);
+
+      const lab = document.createElement('div');
+      lab.style.cssText = `position:absolute;left:${s.x}%;top:8%;width:16%;text-align:center;font-family:JetBrains Mono;font-size:7.5px;letter-spacing:0.12em;color:${s.color};font-weight:600;`;
+      lab.textContent = s.lab;
+      scene.appendChild(lab);
+
+      // Timeline node
+      const node = document.createElement('div');
+      node.style.cssText = `position:absolute;left:${s.x + 8}%;top:48%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:${s.color};box-shadow:0 0 6px ${s.color};animation:pulse 2s ${i * 0.4}s infinite;`;
+      scene.appendChild(node);
+
+      // Dots inside each box representing engram pattern
+      for (let d = 0; d < 6; d++) {
+        const dot = document.createElement('div');
+        const dx = s.x + 2 + (d % 3) * 4;
+        const dy = 22 + Math.floor(d / 3) * 14;
+        const filled = (s.state === 'flux') ? (d % 2 === i % 2) : true;
+        dot.style.cssText = `position:absolute;left:${dx}%;top:${dy}%;width:3px;height:3px;margin:-1.5px;border-radius:50%;background:${filled ? s.color : 'transparent'};border:1px solid ${s.color};`;
+        scene.appendChild(dot);
+      }
     });
-    hit.addEventListener('click', () => {
-      const a = activityFor(vx, 'pred', compo);
-      state.voxel = {
-        id: vx.region.toUpperCase() + ' · ' + (Math.abs(Math.floor(vx.x * 3 + vx.y)) % 100),
-        x: Math.round((vx.x - 300) * 0.23),
-        y: Math.round((vx.y - 300) * 0.20),
-        z: Math.round(Math.sin(vx.x * 0.015) * 30),
-        r: (0.38 + a * 0.48).toFixed(2),
-      };
-      updateReadout();
-    });
-    clickGroup.appendChild(hit);
-  });
-  svg.appendChild(clickGroup);
 
-  // Region labels with pointer lines
-  for (const L of shape.labels) {
-    const txt = el('text', {
-      x: L.x, y: L.y,
-      'font-family': 'JetBrains Mono',
-      'font-size': '8.5',
-      fill: '#787470',
-      'letter-spacing': '0.8',
-      'text-anchor': 'middle',
-    });
-    txt.textContent = L.t;
-    svg.appendChild(txt);
+    // Arrow chevrons between stages
+    const ch1 = document.createElement('div');
+    ch1.style.cssText = 'position:absolute;left:32%;top:47%;color:rgba(120,100,80,0.7);font-family:JetBrains Mono;font-size:12px;';
+    ch1.textContent = '→';
+    scene.appendChild(ch1);
+    const ch2 = document.createElement('div');
+    ch2.style.cssText = 'position:absolute;left:64%;top:47%;color:rgba(214,74,10,0.8);font-family:JetBrains Mono;font-size:12px;';
+    ch2.textContent = '→';
+    scene.appendChild(ch2);
+
+    // Bottom label
+    const lab = document.createElement('div');
+    lab.style.cssText = 'position:absolute;left:8px;bottom:4px;font-family:JetBrains Mono;font-size:8.5px;color:rgba(100,80,50,0.85);letter-spacing:0.15em;font-weight:500;';
+    lab.textContent = 'LABILITY WINDOW · 6 hr · AMPAR INTERNALIZATION';
+    scene.appendChild(lab);
+    return;
   }
 
-  // HUD
-  const hud = el('text', {
-    x: 16, y: 26, 'font-family': 'JetBrains Mono',
-    'font-size': '9.5', fill: '#d64a0a', 'letter-spacing': '0.8',
-  });
-  hud.textContent = (state.view === 'pred' ? 'PREDICTED' :
-                     state.view === 'true' ? 'MEASURED'  : 'SIGNED DIFF') +
-                    ' · ' + state.slice.toUpperCase() + ' · ' +
-                    (state.surface === 'inflated' ? 'INFLATED' : 'NORMAL');
-  svg.appendChild(hud);
+  if (kind === 'grid') {
+    // Grid-cell hexagonal firing field (entorhinal) with agent trajectory
+    scene.style.background = 'linear-gradient(135deg, #f7efd8 0%, #ede1c0 100%)';
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 60');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
 
-  const hud2 = el('text', {
-    x: 584, y: 26, 'font-family': 'JetBrains Mono',
-    'font-size': '9.5', fill: '#9a968c', 'letter-spacing': '0.8',
-    'text-anchor': 'end',
-  });
-  hud2.textContent = 't = ' + (state.time / 100).toFixed(2) + 's  k=' + voxels.length;
-  svg.appendChild(hud2);
+    // Hexagonal firing field with Gaussian-like blobs
+    const defs = document.createElementNS(svgNS, 'defs');
+    defs.innerHTML = `
+      <radialGradient id="gc-fire" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="rgba(214,74,10,0.95)"/>
+        <stop offset="55%" stop-color="rgba(214,74,10,0.45)"/>
+        <stop offset="100%" stop-color="rgba(214,74,10,0)"/>
+      </radialGradient>`;
+    svg.appendChild(defs);
 
-  // Crosshair on last selected voxel (nearest)
-  const selVx = voxels.reduce((best, vx) => {
-    const mnix = Math.round((vx.x - 300) * 0.23);
-    const mniy = Math.round((vx.y - 300) * 0.20);
-    const d = Math.abs(mnix - state.voxel.x) + Math.abs(mniy - state.voxel.y);
-    return d < best.d ? { d, vx } : best;
-  }, { d: Infinity, vx: null }).vx;
+    // Grid cell vertices — hexagonal lattice
+    const spacing = 14;
+    const hexH = spacing * Math.sqrt(3) / 2;
+    for (let r = 0; r < 6; r++) {
+      for (let c = 0; c < 10; c++) {
+        const cx = c * spacing / 1.7 + (r % 2) * (spacing / 3.4) + 4;
+        const cy = r * hexH / 1.6 + 4;
+        if (cx > 98 || cy > 56) continue;
+        const circ = document.createElementNS(svgNS, 'circle');
+        circ.setAttribute('cx', cx);
+        circ.setAttribute('cy', cy);
+        circ.setAttribute('r', 3.2);
+        circ.setAttribute('fill', 'url(#gc-fire)');
+        circ.innerHTML = `<animate attributeName="opacity" values="0.35;1;0.35" dur="${2 + (r + c) % 3 * 0.3}s" begin="${((r * 10) + c) * 0.08}s" repeatCount="indefinite"/>`;
+        svg.appendChild(circ);
+      }
+    }
 
-  if (selVx) {
-    const xh = el('g', { stroke: '#d64a0a', fill: 'none', 'stroke-width': '1' });
-    xh.appendChild(el('circle', { cx: selVx.x, cy: selVx.y, r: 14, 'stroke-dasharray': '3 3' }));
-    xh.appendChild(el('line', { x1: selVx.x - 20, y1: selVx.y, x2: selVx.x + 20, y2: selVx.y, 'stroke-width': '0.6' }));
-    xh.appendChild(el('line', { x1: selVx.x, y1: selVx.y - 20, x2: selVx.x, y2: selVx.y + 20, 'stroke-width': '0.6' }));
-    svg.appendChild(xh);
+    // Connecting lattice lines (subtle hexagonal geometry reminder)
+    for (let r = 0; r < 5; r++) {
+      for (let c = 0; c < 9; c++) {
+        const cx = c * spacing / 1.7 + (r % 2) * (spacing / 3.4) + 4;
+        const cy = r * hexH / 1.6 + 4;
+        const cx2 = (c + 1) * spacing / 1.7 + (r % 2) * (spacing / 3.4) + 4;
+        if (cx2 > 98) continue;
+        const ln = document.createElementNS(svgNS, 'line');
+        ln.setAttribute('x1', cx); ln.setAttribute('y1', cy);
+        ln.setAttribute('x2', cx2); ln.setAttribute('y2', cy);
+        ln.setAttribute('stroke', 'rgba(180,160,130,0.3)');
+        ln.setAttribute('stroke-width', 0.25);
+        svg.appendChild(ln);
+      }
+    }
+
+    // Agent trajectory (winding path through memory palace)
+    const path = document.createElementNS(svgNS, 'path');
+    path.setAttribute('d', 'M 6 10 C 22 24, 40 10, 50 24 S 70 48, 94 46');
+    path.setAttribute('stroke', 'rgba(40,40,50,0.7)');
+    path.setAttribute('stroke-width', 0.7);
+    path.setAttribute('stroke-dasharray', '2.5 1.5');
+    path.setAttribute('fill', 'none');
+    svg.appendChild(path);
+
+    // Agent marker (moving dot)
+    const agent = document.createElementNS(svgNS, 'circle');
+    agent.setAttribute('r', 2);
+    agent.setAttribute('fill', '#d64a0a');
+    agent.setAttribute('stroke', '#fff');
+    agent.setAttribute('stroke-width', 0.5);
+    agent.innerHTML = `<animateMotion dur="6s" repeatCount="indefinite" path="M 6 10 C 22 24, 40 10, 50 24 S 70 48, 94 46"/>`;
+    svg.appendChild(agent);
+
+    scene.appendChild(svg);
+
+    // Label
+    const lab = document.createElement('div');
+    lab.style.cssText = 'position:absolute;left:8px;bottom:4px;font-family:JetBrains Mono;font-size:8.5px;color:rgba(100,80,50,0.85);letter-spacing:0.15em;font-weight:500;';
+    lab.textContent = 'ENTORHINAL GRID · 6-FOLD TOROIDAL';
+    scene.appendChild(lab);
+    return;
   }
 
-  // Update diff legend
-  const strip = document.getElementById('heat-strip');
-  const hlabel = document.getElementById('heat-label');
-  if (state.view === 'diff') {
-    strip.className = 'heat-strip diff';
-    hlabel.textContent = '← TRUE  PRED →';
-  } else {
-    strip.className = 'heat-strip';
-    hlabel.textContent = 'HIGH · BOLD';
-  }
-}
+  if (kind === 'phase') {
+    // Phase precession: theta cycles + spikes firing at progressively earlier phases
+    scene.style.background = 'linear-gradient(180deg, #0a1020 0%, #16243c 100%)';
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 60');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
 
-function updateReadout() {
-  document.getElementById('voxel-id').textContent = state.voxel.id;
-  document.getElementById('voxel-coord').textContent =
-    `MNI ( ${state.voxel.x}, ${state.voxel.y}, ${state.voxel.z} )`;
-  document.getElementById('voxel-r').textContent = state.voxel.r;
+    // Subtle grid
+    for (let y = 10; y <= 50; y += 10) {
+      const g = document.createElementNS(svgNS, 'line');
+      g.setAttribute('x1', 0); g.setAttribute('y1', y);
+      g.setAttribute('x2', 100); g.setAttribute('y2', y);
+      g.setAttribute('stroke', 'rgba(120,150,190,0.1)');
+      g.setAttribute('stroke-width', 0.3);
+      svg.appendChild(g);
+    }
 
-  const svg = document.getElementById('voxel-trace');
-  svg.innerHTML = '';
-  const W = 600, H = 54, N = 80;
-  const pred = [], truth = [];
-  for (let i = 0; i < N; i++) {
-    const p = (i / N) * Math.PI * 4;
-    const base = 26 + Math.sin(p) * 13 + Math.sin(p * 2.3) * 5;
-    pred.push(base + Math.sin(i * 0.7) * 2.5);
-    truth.push(base + Math.sin(i * 0.7) * 2.5 + (Math.random() - 0.5) * 5.5);
+    // Theta wave (8 Hz) — sinusoidal backbone
+    let thetaPath = 'M 0 30';
+    for (let x = 0; x <= 100; x += 0.5) {
+      const y = 30 + Math.sin(x * 0.4) * 14;
+      thetaPath += ` L ${x} ${y}`;
+    }
+    const theta = document.createElementNS(svgNS, 'path');
+    theta.setAttribute('d', thetaPath);
+    theta.setAttribute('stroke', 'rgba(140,180,220,0.6)');
+    theta.setAttribute('stroke-width', 0.6);
+    theta.setAttribute('fill', 'none');
+    svg.appendChild(theta);
+
+    // Place cell spikes — phase advances (precesses) with each cycle
+    // As animal crosses place field, spikes fire at earlier theta phases
+    const cycles = 5;
+    for (let cyc = 0; cyc < cycles; cyc++) {
+      const spikesInCyc = 4;
+      for (let s = 0; s < spikesInCyc; s++) {
+        const cycleStart = cyc * 20;
+        // Phase precession: each spike fires earlier than the previous
+        const phaseOffset = (s / spikesInCyc) * 15 - cyc * 0.8;
+        const x = cycleStart + 3 + s * 3.5 - phaseOffset * 0.3;
+        const yWave = 30 + Math.sin(x * 0.4) * 14;
+        // Spike glyph: vertical line with glow
+        const spike = document.createElementNS(svgNS, 'line');
+        spike.setAttribute('x1', x); spike.setAttribute('y1', yWave - 4);
+        spike.setAttribute('x2', x); spike.setAttribute('y2', yWave + 4);
+        spike.setAttribute('stroke', '#ffdc7a');
+        spike.setAttribute('stroke-width', 1.1);
+        spike.setAttribute('stroke-linecap', 'round');
+        spike.setAttribute('filter', 'drop-shadow(0 0 1.5px rgba(255,220,120,0.9))');
+        spike.innerHTML = `<animate attributeName="opacity" values="0;1;0" dur="2s" begin="${(cyc * spikesInCyc + s) * 0.12}s" repeatCount="indefinite"/>`;
+        svg.appendChild(spike);
+      }
+    }
+
+    // Phase indicator arc at right edge (shows theta-cycle phase clock)
+    const clock = document.createElementNS(svgNS, 'g');
+    clock.innerHTML = `
+      <circle cx="92" cy="10" r="5" fill="none" stroke="rgba(180,200,230,0.4)" stroke-width="0.4"/>
+      <line x1="92" y1="10" x2="94" y2="7" stroke="#ffdc7a" stroke-width="0.7" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" from="0 92 10" to="-360 92 10" dur="2s" repeatCount="indefinite"/>
+      </line>`;
+    svg.appendChild(clock);
+
+    scene.appendChild(svg);
+
+    // Axis labels
+    const lab = document.createElement('div');
+    lab.style.cssText = 'position:absolute;left:8px;bottom:4px;font-family:JetBrains Mono;font-size:8.5px;color:rgba(255,220,120,0.85);letter-spacing:0.15em;font-weight:500;';
+    lab.textContent = 'θ PHASE PRECESSION · 360° → 0°';
+    scene.appendChild(lab);
+    const pos = document.createElement('div');
+    pos.style.cssText = 'position:absolute;right:8px;top:6px;font-family:JetBrains Mono;font-size:8px;color:rgba(180,200,230,0.6);letter-spacing:0.12em;';
+    pos.textContent = 'POS →';
+    scene.appendChild(pos);
+    return;
   }
-  const NS = 'http://www.w3.org/2000/svg';
-  const mkPath = (data, stroke, dash) => {
-    const p = document.createElementNS(NS, 'path');
-    const d = data.map((v, i) => `${i === 0 ? 'M' : 'L'} ${(i / (N-1)) * W} ${H - v}`).join(' ');
-    p.setAttribute('d', d); p.setAttribute('stroke', stroke);
-    p.setAttribute('fill', 'none'); p.setAttribute('stroke-width', '1');
-    if (dash) p.setAttribute('stroke-dasharray', dash);
-    return p;
-  };
-  svg.appendChild(mkPath(truth, '#6a6a66'));
-  svg.appendChild(mkPath(pred, '#d64a0a'));
-  const lg = document.createElementNS(NS, 'g');
-  lg.innerHTML = `
-    <text x="4" y="12" font-family="JetBrains Mono" font-size="9" fill="#6a6a66" letter-spacing="1">TRUE</text>
-    <line x1="38" y1="9" x2="52" y2="9" stroke="#6a6a66" stroke-width="1"/>
-    <text x="60" y="12" font-family="JetBrains Mono" font-size="9" fill="#d64a0a" letter-spacing="1">PRED</text>
-    <line x1="94" y1="9" x2="108" y2="9" stroke="#d64a0a" stroke-width="1"/>`;
-  svg.appendChild(lg);
 }
 
 // ================================================================
@@ -1174,28 +2834,61 @@ function updateReadout() {
 // ================================================================
 document.querySelectorAll('.bcbtn').forEach(b => {
   b.onclick = () => {
-    const opt = b.dataset.opt, v = b.dataset.v;
-    state[opt] = v;
-    document.querySelectorAll(`.bcbtn[data-opt="${opt}"]`).forEach(x =>
-      x.classList.toggle('active', x.dataset.v === v));
-    // Invalidate voxel cache on slice change
-    if (opt === 'slice') { _voxelCache = null; _voxelSlice = null; }
-    renderBrain();
-    if (opt === 'view') {
-      document.getElementById('brain-title').textContent =
-        state.view === 'pred' ? 'Predicted brain activity' :
-        state.view === 'true' ? 'Measured brain activity (fMRI)' :
-        'Prediction error (pred − true, signed)';
+    const opt = b.dataset.opt;
+    if (!opt) return;
+
+    // Toggle buttons (atlas, labels)
+    if (b.classList.contains('toggle')) {
+      state[opt] = !state[opt];
+      b.classList.toggle('active', state[opt]);
+      renderBrain();
+      return;
     }
+
+    const v = b.dataset.v;
+    state[opt] = v;
+    document.querySelectorAll(`.bcbtn[data-opt="${opt}"]:not(.toggle)`).forEach(x =>
+      x.classList.toggle('active', x.dataset.v === v));
+
+    if (opt === 'slice') {
+      document.querySelectorAll('.view-nav .mvi').forEach(mv =>
+        mv.classList.toggle('active', mv.dataset.slice === v));
+      document.querySelector('.brain-head .subt').innerHTML =
+        `${v} · 286k voxels · bold · t = <span id="t-sec">${(state.time/100).toFixed(2)}</span>s`;
+    }
+    renderBrain();
   };
 });
 
-['sel-subject', 'sel-stim'].forEach(id =>
-  document.getElementById(id).addEventListener('change', () => { updateStimMeta(); renderBrain(); }));
+// Mini-view click → switch main slice
+document.querySelectorAll('.view-nav .mvi').forEach(mv => {
+  mv.onclick = () => {
+    const slice = mv.dataset.slice;
+    state.slice = slice;
+    document.querySelectorAll('.view-nav .mvi').forEach(x => x.classList.toggle('active', x === mv));
+    document.querySelectorAll('.bcbtn[data-opt="slice"]').forEach(x =>
+      x.classList.toggle('active', x.dataset.v === slice));
+    document.querySelector('.brain-head .subt').innerHTML =
+      `${slice} · 286k voxels · bold · t = <span id="t-sec">${(state.time/100).toFixed(2)}</span>s`;
+    renderBrain();
+  };
+});
 
+// Set labels toggle on by default (visual indicator)
+document.querySelector('.bcbtn.toggle[data-opt="labels"]').classList.add('active');
+
+// Selectors
+['sel-subject', 'sel-stim'].forEach(id =>
+  document.getElementById(id).addEventListener('change', () => {
+    updateStimMeta();
+    renderBrain();
+  }));
+
+// Time slider
 document.getElementById('sel-time').addEventListener('input', e => {
   state.time = +e.target.value;
-  document.getElementById('t-sec').textContent = (state.time / 100).toFixed(2);
+  const secEl = document.getElementById('t-sec');
+  if (secEl) secEl.textContent = (state.time / 100).toFixed(2);
   document.getElementById('time-hud').textContent = (state.time / 100).toFixed(2) + 's';
 
   const toks = document.querySelectorAll('#text-transcript .tok');
@@ -1204,6 +2897,7 @@ document.getElementById('sel-time').addEventListener('input', e => {
   renderBrain();
 });
 
+// Tabs
 document.querySelectorAll('#tabs [data-tab]').forEach(b => {
   b.onclick = () => {
     document.querySelectorAll('#tabs [data-tab]').forEach(x => x.classList.toggle('active', x === b));
@@ -1212,6 +2906,7 @@ document.querySelectorAll('#tabs [data-tab]').forEach(b => {
   };
 });
 
+// Example cards
 document.querySelectorAll('.ex-card').forEach((c, i) => {
   c.onclick = () => {
     document.querySelectorAll('.ex-card').forEach(x => x.classList.remove('active'));
@@ -1222,20 +2917,110 @@ document.querySelectorAll('.ex-card').forEach((c, i) => {
   };
 });
 
-// Initial render
+// ================================================================
+// Initial render + animation loop
+// ================================================================
 updateStimMeta();
 renderBrain();
 updateReadout();
 document.getElementById('sel-time').dispatchEvent(new Event('input'));
+initThreeBrain();
 
-// Auto-advance
+// ================================================================
+// Keyboard shortcuts — scanner-viewer style controls
+// ================================================================
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+  const map = { '1': 'coronal', '2': 'sagittal', '3': 'axial' };
+  if (map[e.key]) {
+    state.slice = map[e.key];
+    document.querySelectorAll('.bcbtn[data-opt="slice"]').forEach(b =>
+      b.classList.toggle('active', b.dataset.v === state.slice));
+    document.querySelectorAll('.view-nav .mvi').forEach(m =>
+      m.classList.toggle('active', m.dataset.slice === state.slice));
+    document.querySelector('.brain-head .subt').innerHTML =
+      `${state.slice} · 286k voxels · bold · t = <span id="t-sec">${(state.time/100).toFixed(2)}</span>s`;
+    renderBrain();
+  }
+  if (e.key === 'v' || e.key === 'V') {
+    const views = ['pred', 'true', 'diff'];
+    state.view = views[(views.indexOf(state.view) + 1) % 3];
+    document.querySelectorAll('.bcbtn[data-opt="view"]').forEach(b =>
+      b.classList.toggle('active', b.dataset.v === state.view));
+    renderBrain();
+  }
+  if (e.key === 's' || e.key === 'S') {
+    const surfs = ['normal', 'inflated', 'glass'];
+    state.surface = surfs[(surfs.indexOf(state.surface) + 1) % 3];
+    document.querySelectorAll('.bcbtn[data-opt="surface"]').forEach(b =>
+      b.classList.toggle('active', b.dataset.v === state.surface));
+    renderBrain();
+  }
+  if (e.key === ' ') { e.preventDefault(); autoPlay = !autoPlay; }
+  if (e.key === 'a' || e.key === 'A') {
+    state.atlas = !state.atlas;
+    document.querySelector('.bcbtn.toggle[data-opt="atlas"]').classList.toggle('active', state.atlas);
+    renderBrain();
+  }
+});
+
 let autoPlay = true;
-setInterval(() => {
-  if (!autoPlay) return;
-  const s = document.getElementById('sel-time');
-  let v = +s.value + 3; if (v > 900) v = 0;
-  s.value = v; s.dispatchEvent(new Event('input'));
-}, 80);
+let _lastFrameTime = 0;
+const FRAME_INTERVAL = 45;
+
+function tick(now) {
+  // BOLD + 2D panel updates (throttled)
+  if (now - _lastFrameTime >= FRAME_INTERVAL) {
+    _lastFrameTime = now;
+    state.frame++;
+
+    if (autoPlay) {
+      if (state.frame % 2 === 0) {
+        const slider = document.getElementById('sel-time');
+        let v = +slider.value + 3;
+        if (v > 900) v = 0;
+        slider.value = v;
+        state.time = v;
+        const secEl = document.getElementById('t-sec');
+        if (secEl) secEl.textContent = (state.time / 100).toFixed(2);
+        document.getElementById('time-hud').textContent = (state.time / 100).toFixed(2) + 's';
+        const toks = document.querySelectorAll('#text-transcript .tok');
+        toks.forEach((t, i) => t.classList.toggle('active', i === Math.floor((state.time / 900) * toks.length)));
+      }
+      if (state.frame % 3 === 0) updateTraceMarker();
+    }
+
+    renderFrame();
+  }
+
+  // Three.js render — every frame for smooth rotation
+  if (_three) {
+    const t = _three;
+    const idleSince = now - t.lastInteract;
+
+    // Auto-rotate Y when playing and idle (no user interaction for 1.5s)
+    if (autoPlay && idleSince > 1500 && !t.snapActive) {
+      t.brainGroup.rotation.y += 0.004;
+    }
+
+    // Lerp toward snap target
+    if (t.snapActive) {
+      t.brainGroup.rotation.x += (t.targetRot.x - t.brainGroup.rotation.x) * 0.10;
+      const dy = t.targetRot.y - t.brainGroup.rotation.y;
+      // Shortest path wrap
+      const wrapped = ((dy + Math.PI) % (2 * Math.PI)) - Math.PI;
+      t.brainGroup.rotation.y += wrapped * 0.10;
+      if (Math.abs(t.targetRot.x - t.brainGroup.rotation.x) < 0.001 &&
+          Math.abs(wrapped) < 0.001) t.snapActive = false;
+    }
+
+    t.renderer.render(t.scene, t.camera);
+    if (state.labels) updateBrainLabels();
+  }
+
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
 </script>
 </body>
 </html>
