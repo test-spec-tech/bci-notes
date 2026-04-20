@@ -27,14 +27,11 @@
   .topbar nav a.active { color: var(--hot-0); border-bottom: 1px solid var(--hot-0); padding-bottom: 3px; }
 
   /* === MODE SWITCH === */
-  .modes {
-    display: flex; gap: 0; border: 1px solid var(--line-2);
-  }
+  .modes { display: flex; gap: 0; border: 1px solid var(--line-2); }
   .modes button {
     padding: 8px 14px; border: none; background: transparent;
     font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--fg-2); cursor: pointer;
-    border-right: 1px solid var(--line-2);
+    color: var(--fg-2); cursor: pointer; border-right: 1px solid var(--line-2);
   }
   .modes button:last-child { border-right: 0; }
   .modes button.active { background: var(--fg-0); color: var(--bg-0); }
@@ -42,7 +39,7 @@
   /* === MAIN LAYOUT === */
   main {
     flex: 1; display: grid;
-    grid-template-columns: 280px 1fr 320px;
+    grid-template-columns: 288px 1fr 328px;
     min-height: 0;
   }
   aside.left, aside.right {
@@ -58,24 +55,37 @@
     letter-spacing: 0.2em; text-transform: uppercase;
     margin: 0 0 12px; padding-bottom: 8px;
     border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
   }
-  aside h6:not(:first-child) { margin-top: 24px; }
+  aside h6:not(:first-child) { margin-top: 22px; }
+  aside h6 .tag {
+    font-size: 8px; color: var(--fg-4); letter-spacing: 0.15em;
+    border: 1px solid var(--line); padding: 1px 5px; font-weight: 400;
+  }
 
   /* === CANVAS === */
   .canvas-wrap {
     position: relative; overflow: hidden;
     background: var(--bg-0);
-    background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px);
-    background-size: 20px 20px;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(214,74,10,0.025) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(14,124,112,0.02) 0%, transparent 45%),
+      radial-gradient(circle, rgba(0,0,0,0.055) 0.8px, transparent 0.8px);
+    background-size: auto, auto, 18px 18px;
   }
-  #flow-svg { width: 100%; height: 100%; }
+  .canvas-wrap::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0 1px, transparent 1px 6px);
+    z-index: 0;
+  }
+  #flow-svg { width: 100%; height: 100%; position: relative; z-index: 1; }
 
   /* === BOTTOM TIMELINE === */
   .timeline {
     flex-shrink: 0;
     border-top: 1px solid var(--line);
     background: var(--bg-1);
-    padding: 16px 24px;
+    padding: 14px 24px;
     display: flex; align-items: center; gap: 20px;
   }
   .timeline .play {
@@ -93,10 +103,9 @@
   }
   .timeline .track .fill {
     height: 100%; background: var(--hot-0); transition: width 0.15s linear;
+    box-shadow: 0 0 6px rgba(214,74,10,0.3);
   }
-  .timeline .marks {
-    position: absolute; inset: 0; display: flex;
-  }
+  .timeline .marks { position: absolute; inset: 0; display: flex; }
   .timeline .mark {
     flex: 1; border-left: 1px solid var(--line);
     font-family: var(--f-mono); font-size: 9px; color: var(--fg-3);
@@ -110,144 +119,370 @@
     border: 1px solid var(--line-2); background: var(--bg-1); transform: translate(-5px, -5px);
     border-radius: 50%;
   }
-  .timeline .mark.active::before { background: var(--hot-0); border-color: var(--hot-0); }
+  .timeline .mark.active::before {
+    background: var(--hot-0); border-color: var(--hot-0);
+    box-shadow: 0 0 0 3px rgba(214,74,10,0.15);
+  }
   .timeline .mark.done::before { background: var(--fg-2); border-color: var(--fg-2); }
   .timeline .clock {
-    font-family: var(--f-mono); font-size: 11px; color: var(--fg-0); width: 100px; text-align: right;
+    font-family: var(--f-mono); font-size: 11px; color: var(--fg-0); width: 120px; text-align: right;
+    font-variant-numeric: tabular-nums;
   }
+  .timeline .clock .lab { color: var(--fg-3); letter-spacing: 0.08em; margin-right: 6px; }
 
   /* === LEFT PANEL · inputs === */
   .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
   .field label {
     font-family: var(--f-mono); font-size: 10px; color: var(--fg-3);
     letter-spacing: 0.08em; text-transform: uppercase;
+    display: flex; justify-content: space-between;
   }
+  .field label .hint { color: var(--fg-4); text-transform: none; letter-spacing: 0.02em; }
   .field input, .field select, .field textarea {
     background: var(--bg-2); border: 1px solid var(--line-2);
     color: var(--fg-0); font-family: var(--f-mono); font-size: 12px;
     padding: 8px 10px; width: 100%;
   }
-  .field input:focus, .field textarea:focus { outline: none; border-color: var(--hot-0); }
+  .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--hot-0); }
   .field textarea { resize: vertical; min-height: 60px; line-height: 1.4; }
 
-  .lib {
-    display: flex; flex-direction: column; gap: 4px;
-  }
+  .lib { display: flex; flex-direction: column; gap: 4px; }
   .lib .item {
     padding: 8px 10px; border: 1px solid var(--line);
     font-family: var(--f-mono); font-size: 11px; color: var(--fg-1);
     cursor: pointer; display: flex; justify-content: space-between;
+    transition: all 0.15s;
   }
   .lib .item:hover { border-color: var(--line-2); background: var(--bg-2); }
-  .lib .item.selected { border-color: var(--hot-0); background: rgba(214,74,10,0.06); color: var(--hot-0); }
+  .lib .item.selected {
+    border-color: var(--hot-0); background: rgba(214,74,10,0.06); color: var(--hot-0);
+    box-shadow: inset 3px 0 0 var(--hot-0);
+  }
   .lib .item .tag { color: var(--fg-3); font-size: 9px; }
+  .lib .item.selected .tag { color: var(--hot-1); }
 
   .btn-run {
     width: 100%; padding: 12px; margin-top: 8px;
     background: var(--fg-0); border: 1px solid var(--fg-0); color: var(--bg-0);
-    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
-    cursor: pointer;
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
   }
-  .btn-run:hover { background: var(--hot-0); border-color: var(--hot-0); }
+  .btn-run:hover { background: var(--hot-0); border-color: var(--hot-0); letter-spacing: 0.14em; }
+  .btn-run .marker {
+    display: inline-block; width: 8px; height: 8px; background: var(--hot-0);
+    box-shadow: 0 0 0 2px rgba(214,74,10,0.2);
+  }
   .btn-run.secondary { background: transparent; color: var(--fg-0); }
-  .btn-run.secondary:hover { background: var(--bg-2); color: var(--hot-0); }
+  .btn-run.secondary:hover { background: var(--bg-2); color: var(--hot-0); border-color: var(--hot-0); }
+  .btn-run.secondary .marker { background: var(--fg-3); box-shadow: none; }
 
   /* === RIGHT PANEL · telemetry === */
-  .meter {
-    display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px;
-  }
+  .meter { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
   .meter .mn {
     display: flex; justify-content: space-between; font-family: var(--f-mono);
-    font-size: 10px; letter-spacing: 0.05em;
+    font-size: 10px; letter-spacing: 0.05em; font-variant-numeric: tabular-nums;
   }
-  .meter .mn .k { color: var(--fg-3); }
+  .meter .mn .k { color: var(--fg-3); letter-spacing: 0.1em; text-transform: uppercase; font-size: 9px; }
   .meter .mn .v { color: var(--fg-0); }
-  .meter .bar { height: 4px; background: var(--bg-3); position: relative; }
+  .meter .bar {
+    height: 4px; background: var(--bg-3); position: relative; overflow: hidden;
+  }
+  .meter .bar::after {
+    content: ''; position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(90deg, transparent 0 20px, rgba(0,0,0,0.06) 20px 21px);
+    pointer-events: none;
+  }
   .meter .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--hot-0); transition: width 0.25s; }
   .meter.cool .bar i { background: var(--cool-0); }
   .meter.ok .bar i { background: var(--signal); }
 
+  /* Region activity bars */
+  .rbars { display: flex; flex-direction: column; gap: 5px; }
+  .rbar {
+    display: grid; grid-template-columns: 56px 1fr 34px;
+    gap: 8px; align-items: center;
+    font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+  .rbar .rk { color: var(--fg-3); letter-spacing: 0.1em; text-transform: uppercase; }
+  .rbar .rv {
+    height: 3px; background: var(--bg-3); position: relative; overflow: hidden;
+  }
+  .rbar .rv i {
+    position: absolute; top: 0; bottom: 0; left: 0; background: var(--fg-2);
+    transition: width 0.25s, background 0.15s;
+  }
+  .rbar.active .rk { color: var(--hot-0); }
+  .rbar.active .rv i { background: var(--hot-0); box-shadow: 0 0 5px rgba(214,74,10,0.4); }
+  .rbar .rn { color: var(--fg-1); text-align: right; }
+  .rbar.active .rn { color: var(--hot-0); }
+
   .log {
     background: var(--bg-2); border: 1px solid var(--line);
     padding: 10px; font-family: var(--f-mono); font-size: 10px;
-    line-height: 1.6; max-height: 260px; overflow-y: auto;
+    line-height: 1.55; max-height: 220px; overflow-y: auto;
     color: var(--fg-1); letter-spacing: 0.02em;
   }
-  .log .ln { display: grid; grid-template-columns: 46px 14px 1fr; gap: 6px; }
-  .log .ln .t { color: var(--fg-3); }
-  .log .ln .lv { color: var(--hot-0); font-weight: 500; }
+  .log .ln { display: grid; grid-template-columns: 52px 30px 1fr; gap: 6px; }
+  .log .ln .t { color: var(--fg-3); font-variant-numeric: tabular-nums; }
+  .log .ln .lv { color: var(--hot-0); font-weight: 500; letter-spacing: 0.05em; }
   .log .ln.info .lv { color: var(--cool-0); }
   .log .ln.ok .lv { color: var(--signal); }
   .log .ln.warn .lv { color: var(--warn); }
+  .log .ln.fade { opacity: 0.55; }
 
   /* === FLOW NODES === */
   .flow-node {
     fill: var(--bg-1); stroke: var(--line-2); stroke-width: 1;
-    transition: all 0.3s;
+    transition: stroke 0.3s, filter 0.3s;
   }
-  .flow-node.active { stroke: var(--hot-0); stroke-width: 1.5; filter: drop-shadow(0 0 6px rgba(214,74,10,0.35)); }
-  .flow-node.done { stroke: var(--fg-2); }
+  .flow-node.done { stroke: var(--fg-2); opacity: 0.92; }
+  .flow-node.active {
+    stroke: var(--hot-0); stroke-width: 1.5;
+    filter: drop-shadow(0 0 10px rgba(214,74,10,0.3));
+  }
+
+  .node-corner {
+    stroke: var(--hot-0); stroke-width: 1.4; fill: none;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  g.active .node-corner { opacity: 1; }
+
+  .node-divider { stroke: var(--line); stroke-width: 0.5; }
+  g.active .node-divider { stroke: rgba(214,74,10,0.25); }
 
   .node-label {
-    font-family: var(--f-mono); font-size: 10px; fill: var(--fg-2);
-    letter-spacing: 0.05em; text-transform: uppercase;
+    font-family: var(--f-mono); font-size: 9px; fill: var(--fg-3);
+    letter-spacing: 0.15em; text-transform: uppercase;
   }
+  .node-label.node-active-label { fill: var(--hot-0); }
+  .node-idx {
+    font-family: var(--f-mono); font-size: 9px; fill: var(--fg-4);
+    letter-spacing: 0.1em;
+  }
+  g.active .node-idx { fill: var(--hot-0); }
   .node-title {
-    font-family: 'Instrument Serif', serif; font-size: 18px; fill: var(--fg-0);
+    font-family: 'Instrument Serif', serif; font-size: 19px; fill: var(--fg-0);
+    letter-spacing: -0.005em;
   }
-  .node-active-label { fill: var(--hot-0); }
   .node-sub {
     font-family: var(--f-mono); font-size: 9px; fill: var(--fg-3);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
   }
 
-  .edge {
-    fill: none; stroke: var(--line-2); stroke-width: 1;
+  /* Status indicator dot (keeps original position) */
+  .node-dot { fill: var(--line-2); transition: fill 0.3s; }
+  g.active .node-dot { fill: var(--hot-0); }
+  g.done .node-dot { fill: var(--fg-2); }
+
+  /* Signal viz strip */
+  .viz-bg {
+    fill: var(--bg-0); stroke: var(--line); stroke-width: 0.4;
   }
+  g.active .viz-bg { fill: rgba(214,74,10,0.03); stroke: rgba(214,74,10,0.2); }
+  .sig-axis { stroke: var(--line-2); stroke-width: 0.4; stroke-dasharray: 1.5 2; }
+  .sig-line { fill: none; stroke: var(--fg-3); stroke-width: 0.9; stroke-linecap: round; stroke-linejoin: round; }
+  .sig-line.hot { stroke: var(--hot-0); }
+  .sig-line.cool { stroke: var(--cool-0); }
+  .sig-line.faint { stroke: var(--line-2); stroke-dasharray: 2 2; }
+  .sig-dot { fill: var(--fg-2); }
+  .sig-dot.hot { fill: var(--hot-0); }
+  .sig-dot.cool { fill: var(--cool-0); }
+  .sig-bar { fill: var(--line-2); }
+  .sig-bar.hot { fill: var(--hot-0); }
+  .sig-bar.cool { fill: var(--cool-0); }
+  .sig-bar.faint { fill: var(--line); }
+  .sig-lab {
+    font-family: var(--f-mono); font-size: 7px; fill: var(--fg-4);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .sig-lab.hot { fill: var(--hot-0); }
+  .sig-lab.cool { fill: var(--cool-0); }
+  .sig-hex { fill: var(--bg-0); stroke: var(--line-2); stroke-width: 0.4; }
+  .sig-hex.fire { fill: var(--hot-0); stroke: var(--hot-0); }
+  .sig-hex.fire-cool { fill: var(--cool-0); stroke: var(--cool-0); }
+
+  /* === EDGES === */
+  .edge { fill: none; stroke: var(--line-2); stroke-width: 1; }
+  .edge.done { stroke: var(--fg-3); stroke-width: 0.8; }
   .edge.active {
     stroke: var(--hot-0); stroke-width: 1.5;
-    stroke-dasharray: 4 3; animation: dash 0.8s linear infinite;
   }
-  @keyframes dash { to { stroke-dashoffset: -14; } }
+  body.mode-write .edge.active { stroke: var(--cool-0); }
+
+  .edge-label {
+    font-family: var(--f-mono); font-size: 8px; fill: var(--fg-4);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .edge-label.active { fill: var(--hot-0); }
+  body.mode-write .edge-label.active { fill: var(--cool-0); }
+
+  .edge-head { fill: var(--line-2); }
+  .edge-head.active { fill: var(--hot-0); }
+  body.mode-write .edge-head.active { fill: var(--cool-0); }
 
   .particle { fill: var(--hot-0); }
+  body.mode-write .particle { fill: var(--cool-0); }
 
-  /* Mini viz: waveform inside canvas */
-  .wave-tile {
-    fill: var(--bg-1); stroke: var(--line-2); stroke-width: 1;
+  /* === Regional bands / underlay === */
+  .region-band { fill: var(--fg-0); }
+  .region-label {
+    font-family: var(--f-mono); font-size: 9px; fill: var(--fg-4);
+    letter-spacing: 0.28em; text-transform: uppercase;
   }
-  .wave-line { fill: none; stroke: var(--fg-2); stroke-width: 0.8; }
-  .wave-line.active { stroke: var(--hot-0); stroke-width: 1; }
+  .region-rule { stroke: var(--line); stroke-width: 0.4; stroke-dasharray: 4 4; }
 
-  /* Phase tag */
-  .phase-title {
-    position: absolute; top: 16px; left: 20px;
-    font-family: var(--f-display); font-size: 28px; color: var(--fg-0);
-    line-height: 1;
-  }
-  .phase-title .mode {
-    font-family: var(--f-mono); font-size: 10px; color: var(--hot-0);
-    letter-spacing: 0.2em; margin-left: 8px; vertical-align: middle;
-    padding: 3px 7px; border: 1px solid var(--hot-0);
-  }
-
-  .phase-desc {
-    position: absolute; top: 16px; right: 20px; max-width: 280px;
-    font-family: var(--f-mono); font-size: 10px; color: var(--fg-2);
-    letter-spacing: 0.04em; text-align: right; line-height: 1.5;
-  }
-
-  .legend {
-    position: absolute; bottom: 16px; left: 20px;
-    display: flex; gap: 14px;
-    font-family: var(--f-mono); font-size: 9px; color: var(--fg-3);
+  /* Corner crosshairs / coords */
+  .crosshair { stroke: var(--fg-3); stroke-width: 0.7; fill: none; }
+  .coord-tick { stroke: var(--line-2); stroke-width: 0.4; }
+  .coord-lab {
+    font-family: var(--f-mono); font-size: 7px; fill: var(--fg-4);
     letter-spacing: 0.08em;
   }
-  .legend span { display: flex; align-items: center; gap: 5px; }
-  .legend .lk { width: 8px; height: 8px; border-radius: 50%; }
+  .fig-ref {
+    font-family: var(--f-mono); font-size: 9px; fill: var(--fg-3);
+    letter-spacing: 0.2em;
+  }
+
+  /* === PHASE HEADER === */
+  .phase-title {
+    position: absolute; top: 14px; left: 22px; z-index: 4;
+    font-family: var(--f-display); font-size: 30px; color: var(--fg-0);
+    line-height: 1; letter-spacing: -0.01em;
+  }
+  .phase-title .mode {
+    font-family: var(--f-mono); font-size: 9px; color: var(--hot-0);
+    letter-spacing: 0.25em; margin-left: 10px; vertical-align: middle;
+    padding: 3px 8px; border: 1px solid var(--hot-0);
+    position: relative; top: -3px;
+  }
+  body.mode-write .phase-title .mode { color: var(--cool-0); border-color: var(--cool-0); }
+  .phase-kicker {
+    position: absolute; top: 50px; left: 22px; z-index: 4;
+    font-family: var(--f-mono); font-size: 9px; color: var(--fg-3);
+    letter-spacing: 0.25em; text-transform: uppercase;
+  }
+  .phase-kicker span { color: var(--fg-0); }
+
+  .phase-desc {
+    position: absolute; top: 18px; right: 22px; max-width: 300px; z-index: 4;
+    font-family: var(--f-mono); font-size: 10px; color: var(--fg-1);
+    letter-spacing: 0.03em; text-align: right; line-height: 1.55;
+    background: rgba(255,255,255,0.72); padding: 9px 13px;
+    border-left: 2px solid var(--hot-0);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  }
+  body.mode-write .phase-desc { border-left-color: var(--cool-0); }
+
+  /* === OSCILLOSCOPE PANEL === */
+  .osc-panel {
+    position: absolute; bottom: 50px; right: 22px; width: 286px; z-index: 4;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid var(--line-2); padding: 10px 12px 6px;
+    font-family: var(--f-mono);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+  }
+  .osc-head {
+    font-size: 9px; color: var(--fg-3);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 6px; margin-bottom: 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .osc-head .ttl { display: flex; align-items: center; gap: 8px; }
+  .osc-head .live { display: flex; align-items: center; gap: 5px; color: var(--hot-0); }
+  .osc-head .live i {
+    width: 5px; height: 5px; border-radius: 50%; background: var(--hot-0);
+    animation: pulse 1.3s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+  .osc-head .meta { color: var(--fg-4); letter-spacing: 0.1em; }
+
+  .osc-body svg { width: 100%; display: block; height: 96px; }
+  .osc-line { fill: none; stroke-width: 0.8; }
+  .osc-line.theta { stroke: var(--cool-0); }
+  .osc-line.gamma { stroke: var(--hot-0); }
+  .osc-line.swr { stroke: var(--fg-0); }
+  .osc-line.spike { stroke: var(--hot-1); stroke-width: 0.6; }
+  .osc-guide { stroke: var(--line); stroke-width: 0.4; }
+  .osc-tag {
+    font-family: var(--f-mono); font-size: 7px; fill: var(--fg-3);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .osc-foot {
+    display: flex; justify-content: space-between;
+    font-size: 8px; color: var(--fg-4); letter-spacing: 0.1em;
+    padding-top: 4px; margin-top: 2px;
+    border-top: 1px dashed var(--line);
+  }
+
+  /* === LEGEND === */
+  .legend {
+    position: absolute; bottom: 16px; left: 22px; z-index: 4;
+    display: flex; gap: 14px;
+    font-family: var(--f-mono); font-size: 9px; color: var(--fg-3);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: rgba(255,255,255,0.78); padding: 6px 12px;
+    border-left: 1px solid var(--line-2);
+    backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+  }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .legend .lk { width: 8px; height: 8px; }
+  .legend .lk.dot { border-radius: 50%; }
+  .legend .sep { width: 1px; height: 12px; background: var(--line-2); margin: 0 2px; }
+  .legend .fig { color: var(--fg-4); letter-spacing: 0.2em; }
+
+  /* === OUTPUT CARD === */
+  .out-card {
+    padding: 14px; border: 1px solid var(--line); background: var(--bg-2);
+    min-height: 82px; font-size: 12px; color: var(--fg-1); line-height: 1.5;
+    position: relative;
+  }
+  .out-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 20px; height: 1px; background: var(--hot-0);
+  }
+  .out-card .ok-tag {
+    font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.18em;
+    color: var(--signal); text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .out-card .ok-tag i { width: 6px; height: 6px; background: var(--signal); border-radius: 50%; }
+  .out-card .nm {
+    font-family: 'Instrument Serif', serif; font-size: 22px;
+    color: var(--fg-0); margin: 6px 0 2px; letter-spacing: -0.01em;
+  }
+  .out-card .fp {
+    font-family: var(--f-mono); font-size: 9px; color: var(--fg-3);
+    letter-spacing: 0.08em; margin-top: 4px;
+  }
+  .out-card .idle {
+    font-family: var(--f-mono); color: var(--fg-3); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .out-card .idle::before {
+    content: ''; width: 6px; height: 6px; border: 1px solid var(--fg-4);
+  }
+
+  /* misc */
+  .callout {
+    font-family: var(--f-mono); font-size: 9px; color: var(--fg-3);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 8px 10px; background: var(--bg-2); border: 1px dashed var(--line-2);
+    margin-bottom: 14px; display: flex; justify-content: space-between;
+  }
+  .callout .rv { color: var(--fg-0); }
+  .callout .rv.hot { color: var(--hot-0); }
+  .callout .rv.ok { color: var(--signal); }
+
+  /* Hover emphasis on nodes */
+  .flow-node:hover { stroke: var(--fg-2); cursor: pointer; }
+  g.active .flow-node:hover { stroke: var(--hot-1); }
 </style>
 </head>
-<body>
+<body class="mode-retrieve">
 
 <div class="topbar">
   <div class="brand">
@@ -268,10 +503,10 @@
 <main>
   <!-- ========= LEFT PANEL ========= -->
   <aside class="left">
-    <h6 id="input-head">Retrieval cue</h6>
+    <h6 id="input-head">Retrieval cue <span class="tag">INPUT</span></h6>
     <div id="retrieve-inputs">
       <div class="field">
-        <label>Cue modality</label>
+        <label>Cue modality <span class="hint">chan.</span></label>
         <select id="cue-mod">
           <option>visual — face</option>
           <option>visual — scene</option>
@@ -281,16 +516,21 @@
         </select>
       </div>
       <div class="field">
-        <label>Cue text</label>
+        <label>Cue text <span class="hint">natural-language descriptor</span></label>
         <textarea id="cue-text">"The summer kitchen in 1994, the yellow curtains."</textarea>
       </div>
-      <h6>Target library</h6>
+
+      <div class="callout">
+        <span>expected RTT</span><span class="rv hot">490 ms</span>
+      </div>
+
+      <h6>Target library <span class="tag">1,024-DIM</span></h6>
       <div class="lib" id="mem-lib"></div>
     </div>
 
     <div id="write-inputs" style="display: none;">
       <div class="field">
-        <label>Memory descriptor</label>
+        <label>Memory descriptor <span class="hint">MDL v2.1</span></label>
         <textarea id="write-content">A tutorial on CPR: compress 5 cm deep, 100–120/min. Keep a straight-arm posture. Call 911 first.</textarea>
       </div>
       <div class="field">
@@ -310,9 +550,14 @@
           <option>reconsolidation edit</option>
         </select>
       </div>
+
+      <div class="callout">
+        <span>acute phase</span><span class="rv hot">875 ms</span>
+      </div>
+
       <h6>Existing schema match</h6>
       <div class="meter cool">
-        <div class="mn"><span class="k">first-aid schema</span><span class="v" id="sm-1">0.82</span></div>
+        <div class="mn"><span class="k">first-aid</span><span class="v" id="sm-1">0.82</span></div>
         <div class="bar"><i style="width: 82%"></i></div>
       </div>
       <div class="meter">
@@ -325,28 +570,58 @@
       </div>
     </div>
 
-    <button class="btn-run" id="run">▶ RUN SIMULATION</button>
-    <button class="btn-run secondary" id="reset" style="margin-top: 6px;">↺ RESET</button>
+    <button class="btn-run" id="run"><span class="marker"></span>RUN SIMULATION</button>
+    <button class="btn-run secondary" id="reset" style="margin-top: 6px;"><span class="marker"></span>RESET STATE</button>
   </aside>
 
   <!-- ========= CENTER CANVAS ========= -->
   <div class="canvas-wrap">
     <div class="phase-title"><span id="phase-name">READ · Retrieval</span><span class="mode" id="phase-stage">IDLE</span></div>
+    <div class="phase-kicker">Subject <span>S-019 · ♀ 34</span> · Array <span>NTA-128 CA1</span> · Session <span>2026-04-20 · 08:41</span></div>
     <div class="phase-desc" id="phase-desc">Press run to trace a memory from cue to cortical reinstatement.</div>
+
     <svg id="flow-svg" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet"></svg>
+
+    <!-- Floating oscilloscope -->
+    <!-- <div class="osc-panel">
+      <div class="osc-head">
+        <div class="ttl">OSC · 4 CHAN</div>
+        <div class="live"><i></i>LIVE</div>
+      </div>
+      <div class="osc-body">
+        <svg viewBox="0 0 260 96" preserveAspectRatio="none">
+          <line class="osc-guide" x1="0" y1="24" x2="260" y2="24"/>
+          <line class="osc-guide" x1="0" y1="48" x2="260" y2="48"/>
+          <line class="osc-guide" x1="0" y1="72" x2="260" y2="72"/>
+          <text class="osc-tag" x="2" y="9">θ · 7.1 Hz</text>
+          <text class="osc-tag" x="2" y="33">γ · 80 Hz</text>
+          <text class="osc-tag" x="2" y="57">SWR · 213 Hz</text>
+          <text class="osc-tag" x="2" y="81">SPIKE</text>
+          <path class="osc-line theta" id="osc-theta" d=""/>
+          <path class="osc-line gamma" id="osc-gamma" d=""/>
+          <path class="osc-line swr" id="osc-swr" d=""/>
+          <g id="osc-spike"></g>
+        </svg>
+      </div>
+      <div class="osc-foot">
+        <span>SR 30 kHz</span><span>WIN 1.0 s</span><span id="osc-rms">RMS 0.00 µV</span>
+      </div>
+    </div> -->
+
     <div class="legend">
-      <span><i class="lk" style="background: var(--hot-0);"></i>READ PATH</span>
-      <span><i class="lk" style="background: var(--cool-0);"></i>WRITE PATH</span>
-      <span><i class="lk" style="background: var(--fg-2);"></i>IDLE</span>
-      <span style="margin-left: 16px; color: var(--fg-4);">FIG.03 · DATA FLOW · 1000×640 NODE GRAPH</span>
+      <span><i class="lk" style="background: var(--hot-0);"></i>READ path</span>
+      <span><i class="lk" style="background: var(--cool-0);"></i>WRITE path</span>
+      <span><i class="lk dot" style="background: var(--fg-2);"></i>idle</span>
+      <span class="sep"></span>
+      <span class="fig">FIG.03 · 1000 × 640 mm · NODE GRAPH</span>
     </div>
   </div>
 
   <!-- ========= RIGHT PANEL ========= -->
   <aside class="right">
-    <h6>Live telemetry</h6>
+    <h6>Live telemetry <span class="tag">REAL-TIME</span></h6>
     <div class="meter">
-      <div class="mn"><span class="k">SWR RATE</span><span class="v" id="t-swr">0.00 /s</span></div>
+      <div class="mn"><span class="k">SWR rate</span><span class="v" id="t-swr">0.00 /s</span></div>
       <div class="bar"><i style="width: 0%"></i></div>
     </div>
     <div class="meter">
@@ -354,24 +629,27 @@
       <div class="bar"><i style="width: 0%"></i></div>
     </div>
     <div class="meter">
-      <div class="mn"><span class="k">REINSTATEMENT</span><span class="v" id="t-rein">0.00</span></div>
+      <div class="mn"><span class="k">reinstatement</span><span class="v" id="t-rein">0.00</span></div>
       <div class="bar"><i style="width: 0%"></i></div>
     </div>
     <div class="meter cool">
-      <div class="mn"><span class="k">MANIFOLD FIT</span><span class="v" id="t-man">—</span></div>
+      <div class="mn"><span class="k">manifold fit</span><span class="v" id="t-man">—</span></div>
       <div class="bar"><i style="width: 0%"></i></div>
     </div>
     <div class="meter cool">
-      <div class="mn"><span class="k">WRITE FIDELITY</span><span class="v" id="t-fid">—</span></div>
+      <div class="mn"><span class="k">write fidelity</span><span class="v" id="t-fid">—</span></div>
       <div class="bar"><i style="width: 0%"></i></div>
     </div>
 
-    <h6>System log</h6>
+    <h6>Regional activity <span class="tag">Z-SCORE</span></h6>
+    <div class="rbars" id="rbars"></div>
+
+    <h6>System log <span class="tag">STDERR</span></h6>
     <div class="log" id="log"></div>
 
     <h6>Output</h6>
-    <div id="output" style="padding: 12px; border: 1px solid var(--line); background: var(--bg-2); min-height: 80px; font-size: 12px; color: var(--fg-1); line-height: 1.5;">
-      <span style="font-family: var(--f-mono); color: var(--fg-3); font-size: 10px;">awaiting run…</span>
+    <div class="out-card" id="output">
+      <span class="idle">awaiting run</span>
     </div>
   </aside>
 </main>
@@ -383,53 +661,43 @@
     <div class="track"><div class="fill" id="scrub-fill" style="width: 0%"></div></div>
     <div class="marks" id="marks"></div>
   </div>
-  <div class="clock" id="clock">t = 0.0 ms</div>
+  <div class="clock"><span class="lab">t =</span><span id="clock">0.0 ms</span></div>
 </div>
 
 <script>
 /* ===========================
-   FLOW SIMULATION
+   FLOW SIMULATION — enhanced visual edition
+   Each node carries a custom micro-visualization reflecting its role.
+   A continuous ambient loop drives the oscilloscope and regional bars.
+   Particles flow along active edges to convey data motion.
    =========================== */
 
-// READ timings grounded in human iEEG / fMRI literature:
-//  feedforward sweep to PFC ~80–120 ms (Foxe & Simpson 2002)
-//  EC perforant path ~100–130 ms from sensory cortex
-//  DG→CA3 relay + attractor dynamics ~30–40 ms (Kesner 2013)
-//  CA3→CA1 Schaffer collateral + SWR build ~60–70 ms
-//  closed-loop stim latency 18 ms (Chang et al. 2018 analogue)
-//  cortical HG reinstatement builds ~130–160 ms post CA1 (Norman et al. 2017)
-//  confidence integration 50–60 ms decision window (Shadlen & Newsome 2001)
+const NS = 'http://www.w3.org/2000/svg';
+
+// READ timings — grounded in human iEEG / fMRI literature
 const READ_STEPS = [
-  { id: 'cue',    t: 0,     label: 'Cue',                    sub: 'external stimulus onset',          x: 60,  y: 120, w: 140, h: 68, kind: 'in' },
-  { id: 'pfc',    t: 95,    label: 'PFC match',              sub: 'feedforward sweep · t≈95 ms',      x: 260, y: 80,  w: 150, h: 68, kind: 'read' },
-  { id: 'ec',     t: 120,   label: 'EC index',               sub: 'parahippo route · t≈120 ms',       x: 260, y: 200, w: 150, h: 68, kind: 'read' },
-  { id: 'ca3',    t: 155,   label: 'CA3 completion',         sub: 'DG relay + attractor · +35 ms',    x: 470, y: 140, w: 170, h: 80, kind: 'core' },
-  { id: 'ca1',    t: 220,   label: 'CA1 output',             sub: 'Schaffer + SWR build · +65 ms',    x: 470, y: 280, w: 170, h: 68, kind: 'core' },
-  { id: 'stim',   t: 238,   label: 'Index stim',             sub: 'closed-loop · +18 ms latency',     x: 700, y: 140, w: 150, h: 68, kind: 'stim' },
-  { id: 'cx',     t: 380,   label: 'Cortical reinstatement', sub: 'HG 70–150 Hz · +142 ms build',     x: 700, y: 280, w: 230, h: 80, kind: 'read' },
-  { id: 'conf',   t: 435,   label: 'Confidence gate',        sub: 'evidence integration · +55 ms',    x: 700, y: 420, w: 230, h: 68, kind: 'gate' },
-  { id: 'out',    t: 490,   label: 'Retrieved content',      sub: 'total RTT ≈ 490 ms',               x: 400, y: 480, w: 200, h: 90, kind: 'out' },
+  { id: 'cue',  t: 0,   label: 'Cue',                    sub: 'external stimulus onset',       x: 52,  y: 118, w: 150, h: 92,  kind: 'in',    idx: 'N01', band: 'input'  },
+  { id: 'pfc',  t: 95,  label: 'PFC match',              sub: 'feedforward sweep · t≈95 ms',   x: 238, y: 66,  w: 174, h: 92,  kind: 'read',  idx: 'N02', band: 'cortex' },
+  { id: 'ec',   t: 120, label: 'EC index',               sub: 'parahippo route · t≈120 ms',    x: 238, y: 204, w: 174, h: 92,  kind: 'read',  idx: 'N03', band: 'mtl'    },
+  { id: 'ca3',  t: 155, label: 'CA3 completion',         sub: 'DG relay + attractor · +35 ms', x: 454, y: 132, w: 182, h: 100, kind: 'core',  idx: 'N04', band: 'hippo'  },
+  { id: 'ca1',  t: 220, label: 'CA1 output',             sub: 'Schaffer + SWR · +65 ms',       x: 454, y: 280, w: 182, h: 92,  kind: 'core',  idx: 'N05', band: 'hippo'  },
+  { id: 'stim', t: 238, label: 'Index stim',             sub: 'closed-loop · +18 ms latency',  x: 680, y: 132, w: 170, h: 92,  kind: 'stim',  idx: 'N06', band: 'bci'    },
+  { id: 'cx',   t: 380, label: 'Cortical reinstatement', sub: 'HG 70–150 Hz · +142 ms build',  x: 680, y: 280, w: 246, h: 100, kind: 'read',  idx: 'N07', band: 'cortex' },
+  { id: 'conf', t: 435, label: 'Confidence gate',        sub: 'evidence integrate · +55 ms',   x: 680, y: 424, w: 246, h: 92,  kind: 'gate',  idx: 'N08', band: 'bci'    },
+  { id: 'out',  t: 490, label: 'Retrieved content',      sub: 'total RTT ≈ 490 ms',            x: 380, y: 512, w: 220, h: 108, kind: 'out',   idx: 'N09', band: 'output' },
 ];
 
-// WRITE timings: acute injection phase only (consolidation spans hours–days)
-//  schema NN inference ~40–50 ms (quantized INT8 on neuromorphic ASIC)
-//  GPU manifold projection ~180–200 ms (GPFA + gradient snap, 8-12 dim)
-//  seed synthesis ~160–170 ms (depends on manifold result)
-//  VIP+ stim → disinhibitory window opens in ~20 ms
-//  θ-lock: must wait ≤1 θ cycle (7.7 Hz → 130 ms) for trough
-//  CA3 attractor convergence ~60–80 ms (Hopfield net analogue)
-//  STC trigger: DA/NE surrogate burst + PRP initiation ~160–180 ms post-convergence
-//  acute read-back probe ~85–95 ms
+// WRITE timings — acute injection phase
 const WRITE_STEPS = [
-  { id: 'spec',   t: 0,     label: 'Memory descriptor',       sub: 'content + schema + consent',      x: 60,  y: 120, w: 160, h: 80, kind: 'in' },
-  { id: 'schema', t: 45,    label: 'Schema compatibility',    sub: 'NN inference · ~45 ms',            x: 270, y: 80,  w: 160, h: 68, kind: 'plan' },
-  { id: 'man',    t: 230,   label: 'Manifold projection',     sub: 'GPU embed + snap · +185 ms',       x: 270, y: 200, w: 160, h: 68, kind: 'plan' },
-  { id: 'seed',   t: 395,   label: 'Seed pattern gen',        sub: '20–30% engram · +165 ms',          x: 480, y: 140, w: 170, h: 80, kind: 'plan' },
-  { id: 'vip',    t: 415,   label: 'VIP+ disinhibition',      sub: 'stim → window opens · +20 ms',    x: 480, y: 280, w: 170, h: 68, kind: 'write' },
-  { id: 'inj',    t: 545,   label: 'CA3 injection',           sub: 'θ-lock wait · +130 ms (1 cycle)', x: 700, y: 140, w: 160, h: 80, kind: 'write' },
-  { id: 'compl',  t: 615,   label: 'Autoassociator complete', sub: 'attractor convergence · +70 ms',   x: 700, y: 280, w: 230, h: 68, kind: 'core' },
-  { id: 'stc',    t: 785,   label: 'STC · tag + capture',     sub: 'DA/NE surrogate · +170 ms',        x: 700, y: 420, w: 230, h: 80, kind: 'write' },
-  { id: 'verify', t: 875,   label: 'Read-back verify',        sub: 'acute probe · +90 ms',             x: 380, y: 480, w: 260, h: 90, kind: 'out' },
+  { id: 'spec',   t: 0,   label: 'Memory descriptor',       sub: 'content + schema + consent',    x: 52,  y: 118, w: 164, h: 100, kind: 'in',    idx: 'W01', band: 'input'  },
+  { id: 'schema', t: 45,  label: 'Schema compatibility',    sub: 'NN inference · ~45 ms',          x: 250, y: 66,  w: 172, h: 92,  kind: 'plan',  idx: 'W02', band: 'cortex' },
+  { id: 'man',    t: 230, label: 'Manifold projection',     sub: 'GPU embed + snap · +185 ms',     x: 250, y: 204, w: 172, h: 92,  kind: 'plan',  idx: 'W03', band: 'bci'    },
+  { id: 'seed',   t: 395, label: 'Seed pattern gen',        sub: '20–30% engram · +165 ms',        x: 462, y: 132, w: 178, h: 100, kind: 'plan',  idx: 'W04', band: 'bci'    },
+  { id: 'vip',    t: 415, label: 'VIP+ disinhibition',      sub: 'stim → window opens · +20 ms',   x: 462, y: 280, w: 178, h: 92,  kind: 'write', idx: 'W05', band: 'hippo'  },
+  { id: 'inj',    t: 545, label: 'CA3 injection',           sub: 'θ-lock · +130 ms (1 cycle)',     x: 684, y: 132, w: 170, h: 100, kind: 'write', idx: 'W06', band: 'hippo'  },
+  { id: 'compl',  t: 615, label: 'Autoassociator complete', sub: 'attractor convergence · +70 ms', x: 684, y: 280, w: 242, h: 92,  kind: 'core',  idx: 'W07', band: 'hippo'  },
+  { id: 'stc',    t: 785, label: 'STC · tag + capture',     sub: 'DA/NE surrogate · +170 ms',      x: 684, y: 424, w: 242, h: 100, kind: 'write', idx: 'W08', band: 'plast'  },
+  { id: 'verify', t: 875, label: 'Read-back verify',        sub: 'acute probe · +90 ms',           x: 378, y: 512, w: 250, h: 108, kind: 'out',   idx: 'W09', band: 'output' },
 ];
 
 const READ_MEMORIES = [
@@ -439,6 +707,33 @@ const READ_MEMORIES = [
   { id: '0xFA3310A7', name: 'Mandarin tone drills',  k: 61, tag: 'SEMANTIC' },
   { id: '0x7733EE18', name: 'hospital waiting room', k: 39, tag: 'EPISODIC · BLACKLIST' },
 ];
+
+// Regional activity targets (z-score) per step, per mode
+const REGIONS = ['V1/V2', 'PFC', 'EC', 'DG', 'CA3', 'CA1', 'ATL'];
+const REGION_PROFILE = {
+  retrieve: {
+    cue:  [1.8, 0.3, 0.2, 0.1, 0.2, 0.1, 0.2],
+    pfc:  [1.2, 1.9, 0.5, 0.2, 0.3, 0.2, 0.4],
+    ec:   [0.9, 1.2, 2.3, 0.4, 0.5, 0.3, 0.6],
+    ca3:  [0.6, 0.8, 1.1, 1.8, 2.6, 0.7, 0.5],
+    ca1:  [0.6, 0.9, 0.9, 0.7, 1.8, 2.9, 0.8],
+    stim: [0.5, 0.8, 0.7, 0.6, 1.5, 2.4, 0.9],
+    cx:   [1.6, 2.1, 1.0, 0.5, 0.9, 1.3, 2.3],
+    conf: [1.1, 2.4, 0.8, 0.3, 0.6, 0.9, 1.9],
+    out:  [0.8, 1.7, 0.6, 0.2, 0.4, 0.7, 1.5],
+  },
+  write: {
+    spec:   [0.3, 1.2, 0.2, 0.1, 0.2, 0.1, 0.3],
+    schema: [0.4, 2.1, 0.3, 0.2, 0.3, 0.2, 0.4],
+    man:    [0.3, 1.6, 0.6, 0.3, 0.4, 0.3, 0.4],
+    seed:   [0.3, 1.4, 0.9, 0.5, 0.8, 0.6, 0.5],
+    vip:    [0.3, 1.1, 1.2, 1.4, 1.9, 1.2, 0.5],
+    inj:    [0.3, 0.9, 1.1, 1.8, 2.6, 1.5, 0.6],
+    compl:  [0.4, 1.0, 0.9, 1.1, 2.4, 2.0, 0.8],
+    stc:    [0.5, 1.3, 0.8, 0.7, 1.8, 1.7, 1.2],
+    verify: [0.7, 1.6, 0.9, 0.5, 1.4, 2.1, 1.5],
+  }
+};
 
 let state = {
   mode: 'retrieve',
@@ -456,6 +751,13 @@ const clockEl = document.getElementById('clock');
 const scrubFill = document.getElementById('scrub-fill');
 const marksEl = document.getElementById('marks');
 
+// particle system: { edgeKey, path, t (0-1), speed }
+const particles = [];
+const edgePathMap = new Map();  // edgeKey -> SVGPathElement
+
+/* ===========================
+   Library & logging
+   =========================== */
 function renderLib() {
   const lib = document.getElementById('mem-lib');
   lib.innerHTML = '';
@@ -479,95 +781,803 @@ renderLib();
 function log(level, code, msg) {
   const ln = document.createElement('div');
   ln.className = 'ln ' + level;
-  const t = state.t.toFixed(1).padStart(5, ' ');
+  const t = state.t.toFixed(1).padStart(6, ' ');
   ln.innerHTML = `<span class="t">${t}</span><span class="lv">${code.padEnd(4,' ').slice(0,4).toUpperCase()}</span><span>${msg}</span>`;
   logEl.appendChild(ln);
   logEl.scrollTop = logEl.scrollHeight;
 }
 
-function renderFlow() {
-  svg.innerHTML = '';
-  const steps = state.steps;
-
-  // Edges first
-  const edges = [];
-  if (state.mode === 'retrieve') {
-    edges.push(['cue','pfc'], ['cue','ec'], ['pfc','ca3'], ['ec','ca3'],
-               ['ca3','ca1'], ['ca3','stim'], ['stim','cx'], ['ca1','cx'],
-               ['cx','conf'], ['conf','out']);
-  } else {
-    edges.push(['spec','schema'], ['spec','man'], ['schema','seed'], ['man','seed'],
-               ['seed','vip'], ['seed','inj'], ['vip','inj'], ['inj','compl'],
-               ['compl','stc'], ['stc','verify']);
-  }
-
-  edges.forEach(([a,b]) => {
-    const A = steps.find(s => s.id === a);
-    const B = steps.find(s => s.id === b);
-    if (!A || !B) return;
-    const ax = A.x + A.w, ay = A.y + A.h/2;
-    const bx = B.x,       by = B.y + B.h/2;
-    const cx1 = ax + Math.min(80, (bx - ax)/2);
-    const cx2 = bx - Math.min(80, (bx - ax)/2);
-    const d = `M ${ax} ${ay} C ${cx1} ${ay}, ${cx2} ${by}, ${bx} ${by}`;
-    const aActive = steps.indexOf(A);
-    const bActive = steps.indexOf(B);
-    const active = (aActive <= state.activeStep && bActive > state.activeStep);
-    const p = document.createElementNS('http://www.w3.org/2000/svg','path');
-    p.setAttribute('d', d);
-    p.setAttribute('class', 'edge' + (active ? ' active' : ''));
-    svg.appendChild(p);
+/* ===========================
+   Regional activity bars
+   =========================== */
+function renderRegionBars() {
+  const el = document.getElementById('rbars');
+  el.innerHTML = '';
+  REGIONS.forEach((r, i) => {
+    const row = document.createElement('div');
+    row.className = 'rbar';
+    row.innerHTML = `<span class="rk">${r}</span><span class="rv"><i></i></span><span class="rn">0.00</span>`;
+    el.appendChild(row);
   });
+}
+renderRegionBars();
 
-  // Nodes
-  steps.forEach((s, i) => {
-    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
-    g.setAttribute('transform', `translate(${s.x},${s.y})`);
-    const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
-    r.setAttribute('width', s.w); r.setAttribute('height', s.h);
-    r.setAttribute('class', 'flow-node' + (i === state.activeStep ? ' active' : (i < state.activeStep ? ' done' : '')));
-    g.appendChild(r);
+function updateRegionBars() {
+  const el = document.getElementById('rbars');
+  const rows = el.children;
+  const s = state.activeStep >= 0 ? state.steps[state.activeStep] : null;
+  const profile = s ? REGION_PROFILE[state.mode][s.id] : null;
 
-    const kind = document.createElementNS('http://www.w3.org/2000/svg','text');
-    kind.setAttribute('x', 10); kind.setAttribute('y', 16);
-    kind.setAttribute('class', 'node-label' + (i === state.activeStep ? ' node-active-label' : ''));
-    kind.textContent = s.kind.toUpperCase();
-    g.appendChild(kind);
-
-    const name = document.createElementNS('http://www.w3.org/2000/svg','text');
-    name.setAttribute('x', 10); name.setAttribute('y', 40);
-    name.setAttribute('class', 'node-title');
-    name.textContent = s.label;
-    g.appendChild(name);
-
-    const sub = document.createElementNS('http://www.w3.org/2000/svg','text');
-    sub.setAttribute('x', 10); sub.setAttribute('y', 56);
-    sub.setAttribute('class', 'node-sub');
-    sub.textContent = s.sub;
-    g.appendChild(sub);
-
-    // dot
-    const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
-    dot.setAttribute('cx', s.w - 10); dot.setAttribute('cy', 10); dot.setAttribute('r', 3);
-    dot.setAttribute('fill', i === state.activeStep ? 'var(--hot-0)' : (i < state.activeStep ? 'var(--fg-2)' : 'var(--line-2)'));
-    g.appendChild(dot);
-
-    svg.appendChild(g);
+  REGIONS.forEach((r, i) => {
+    const row = rows[i];
+    const target = profile ? profile[i] : 0.15;
+    // small continuous noise around target
+    const v = Math.max(0, target + (Math.sin(performance.now() * 0.003 + i * 1.7) * 0.12));
+    const pct = Math.min(100, (v / 3) * 100);
+    row.querySelector('i').style.width = pct + '%';
+    row.querySelector('.rn').textContent = v.toFixed(2);
+    row.classList.toggle('active', v > 1.6);
   });
 }
 
+/* ===========================
+   SVG helpers
+   =========================== */
+function el(tag, attrs = {}, parent) {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+
+function smoothPath(points) {
+  if (points.length < 2) return '';
+  let d = `M ${points[0][0].toFixed(2)} ${points[0][1].toFixed(2)}`;
+  for (let i = 1; i < points.length; i++) {
+    d += ` L ${points[i][0].toFixed(2)} ${points[i][1].toFixed(2)}`;
+  }
+  return d;
+}
+
+/* ===========================
+   Node interior visualizations — each step id has its own micro-viz
+   Layout: each viz is drawn inside a 10,h-30 to w-10,h-6 strip
+   =========================== */
+function renderNodeViz(group, s, isActive, localPhase, isDone) {
+  const padX = 10, vh = 20;
+  const vy = s.h - vh - 8;  // strip y-origin
+  const vw = s.w - padX * 2;
+  const vizBg = el('rect', {
+    x: padX, y: vy, width: vw, height: vh,
+    class: 'viz-bg'
+  }, group);
+
+  const g = el('g', { transform: `translate(${padX}, ${vy})` }, group);
+  // baseline
+  el('line', { x1: 0, y1: vh/2, x2: vw, y2: vh/2, class: 'sig-axis' }, g);
+
+  // choose renderer
+  const phase = isDone ? 1 : (isActive ? Math.min(1, localPhase) : 0);
+  const cls = state.mode === 'write' ? 'cool' : 'hot';
+
+  switch (s.id) {
+    // ---- RETRIEVE ----
+    case 'cue':  vizCue(g, vw, vh, phase, isActive); break;
+    case 'pfc':  vizPfcMatch(g, vw, vh, phase, isActive); break;
+    case 'ec':   vizHexGrid(g, vw, vh, phase, isActive, cls); break;
+    case 'ca3':  vizAttractor(g, vw, vh, phase, isActive, cls, 'retrieve'); break;
+    case 'ca1':  vizRipple(g, vw, vh, phase, isActive); break;
+    case 'stim': vizBiphasic(g, vw, vh, phase, isActive); break;
+    case 'cx':   vizHighGamma(g, vw, vh, phase, isActive); break;
+    case 'conf': vizEvidence(g, vw, vh, phase, isActive); break;
+    case 'out':  vizFingerprint(g, vw, vh, phase, isActive, 'hot'); break;
+    // ---- WRITE ----
+    case 'spec':   vizHash(g, vw, vh, phase, isActive); break;
+    case 'schema': vizNNLayers(g, vw, vh, phase, isActive); break;
+    case 'man':    vizManifold(g, vw, vh, phase, isActive); break;
+    case 'seed':   vizDotMatrix(g, vw, vh, phase, isActive); break;
+    case 'vip':    vizGateWindow(g, vw, vh, phase, isActive); break;
+    case 'inj':    vizThetaInject(g, vw, vh, phase, isActive); break;
+    case 'compl':  vizAttractor(g, vw, vh, phase, isActive, cls, 'write'); break;
+    case 'stc':    vizDABurst(g, vw, vh, phase, isActive); break;
+    case 'verify': vizCompareWaves(g, vw, vh, phase, isActive); break;
+  }
+}
+
+// Common label helper
+function vizLabel(g, w, text, hot) {
+  el('text', {
+    x: w - 1, y: 6, 'text-anchor': 'end',
+    class: 'sig-lab' + (hot ? ' hot' : '')
+  }, g).textContent = text;
+}
+
+/* === RETRIEVE VIZZES === */
+function vizCue(g, w, h, phase, active) {
+  const pts = [];
+  const n = 48;
+  const t = performance.now() * 0.004;
+  for (let i = 0; i < n; i++) {
+    const x = (i / (n-1)) * w;
+    const r = i / (n-1);
+    const env = Math.max(0, Math.min(1, r * 3)) * Math.exp(-Math.pow((r - 0.35), 2) * 5);
+    const amp = active ? (0.4 + phase * 0.6) : 0.2;
+    const y = h/2 - Math.sin(r * 14 + t * (active ? 2.5 : 0.5)) * env * h * 0.42 * amp;
+    pts.push([x, y]);
+  }
+  el('path', { d: smoothPath(pts), class: 'sig-line' + (active ? ' hot' : '') }, g);
+  vizLabel(g, w, 'STIM ONSET', active);
+}
+
+function vizPfcMatch(g, w, h, phase, active) {
+  const scores = [0.84, 0.61, 0.42];
+  const barH = 3, gap = 1;
+  const startY = h/2 - (scores.length * (barH + gap)) / 2;
+  scores.forEach((s, i) => {
+    const full = s * w * (active ? Math.min(1, phase * 1.8) : 0.25);
+    // background bar
+    el('rect', {
+      x: 0, y: startY + i*(barH+gap), width: w, height: barH, class: 'sig-bar faint'
+    }, g);
+    el('rect', {
+      x: 0, y: startY + i*(barH+gap), width: full.toFixed(1), height: barH,
+      class: 'sig-bar' + (active && i === 0 ? ' hot' : '')
+    }, g);
+  });
+  vizLabel(g, w, 'r=0.84', active);
+}
+
+function vizHexGrid(g, w, h, phase, active, cls) {
+  const cols = 11, rows = 2;
+  const hxr = Math.min(w / (cols * 1.6), h / (rows * 2.2));
+  const hStep = hxr * Math.sqrt(3);
+  const wStep = hxr * 1.6;
+  const xOff = (w - cols * wStep) / 2 + hxr * 0.8;
+  const yOff = (h - rows * hStep) / 2 + hxr * 1.0;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const cx = xOff + c * wStep + (r % 2 === 1 ? wStep/2 : 0);
+      const cy = yOff + r * hStep;
+      const pts = [];
+      for (let k = 0; k < 6; k++) {
+        const a = Math.PI/6 + k * Math.PI/3;
+        pts.push(`${(cx + Math.cos(a)*hxr).toFixed(1)},${(cy + Math.sin(a)*hxr).toFixed(1)}`);
+      }
+      // firing pattern based on position and phase
+      const d = Math.sqrt(Math.pow(c - cols*0.55, 2) + Math.pow(r - 0.3, 2));
+      const isFire = active && phase > 0.15 && d < 2.5 + phase * 1.5 && (c + r) % 2 === 0;
+      el('polygon', {
+        points: pts.join(' '),
+        class: 'sig-hex' + (isFire ? (cls === 'cool' ? ' fire-cool' : ' fire') : ''),
+        'fill-opacity': isFire ? (0.35 + phase * 0.5) : 0.25,
+      }, g);
+    }
+  }
+  vizLabel(g, w, 'GRID · 7.1 Hz', active);
+}
+
+function vizAttractor(g, w, h, phase, active, cls, mode) {
+  const cx = w/2, cy = h/2;
+  // spiral converging inward
+  const pts = [];
+  const iters = 28;
+  const tnow = performance.now() * 0.001;
+  for (let i = 0; i < iters; i++) {
+    const t = i / (iters - 1);
+    const r = (1 - t) * Math.min(w, h) * 0.42 + t * 1.5;
+    const a = t * 4.5 * Math.PI + (active ? tnow * 1.2 : 0);
+    pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r * 0.5]);
+  }
+  el('path', {
+    d: smoothPath(pts),
+    class: 'sig-line' + (active ? (cls === 'cool' ? ' cool' : ' hot') : ' faint')
+  }, g);
+  // convergence dot
+  if (active && phase > 0.2) {
+    const t = Math.min(1, (phase - 0.2) * 1.5);
+    const r = (1 - t) * Math.min(w, h) * 0.42;
+    const a = t * 4.5 * Math.PI;
+    el('circle', {
+      cx: cx + Math.cos(a) * r, cy: cy + Math.sin(a) * r * 0.5, r: 1.6,
+      class: 'sig-dot' + (cls === 'cool' ? ' cool' : ' hot')
+    }, g);
+  }
+  vizLabel(g, w, mode === 'write' ? 'ITER 7/7' : 'ITER 4/4', active);
+}
+
+function vizRipple(g, w, h, phase, active) {
+  const pts = [];
+  const n = 80;
+  const t = performance.now() * 0.008;
+  for (let i = 0; i < n; i++) {
+    const x = (i / (n-1)) * w;
+    const r = i / (n-1);
+    const env = Math.exp(-Math.pow((r - 0.55), 2) * 28);
+    const fast = Math.sin(r * 50 + (active ? t * 4 : 0));
+    const y = h/2 - fast * env * h * 0.45 * (active ? (0.6 + phase * 0.4) : 0.15);
+    pts.push([x, y]);
+  }
+  el('path', { d: smoothPath(pts), class: 'sig-line' + (active ? ' hot' : '') }, g);
+  vizLabel(g, w, 'SWR · 213 Hz', active);
+}
+
+function vizBiphasic(g, w, h, phase, active) {
+  // clean biphasic square step
+  const mid = h/2;
+  const amp = h * 0.35 * (active ? (0.5 + phase * 0.5) : 0.2);
+  const x0 = w * 0.2, x1 = w * 0.4, x2 = w * 0.6, x3 = w * 0.8;
+  const d = `M 0 ${mid} L ${x0} ${mid} L ${x0} ${mid - amp} L ${x1} ${mid - amp} L ${x1} ${mid + amp} L ${x2} ${mid + amp} L ${x2} ${mid} L ${w} ${mid}`;
+  el('path', { d, class: 'sig-line' + (active ? ' hot' : '') }, g);
+  // phase markers
+  [x0, x1, x2].forEach(x => {
+    el('line', { x1: x, y1: mid - h*0.45, x2: x, y2: mid + h*0.45, class: 'sig-axis' }, g);
+  });
+  vizLabel(g, w, '18 ms · 180 µs', active);
+}
+
+function vizHighGamma(g, w, h, phase, active) {
+  const pts = [];
+  const n = 120;
+  const t = performance.now() * 0.005;
+  for (let i = 0; i < n; i++) {
+    const x = (i / (n-1)) * w;
+    const r = i / (n-1);
+    const env = Math.sin(r * Math.PI) * (active ? (0.55 + phase * 0.35) : 0.15);
+    const fast = Math.sin(r * 38 + (active ? t * 3 : 0));
+    const mid = Math.sin(r * 9 + (active ? t : 0)) * 0.3;
+    const y = h/2 - (fast * 0.7 + mid * 0.3) * env * h * 0.45;
+    pts.push([x, y]);
+  }
+  el('path', { d: smoothPath(pts), class: 'sig-line' + (active ? ' hot' : '') }, g);
+  vizLabel(g, w, 'HG 70–150 Hz', active);
+}
+
+function vizEvidence(g, w, h, phase, active) {
+  const n = 50;
+  const pts = [];
+  for (let i = 0; i < n; i++) {
+    const x = (i / (n-1)) * w;
+    const r = i / (n-1);
+    const noise = (Math.sin(r * 18) + Math.sin(r * 11)) * 0.03;
+    const drift = Math.min(1, r * 1.4) * (active ? (0.4 + phase * 0.6) : 0.15);
+    const y = h * 0.85 - (drift + noise) * h * 0.72;
+    pts.push([x, y]);
+  }
+  el('path', { d: smoothPath(pts), class: 'sig-line' + (active ? ' hot' : '') }, g);
+  // threshold dashed line
+  const thresY = h * 0.85 - 0.6 * h * 0.72;
+  el('line', {
+    x1: 0, y1: thresY, x2: w, y2: thresY,
+    class: 'sig-line faint'
+  }, g);
+  vizLabel(g, w, 'τ 0.60 → 0.81', active);
+}
+
+function vizFingerprint(g, w, h, phase, active, cls) {
+  // 24×2 dot pattern representing the retrieved memory key
+  const cols = 24, rows = 2;
+  const dotR = 1.1;
+  const cellW = w / cols, cellH = h / rows;
+  const seed = state.selectedMem ? state.selectedMem.slice(-4) : 'A1B2';
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const k = (c + r * cols);
+      const on = ((k * 13 + parseInt(seed, 16)) % 7) < 3;
+      el('circle', {
+        cx: c * cellW + cellW/2, cy: r * cellH + cellH/2, r: dotR,
+        class: 'sig-dot' + (on && active ? (cls === 'cool' ? ' cool' : ' hot') : '')
+      }, g);
+    }
+  }
+  vizLabel(g, w, 'k=48/1024', active);
+}
+
+/* === WRITE VIZZES === */
+function vizHash(g, w, h, phase, active) {
+  // document icon + sha
+  const dw = 10, dh = 13;
+  const dy = (h - dh) / 2;
+  el('rect', { x: 2, y: dy, width: dw, height: dh, class: 'sig-bar faint' }, g);
+  el('line', { x1: 4, y1: dy + 4, x2: 2 + dw - 2, y2: dy + 4, class: 'sig-axis' }, g);
+  el('line', { x1: 4, y1: dy + 7, x2: 2 + dw - 2, y2: dy + 7, class: 'sig-axis' }, g);
+  el('line', { x1: 4, y1: dy + 10, x2: 2 + dw - 4, y2: dy + 10, class: 'sig-axis' }, g);
+
+  // hash chars (scrolling)
+  const chars = '0a1f93d2c8b7e64ab5f0279cd3ef12ae';
+  const n = 20;
+  const cw = (w - 18) / n;
+  const t = Math.floor(performance.now() * 0.02) % 16;
+  for (let i = 0; i < n; i++) {
+    const ch = chars[(i + t) % chars.length];
+    el('text', {
+      x: 18 + i * cw, y: h/2 + 3,
+      class: 'sig-lab' + (active ? ' cool' : ''),
+    }, g).textContent = ch;
+  }
+  vizLabel(g, w, 'SHA · ✓ SIGNED', active);
+}
+
+function vizNNLayers(g, w, h, phase, active) {
+  const layers = [4, 5, 4, 3];
+  const layerX = layers.map((_, i) => 4 + (i / (layers.length - 1)) * (w - 8));
+  const positions = layers.map((n, li) => {
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      pts.push([layerX[li], 3 + (i + 0.5) * ((h - 6) / n)]);
+    }
+    return pts;
+  });
+  // edges
+  for (let l = 0; l < layers.length - 1; l++) {
+    positions[l].forEach(a => {
+      positions[l+1].forEach(b => {
+        el('line', {
+          x1: a[0], y1: a[1], x2: b[0], y2: b[1],
+          stroke: active ? 'var(--cool-0)' : 'var(--line-2)',
+          'stroke-width': 0.3,
+          'stroke-opacity': active ? 0.5 : 0.3,
+        }, g);
+      });
+    });
+  }
+  // nodes
+  positions.forEach((ps, li) => {
+    ps.forEach((p, i) => {
+      const hot = active && li === layers.length - 1 && i === 0;
+      el('circle', {
+        cx: p[0], cy: p[1], r: 1.5,
+        class: 'sig-dot' + (hot ? ' hot' : active ? ' cool' : '')
+      }, g);
+    });
+  });
+  vizLabel(g, w, 'FIT 0.82', active);
+}
+
+function vizManifold(g, w, h, phase, active) {
+  // warped grid
+  const cols = 8, rows = 3;
+  const cw = w / cols, ch = h / rows;
+  const t = performance.now() * 0.0015;
+  const warp = (x, y) => {
+    const dx = Math.sin((y / h) * Math.PI * 2 + t) * 1.5;
+    const dy = Math.sin((x / w) * Math.PI * 1.5 + t * 0.8) * 1.2;
+    return [x + dx, y + dy];
+  };
+  // horizontal lines
+  for (let r = 0; r <= rows; r++) {
+    const pts = [];
+    for (let c = 0; c <= cols; c++) {
+      pts.push(warp(c * cw, r * ch));
+    }
+    el('path', { d: smoothPath(pts), class: 'sig-line' + (active ? ' cool' : ' faint'), 'stroke-width': 0.5 }, g);
+  }
+  // vertical lines
+  for (let c = 0; c <= cols; c++) {
+    const pts = [];
+    for (let r = 0; r <= rows; r++) {
+      pts.push(warp(c * cw, r * ch));
+    }
+    el('path', { d: smoothPath(pts), class: 'sig-line' + (active ? ' cool' : ' faint'), 'stroke-width': 0.5 }, g);
+  }
+  // residual point
+  if (active) {
+    el('circle', { cx: w * 0.62, cy: h * 0.45, r: 2, class: 'sig-dot cool' }, g);
+  }
+  vizLabel(g, w, 'res 0.04', active);
+}
+
+function vizDotMatrix(g, w, h, phase, active) {
+  // 36×4 dot grid representing 1024 sites, ~28% filled
+  const cols = 36, rows = 4;
+  const cw = w / cols, chh = h / rows;
+  const dotR = Math.min(cw, chh) * 0.22;
+  const total = cols * rows;
+  const fillCount = Math.floor(total * 0.282 * (active ? Math.min(1, phase * 1.8) : 0));
+  for (let i = 0; i < total; i++) {
+    const c = i % cols, r = Math.floor(i / cols);
+    // pseudo-random site selection
+    const kk = (i * 2311) % total;
+    const filled = kk < fillCount;
+    el('circle', {
+      cx: c * cw + cw/2, cy: r * chh + chh/2, r: dotR,
+      class: 'sig-dot' + (filled ? ' cool' : ''),
+      'fill-opacity': filled ? (0.6 + phase * 0.4) : 0.2,
+    }, g);
+  }
+  vizLabel(g, w, '289 / 1024', active);
+}
+
+function vizGateWindow(g, w, h, phase, active) {
+  // plateau step: baseline → high → baseline
+  const mid = h/2;
+  const amp = h * 0.4 * (active ? (0.55 + phase * 0.45) : 0.2);
+  const x0 = w * 0.18, x1 = w * 0.82;
+  const rampX = w * 0.08;
+  const d = `M 0 ${mid} L ${x0 - rampX} ${mid} L ${x0} ${mid - amp} L ${x1} ${mid - amp} L ${x1 + rampX} ${mid} L ${w} ${mid}`;
+  el('path', { d, class: 'sig-line' + (active ? ' cool' : '') }, g);
+  // window brackets
+  el('line', { x1: x0, y1: 2, x2: x0, y2: h - 2, class: 'sig-axis' }, g);
+  el('line', { x1: x1, y1: 2, x2: x1, y2: h - 2, class: 'sig-axis' }, g);
+  vizLabel(g, w, '180 ms WINDOW', active);
+}
+
+function vizThetaInject(g, w, h, phase, active) {
+  // slow theta wave with marker on trough
+  const pts = [];
+  const n = 80;
+  const t = performance.now() * 0.003;
+  for (let i = 0; i < n; i++) {
+    const x = (i / (n-1)) * w;
+    const r = i / (n-1);
+    const y = h/2 - Math.sin(r * 8 + (active ? t * 2 : t * 0.3)) * h * 0.32 * (active ? (0.65 + phase * 0.3) : 0.3);
+    pts.push([x, y]);
+  }
+  el('path', { d: smoothPath(pts), class: 'sig-line' + (active ? ' cool' : '') }, g);
+  // injection marker on a trough
+  if (active) {
+    const markX = w * 0.48;
+    const markY = h/2 + h * 0.32 * (0.65 + phase * 0.3);
+    el('line', { x1: markX, y1: 0, x2: markX, y2: h, class: 'sig-line hot', 'stroke-dasharray': '1.5 1.5', 'stroke-width': 0.6 }, g);
+    el('circle', { cx: markX, cy: markY, r: 2.4, class: 'sig-dot hot' }, g);
+  }
+  vizLabel(g, w, 'θ 7.7 Hz · TROUGH', active);
+}
+
+function vizDABurst(g, w, h, phase, active) {
+  // sharp peak + tag icon
+  const pts = [];
+  const n = 60;
+  const t = performance.now() * 0.003;
+  for (let i = 0; i < n; i++) {
+    const x = (i / (n-1)) * w;
+    const r = i / (n-1);
+    const peak = Math.exp(-Math.pow((r - 0.35), 2) * 50);
+    const wobble = Math.sin(r * 40 + t * 3) * 0.08 * peak;
+    const y = h/2 - (peak + wobble) * h * 0.45 * (active ? (0.7 + phase * 0.3) : 0.2);
+    pts.push([x, y]);
+  }
+  el('path', { d: smoothPath(pts), class: 'sig-line' + (active ? ' cool' : '') }, g);
+  // sigma markers
+  if (active) {
+    el('circle', { cx: w * 0.35, cy: h * 0.12, r: 1.6, class: 'sig-dot cool' }, g);
+    el('text', {
+      x: w * 0.35 + 4, y: h * 0.16,
+      class: 'sig-lab cool'
+    }, g).textContent = '+4.2σ';
+  }
+  vizLabel(g, w, 'DA · TAG SET', active);
+}
+
+function vizCompareWaves(g, w, h, phase, active) {
+  // two waves overlaid — target (faint) + retrieved (hot or cool)
+  const n = 70;
+  const tgt = [], ret = [];
+  const t = performance.now() * 0.004;
+  for (let i = 0; i < n; i++) {
+    const x = (i / (n-1)) * w;
+    const r = i / (n-1);
+    const env = Math.sin(r * Math.PI);
+    tgt.push([x, h/2 - Math.sin(r * 22 + 0.3) * env * h * 0.35]);
+    const jitter = Math.sin(r * 9 + t) * 0.08;
+    ret.push([x, h/2 - Math.sin(r * 22 + 0.3 + jitter) * env * h * 0.33 * (active ? (0.7 + phase * 0.3) : 0.2)]);
+  }
+  el('path', { d: smoothPath(tgt), class: 'sig-line faint' }, g);
+  el('path', { d: smoothPath(ret), class: 'sig-line' + (active ? ' cool' : '') }, g);
+  vizLabel(g, w, 'r = 0.81', active);
+}
+
+/* ===========================
+   Background: regional bands + crosshairs + coord ticks
+   =========================== */
+function renderBackground() {
+  // These are drawn at the bottom of the SVG (first, so they sit behind nodes)
+  const bands = [
+    { y: 48,  h: 92,  label: 'NEOCORTEX · PFC/ATL', alpha: 0.012 },
+    { y: 140, h: 90,  label: 'MEDIAL-TEMPORAL · EC/PERI', alpha: 0.018 },
+    { y: 230, h: 140, label: 'HIPPOCAMPAL COMPLEX · DG · CA3 · CA1', alpha: 0.024 },
+    { y: 370, h: 130, label: 'BCI INTERFACE · DECODE · STIM · GATE', alpha: 0.012 },
+    { y: 500, h: 130, label: 'OUTPUT · DELIVERY & VERIFY', alpha: 0.018 },
+  ];
+  bands.forEach((b, i) => {
+    el('rect', {
+      x: 0, y: b.y, width: 1000, height: b.h,
+      class: 'region-band',
+      'fill-opacity': b.alpha,
+    }, svg);
+    el('line', {
+      x1: 20, y1: b.y + b.h, x2: 980, y2: b.y + b.h,
+      class: 'region-rule',
+    }, svg);
+    el('text', {
+      x: 18, y: b.y + 14, class: 'region-label'
+    }, svg).textContent = b.label;
+  });
+
+  // Corner crosshairs (thin L-shapes)
+  const corners = [
+    { x: 10, y: 10, dx: 1, dy: 1 },
+    { x: 990, y: 10, dx: -1, dy: 1 },
+    { x: 10, y: 630, dx: 1, dy: -1 },
+    { x: 990, y: 630, dx: -1, dy: -1 },
+  ];
+  corners.forEach(c => {
+    el('path', {
+      d: `M ${c.x + 14 * c.dx} ${c.y} L ${c.x} ${c.y} L ${c.x} ${c.y + 14 * c.dy}`,
+      class: 'crosshair',
+    }, svg);
+  });
+
+  // Coord ticks along left edge
+  for (let y = 80; y <= 600; y += 40) {
+    el('line', { x1: 2, y1: y, x2: 7, y2: y, class: 'coord-tick' }, svg);
+    if (y % 80 === 0) {
+      el('text', { x: 10, y: y + 3, class: 'coord-lab' }, svg).textContent = y;
+    }
+  }
+  // along bottom edge
+  for (let x = 60; x <= 960; x += 40) {
+    el('line', { x1: x, y1: 632, x2: x, y2: 637, class: 'coord-tick' }, svg);
+    if (x % 120 === 0) {
+      el('text', { x: x - 6, y: 627, class: 'coord-lab' }, svg).textContent = x;
+    }
+  }
+
+  // Figure annotation
+  el('text', { x: 990, y: 630, 'text-anchor': 'end', class: 'fig-ref' }, svg)
+    .textContent = 'FIG. 03 — FLOW TOPOLOGY';
+}
+
+/* ===========================
+   Node rendering
+   =========================== */
+function renderNode(group, s, nodeState, activeLocalPhase) {
+  const rect = el('rect', {
+    x: 0, y: 0, width: s.w, height: s.h,
+    class: 'flow-node' + (nodeState === 'active' ? ' active' : (nodeState === 'done' ? ' done' : ''))
+  }, group);
+
+  // Corner marks (only visible when active via CSS)
+  const cSize = 8;
+  const corners = [
+    `M 0 ${cSize} L 0 0 L ${cSize} 0`,
+    `M ${s.w - cSize} 0 L ${s.w} 0 L ${s.w} ${cSize}`,
+    `M 0 ${s.h - cSize} L 0 ${s.h} L ${cSize} ${s.h}`,
+    `M ${s.w - cSize} ${s.h} L ${s.w} ${s.h} L ${s.w} ${s.h - cSize}`,
+  ];
+  corners.forEach(d => el('path', { d, class: 'node-corner' }, group));
+
+  // Top row: kind + index
+  el('text', {
+    x: 10, y: 16,
+    class: 'node-label' + (nodeState === 'active' ? ' node-active-label' : '')
+  }, group).textContent = s.kind.toUpperCase() + ' · ' + s.label.split(' ')[0].toUpperCase();
+
+  el('text', {
+    x: s.w - 10, y: 16, 'text-anchor': 'end',
+    class: 'node-idx'
+  }, group).textContent = s.idx;
+
+  // Divider
+  el('line', {
+    x1: 10, y1: 22, x2: s.w - 10, y2: 22,
+    class: 'node-divider'
+  }, group);
+
+  // Title (serif)
+  el('text', {
+    x: 10, y: 42,
+    class: 'node-title'
+  }, group).textContent = s.label;
+
+  // Sub
+  el('text', {
+    x: 10, y: 56,
+    class: 'node-sub'
+  }, group).textContent = s.sub;
+
+  // Status dot (top-right)
+  el('circle', {
+    cx: s.w - 10, cy: 10, r: 3,
+    class: 'node-dot'
+  }, group);
+
+  // Viz strip
+  renderNodeViz(group, s, nodeState === 'active', activeLocalPhase, nodeState === 'done');
+}
+
+/* ===========================
+   Edges
+   =========================== */
+const RETRIEVE_EDGES = [
+  ['cue', 'pfc',  'FF sweep'],
+  ['cue', 'ec',   'parahippo'],
+  ['pfc', 'ca3',  ''],
+  ['ec',  'ca3',  'perforant'],
+  ['ca3', 'ca1',  'Schaffer'],
+  ['ca3', 'stim', 'decode'],
+  ['stim', 'cx',  'CL +18'],
+  ['ca1', 'cx',   ''],
+  ['cx',  'conf', 'integrate'],
+  ['conf', 'out', 'deliver'],
+];
+const WRITE_EDGES = [
+  ['spec',   'schema', 'INT8 NN'],
+  ['spec',   'man',    ''],
+  ['schema', 'seed',   ''],
+  ['man',    'seed',   'snap'],
+  ['seed',   'vip',    'gate'],
+  ['seed',   'inj',    ''],
+  ['vip',    'inj',    'open'],
+  ['inj',    'compl',  'θ-lock'],
+  ['compl',  'stc',    'PRP'],
+  ['stc',    'verify', 'probe'],
+];
+
+function renderEdges(edgeGroup) {
+  const edges = state.mode === 'retrieve' ? RETRIEVE_EDGES : WRITE_EDGES;
+  edgePathMap.clear();
+  edges.forEach(([a, b, label]) => {
+    const A = state.steps.find(s => s.id === a);
+    const B = state.steps.find(s => s.id === b);
+    if (!A || !B) return;
+
+    const ax = A.x + A.w, ay = A.y + A.h / 2;
+    const bx = B.x, by = B.y + B.h / 2;
+    const midX = (ax + bx) / 2;
+    const cx1 = ax + Math.min(80, Math.max(30, (bx - ax) / 2));
+    const cx2 = bx - Math.min(80, Math.max(30, (bx - ax) / 2));
+    const d = `M ${ax} ${ay} C ${cx1} ${ay}, ${cx2} ${by}, ${bx} ${by}`;
+
+    const aIdx = state.steps.indexOf(A);
+    const bIdx = state.steps.indexOf(B);
+    const isActive = (aIdx <= state.activeStep && bIdx > state.activeStep);
+    const isDone = (bIdx <= state.activeStep);
+
+    const klass = 'edge' + (isActive ? ' active' : (isDone ? ' done' : ''));
+    const path = el('path', { d, class: klass }, edgeGroup);
+
+    // Arrow head
+    const dx = bx - cx2, dy = by - ay;
+    const angle = Math.atan2(by - ay, bx - cx2);
+    const ahSize = 5;
+    const hx = bx, hy = by;
+    const headPts = [
+      [hx, hy],
+      [hx - ahSize * Math.cos(angle - 0.4), hy - ahSize * Math.sin(angle - 0.4)],
+      [hx - ahSize * Math.cos(angle + 0.4), hy - ahSize * Math.sin(angle + 0.4)]
+    ].map(p => p.join(',')).join(' ');
+    el('polygon', { points: headPts, class: 'edge-head' + (isActive ? ' active' : (isDone ? ' done' : '')) }, edgeGroup);
+
+    // Label
+    if (label) {
+      const midY = (ay + by) / 2 - 4;
+      el('text', {
+        x: midX, y: midY, 'text-anchor': 'middle',
+        class: 'edge-label' + (isActive ? ' active' : '')
+      }, edgeGroup).textContent = label;
+    }
+
+    const key = a + '>' + b;
+    edgePathMap.set(key, { path, isActive });
+  });
+}
+
+/* ===========================
+   Main flow render
+   =========================== */
+function renderFlow() {
+  svg.innerHTML = '';
+
+  // Background layers: regions, crosshairs, coord ticks
+  const bgG = el('g', { id: 'bg-layer' }, svg);
+  svg.appendChild(bgG);
+  const bgGRef = bgG;
+  // render background inline to bgG
+  // (inlined from renderBackground — but need to use bgGRef)
+  renderBackgroundInto(bgGRef);
+
+  // Edges layer (below nodes)
+  const edgeG = el('g', { id: 'edge-layer' }, svg);
+  renderEdges(edgeG);
+
+  // Particles layer (below nodes, above edges so they read over the line)
+  el('g', { id: 'particle-layer' }, svg);
+
+  // Nodes layer
+  state.steps.forEach((s, i) => {
+    const nodeState = i === state.activeStep ? 'active' : (i < state.activeStep ? 'done' : 'idle');
+    const nextT = state.steps[i + 1] ? state.steps[i + 1].t : state.tMax;
+    const localPhase = nodeState === 'active'
+      ? Math.max(0, Math.min(1, (state.t - s.t) / Math.max(1, nextT - s.t)))
+      : 0;
+
+    const g = el('g', {
+      transform: `translate(${s.x}, ${s.y})`,
+      class: nodeState
+    }, svg);
+    renderNode(g, s, nodeState, localPhase);
+  });
+}
+
+function renderBackgroundInto(parent) {
+  const bands = [
+    { y: 48,  h: 92,  label: 'NEOCORTEX · PFC / ATL', alpha: 0.012 },
+    { y: 140, h: 90,  label: 'MEDIAL-TEMPORAL · EC / PERI', alpha: 0.020 },
+    { y: 230, h: 140, label: 'HIPPOCAMPAL COMPLEX · DG · CA3 · CA1', alpha: 0.028 },
+    { y: 370, h: 130, label: 'BCI INTERFACE · DECODE · STIM · GATE', alpha: 0.012 },
+    { y: 500, h: 130, label: 'OUTPUT · DELIVERY & VERIFY', alpha: 0.020 },
+  ];
+  bands.forEach((b) => {
+    el('rect', {
+      x: 0, y: b.y, width: 1000, height: b.h,
+      class: 'region-band', 'fill-opacity': b.alpha,
+    }, parent);
+    el('line', {
+      x1: 18, y1: b.y + b.h, x2: 982, y2: b.y + b.h,
+      class: 'region-rule',
+    }, parent);
+    el('text', {
+      x: 18, y: b.y + 14, class: 'region-label'
+    }, parent).textContent = b.label;
+    // right-side echo (lighter)
+    el('text', {
+      x: 982, y: b.y + b.h - 4, class: 'region-label', 'text-anchor': 'end',
+      'fill-opacity': 0.5,
+    }, parent).textContent = b.label.split(' · ')[0];
+  });
+
+  // Corner crosshairs
+  const corners = [
+    [10, 10, 1, 1], [990, 10, -1, 1], [10, 630, 1, -1], [990, 630, -1, -1],
+  ];
+  corners.forEach(([x, y, dx, dy]) => {
+    el('path', {
+      d: `M ${x + 14*dx} ${y} L ${x} ${y} L ${x} ${y + 14*dy}`,
+      class: 'crosshair',
+    }, parent);
+    // small plus cross
+    el('line', { x1: x - 3*dx, y1: y, x2: x + 3*dx, y2: y, class: 'crosshair' }, parent);
+    el('line', { x1: x, y1: y - 3*dy, x2: x, y2: y + 3*dy, class: 'crosshair' }, parent);
+  });
+
+  // Coord ticks & labels
+  for (let y = 60; y <= 620; y += 20) {
+    const isMajor = y % 80 === 0;
+    el('line', { x1: 0, y1: y, x2: isMajor ? 8 : 4, y2: y, class: 'coord-tick' }, parent);
+    if (isMajor) {
+      el('text', { x: 11, y: y + 3, class: 'coord-lab' }, parent).textContent = y;
+    }
+  }
+  for (let x = 40; x <= 960; x += 20) {
+    const isMajor = x % 120 === 0;
+    el('line', { x1: x, y1: 640, x2: x, y2: isMajor ? 632 : 636, class: 'coord-tick' }, parent);
+    if (isMajor) {
+      el('text', { x: x - 6, y: 628, class: 'coord-lab' }, parent).textContent = x;
+    }
+  }
+
+  // Figure annotation
+  el('text', { x: 990, y: 627, 'text-anchor': 'end', class: 'fig-ref' }, parent)
+    .textContent = 'FIG. 03 · FLOW TOPOLOGY';
+}
+
+/* ===========================
+   Timeline marks
+   =========================== */
 function renderMarks() {
   marksEl.innerHTML = '';
   state.steps.forEach((s, i) => {
     const el = document.createElement('div');
     el.className = 'mark' + (i === state.activeStep ? ' active' : (i < state.activeStep ? ' done' : ''));
-    el.textContent = s.label.toUpperCase();
-    el.style.flexBasis = `${(s.t === (state.steps[i+1]?.t ?? state.tMax)) ? 0 : 1}`;
+    el.textContent = s.label.split(' ')[0].toUpperCase();
     el.style.flex = '1';
     marksEl.appendChild(el);
   });
 }
 
+/* ===========================
+   Active step logic
+   =========================== */
 function setActive(i) {
   if (i === state.activeStep) return;
   state.activeStep = i;
@@ -583,49 +1593,48 @@ function setActive(i) {
       ec:   'Entorhinal cortex grid-cell scaffold activates at ~120 ms via the parahippocampal–EC pathway. Provides the spatial and contextual key for hippocampal indexing.',
       ca3:  'DG→CA3 relay completes at ~155 ms (+35 ms from EC). CA3 autoassociator engages partial index seed (27%) and pulls to full attractor basin in ~4 iterations.',
       ca1:  'CA3 Schaffer collateral drives CA1 at ~220 ms (+65 ms). A 42 ms SWR burst at 213 Hz carries the completed sparse index code across the 1,024-dimensional space.',
-      stim: 'Closed-loop stim at ~238 ms: 18 ms latency from SWR detection (filter 0.9 ms + spike sort 4.2 ms + decode 7.8 ms + policy 1.2 ms + delivery 3.9 ms). Graded 32 µA × (1−r).',
-      cx:   'Cortical high-gamma (70–150 Hz) reinstatement builds over ~142 ms after CA1 output, reaching peak at ~380 ms. Distributed reinstatement across temporal, parietal, and PFC regions.',
-      conf: 'Confidence gate integrates 55 ms of reinstatement evidence at ~435 ms. Temporal similarity score r=0.81 clears threshold (0.6). No confabulation flag triggered.',
+      stim: 'Closed-loop stim at ~238 ms: 18 ms latency from SWR detection (filter 0.9 + spike sort 4.2 + decode 7.8 + policy 1.2 + delivery 3.9 ms). Graded 32 µA × (1−r).',
+      cx:   'Cortical high-gamma (70–150 Hz) reinstatement builds over ~142 ms after CA1 output, reaching peak at ~380 ms. Distributed reinstatement across temporal, parietal, PFC.',
+      conf: 'Confidence gate integrates 55 ms of reinstatement evidence at ~435 ms. Temporal similarity r=0.81 clears threshold (0.6). No confabulation flag triggered.',
       out:  'Retrieved memory delivered to user layer at ~490 ms total RTT. Memory ID, engram fidelity, and confidence score packaged. Schema-absent path would take ~800 ms.',
     },
     write: {
       spec:   'Memory descriptor received at t=0. Content, associative graph, schema tag, and SHA-256 consent hash parsed and validated. Descriptor format: MDL v2.1.',
-      schema: 'Schema compatibility inference at ~45 ms (quantized INT8 on neuromorphic ASIC). First-aid schema match 0.82 → schema-primed 48-hr consolidation path selected vs. 3-wk schema-absent.',
+      schema: 'Schema compatibility inference at ~45 ms (quantized INT8 on neuromorphic ASIC). First-aid fit 0.82 → schema-primed 48-hr consolidation path vs. 3-wk schema-absent.',
       man:    'GPU manifold projection at ~230 ms (185 ms = 120 ms GPFA embedding + 65 ms gradient snap). Subject-specific 10-dim intrinsic manifold. Off-manifold residual 0.04 — below abort threshold 0.05.',
       seed:   'Seed engram synthesized at ~395 ms. 289/1024 sites selected (28.2% of target pattern). Threshold: 20–30% required for CA3 autoassociative completion; below 20% fails to converge.',
-      vip:    'VIP+ interneuron stim at ~415 ms (20 ms after seed ready). 20 Hz burst, 5 pulses, 15 µA opens disinhibitory gate via PV/SST suppression. Plasticity window: ~180 ms duration.',
+      vip:    'VIP+ interneuron stim at ~415 ms (20 ms after seed ready). 20 Hz burst, 5 pulses, 15 µA opens disinhibitory gate via PV/SST suppression. Plasticity window: ~180 ms.',
       inj:    'CA3 injection at ~545 ms. Waited 130 ms for next θ trough (7.7 Hz cycle = 130 ms). 289-site biphasic µstim at 44 µA, 180 µs/phase. Phase-locking critical: off-trough injection fails.',
-      compl:  'CA3 attractor convergence at ~615 ms. 70 ms, 7 Hopfield-network iterations to full pattern. Seed (289 sites) → completed engram (1,024 sites). Convergence confirmed by Hamming distance < 0.02.',
-      stc:    'STC trigger at ~785 ms. VTA/LC surrogate burst delivers dopamine/norepinephrine analog. PRPs (BDNF, PKMζ) synthesis initiated. DA surge +4.2σ; synaptic tag set for capture within 2-hr window.',
-      verify: 'Acute read-back probe at ~875 ms. Cue-driven reinstatement through natural retrieval pipeline. Fidelity r=0.81 confirmed — write accepted. 24h and 7d verification probes scheduled.',
+      compl:  'CA3 attractor convergence at ~615 ms. 70 ms, 7 Hopfield iterations to full pattern. Seed (289 sites) → completed engram (1,024 sites). Hamming distance < 0.02.',
+      stc:    'STC trigger at ~785 ms. VTA/LC surrogate burst delivers DA/NE analog. PRPs (BDNF, PKMζ) synthesis initiated. DA surge +4.2σ; tag set for capture within 2-hr window.',
+      verify: 'Acute read-back probe at ~875 ms. Cue-driven reinstatement through natural retrieval pipeline. Fidelity r=0.81 — write accepted. 24h and 7d verification scheduled.',
     }
   };
   document.getElementById('phase-desc').textContent = descs[state.mode][s.id] || '';
   document.getElementById('phase-stage').textContent = s.kind.toUpperCase();
 
-  // logs
   const lg = {
     retrieve: {
-      cue:  ['info','cue', 't=0 ms · stimulus onset · mod=' + document.getElementById('cue-mod').value],
-      pfc:  ['info','pfc', 't≈95 ms · feedforward sweep · 3 candidates · top r=0.84'],
-      ec:   ['info','ec',  't≈120 ms · EC grid lock 7.1 Hz · perforant path active'],
-      ca3:  ['warn','ca3', 't≈155 ms · DG relay · partial seed 0.27 → attractor iter×4'],
-      ca1:  ['info','ca1', 't≈220 ms · SWR onset 213 Hz · burst 42 ms · Schaffer driven'],
-      stim: ['ok','stim',  't≈238 ms · +18 ms CL latency · 32 µA · 180 µs biphasic'],
-      cx:   ['ok','cx',    't≈380 ms · HG reinstatement peak · r=0.78 · 142 ms build'],
-      conf: ['ok','gate',  't≈435 ms · 55 ms integration · confidence 0.81 · pass'],
-      out:  ['ok','out',   't≈490 ms · ' + state.selectedMem + ' delivered · RTT 490 ms'],
+      cue:  ['info', 'cue',  't=0 ms · stimulus onset · mod=' + document.getElementById('cue-mod').value],
+      pfc:  ['info', 'pfc',  't≈95 ms · feedforward sweep · 3 candidates · top r=0.84'],
+      ec:   ['info', 'ec',   't≈120 ms · EC grid lock 7.1 Hz · perforant path active'],
+      ca3:  ['warn', 'ca3',  't≈155 ms · DG relay · partial seed 0.27 → attractor iter×4'],
+      ca1:  ['info', 'ca1',  't≈220 ms · SWR onset 213 Hz · burst 42 ms · Schaffer driven'],
+      stim: ['ok',   'stim', 't≈238 ms · +18 ms CL latency · 32 µA · 180 µs biphasic'],
+      cx:   ['ok',   'cx',   't≈380 ms · HG reinstatement peak · r=0.78 · 142 ms build'],
+      conf: ['ok',   'gate', 't≈435 ms · 55 ms integration · confidence 0.81 · pass'],
+      out:  ['ok',   'out',  't≈490 ms · ' + state.selectedMem + ' delivered · RTT 490 ms'],
     },
     write: {
-      spec:   ['info','spec', 't=0 ms · MDL v2.1 parsed · consent SHA-256 ✓'],
-      schema: ['info','sch',  't≈45 ms · INT8 inference · first-aid fit 0.82 · 48-hr path'],
-      man:    ['info','man',  't≈230 ms · +185 ms GPU · 10-dim manifold · residual 0.04'],
-      seed:   ['info','seed', 't≈395 ms · +165 ms synth · 289/1024 sites (28.2%)'],
-      vip:    ['warn','vip',  't≈415 ms · 20 Hz burst 15 µA · gate open · 180 ms window'],
-      inj:    ['ok','stim',   't≈545 ms · θ-lock +130 ms (7.7 Hz) · 289 sites · 44 µA'],
-      compl:  ['ok','ca3',    't≈615 ms · +70 ms · iter=7 · Hamming d=0.018 · converged'],
-      stc:    ['ok','stc',    't≈785 ms · +170 ms · DA +4.2σ · PRP synthesis initiated'],
-      verify: ['ok','ver',    't≈875 ms · +90 ms probe · fidelity r=0.81 · CONFIRMED'],
+      spec:   ['info', 'spec', 't=0 ms · MDL v2.1 parsed · consent SHA-256 ✓'],
+      schema: ['info', 'sch',  't≈45 ms · INT8 inference · first-aid fit 0.82 · 48-hr path'],
+      man:    ['info', 'man',  't≈230 ms · +185 ms GPU · 10-dim manifold · residual 0.04'],
+      seed:   ['info', 'seed', 't≈395 ms · +165 ms synth · 289/1024 sites (28.2%)'],
+      vip:    ['warn', 'vip',  't≈415 ms · 20 Hz burst 15 µA · gate open · 180 ms window'],
+      inj:    ['ok',   'stim', 't≈545 ms · θ-lock +130 ms (7.7 Hz) · 289 sites · 44 µA'],
+      compl:  ['ok',   'ca3',  't≈615 ms · +70 ms · iter=7 · Hamming d=0.018 · converged'],
+      stc:    ['ok',   'stc',  't≈785 ms · +170 ms · DA +4.2σ · PRP synthesis initiated'],
+      verify: ['ok',   'ver',  't≈875 ms · +90 ms probe · fidelity r=0.81 · CONFIRMED'],
     }
   };
   const entry = lg[state.mode][s.id];
@@ -635,35 +1644,36 @@ function setActive(i) {
 }
 
 function updateTelemetry() {
-  const p = state.activeStep / (state.steps.length - 1);
+  const p = state.activeStep / Math.max(1, state.steps.length - 1);
   const pct = Math.max(0, Math.min(1, p));
-  const swr = (pct < 0.4 ? 1.2 : 4.8 + Math.random() * 1.5).toFixed(2);
+  const swr = (pct < 0.4 ? 0.2 + pct * 2.5 : 4.8 + Math.random() * 1.5).toFixed(2);
   const pac = (0.2 + pct * 0.6 + Math.random() * 0.05).toFixed(2);
   const rein = (state.mode === 'retrieve' ? pct * 0.85 : pct * 0.7).toFixed(2);
   const man = state.mode === 'write' ? (0.75 + pct * 0.2).toFixed(2) : '—';
   const fid = state.mode === 'write' && pct > 0.85 ? (0.78 + Math.random() * 0.06).toFixed(2) : (state.mode === 'write' ? '—' : '—');
 
-  set('t-swr', `${swr} /s`, pct * 100);
-  set('t-pac', pac, pac * 100);
-  set('t-rein', rein, rein * 100);
-  set('t-man', man, state.mode === 'write' ? parseFloat(man) * 100 : 0, true);
-  set('t-fid', fid, fid === '—' ? 0 : parseFloat(fid) * 100, true);
+  setMeter('t-swr', `${swr} /s`, Math.min(100, parseFloat(swr) * 14));
+  setMeter('t-pac', pac, parseFloat(pac) * 100);
+  setMeter('t-rein', rein, parseFloat(rein) * 100);
+  setMeter('t-man', man, state.mode === 'write' ? parseFloat(man) * 100 : 0, true);
+  setMeter('t-fid', fid, fid === '—' ? 0 : parseFloat(fid) * 100, true);
 
   if (state.activeStep === state.steps.length - 1) {
     const out = document.getElementById('output');
     if (state.mode === 'retrieve') {
       const m = READ_MEMORIES.find(x => x.id === state.selectedMem) || READ_MEMORIES[0];
-      out.innerHTML = `<div style="font-family: var(--f-mono); font-size:10px; color: var(--hot-0); letter-spacing: 0.1em;">RETRIEVED · r=0.81</div>
-        <div class="serif" style="font-size: 20px; color: var(--fg-0); margin: 4px 0; font-family: 'Instrument Serif', serif;">${m.name}</div>
-        <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3);">id ${m.id} · k=${m.k}/1024 · θ-lock 7.1 Hz</div>`;
+      out.innerHTML = `<div class="ok-tag"><i></i>RETRIEVED · r=0.81</div>
+        <div class="nm">${m.name}</div>
+        <div class="fp">id ${m.id} · k=${m.k}/1024 · θ-lock 7.1 Hz · RTT 490 ms</div>`;
     } else {
-      out.innerHTML = `<div style="font-family: var(--f-mono); font-size:10px; color: var(--signal); letter-spacing: 0.1em;">WRITE CONFIRMED · r=0.81</div>
-        <div class="serif" style="font-size: 20px; color: var(--fg-0); margin: 4px 0; font-family: 'Instrument Serif', serif;">CPR procedural trace</div>
-        <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3);">id 0x9F22A401 · k=52/1024 · verify @ 24h</div>`;
+      out.innerHTML = `<div class="ok-tag"><i></i>WRITE CONFIRMED · r=0.81</div>
+        <div class="nm">CPR · procedural trace</div>
+        <div class="fp">id 0x9F22A401 · k=52/1024 · verify @ 24h / 7d</div>`;
     }
   }
 }
-function set(id, txt, pct, noBarIfEmpty) {
+
+function setMeter(id, txt, pct, noBarIfEmpty) {
   const el = document.getElementById(id);
   if (!el) return;
   el.textContent = txt;
@@ -671,28 +1681,37 @@ function set(id, txt, pct, noBarIfEmpty) {
   if (bar) bar.style.width = (noBarIfEmpty && txt === '—' ? 0 : pct) + '%';
 }
 
+/* ===========================
+   Mode switch
+   =========================== */
 function setMode(m) {
   state.mode = m;
   state.steps = m === 'retrieve' ? READ_STEPS : WRITE_STEPS;
-  state.t = 0; state.activeStep = -1;
+  state.t = 0;
+  state.activeStep = -1;
   state.tMax = state.steps[state.steps.length - 1].t + 100;
+  document.body.classList.toggle('mode-retrieve', m === 'retrieve');
+  document.body.classList.toggle('mode-write', m === 'write');
   document.querySelectorAll('#modes button').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
   document.getElementById('retrieve-inputs').style.display = m === 'retrieve' ? 'block' : 'none';
   document.getElementById('write-inputs').style.display = m === 'write' ? 'block' : 'none';
-  document.getElementById('input-head').textContent = m === 'retrieve' ? 'Retrieval cue' : 'Write specification';
+  document.getElementById('input-head').innerHTML = m === 'retrieve'
+    ? 'Retrieval cue <span class="tag">INPUT</span>'
+    : 'Write specification <span class="tag">INPUT</span>';
   document.getElementById('phase-name').textContent = m === 'retrieve' ? 'READ · Retrieval' : 'WRITE · Synthesis';
   document.getElementById('phase-stage').textContent = 'IDLE';
   document.getElementById('phase-desc').textContent = m === 'retrieve'
     ? 'Biological RTT ≈ 490 ms: cue (t=0) → PFC match (~95 ms) → CA3 completion (~155 ms) → SWR burst (~220 ms) → 18 ms CL stim → cortical HG reinstatement (~380 ms) → confidence gate → delivery.'
     : 'Acute injection phase ≈ 875 ms: schema check (~45 ms) → GPU manifold projection (~230 ms) → seed synthesis → VIP+ gate → θ-locked CA3 injection (~545 ms) → attractor convergence → STC trigger (~785 ms) → verify.';
-  document.getElementById('output').innerHTML = '<span style="font-family: var(--f-mono); color: var(--fg-3); font-size: 10px;">awaiting run…</span>';
+  document.getElementById('output').innerHTML = '<span class="idle">awaiting run</span>';
   logEl.innerHTML = '';
+  // reset particles
+  particles.length = 0;
   renderFlow();
   renderMarks();
   scrubFill.style.width = '0%';
-  clockEl.textContent = 't = 0.0 ms';
-  // reset telemetry
-  ['t-swr','t-pac','t-rein','t-man','t-fid'].forEach(id => {
+  clockEl.textContent = '0.0 ms';
+  ['t-swr', 't-pac', 't-rein', 't-man', 't-fid'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
     el.textContent = id === 't-man' || id === 't-fid' ? '—' : '0.00';
@@ -701,7 +1720,9 @@ function setMode(m) {
 }
 document.querySelectorAll('#modes button').forEach(b => b.onclick = () => setMode(b.dataset.mode));
 
-// play loop
+/* ===========================
+   Playback loop
+   =========================== */
 let rafId;
 function tick() {
   if (!state.playing) return;
@@ -714,8 +1735,7 @@ function tick() {
   }
   const frac = state.t / state.tMax;
   scrubFill.style.width = (frac * 100) + '%';
-  clockEl.textContent = 't = ' + state.t.toFixed(0) + ' ms';
-  // figure active step
+  clockEl.textContent = state.t.toFixed(0) + ' ms';
   let active = -1;
   state.steps.forEach((s, i) => { if (state.t >= s.t) active = i; });
   if (active !== state.activeStep) setActive(active);
@@ -731,6 +1751,7 @@ document.getElementById('play').onclick = () => {
 };
 document.getElementById('run').onclick = () => {
   state.t = 0; state.activeStep = -1; logEl.innerHTML = '';
+  particles.length = 0;
   state.playing = true;
   document.getElementById('play').classList.add('playing');
   document.getElementById('play').textContent = '❚❚';
@@ -738,8 +1759,173 @@ document.getElementById('run').onclick = () => {
 };
 document.getElementById('reset').onclick = () => setMode(state.mode);
 
-// Initial render
+/* ===========================
+   Particle system (flows along active edges)
+   =========================== */
+function spawnParticle(edgeKey, path) {
+  particles.push({
+    edgeKey,
+    path,
+    t: 0,
+    speed: 0.012 + Math.random() * 0.01,
+    size: 1.3 + Math.random() * 0.8,
+  });
+}
+
+function updateParticles() {
+  const layer = document.getElementById('particle-layer');
+  if (!layer) return;
+  layer.innerHTML = '';
+
+  // spawn new particles on active edges
+  edgePathMap.forEach((meta, key) => {
+    if (meta.isActive && Math.random() < 0.22) {
+      spawnParticle(key, meta.path);
+    }
+  });
+
+  // animate
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.t += p.speed;
+    if (p.t >= 1 || !p.path || !p.path.isConnected) {
+      particles.splice(i, 1);
+      continue;
+    }
+    const len = p.path.getTotalLength ? p.path.getTotalLength() : 0;
+    if (!len) continue;
+    const pt = p.path.getPointAtLength(len * p.t);
+    const c = el('circle', {
+      cx: pt.x, cy: pt.y, r: p.size,
+      class: 'particle',
+      'fill-opacity': Math.sin(p.t * Math.PI),
+    }, layer);
+  }
+}
+
+/* ===========================
+   Oscilloscope ambient animation
+   =========================== */
+const osc = {
+  theta: document.getElementById('osc-theta'),
+  gamma: document.getElementById('osc-gamma'),
+  swr:   document.getElementById('osc-swr'),
+  spike: document.getElementById('osc-spike'),
+  rms:   document.getElementById('osc-rms'),
+};
+const oscWidth = 260;
+const spikeTrain = [];  // list of {x, decay}
+
+function updateOscilloscope() {
+  const t = performance.now() * 0.001;
+  const active = state.activeStep >= 0;
+  const energy = active ? Math.min(1, 0.5 + 0.5 * (state.activeStep / state.steps.length)) : 0.22;
+
+  // theta (slow)
+  const thetaPts = [];
+  for (let i = 0; i <= 120; i++) {
+    const x = (i / 120) * oscWidth;
+    const r = i / 120;
+    const y = 12 - Math.sin(r * 6 + t * 1.2) * 8 * (active ? (0.8 + energy * 0.2) : 0.35);
+    thetaPts.push([x, y]);
+  }
+  osc.theta.setAttribute('d', smoothPath(thetaPts));
+
+  // gamma (faster, modulated)
+  const gammaPts = [];
+  for (let i = 0; i <= 160; i++) {
+    const x = (i / 160) * oscWidth;
+    const r = i / 160;
+    const envelope = 0.5 + 0.5 * Math.sin(r * 6 + t * 1.2);
+    const y = 36 - Math.sin(r * 40 + t * 5) * 9 * envelope * (active ? (0.7 + energy * 0.3) : 0.25);
+    gammaPts.push([x, y]);
+  }
+  osc.gamma.setAttribute('d', smoothPath(gammaPts));
+
+  // SWR (bursty, tight oscillation in envelope)
+  const swrPts = [];
+  const burstPhase = active && state.activeStep >= 3 ? 1 : 0;
+  for (let i = 0; i <= 200; i++) {
+    const x = (i / 200) * oscWidth;
+    const r = i / 200;
+    // burst centered moving
+    const burstCenter = (t * 0.3) % 1;
+    const env = Math.exp(-Math.pow((r - burstCenter), 2) * 80) * (0.4 + burstPhase * 0.8);
+    const y = 60 - Math.sin(r * 100 + t * 8) * 9 * env;
+    swrPts.push([x, y]);
+  }
+  osc.swr.setAttribute('d', smoothPath(swrPts));
+
+  // spike raster
+  osc.spike.innerHTML = '';
+  // spawn new spikes
+  const spikeRate = active ? (0.3 + energy * 0.3) : 0.08;
+  if (Math.random() < spikeRate) {
+    spikeTrain.push({ x: oscWidth, decay: 1.0 });
+  }
+  // move & render
+  for (let i = spikeTrain.length - 1; i >= 0; i--) {
+    spikeTrain[i].x -= 2.2;
+    spikeTrain[i].decay -= 0.01;
+    if (spikeTrain[i].x < 0 || spikeTrain[i].decay <= 0) {
+      spikeTrain.splice(i, 1);
+      continue;
+    }
+    const s = spikeTrain[i];
+    el('line', {
+      x1: s.x, y1: 76, x2: s.x, y2: 92,
+      stroke: 'var(--hot-1)', 'stroke-width': 0.7,
+      'stroke-opacity': s.decay * (0.7 + Math.random() * 0.3),
+    }, osc.spike);
+  }
+
+  // RMS display
+  osc.rms.textContent = 'RMS ' + (1.2 + energy * 4.8 + Math.sin(t * 3) * 0.3).toFixed(2) + ' µV';
+}
+
+/* ===========================
+   Ambient loop (always running)
+   =========================== */
+function ambient() {
+  updateOscilloscope();
+  updateParticles();
+  updateRegionBars();
+
+  // also redraw the active node's viz (for live animation of active node)
+  // cheap: only re-render if there is an active step
+  if (state.activeStep >= 0 && state.playing === false) {
+    // don't double render during tick; ambient handles when not playing
+  }
+
+  // For live signal animation, we re-render the entire flow at low rate
+  // by only rebuilding the active node's viz (skip to avoid full re-render).
+  // Simpler: re-render every 3rd frame to keep cost low.
+  ambient._c = (ambient._c || 0) + 1;
+  if (ambient._c % 3 === 0 && state.activeStep >= 0) {
+    // re-render just the active node group
+    const s = state.steps[state.activeStep];
+    const nextT = state.steps[state.activeStep + 1] ? state.steps[state.activeStep + 1].t : state.tMax;
+    const localPhase = Math.max(0, Math.min(1, (state.t - s.t) / Math.max(1, nextT - s.t)));
+    // find the active group and replace its viz
+    const groups = svg.querySelectorAll('g.active');
+    groups.forEach(g => {
+      // remove existing viz elements (keep frame, corners, labels, dot)
+      const vizItems = g.querySelectorAll('.viz-bg, g');
+      vizItems.forEach(v => {
+        if (v.tagName === 'g' || v.classList.contains('viz-bg')) v.remove();
+      });
+      renderNodeViz(g, s, true, localPhase, false);
+    });
+  }
+
+  requestAnimationFrame(ambient);
+}
+
+/* ===========================
+   Boot
+   =========================== */
 setMode('retrieve');
+ambient();
 </script>
 
 </body>
