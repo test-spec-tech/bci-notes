@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Simulation · In-Silico Brain</title>
+<title>Simulation · Memory Processes in the Brain (WIP)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -328,7 +328,7 @@
   .readout .rs { font-family: var(--f-mono); font-size: 10px; color: var(--fg-2); margin-top: 3px; }
   .readout svg { width: 100%; height: 60px; }
 
-  /* Examples / perf / insilico / multi tabs */
+  /* Examples / perf / memoryProcesses / multi tabs */
   .ex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .ex-card { border: 1px solid var(--line); padding: 10px; background: var(--bg-1); cursor: pointer; transition: all 0.15s; }
   .ex-card:hover { border-color: var(--hot-0); }
@@ -383,7 +383,7 @@
 <div class="topbar">
   <div class="brand">
     <a href="../index.html" style="text-decoration: none;"><span class="b1">BCI · Memory R/W</span></a>
-    <span class="b2">Simulation 02 · In-Silico Brain</span>
+    <span class="b2">Simulation 02 · Memory Processes in the Brain (WIP)</span>
   </div>
   <nav>
     <a href="../index.html">← Landing</a>
@@ -474,7 +474,7 @@
     <div class="tabs" id="tabs">
       <button class="active" data-tab="examples">Examples</button>
       <button data-tab="performance">Performance</button>
-      <button data-tab="insilico">In-Silico</button>
+      <button data-tab="memoryProcesses">Memory Processes</button>
       <button data-tab="multi">Multimodality</button>
       <span class="rside">Test-class · 1,000 hr fMRI · 720 subj</span>
     </div>
@@ -524,7 +524,7 @@
       </div>
     </div>
 
-    <div class="tab-body" id="tab-insilico" hidden>
+    <div class="tab-body" id="tab-memoryProcesses" hidden>
       <div class="ins-list">
         <div class="ins-row"><div><div class="nm">Cortical sensory hierarchy (Felleman & Van Essen '91)</div><div class="ds">V1 → V2 → V4 → IT progression in predicted activity · recovered</div></div><div class="rn">r = 0.87</div></div>
         <div class="ins-row"><div><div class="nm">FFA selectivity for faces (Kanwisher '97)</div><div class="ds">face &gt; scene contrast · matches literature · 1.8× object baseline</div></div><div class="rn">d = 1.81</div></div>
@@ -657,7 +657,7 @@
 
 <script>
 /* ================================================================
-   In-silico brain simulator v3 — high-fidelity Canvas rendering
+   Memory Processes in the Brain (WIP) simulator v3 — high-fidelity Canvas rendering
    with continuous BOLD colormap, Gaussian splat compositing,
    multi-view navigator, atlas overlays, and per-stimulus animation.
    ================================================================ */
