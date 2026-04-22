@@ -1980,160 +1980,6 @@ function buildHippocampusMesh(side) {
   return mesh;
 }
 
-// Small helper: build an ellipsoid subcortical nucleus with vertex colors
-// and voxelData wired for activityFor(). radii = [rx, ry, rz] in brain
-// ellipsoid space (same units as cerebrum 1.0 × 0.82 × 1.15).
-function buildNucleusMesh(opts) {
-  const { center, radii, region, side, tint, segs = 28 } = opts;
-  const geo = new THREE.SphereGeometry(1.0, segs, Math.max(12, segs >> 1));
-  const pos = geo.attributes.position;
-  const N = pos.count;
-  const colBuf = new Float32Array(N * 3);
-  const voxelData = [];
-
-  for (let i = 0; i < N; i++) {
-    const nx = pos.getX(i), ny_ = pos.getY(i), nz = pos.getZ(i);
-    // Slight surface jitter so the nucleus reads as tissue rather than a
-    // perfect geometric primitive.
-    const jitter = 1.0 + 0.035 * Math.sin(8.7*nx + 3.1*ny_ + 5.4*nz);
-    const x = nx * radii[0] * jitter + center[0];
-    const y = ny_ * radii[1] * jitter + center[1];
-    const z = nz * radii[2] * jitter + center[2];
-    pos.setXYZ(i, x, y, z);
-
-    const seed = ((i * 6271 + 1619 + ((side || 0) > 0 ? 0 : 47)) % 233280) / 233280;
-    colBuf[i*3]   = tint[0];
-    colBuf[i*3+1] = tint[1];
-    colBuf[i*3+2] = tint[2];
-    voxelData.push({
-      x: 300 + nx * 260 + (center[0] * 260),
-      y: 300 - ny_ * 220 - (center[1] * 220),
-      region,
-      seed,
-      idx: i,
-    });
-  }
-
-  geo.setAttribute('color', new THREE.BufferAttribute(colBuf, 3));
-  geo.computeVertexNormals();
-
-  const mat = new THREE.MeshPhongMaterial({
-    vertexColors: true, shininess: 30,
-    specular: new THREE.Color(0.13, 0.10, 0.08),
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.userData.voxelData = voxelData;
-  mesh.userData.region    = region;
-  if (side !== undefined) mesh.userData.side = side;
-  mesh.renderOrder = 1;
-  return mesh;
-}
-
-// Amygdala — almond-shaped nuclear complex, anterior-superior to the
-// uncus of the hippocampus in the medial temporal lobe.
-function buildAmygdalaMesh(side) {
-  return buildNucleusMesh({
-    center: [side * 0.34, -0.36,  0.50],
-    radii:  [0.085, 0.080, 0.10],
-    region: 'amy',
-    side,
-    tint:   [0.824, 0.712, 0.544],
-    segs:   24,
-  });
-}
-
-// Thalamus — paired egg-shaped diencephalic nuclei flanking the third
-// ventricle. Elongated along the anterior-posterior axis.
-function buildThalamusMesh(side) {
-  return buildNucleusMesh({
-    center: [side * 0.11, -0.02, -0.04],
-    radii:  [0.10, 0.095, 0.19],
-    region: 'thal',
-    side,
-    tint:   [0.840, 0.744, 0.586],
-    segs:   28,
-  });
-}
-
-// Hypothalamus — small midline structure inferior to thalamus, superior
-// to the pituitary stalk. Single (unpaired) ellipsoid.
-function buildHypothalamusMesh() {
-  return buildNucleusMesh({
-    center: [0.0, -0.20,  0.06],
-    radii:  [0.11, 0.065, 0.095],
-    region: 'thal',
-    tint:   [0.820, 0.704, 0.548],
-    segs:   22,
-  });
-}
-
-// Mammillary bodies — two small spheres at the posterior base of the
-// hypothalamus; receive output of the fornix and project to anterior
-// thalamus via the mammillothalamic tract (Papez circuit).
-function buildMammillaryMesh(side) {
-  return buildNucleusMesh({
-    center: [side * 0.045, -0.28,  0.02],
-    radii:  [0.038, 0.038, 0.042],
-    region: 'hip',
-    side,
-    tint:   [0.808, 0.692, 0.528],
-    segs:   16,
-  });
-}
-
-// Fornix — arched white-matter tract carrying hippocampal output.
-// Fimbria/crus rises from the hippocampal tail, the body arches forward
-// under the corpus callosum above the thalamus, and the columns descend
-// anteriorly to terminate in the mammillary bodies.
-function buildFornixMesh(side) {
-  const s = side;
-  const pts = [
-    new THREE.Vector3(s * 0.22,  0.10, -0.32),  // fimbria, above hippocampal tail
-    new THREE.Vector3(s * 0.15,  0.22, -0.20),  // crus of fornix, ascending
-    new THREE.Vector3(s * 0.08,  0.28, -0.02),  // body of fornix, arching forward
-    new THREE.Vector3(s * 0.05,  0.24,  0.18),  // body continues anteriorly
-    new THREE.Vector3(s * 0.04,  0.08,  0.24),  // column descends
-    new THREE.Vector3(s * 0.045, -0.10, 0.18),  // column continues down
-    new THREE.Vector3(s * 0.045, -0.24, 0.06),  // terminates at mammillary body
-  ];
-
-  const curve = new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
-  const geo = new THREE.TubeGeometry(curve, 64, 0.022, 10, false);
-  const pos = geo.attributes.position;
-  const N = pos.count;
-  const colBuf = new Float32Array(N * 3);
-  const voxelData = [];
-
-  for (let i = 0; i < N; i++) {
-    const seed = ((i * 6271 + 1619 + (s > 0 ? 0 : 47)) % 233280) / 233280;
-    // White-matter tone: paler and cooler than cortical gray.
-    colBuf[i*3]   = 0.934;
-    colBuf[i*3+1] = 0.902;
-    colBuf[i*3+2] = 0.812;
-    voxelData.push({
-      x: 300 + pos.getX(i) * 260,
-      y: 300 - pos.getY(i) * 220,
-      region: 'hip',
-      seed,
-      idx: i,
-    });
-  }
-
-  geo.setAttribute('color', new THREE.BufferAttribute(colBuf, 3));
-  geo.computeVertexNormals();
-
-  const mat = new THREE.MeshPhongMaterial({
-    vertexColors: true, shininess: 44,
-    specular: new THREE.Color(0.20, 0.18, 0.14),
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.userData.voxelData = voxelData;
-  mesh.userData.region    = 'hip';
-  mesh.userData.side      = side;
-  mesh.renderOrder = 1;
-  return mesh;
-}
-
 function initThreeBrain() {
   const canvas = document.getElementById('brain-3d');
   if (!canvas || typeof THREE === 'undefined') return;
@@ -2163,35 +2009,14 @@ function initThreeBrain() {
   const cerebellumMesh  = buildCerebellumMesh();
   const hippocampusL    = buildHippocampusMesh(-1);
   const hippocampusR    = buildHippocampusMesh(+1);
-  const amygdalaL       = buildAmygdalaMesh(-1);
-  const amygdalaR       = buildAmygdalaMesh(+1);
-  const thalamusL       = buildThalamusMesh(-1);
-  const thalamusR       = buildThalamusMesh(+1);
-  const hypothalamus    = buildHypothalamusMesh();
-  const mammillaryL     = buildMammillaryMesh(-1);
-  const mammillaryR     = buildMammillaryMesh(+1);
-  const fornixL         = buildFornixMesh(-1);
-  const fornixR         = buildFornixMesh(+1);
-
   brainGroup.add(cerebralMesh);
   brainGroup.add(cerebellumMesh);
   brainGroup.add(hippocampusL);
   brainGroup.add(hippocampusR);
-  brainGroup.add(amygdalaL);
-  brainGroup.add(amygdalaR);
-  brainGroup.add(thalamusL);
-  brainGroup.add(thalamusR);
-  brainGroup.add(hypothalamus);
-  brainGroup.add(mammillaryL);
-  brainGroup.add(mammillaryR);
-  brainGroup.add(fornixL);
-  brainGroup.add(fornixR);
 
   _three = {
     scene, camera, renderer, brainGroup,
     cerebralMesh, cerebellumMesh, hippocampusL, hippocampusR,
-    amygdalaL, amygdalaR, thalamusL, thalamusR,
-    hypothalamus, mammillaryL, mammillaryR, fornixL, fornixR,
     targetRot:   { x: 0.14, y: 0 },
     snapActive:  false,
     lastInteract: 0,
@@ -2288,10 +2113,10 @@ function updateBrainMaterial() {
     mat.needsUpdate = true;
   }
 
-  // Subcortical limbic structures stay fully opaque so they read clearly
-  // through the glass cortex; in solid mode they're occluded by the
-  // cerebrum, which is anatomically correct.
-  for (const mesh of limbicMeshes(_three)) {
+  // Hippocampi stay fully opaque so they read clearly through the glass
+  // cortex; in solid mode they're occluded by the cerebrum, which is
+  // anatomically correct.
+  for (const mesh of [_three.hippocampusL, _three.hippocampusR]) {
     const mat = mesh.material;
     mat.transparent = false;
     mat.opacity     = 1.0;
@@ -2301,17 +2126,6 @@ function updateBrainMaterial() {
   }
 }
 
-function limbicMeshes(t) {
-  return [
-    t.hippocampusL, t.hippocampusR,
-    t.amygdalaL,    t.amygdalaR,
-    t.thalamusL,    t.thalamusR,
-    t.hypothalamus,
-    t.mammillaryL,  t.mammillaryR,
-    t.fornixL,      t.fornixR,
-  ];
-}
-
 function updateBrainColors() {
   if (!_three) return;
   const compo      = currentCompo();
@@ -2319,7 +2133,7 @@ function updateBrainColors() {
   const regionFilter = state.region;
 
   for (const mesh of [_three.cerebralMesh, _three.cerebellumMesh,
-                      ...limbicMeshes(_three)]) {
+                      _three.hippocampusL, _three.hippocampusR]) {
     const vd = mesh.userData.voxelData;
     if (!vd) continue;
     const colAttr = mesh.geometry.attributes.color;
@@ -2375,12 +2189,7 @@ function updateBrainLabels() {
     { t: 'R TEMPORAL',  p: new THREE.Vector3( 1.12, -0.10,  0.00) },
     { t: 'PARIETAL',    p: new THREE.Vector3( 0.00,  0.92,  0.00) },
     { t: 'CEREBELLUM',  p: new THREE.Vector3( 0.00, -0.96, -0.70) },
-    { t: 'HIPPOCAMPUS',  p: new THREE.Vector3( 0.42, -0.40,  0.05) },
-    { t: 'AMYGDALA',     p: new THREE.Vector3( 0.34, -0.36,  0.50) },
-    { t: 'THALAMUS',     p: new THREE.Vector3( 0.11, -0.02, -0.04) },
-    { t: 'HYPOTHALAMUS', p: new THREE.Vector3( 0.00, -0.20,  0.06) },
-    { t: 'MAMMILLARY',   p: new THREE.Vector3( 0.05, -0.28,  0.02) },
-    { t: 'FORNIX',       p: new THREE.Vector3( 0.06,  0.28, -0.02) },
+    { t: 'HIPPOCAMPUS', p: new THREE.Vector3( 0.42, -0.40,  0.05) },
   ];
 
   const canvas = document.getElementById('brain-3d');
@@ -2448,11 +2257,10 @@ function renderBrain() {
     state.view === 'pred' ? 'PREDICTED' :
     state.view === 'true' ? 'MEASURED · fMRI' : 'SIGNED DIFF';
   if (_three) {
-    let vCount = _three.cerebralMesh.geometry.attributes.position.count
-               + _three.cerebellumMesh.geometry.attributes.position.count;
-    for (const m of limbicMeshes(_three)) {
-      vCount += m.geometry.attributes.position.count;
-    }
+    const vCount = _three.cerebralMesh.geometry.attributes.position.count
+                 + _three.cerebellumMesh.geometry.attributes.position.count
+                 + _three.hippocampusL.geometry.attributes.position.count
+                 + _three.hippocampusR.geometry.attributes.position.count;
     document.getElementById('hud-vox').textContent = vCount.toLocaleString();
   }
   document.getElementById('hud-tl').innerHTML =
