@@ -1879,107 +1879,6 @@ function buildCerebellumMesh() {
   return mesh;
 }
 
-// Hippocampus — curved tubular structure through the medial temporal lobe.
-// Follows the inferior horn of the lateral ventricle: uncus head → body →
-// tail that curves up and medially toward the splenium. One per hemisphere.
-// side: +1 (right) or -1 (left).
-function buildHippocampusMesh(side) {
-  const s = side;
-
-  // C-shaped spline through medial temporal lobe. Coordinate convention:
-  // +x = right, +y = superior, +z = anterior. Values sit inside the
-  // cerebral ellipsoid (1.0 × 0.82 × 1.15).
-  const pts = [
-    new THREE.Vector3(s * 0.24, -0.44,  0.42),  // uncus (anterior medial hook)
-    new THREE.Vector3(s * 0.33, -0.46,  0.32),  // head
-    new THREE.Vector3(s * 0.40, -0.44,  0.16),  // body — anterior
-    new THREE.Vector3(s * 0.43, -0.40,  0.00),  // body — mid
-    new THREE.Vector3(s * 0.42, -0.34, -0.18),  // body — posterior
-    new THREE.Vector3(s * 0.36, -0.26, -0.34),  // tail begins, curves up
-    new THREE.Vector3(s * 0.25, -0.18, -0.44),  // tail — curves medially
-    new THREE.Vector3(s * 0.12, -0.12, -0.46),  // splenium (tail tip)
-  ];
-
-  const curve = new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
-  const tubularSegs = 80;
-  const radialSegs  = 14;
-  const baseRadius  = 0.075;
-
-  const geo = new THREE.TubeGeometry(curve, tubularSegs, baseRadius, radialSegs, false);
-  const pos = geo.attributes.position;
-  const rings = tubularSegs + 1;
-  const cols  = radialSegs + 1;
-
-  // Taper radius and add subtle digitation ridges along the body,
-  // producing the characteristic seahorse profile.
-  for (let ri = 0; ri < rings; ri++) {
-    const t = ri / (rings - 1);  // 0 = head, 1 = tail
-    let rScale;
-    if (t < 0.12)      rScale = 1.20 - t * 0.8;                  // head bulge
-    else if (t < 0.70) rScale = 1.10 - (t - 0.12) * 0.22;        // body, gentle taper
-    else               rScale = 0.97 - (t - 0.70) * 1.90;        // tail, strong taper
-    const ridge = 1.0 + 0.055 * Math.sin(t * 46.0);
-
-    let cx = 0, cy = 0, cz = 0;
-    for (let ci = 0; ci < cols; ci++) {
-      const idx = ri * cols + ci;
-      cx += pos.getX(idx); cy += pos.getY(idx); cz += pos.getZ(idx);
-    }
-    cx /= cols; cy /= cols; cz /= cols;
-
-    const scl = rScale * ridge;
-    for (let ci = 0; ci < cols; ci++) {
-      const idx = ri * cols + ci;
-      const vx = pos.getX(idx) - cx;
-      const vy = pos.getY(idx) - cy;
-      const vz = pos.getZ(idx) - cz;
-      pos.setXYZ(idx, cx + vx * scl, cy + vy * scl, cz + vz * scl);
-    }
-  }
-
-  const N = pos.count;
-  const colBuf = new Float32Array(N * 3);
-  const voxelData = [];
-  // Slightly warmer/pinker tissue tone than cortical GM, to distinguish
-  // subcortical gray matter when visible through the glass surface.
-  for (let i = 0; i < N; i++) {
-    const ri = Math.floor(i / cols);
-    const t = ri / (rings - 1);
-    const seed = ((i * 6271 + 1619 + (s > 0 ? 0 : 47)) % 233280) / 233280;
-    colBuf[i*3]   = 0.852;
-    colBuf[i*3+1] = 0.762;
-    colBuf[i*3+2] = 0.604;
-    // Provide px/py for activityFor(): project onto the same 300-centred
-    // overlay space used by coronal voxels, with an along-axis offset so
-    // head/body/tail receive slightly different phases.
-    voxelData.push({
-      x: 300 + pos.getX(i) * 260,
-      y: 300 - pos.getY(i) * 220 + t * 28,
-      region: 'hip',
-      seed,
-      idx: i,
-    });
-  }
-
-  geo.setAttribute('color', new THREE.BufferAttribute(colBuf, 3));
-  geo.computeVertexNormals();
-
-  const mat = new THREE.MeshPhongMaterial({
-    vertexColors: true, shininess: 34,
-    specular: new THREE.Color(0.14, 0.11, 0.08),
-  });
-
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.userData.voxelData = voxelData;
-  mesh.userData.region    = 'hip';
-  mesh.userData.side      = side;
-  // Render after the cerebrum so it shows through the translucent cortex
-  // in glass mode. (Opaque objects normally sort front-to-back; we want
-  // the hippocampus drawn on top of transparent cortex.)
-  mesh.renderOrder = 1;
-  return mesh;
-}
-
 function initThreeBrain() {
   const canvas = document.getElementById('brain-3d');
   if (!canvas || typeof THREE === 'undefined') return;
@@ -2007,16 +1906,12 @@ function initThreeBrain() {
 
   const cerebralMesh    = buildBrainMesh(false);
   const cerebellumMesh  = buildCerebellumMesh();
-  const hippocampusL    = buildHippocampusMesh(-1);
-  const hippocampusR    = buildHippocampusMesh(+1);
   brainGroup.add(cerebralMesh);
   brainGroup.add(cerebellumMesh);
-  brainGroup.add(hippocampusL);
-  brainGroup.add(hippocampusR);
 
   _three = {
     scene, camera, renderer, brainGroup,
-    cerebralMesh, cerebellumMesh, hippocampusL, hippocampusR,
+    cerebralMesh, cerebellumMesh,
     targetRot:   { x: 0.14, y: 0 },
     snapActive:  false,
     lastInteract: 0,
@@ -2112,18 +2007,6 @@ function updateBrainMaterial() {
     mat.depthWrite  = !isGlass;
     mat.needsUpdate = true;
   }
-
-  // Hippocampi stay fully opaque so they read clearly through the glass
-  // cortex; in solid mode they're occluded by the cerebrum, which is
-  // anatomically correct.
-  for (const mesh of [_three.hippocampusL, _three.hippocampusR]) {
-    const mat = mesh.material;
-    mat.transparent = false;
-    mat.opacity     = 1.0;
-    mat.side        = THREE.FrontSide;
-    mat.depthWrite  = true;
-    mat.needsUpdate = true;
-  }
 }
 
 function updateBrainColors() {
@@ -2132,8 +2015,7 @@ function updateBrainColors() {
   const view       = state.view;
   const regionFilter = state.region;
 
-  for (const mesh of [_three.cerebralMesh, _three.cerebellumMesh,
-                      _three.hippocampusL, _three.hippocampusR]) {
+  for (const mesh of [_three.cerebralMesh, _three.cerebellumMesh]) {
     const vd = mesh.userData.voxelData;
     if (!vd) continue;
     const colAttr = mesh.geometry.attributes.color;
@@ -2183,13 +2065,12 @@ function updateBrainLabels() {
   if (!state.labels || !_three) return;
 
   const LABELS_3D = [
-    { t: 'FRONTAL',     p: new THREE.Vector3( 0.00,  0.40,  1.20) },
-    { t: 'OCCIPITAL',   p: new THREE.Vector3( 0.00,  0.20, -1.22) },
-    { t: 'L TEMPORAL',  p: new THREE.Vector3(-1.12, -0.10,  0.00) },
-    { t: 'R TEMPORAL',  p: new THREE.Vector3( 1.12, -0.10,  0.00) },
-    { t: 'PARIETAL',    p: new THREE.Vector3( 0.00,  0.92,  0.00) },
-    { t: 'CEREBELLUM',  p: new THREE.Vector3( 0.00, -0.96, -0.70) },
-    { t: 'HIPPOCAMPUS', p: new THREE.Vector3( 0.42, -0.40,  0.05) },
+    { t: 'FRONTAL',    p: new THREE.Vector3( 0.00,  0.40,  1.20) },
+    { t: 'OCCIPITAL',  p: new THREE.Vector3( 0.00,  0.20, -1.22) },
+    { t: 'L TEMPORAL', p: new THREE.Vector3(-1.12, -0.10,  0.00) },
+    { t: 'R TEMPORAL', p: new THREE.Vector3( 1.12, -0.10,  0.00) },
+    { t: 'PARIETAL',   p: new THREE.Vector3( 0.00,  0.92,  0.00) },
+    { t: 'CEREBELLUM', p: new THREE.Vector3( 0.00, -0.96, -0.70) },
   ];
 
   const canvas = document.getElementById('brain-3d');
@@ -2258,9 +2139,7 @@ function renderBrain() {
     state.view === 'true' ? 'MEASURED · fMRI' : 'SIGNED DIFF';
   if (_three) {
     const vCount = _three.cerebralMesh.geometry.attributes.position.count
-                 + _three.cerebellumMesh.geometry.attributes.position.count
-                 + _three.hippocampusL.geometry.attributes.position.count
-                 + _three.hippocampusR.geometry.attributes.position.count;
+                 + _three.cerebellumMesh.geometry.attributes.position.count;
     document.getElementById('hud-vox').textContent = vCount.toLocaleString();
   }
   document.getElementById('hud-tl').innerHTML =
