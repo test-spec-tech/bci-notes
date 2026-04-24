@@ -504,189 +504,172 @@
   .wave-row .wv { flex: 1; height: 28px; }
 </style>
 </head>
-<body>
+<body data-variant="default" data-accent="warm">
+<!-- Light theme background is set in tokens.css -->
 
-<!-- NAV -->
+<!-- ================= NAV ================= -->
 <nav class="top">
   <div class="inner">
     <div class="brand">
-      <span class="logo">BCI Memory R/W</span>
-      <span class="tag">System Design · v0.1</span>
+      <span class="logo" style="white-space: nowrap;">BCI · Memory R/W</span>
+      <span class="tag" style="white-space: nowrap;">v0.3</span>
     </div>
     <ul>
-      <li><a href="#field">Field</a></li>
       <li><a href="#architecture">Architecture</a></li>
-      <li><a href="#description">Description</a></li>
+      <li><a href="#claims">Claims</a></li>
+      <li><a href="#hardware">Hardware</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#risks">Safety</a></li>
     </ul>
-    <div style="display:flex; gap: 12px;">
-      <a class="pill" href="simulations/flow.html">↗ Flow Sim</a>
-      <a class="pill hot" href="https://brain-memory-simulation.streamlit.app">↗ Brain Sim</a>
+    <div class="cta">
+      <a class="pill" href="simulations/flow.html">↗ Retrieval & Write Flow</a>
+      <a class="pill hot" href="https://brain-memory-simulation.streamlit.app/">↗ Brain</a>
     </div>
   </div>
 </nav>
 
-<!-- ABSTRACT -->
-<header class="abstract">
-  <div class="wrap">
-    <div class="patent-meta">
-      <div class="pm"><div class="pk">Design Version</div><div class="pv">v0.1</div></div>
-      <!-- <div class="pm"><div class="pk">Status</div><div class="pv" style="color:var(--hot-1)">● Phase-0 · n=24</div></div> -->
-    </div>
-    <h1 class="doc-title">System and method for <em>bidirectional</em> memory R/W via closed-loop processing</h1>
-    <div class="abstract-body">
-      <div class="abstract-text">
-        <p><strong>Abstract.</strong> A brain–computer interface system for reading and writing human memory comprising: (a) a multi-site hippocampal neural recording array; (b) a real-time signal processing pipeline extracting oscillatory band features with latency &lt; 2 ms; (c) a per-subject latent dynamical system decoder associating population activity with sparse memory index codes; (d) a closed-loop stimulation subsystem delivering site-specific microstimulation within 18 ms of event detection; and (e) a manifold-constrained pattern synthesizer projecting target memory content onto the subject's intrinsic neural manifold prior to injection.</p>
-        <p>The system operates across four memory phases — encoding, consolidation, retrieval, and <em>de novo</em> write — under a unified 1,024-dimensional sparse hippocampal index. Novelties include: content-selective sharp-wave ripple (SWR) boosting during NREM sleep; manifold-constrained engram synthesis using seed-plus-autoassociative-completion injection; inhibitory co-sculpting via interneuron subtype coordination; and a bidirectional read-back fidelity verification loop with reject-on-drift scheduling.</p>
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>System and method for bidirectional memory R/W via closed-loop processing</em>.</h1>
+      <p class="lede">
+The <b>BCI Memory Read and Write System</b> is a closed-loop brain–computer interface for reading and writing episodic memory. It detects, decodes, and selectively amplifies hippocampal replay during encoding and consolidation, and injects manifold-constrained engram patterns for <i>de novo</i> memory synthesis and reconsolidation editing. It unifies three natural memory timescales — 10&nbsp;ms spike bursts, the 1–2&nbsp;hr synaptic tagging window, and multi-night systems consolidation — under one decoder.
+      </p>
+      <div class="hero-meta">
+        <div class="cell">
+          <div class="k">Closed-loop latency</div>
+          <div class="v serif">&lt; 18<span style="color:var(--fg-2); font-size:18px"> ms</span></div>
+          <div class="sub">SWR detect → stim onset, Tier 1</div>
+        </div>
+        <div class="cell">
+          <div class="k">Write fidelity</div>
+          <div class="v serif">0.81<span style="color:var(--fg-2); font-size:18px"> r</span></div>
+          <div class="sub">predicted vs. measured engram, n=24</div>
+        </div>
+        <div class="cell">
+          <div class="k">Index dimensionality</div>
+          <div class="v serif">1,024</div>
+          <div class="sub">sparse pointer, k=48 active</div>
+        </div>
+        <div class="cell">
+          <div class="k">Voxel coverage</div>
+          <div class="v serif">286k</div>
+          <div class="sub">1.5&nbsp;mm iso, cortico‑limbic</div>
+        </div>
       </div>
-      <div class="stat-grid">
-        <div class="stat-cell">
-          <div class="sk">Closed-loop latency</div>
-          <div class="sv serif">&lt;18<span style="font-size:20px; color:var(--fg-2)"> ms</span></div>
-          <div class="ss">SWR detect → stim onset, Tier 1</div>
-        </div>
-        <div class="stat-cell">
-          <div class="sk">Write fidelity</div>
-          <div class="sv serif">0.81<span style="font-size:20px; color:var(--fg-2)"> r</span></div>
-          <div class="ss">predicted vs. measured engram, n=24</div>
-        </div>
-        <div class="stat-cell">
-          <div class="sk">Retrieval RTT</div>
-          <div class="sv serif">490<span style="font-size:20px; color:var(--fg-2)"> ms</span></div>
-          <div class="ss">cue onset → cortical reinstatement</div>
-        </div>
-        <div class="stat-cell">
-          <div class="sk">Index dimensionality</div>
-          <div class="sv serif">1,024</div>
-          <div class="ss">sparse pointer · k=48 active bits</div>
-        </div>
-        <div class="stat-cell">
-          <div class="sk">SWR classification</div>
-          <div class="sv serif">94<span style="font-size:20px; color:var(--fg-2)"> %</span></div>
-          <div class="ss">sensitivity · 6% false-positive rate</div>
-        </div>
-        <div class="stat-cell">
-          <div class="sk">Schema speedup</div>
-          <div class="sv serif">48<span style="font-size:20px; color:var(--fg-2)"> hr</span></div>
-          <div class="ss">vs. ~3 wk schema-absent consolidation</div>
-        </div>
+    </div>
+
+    <!-- Hero viz — stylized brain readout placeholder -->
+    <div class="hero-viz">
+      <div class="corner c-tl"></div>
+      <div class="corner c-tr"></div>
+      <div class="corner c-bl"></div>
+      <div class="corner c-br"></div>
+      <div class="label hud-tl">LIVE · CA1 @ 30kHz</div>
+      <div class="label hud-tr">● REC</div>
+      <div class="label hud-bl">SUBJ 017 · SESSION 42</div>
+      <div class="label hud-br">REPLAY +214ms</div>
+
+      <div class="crosshair"></div>
+      <div class="brain-glyph">
+        <!-- Stylized brain placeholder (circle + offset lobes, no hand-drawn SVG beyond simple primitives) -->
+        <svg viewBox="0 0 400 500" width="78%" height="78%" style="overflow: visible;">
+          <defs>
+            <radialGradient id="heat" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffcc33"/>
+              <stop offset="40%" stop-color="#d64a0a"/>
+              <stop offset="100%" stop-color="#f7f5f1" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- coronal silhouette as a couple of ellipses -->
+          <ellipse cx="200" cy="250" rx="150" ry="180" fill="#fbfaf6" stroke="#d0cdc3" stroke-width="1"/>
+          <ellipse cx="140" cy="250" rx="70" ry="170" fill="none" stroke="#d0cdc3" stroke-width="1"/>
+          <ellipse cx="260" cy="250" rx="70" ry="170" fill="none" stroke="#d0cdc3" stroke-width="1"/>
+          <!-- grid of voxels inside the silhouette, low-key -->
+          <g stroke="#e5e2d9" stroke-width="0.5" fill="none">
+            <line x1="60" y1="170" x2="340" y2="170"/>
+            <line x1="60" y1="210" x2="340" y2="210"/>
+            <line x1="60" y1="250" x2="340" y2="250"/>
+            <line x1="60" y1="290" x2="340" y2="290"/>
+            <line x1="60" y1="330" x2="340" y2="330"/>
+            <line x1="120" y1="100" x2="120" y2="400"/>
+            <line x1="160" y1="100" x2="160" y2="400"/>
+            <line x1="200" y1="100" x2="200" y2="400"/>
+            <line x1="240" y1="100" x2="240" y2="400"/>
+            <line x1="280" y1="100" x2="280" y2="400"/>
+          </g>
+          <!-- activity hotspots (hippocampal region) -->
+          <circle cx="165" cy="290" r="38" fill="url(#heat)"/>
+          <circle cx="235" cy="290" r="32" fill="url(#heat)" opacity="0.8"/>
+          <circle cx="200" cy="180" r="22" fill="url(#heat)" opacity="0.5"/>
+          <!-- crosshair target -->
+          <g stroke="#d64a0a" stroke-width="1" fill="none">
+            <circle cx="165" cy="290" r="52" stroke-dasharray="3 4"/>
+            <line x1="105" y1="290" x2="125" y2="290"/>
+            <line x1="205" y1="290" x2="225" y2="290"/>
+            <line x1="165" y1="230" x2="165" y2="250"/>
+            <line x1="165" y1="330" x2="165" y2="350"/>
+          </g>
+          <text x="175" y="345" fill="#b63c00" font-family="JetBrains Mono" font-size="10" letter-spacing="0.1em">CA1-L · TARGET</text>
+        </svg>
       </div>
     </div>
   </div>
 </header>
 
-<!-- FIELD & BACKGROUND -->
-<section id="field">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-label"><span class="num">01</span>FIELD &amp; BACKGROUND</div>
-      <div>
-        <h2 class="sec-title">Technical field and <em>prior art</em> limitations.</h2>
-        <p class="sec-dek">The system relates to brain–computer interfaces for hippocampal-dependent episodic memory. Prior systems address at most one phase of the memory lifecycle and share critical architectural gaps that this disclosure resolves.</p>
-      </div>
-    </div>
-
-    <div class="prose-two-col" style="margin-bottom: var(--s-7);">
-      <div class="prose">
-        <p><strong>Technical Field.</strong> The present system falls within the fields of neurotechnology, computational neuroscience, and neuroprosthetics, specifically addressing closed-loop neural interfaces for bidirectional manipulation of hippocampal-dependent episodic and procedural memory in human subjects.</p>
-        <p>Episodic memory is encoded via synaptic plasticity across hippocampal subfields CA3, CA1, and dentate gyrus (DG), stabilized by sharp-wave ripple (SWR)-driven replay during NREM sleep, and retrieved via a pattern-completion attractor dynamic in CA3. The hippocampus acts as a <strong>sparse pointer</strong> into distributed cortical memory traces rather than storing the traces themselves (Teyler &amp; DiScenna 1986; Squire et al. 2004). This architectural insight — that intervention on the pointer is orders of magnitude more tractable than intervention on the full cortical trace — is the foundational principle of the present system.</p>
-        <p><strong>Problem Statement.</strong> Pathological memory disruption affects an estimated 50 million individuals worldwide (Alzheimer's disease, PTSD, traumatic brain injury, treatment-resistant depression). Current pharmacological interventions lack precision; deep brain stimulation systems are open-loop and non-specific. No existing system supports the full memory lifecycle — encoding, consolidation, retrieval, and writing — in a single integrated architecture.</p>
-      </div>
-      <div class="prose">
-        <p><strong>Background.</strong> Closed-loop neural recording and stimulation technology has advanced significantly: Neuropixels arrays now record &gt;10,000 neurons simultaneously with single-cell resolution; on-chip neuromorphic ASICs can run low-latency spike sorting; and novel algorithms (LFADS, GPFA) extract low-dimensional latent dynamics from high-dimensional population recordings. The missing component is a <em>unified system architecture</em> that coordinates these capabilities across the four phases of memory formation on their natural timescales — from millisecond spike bursts to multi-night consolidation.</p>
-        <p><strong>Gap Analysis.</strong> Prior systems (see table below) each address one or two isolated phases. None addresses content-selective SWR boosting, manifold-constrained write, or the bidirectional shared index. The unresolved challenge is that any engram pattern injected into hippocampus that lies off the subject's intrinsic neural manifold will be rejected by recurrent network dynamics within one theta cycle (~130 ms), rendering the write ineffective (Sadtler et al. 2014). The present system resolves this with a per-subject manifold calibration and constrained projection pipeline.</p>
-      </div>
-    </div>
-
-    <div class="prior-art">
-      <div class="pa-row" style="background: var(--bg-1);">
-        <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">PRIOR ART · REFERENCE</div>
-        <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">CONTRIBUTION</div>
-        <div style="font-family: var(--f-mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">LIMITATION VS. PRESENT DISCLOSURE</div>
-      </div>
-      <div class="pa-row">
-        <div class="ref">Berger et al. 2011<br>J. Neural Eng.</div>
-        <div class="desc">MIMO model maps dentate gyrus input to CA1 output; hippocampal prosthetic substitutes CA3. First closed-loop memory BCI in rodent and primate.</div>
-        <div class="lim">Single-session; no content classification; no sleep phase; no write; no manifold constraint; input–output mapping only.</div>
-      </div>
-      <div class="pa-row">
-        <div class="ref">Ramirez et al. 2013<br>Science</div>
-        <div class="desc">Optogenetic false memory implantation in mice: engram cells labeled during learning, reactivated in different context.</div>
-        <div class="lim">Requires genetic modification (ChR2 expression); light-access only; no human applicability; no read-back loop; no content specification.</div>
-      </div>
-      <div class="pa-row">
-        <div class="ref">Rudoy et al. 2009<br>Science</div>
-        <div class="desc">Targeted memory reactivation (TMR): learning-paired auditory cues during SWS improve next-day recall selectively.</div>
-        <div class="lim">No content classification of SWRs; cannot select which memory is replayed; no active stimulation; single-memory demonstrations only.</div>
-      </div>
-      <div class="pa-row">
-        <div class="ref">Norman et al. 2017<br>Nature Neurosci.</div>
-        <div class="desc">Real-time fMRI decoding of memory reinstatement; closed-loop neurofeedback improves encoding.</div>
-        <div class="lim">Temporal resolution 1–2 s (hemodynamic); read-only; no hippocampal spike resolution; no write capability; no SWR timescale intervention.</div>
-      </div>
-      <div class="pa-row">
-        <div class="ref">Vaz et al. 2020<br>Science</div>
-        <div class="desc">Intracranial EEG decoding of hippocampal theta sequences during human memory recall; demonstrates temporal structure of retrieval.</div>
-        <div class="lim">Read-only; no closed-loop stimulation; no cross-phase integration; no write pathway.</div>
-      </div>
-      <div class="pa-row">
-        <div class="ref">Sadtler et al. 2014<br>Nature</div>
-        <div class="desc">Demonstrates intrinsic manifold constraint in motor cortex: only within-manifold perturbations are learnable via BCI; off-manifold patterns are rejected.</div>
-        <div class="lim">Characterizes the problem that the present system's manifold-constrained encoder (Subsystem 4B) specifically resolves.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ARCHITECTURE -->
+<!-- ================= ARCHITECTURE ================= -->
 <section id="architecture">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-label"><span class="num">02</span>SYSTEM ARCHITECTURE</div>
+      <div class="sec-label"><span class="num">01</span>ARCHITECTURE</div>
       <div>
-        <h2 class="sec-title">Four-phase <em>closed loop</em> across the memory lifecycle.</h2>
-        <p class="sec-dek">The system unifies encoding, consolidation, retrieval, and write under a single sparse hippocampal index. Each phase exposes read (decode) and write (stim) primitives at its native timescale. The shared index guarantees that written memories are accessible by the same retrieval machinery that reads natural ones.</p>
+        <h2 class="sec-title">A <em>four-phase</em> closed loop across the memory lifecycle.</h2>
+        <p class="sec-dek">
+          The system unifies four phases — <b>encode, consolidate, retrieve, write</b> — under a single hippocampal index layer. Each phase exposes reading (decode) and writing (stim) primitives at its native timescale. Unlike prior memory BCIs that target a single mechanism, MNEMOSYNE operates simultaneously across millisecond ripples, hour-long tagging windows, and multi-day cortical integration.
+        </p>
       </div>
     </div>
 
     <div class="arch">
-      <div>
+      <div class="arch-grid">
         <!-- PHASE 1 ENCODE -->
         <div class="stage-row">
           <div class="stage-label">
             <div class="num">PHASE · 01</div>
             <div class="name">Encode</div>
-            <div class="band">θ–γ PAC · PE · STC</div>
+            <div class="band">θ–γ PAC · PE</div>
           </div>
           <div class="stage-body">
             <div class="blk hot">
               <div class="bn">1A · DECODER</div>
               <div class="bt">Prediction-error monitor</div>
-              <div class="bd">Hierarchical PE signal (Z ≥ 2σ above baseline) flags encoding-worthy moments. 200 ms sliding window. 500 Hz output.</div>
-              <div class="bp">read · 4 ms · 500 Hz</div>
+              <div class="bd">Hierarchical cortical PE signal ≥ θ<sub>novel</sub> marks encoding-worthy moments.</div>
+              <div class="bp">read · 4 ms</div>
             </div>
             <div class="blk hot">
               <div class="bn">1B · DECODER</div>
-              <div class="bt">θ–γ PAC tracker</div>
-              <div class="bd">Tort MI on CA1 LFP; 18 θ-phase bins; KL divergence from uniform. Active-encoding flag: MI &gt; 0.25, sustained ≥ 200 ms.</div>
-              <div class="bp">read · 5 ms · 10 Hz</div>
+              <div class="bt">Theta–gamma PAC tracker</div>
+              <div class="bd">Modulation index on CA1 LFP; gates tagging eligibility.</div>
+              <div class="bp">read · 5 ms</div>
             </div>
             <div class="blk">
-              <div class="bn">1C · SCHEDULER</div>
+              <div class="bn">1C · CONTROLLER</div>
               <div class="bt">Synaptic tagging scheduler</div>
-              <div class="bd">Schedules VTA/LC surrogate stim within 30–120 min post-encoding window. Max 3 paired events per episode.</div>
-              <div class="bp">plan · BCST-clock</div>
+              <div class="bd">Schedules neuromod stim inside the 30–120&nbsp;min tag window.</div>
+              <div class="bp">plan · 10 Hz</div>
             </div>
             <div class="blk cool">
               <div class="bn">1D · STIM</div>
               <div class="bt">VTA/LC paired bursts</div>
-              <div class="bd">Phasic DA/NE surrogate: 5 pulses @ 50 Hz, 50 µA, 200 µs/phase biphasic. Promotes PRP capture at tagged synapses.</div>
-              <div class="bp">write · 100 ms burst</div>
+              <div class="bd">Phasic DA/NE surrogate via patterned microstim; promotes PRP capture.</div>
+              <div class="bp">write · µs</div>
             </div>
           </div>
           <div class="stage-timescale">
             <div class="t-key">TIMESCALE</div>
             <div class="t-v serif">100 ms → 2 hr</div>
-            <div class="t-d">Spike to tagging window</div>
+            <div class="t-d">Ripple to tagging window</div>
           </div>
         </div>
 
@@ -695,44 +678,44 @@
           <div class="stage-label">
             <div class="num">PHASE · 02</div>
             <div class="name">Consolidate</div>
-            <div class="band">150–250 Hz SWR · SO–spindle</div>
+            <div class="band">150–250 Hz SWR</div>
           </div>
           <div class="stage-body">
             <div class="blk hot">
-              <div class="bn">2A · DETECTOR</div>
+              <div class="bn">2A · DECODER</div>
               <div class="bt">SWR detector</div>
-              <div class="bd">150–250 Hz bandpass (4th-order Butterworth); RMS power &gt; 4σ baseline; duration ≥ 25 ms. 94% sensitivity, 6% FP rate.</div>
+              <div class="bd">Ripple-band power × duration, validated against offline oracle.</div>
               <div class="bp">read · 8 ms</div>
             </div>
             <div class="blk hot">
               <div class="bn">2B · DECODER</div>
               <div class="bt">Content classifier</div>
-              <div class="bd">LFADS 64-dim latent factors from 4,096-ch spike rates (10 ms bins). Cosine similarity to memory library. Trained offline per-subject (&gt;200 sessions).</div>
-              <div class="bp">read · 12 ms · INT8</div>
+              <div class="bd">LFADS latent factors → memory id from per-subject library.</div>
+              <div class="bp">read · 12 ms</div>
             </div>
             <div class="blk">
               <div class="bn">2C · SLEEP</div>
-              <div class="bt">SO–spindle tracker</div>
-              <div class="bd">SO: 0.5–1 Hz, peak-to-trough &gt; 75 µV. Spindle: 12–15 Hz Morlet σ &gt; 3. Locks interventions to NREM up-state (100–400 ms post-trough).</div>
-              <div class="bp">plan · 1 Hz gate</div>
+              <div class="bt">SO–spindle phase tracker</div>
+              <div class="bd">Locks interventions to NREM up-state for optimal capture.</div>
+              <div class="bp">plan · 1 Hz</div>
             </div>
             <div class="blk cool">
               <div class="bn">2D · STIM</div>
               <div class="bt">Targeted replay boost</div>
-              <div class="bd">Single-pulse CA1 µstim (25 µA, 200 µs) on content-matched ripples only. Boosts SWR amplitude +1.8σ on target without amplifying off-target.</div>
+              <div class="bd">Single-pulse CA1 µstim on target-matched ripples only.</div>
               <div class="bp">write · SWR-locked</div>
             </div>
             <div class="blk cool">
               <div class="bn">2E · CUE</div>
-              <div class="bt">TMR sensory reactivation</div>
-              <div class="bd">Learning-paired auditory or olfactory cue delivered at SO up-state during confirmed N3. Content-selective via cue identity.</div>
+              <div class="bt">TMR auditory / olfactory</div>
+              <div class="bd">Learning-paired cues during N3 bias replay content.</div>
               <div class="bp">write · N3 only</div>
             </div>
           </div>
           <div class="stage-timescale">
             <div class="t-key">TIMESCALE</div>
             <div class="t-v serif">Minutes → Nights</div>
-            <div class="t-d">Systems consolidation</div>
+            <div class="t-d">Systems integration</div>
           </div>
         </div>
 
@@ -741,38 +724,38 @@
           <div class="stage-label">
             <div class="num">PHASE · 03</div>
             <div class="name">Retrieve</div>
-            <div class="band">θ onset · HG 70–150 Hz</div>
+            <div class="band">HG 70–150 Hz</div>
           </div>
           <div class="stage-body">
             <div class="blk hot">
-              <div class="bn">3A · DETECTOR</div>
+              <div class="bn">3A · DECODER</div>
               <div class="bt">Retrieval-attempt detector</div>
-              <div class="bd">PFC θ-onset + hippocampal θ ramp (4–8 Hz, amplitude &gt; 1.5× baseline, &gt; 2 cycles) flags active memory search. Feedforward latency ~95 ms.</div>
+              <div class="bd">PFC activation pattern + hippocampal θ onset flag a search.</div>
               <div class="bp">read · 15 ms</div>
             </div>
             <div class="blk hot">
-              <div class="bn">3B · MONITOR</div>
+              <div class="bn">3B · DECODER</div>
               <div class="bt">Cortical reinstatement monitor</div>
-              <div class="bd">HG (70–150 Hz) pattern similarity (cosine r) to stored engram template across temporal, parietal, and PFC. Peak builds ~380 ms post-cue.</div>
-              <div class="bp">read · 20 ms · 50 Hz</div>
+              <div class="bd">High-gamma pattern similarity to stored engram template.</div>
+              <div class="bp">read · 20 ms</div>
             </div>
             <div class="blk cool">
               <div class="bn">3C · STIM</div>
               <div class="bt">CA3 index reactivation</div>
-              <div class="desc" style="font-size:11px; color:var(--fg-2);">Patterned 20–50 µA µstim on decoded index sites. Graded by reinstatement: stim_µA = 50 × (1 − r). Delivered at θ trough. Latency from detection: 18 ms.</div>
-              <div class="bp">write · graded CL</div>
+              <div class="bd">Patterned 20–50 µA µstim matching sparse index code.</div>
+              <div class="bp">write · graded</div>
             </div>
             <div class="blk">
-              <div class="bn">3D · GATE</div>
+              <div class="bn">3D · CONTROLLER</div>
               <div class="bt">Confidence estimator</div>
-              <div class="bd">55 ms evidence integration window. Cross-checks reinstatement r; throttles assistance below r &lt; 0.6; flags uncertain traces to user. Anti-confabulation.</div>
+              <div class="bd">Cross-checks reinstatement; throttles assistance to avoid confabulation.</div>
               <div class="bp">gate · 50 Hz</div>
             </div>
           </div>
           <div class="stage-timescale">
             <div class="t-key">TIMESCALE</div>
-            <div class="t-v serif">95 ms → 490 ms</div>
-            <div class="t-d">Cue to reinstatement</div>
+            <div class="t-v serif">200 ms → 2 s</div>
+            <div class="t-d">Pattern completion</div>
           </div>
         </div>
 
@@ -781,170 +764,80 @@
           <div class="stage-label">
             <div class="num">PHASE · 04</div>
             <div class="name">Write</div>
-            <div class="band">ENGRAM SYNTHESIS</div>
+            <div class="band">ENGRAM SYNTH</div>
           </div>
           <div class="stage-body">
             <div class="blk">
               <div class="bn">4A · SPEC</div>
               <div class="bt">Memory descriptor language</div>
-              <div class="bd">MDL v2.1: content vector + associative graph + schema tag + consent SHA-256 hash. Parsed in 0 ms (offline pre-session).</div>
+              <div class="bd">Content + associative map + schema compatibility score.</div>
               <div class="bp">input · offline</div>
             </div>
             <div class="blk cool">
-              <div class="bn">4B · ENCODER</div>
+              <div class="bn">4B · GEN</div>
               <div class="bt">Manifold-constrained encoder</div>
-              <div class="bd">GPFA 10-dim manifold (≥ 85% variance) learned over ≥10 calibration sessions. GPU gradient snap: residual &lt; 0.05 required. 185 ms compute.</div>
-              <div class="bp">plan · GPU · 185 ms</div>
+              <div class="bd">Projects content onto subject's intrinsic hippocampal manifold.</div>
+              <div class="bp">plan · GPU</div>
             </div>
             <div class="blk cool">
               <div class="bn">4C · STIM</div>
               <div class="bt">Seed-pattern injection</div>
-              <div class="bd">28.2% (289/1024) of engram sites injected into CA3 at θ trough (130 ms wait = 1 cycle @ 7.7 Hz). CA3 autoassociator completes remainder in ~70 ms.</div>
-              <div class="bp">write · θ-locked</div>
+              <div class="bd">20–30% of engram into CA3; autoassociator completes the rest.</div>
+              <div class="bp">write · burst</div>
             </div>
             <div class="blk cool">
               <div class="bn">4D · STIM</div>
               <div class="bt">Inhibitory co-sculpting</div>
-              <div class="bd">VIP+ 20 Hz 15 µA (disinhibition, window +20 ms); SST+ 40 Hz lateral cap (size control); PV+ 200 Hz offset burst (temporal precision).</div>
-              <div class="bp">write · triplet stim</div>
+              <div class="bd">VIP+ disinhibition; SST+ caps engram size; PV+ tunes timing.</div>
+              <div class="bp">write · paired</div>
             </div>
             <div class="blk hot">
               <div class="bn">4E · VERIFY</div>
-              <div class="bt">Read-back fidelity loop</div>
-              <div class="bd">Cue-driven reinstatement probe at +90 ms, +24 hr, +7 d. r &lt; 0.7 → rewrite scheduled within next SWR consolidation window.</div>
-              <div class="bp">read · 3-point verify</div>
+              <div class="bt">Retrieval probe + fidelity score</div>
+              <div class="bd">Read-back via cue-driven reinstatement; reject-on-drift.</div>
+              <div class="bp">read · 24 hr</div>
             </div>
           </div>
           <div class="stage-timescale">
             <div class="t-key">TIMESCALE</div>
-            <div class="t-v serif">875 ms → 7 d</div>
-            <div class="t-d">Inject to full consolidation</div>
+            <div class="t-v serif">2 hr → 7 d</div>
+            <div class="t-d">Schema-primed path</div>
           </div>
         </div>
       </div>
 
       <div class="arch-legend">
-        <span><i class="sw hot"></i> READ · decoder / detector</span>
+        <span><i class="sw hot"></i> READ · decoder / sensor</span>
         <span><i class="sw cool"></i> WRITE · stim / cue</span>
         <span><i class="sw none"></i> CONTROL · scheduler / gate</span>
-        <span style="margin-left: auto; color: var(--fg-3);">Fig. 01 — System architecture, all four phases</span>
+        <span style="margin-left: auto; color: var(--fg-3);">Fig. 01 — System architecture, all phases</span>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- DETAILED DESCRIPTION -->
-<section id="description">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-label"><span class="num">03</span>DETAILED DESCRIPTION</div>
-      <div>
-        <h2 class="sec-title">Subsystem <em>specifications</em>.</h2>
-        <p class="sec-dek">A detailed description of the preferred embodiment of each subsystem, including signal processing parameters, algorithmic architecture, stimulation protocols, and critical design constraints.</p>
-      </div>
-    </div>
-
-    <div class="subsys-grid">
-      <div class="subsys">
-        <div class="ss-id">SUBSYSTEM 1A · ENCODER PHASE</div>
-        <h4>Prediction-Error Monitor</h4>
-        <dl class="ss-spec">
-          <dt>Algorithm</dt><dd>Hierarchical predictive coding; difference between cortical expectation model output and observed LFP/spike patterns across layers II–V.</dd>
-          <dt>PE threshold</dt><dd>Z ≥ 2.0σ above 5-min rolling baseline; computed per cortical area (PFC, ACC, temporal cortex) independently.</dd>
-          <dt>Gate criterion</dt><dd>Joint PE × PAC: both must exceed threshold within the same 500 ms window for encoding-worthy flag.</dd>
-          <dt>Update rate</dt><dd>500 Hz; 200 ms overlapping sliding window; running Z-score on decoded PE magnitude.</dd>
-          <dt>Output</dt><dd>Binary encoding flag + continuous novelty score [0, 1] + timestamp for STC scheduler.</dd>
-        </dl>
-        <div class="ss-note">Motivated by Lisman &amp; Grace (2005) hippocampal–VTA loop: novelty-triggered DA release gates plasticity. The monitor provides an artificial surrogate trigger.</div>
-      </div>
-
-      <div class="subsys">
-        <div class="ss-id">SUBSYSTEM 1B · ENCODER PHASE</div>
-        <h4>θ–γ Phase-Amplitude Coupling Tracker</h4>
-        <dl class="ss-spec">
-          <dt>Method</dt><dd>Hilbert transform on 4–8 Hz (θ) and 30–100 Hz (γ) filtered LFPs from 16 CA1 electrodes. Modulation Index per Tort et al. (2010): 18 θ-phase bins, KL-divergence from uniform.</dd>
-          <dt>Active-encoding flag</dt><dd>MI &gt; 0.25 sustained for ≥ 200 ms; computed per 100 ms overlapping window (10 Hz update rate).</dd>
-          <dt>Phase reference</dt><dd>θ trough (minimum LFP) = preferred phase for gamma coupling and encoding (Lisman &amp; Jensen 2013).</dd>
-          <dt>Multi-item gating</dt><dd>PAC phase-position encodes up to 7 items per θ cycle (Working Memory); each γ burst = one item slot.</dd>
-        </dl>
-        <div class="ss-note">PAC index is the most reliable predictor of successful encoding in human iEEG (Axmacher et al. 2010, J. Neurosci.). System treats MI as a real-time encoding-quality signal.</div>
-      </div>
-
-      <div class="subsys">
-        <div class="ss-id">SUBSYSTEM 2A–2B · CONSOLIDATION PHASE</div>
-        <h4>SWR Detector + Content Classifier</h4>
-        <dl class="ss-spec">
-          <dt>Detection filter</dt><dd>4th-order Butterworth, 150–250 Hz; IIR implementation, 0.3 ms group delay. RMS power &gt; 4σ above 30 s baseline, sustained ≥ 25 ms.</dd>
-          <dt>Exclusion criteria</dt><dd>Coincident EMG artifact (differential electrode), active θ epoch (SWRs excluded during wakeful locomotion), artifact-free &lt; 95% of 250 ms window.</dd>
-          <dt>Detector latency</dt><dd>8 ms from SWR onset to detection flag (measured vs. offline oracle: 94% sensitivity, 6% FPR).</dd>
-          <dt>Classifier architecture</dt><dd>LFADS (Latent Factor Analysis via Dynamical Systems): 64-dim latent space from 4,096-channel spike rates, 10 ms bins, INT8 quantized.</dd>
-          <dt>Memory ID lookup</dt><dd>Cosine similarity to stored library of per-subject memory templates. Threshold: r &gt; 0.65 for classification. Library size: up to 10,000 events.</dd>
-          <dt>Inference latency</dt><dd>12 ms on neuromorphic ASIC; 80 ms on edge GPU (Tier 2).</dd>
-        </dl>
-        <div class="ss-note">Content-selectivity is the key novelty over prior SWR-boosting systems (Girardeau et al. 2009; Ego-Stengel &amp; Wilson 2010), which stimulate all detected SWRs indiscriminately.</div>
-      </div>
-
-      <div class="subsys">
-        <div class="ss-id">SUBSYSTEM 2C · CONSOLIDATION PHASE</div>
-        <h4>SO–Spindle Phase Lock Controller</h4>
-        <dl class="ss-spec">
-          <dt>SO detection</dt><dd>0.5–1 Hz bandpass; peak-to-trough amplitude &gt; 75 µV (surface EEG) or &gt; 250 µV (depth electrode). Must precede intervention.</dd>
-          <dt>Spindle detection</dt><dd>12–15 Hz; Morlet wavelet (σ = 7 cycles); power Z &gt; 3 above background. Concurrent with SO up-state required.</dd>
-          <dt>Intervention window</dt><dd>100–400 ms post-SO trough (up-state). Stim or cue must land within this window to couple to spindle → SWR cascade.</dd>
-          <dt>Stage confirmation</dt><dd>N3 confirmed by EEG staging (SleepSEEG algorithm, Iber et al. 2007 criteria) for ≥ 30 s prior to intervention epoch.</dd>
-          <dt>Safety: rest window</dt><dd>Minimum 4 min of uninterrupted sleep between consecutive intervention epochs.</dd>
-        </dl>
-        <div class="ss-note">The SO–spindle–ripple temporal sequence is the canonical consolidation mechanism (Staresina et al. 2015, Nature Neurosci.). Interventions that miss the up-state window fail to couple to the cascade.</div>
-      </div>
-
-      <div class="subsys">
-        <div class="ss-id">SUBSYSTEM 4B · WRITE PHASE</div>
-        <h4>Manifold-Constrained Encoder</h4>
-        <dl class="ss-spec">
-          <dt>Manifold learning</dt><dd>Gaussian Process Factor Analysis (GPFA) on trial-averaged population activity from ≥ 10 calibration sessions, ≥ 200 trials each. Intrinsic dimensionality: 8–12 dims capture &gt; 85% of total variance.</dd>
-          <dt>Content embedding</dt><dd>Target content (text/visual/motor) mapped to neural-semantic space via per-subject encoder trained on naturalistic stimuli with concurrent neural recording.</dd>
-          <dt>Manifold snap</dt><dd>Gradient descent to nearest on-manifold point in 8–12 dim subspace. Convergence criterion: residual off-manifold component &lt; 0.05. Abort write if residual ≥ 0.05.</dd>
-          <dt>Compute time</dt><dd>120 ms GPFA embedding + 65 ms gradient snap = 185 ms total (A100 GPU, batch size 1).</dd>
-          <dt>Recalibration</dt><dd>Manifold updated after every 20-session block; drift detection triggers early recalibration if explained variance drops &gt; 5%.</dd>
-        </dl>
-        <div class="ss-note">Directly addresses Sadtler et al. (2014) off-manifold failure mode. Any pattern not within the subject's intrinsic manifold is rejected by CA3 recurrent dynamics within one θ cycle (≈ 130 ms).</div>
-      </div>
-
-      <div class="subsys">
-        <div class="ss-id">SUBSYSTEM 4C–4D · WRITE PHASE</div>
-        <h4>Seed Injection + Inhibitory Co-Sculpting</h4>
-        <dl class="ss-spec">
-          <dt>Seed fraction</dt><dd>20–30% of target engram sites (289/1024 in preferred embodiment). Below 20% → CA3 attractor fails to converge. Above 35% → over-determination, no autoassociative completion.</dd>
-          <dt>Injection protocol</dt><dd>Multi-site biphasic current, 44 µA, 180 µs/phase. Delivered at θ trough (minimum excitability) via θ-phase predictor (4.8 ms compute). Wait: up to 130 ms (one θ cycle at 7.7 Hz).</dd>
-          <dt>VIP+ disinhibition</dt><dd>20 Hz burst, 5 pulses, 15 µA, co-delivered 20 ms before seed. Opens disinhibitory gate: VIP→SST/PV suppression removes lateral inhibition that would otherwise reject novel patterns.</dd>
-          <dt>SST+ lateral cap</dt><dd>Simultaneous 40 Hz stim at 6 surrounding sites, 10 µA. Prevents runaway excitation and engram spread beyond target sites (size control).</dd>
-          <dt>PV+ offset burst</dt><dd>200 Hz, 3-pulse burst at injection offset. Sharp inhibition clocks the engram window, enforces temporal precision, and resets network for next θ cycle.</dd>
-          <dt>Convergence check</dt><dd>CA3 population activity monitored for attractor convergence: Hamming distance to target &lt; 0.02 within 7 iterations (~70 ms).</dd>
-        </dl>
-        <div class="ss-note">First protocol to engineer the inhibitory landscape alongside excitation. Inhibitory co-sculpting is mechanistically distinct from all prior optogenetic engram studies (Roy et al. 2016, Liu et al. 2012) which only manipulate excitatory cells.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HIPPOCAMPAL INDEX -->
+<!-- ================= HIPPOCAMPAL INDEX ================= -->
 <section>
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-label"><span class="num">04</span>CORE REPRESENTATION</div>
+      <div class="sec-label"><span class="num">02</span>CORE PRINCIPLE</div>
       <div>
         <h2 class="sec-title">The <em>sparse index</em>.</h2>
-        <p class="sec-dek">The system does not attempt to read or write full cortical memory traces — an impossibility at current electrode densities. Instead it would attempt to operate on the hippocampal index: a 1,024-dimensional sparse pointer (k=48 active bits) whose reactivation reinstates the distributed cortical pattern. This reduces decoder complexity by three to four orders of magnitude.</p>
+        <p class="sec-dek">
+The system does not attempt to read or write full cortical memory traces. Instead it operates on the hippocampal <b>index</b> — a sparse ~1,024-dim pointer whose reactivation reinstates distributed cortical patterns. This reduces decoder complexity by three orders of magnitude and makes stim precision tractable with current electrode densities.
+        </p>
       </div>
     </div>
 
+    <!-- Index visualization -->
     <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--s-7); align-items: stretch;">
-      <div style="border: 1px solid var(--line); background: var(--bg-1); padding: var(--s-5);">
+      <div style="border: 1px solid var(--line); background: var(--bg-1); padding: var(--s-5); position: relative;">
         <div style="display:flex; justify-content:space-between; font-family: var(--f-mono); font-size:10px; color: var(--fg-3); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: var(--s-4);">
-          <span>FIG. 02 · INDEX SPARSITY · 32×32 POINTER</span>
-          <span style="color: var(--hot-1);">k=48 / 1024 ACTIVE</span>
+          <span>FIG. 02 · INDEX SPARSITY · 32 × 32 POINTER</span>
+          <span style="color: var(--hot-1);">k = 48 / 1024 ACTIVE</span>
         </div>
-        <div id="index-grid"></div>
+        <div id="index-grid" style="display: grid; grid-template-columns: repeat(32, 1fr); gap: 2px; aspect-ratio: 1;"></div>
         <div style="display: flex; justify-content: space-between; margin-top: var(--s-4); font-family: var(--f-mono); font-size:10px; color: var(--fg-2); letter-spacing: 0.08em;">
           <span>MEMORY ID · 0x4A19B3E7</span>
           <span>DG-CA3 PROJECTION</span>
@@ -953,83 +846,122 @@
       </div>
       <div style="display: flex; flex-direction: column; gap: var(--s-4);">
         <div style="padding: var(--s-4); border: 1px solid var(--line);">
-          <div class="mono" style="font-size:10px; color:var(--fg-3); letter-spacing:0.15em;">COMPRESSION RATIO</div>
-          <div class="serif" style="font-size:38px; color:var(--fg-0); line-height:1;">~10<sup style="font-size:22px;">4</sup>×</div>
-          <div style="font-size:13px; color:var(--fg-1);">distributed cortical trace (~10⁸ synapses) → hippocampal pointer (1,024 bits, k=48 active)</div>
+          <div class="mono" style="font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">COMPRESSION</div>
+          <div class="serif" style="font-size: 38px; color: var(--fg-0); line-height: 1;">~10<sup style="font-size: 22px;">4</sup>×</div>
+          <div style="font-size: 13px; color: var(--fg-1);">distributed cortical trace → hippocampal pointer</div>
         </div>
         <div style="padding: var(--s-4); border: 1px solid var(--line);">
-          <div class="mono" style="font-size:10px; color:var(--fg-3); letter-spacing:0.15em;">PATTERN COMPLETION THRESHOLD</div>
-          <div class="serif" style="font-size:38px; color:var(--fg-0); line-height:1;">20–30%</div>
-          <div style="font-size:13px; color:var(--fg-1);">seed fraction sufficient for CA3 autoassociative convergence (below 20% fails, Hopfield capacity ~0.14N)</div>
+          <div class="mono" style="font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">PATTERN COMPLETION</div>
+          <div class="serif" style="font-size: 38px; color: var(--fg-0); line-height: 1;">20–30%</div>
+          <div style="font-size: 13px; color: var(--fg-1);">seed sufficient for CA3 autoassociative convergence</div>
         </div>
         <div style="padding: var(--s-4); border: 1px solid var(--line);">
-          <div class="mono" style="font-size:10px; color:var(--fg-3); letter-spacing:0.15em;">SCHEMA-PRIMED CONSOLIDATION</div>
-          <div class="serif" style="font-size:38px; color:var(--fg-0); line-height:1;">48 hr</div>
-          <div style="font-size:13px; color:var(--fg-1);">vs. ~3 weeks for schema-absent; cortical integration via hippocampal index reactivation (Tse et al. 2007)</div>
-        </div>
-        <div style="padding: var(--s-4); border: 1px solid var(--line);">
-          <div class="mono" style="font-size:10px; color:var(--fg-3); letter-spacing:0.15em;">BIDIRECTIONAL INDEX PROPERTY</div>
-          <div class="serif" style="font-size:38px; color:var(--fg-0); line-height:1;">shared</div>
-          <div style="font-size:13px; color:var(--fg-1);">same 1,024-dim pointer used for both read-out (retrieval) and write-in (injection) — guaranteeing cross-compatibility</div>
+          <div class="mono" style="font-size: 10px; color: var(--fg-3); letter-spacing: 0.15em;">SCHEMA SPEEDUP</div>
+          <div class="serif" style="font-size: 38px; color: var(--fg-0); line-height: 1;">48 hr</div>
+          <div style="font-size: 13px; color: var(--fg-1);">vs. ~3 weeks for schema-absent consolidation</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ================= FOOTER ================= -->
 <footer>
   <div class="wrap">
     <div class="fgrid">
       <div>
-        <div class="serif" style="font-size:26px; color:var(--fg-0);">BCI Memory R/W</div>
-        <div style="margin-top:8px; color:var(--fg-2); max-width:50ch; font-family:var(--f-sans); font-size:13px; line-height:1.5; letter-spacing:normal;">A bidirectional brain–computer interface for reading and writing human episodic memory via closed-loop hippocampal indexing.</div>
+        <div class="serif" style="font-size: 28px; color: var(--fg-0);">BCI · Memory R/W</div>
+        <div style="margin-top: 6px; color: var(--fg-2); max-width: 44ch; letter-spacing: normal; font-family: var(--f-sans);">
+          A bidirectional brain–computer interface for reading and writing human episodic memory.
+        </div>
       </div>
       <div>
-        <h6>Sections</h6>
+        <h6>Pages</h6>
         <ul>
-          <li><a href="#field">Field &amp; Background</a></li>
           <li><a href="#architecture">Architecture</a></li>
-          <li><a href="#description">Detailed Description</a></li>
+          <li><a href="#claims">Claims</a></li>
+          <li><a href="#hardware">Hardware</a></li>
+          <li><a href="#pipeline">Pipeline</a></li>
         </ul>
       </div>
       <div>
         <h6>Simulations</h6>
         <ul>
-          <li><a href="simulations/flow.html">↗ Retrieval &amp; Write Flow</a></li>
-          <li><a href="https://brain-memory-simulation.streamlit.app">↗ Brain Simulation</a></li>
+          <li><a href="simulations/flow.html">Retrieval &amp; write flow ↗</a></li>
+          <li><a href="https://brain-memory-simulation.streamlit.app/">Brain Simulation ↗</a></li>
         </ul>
       </div>
       <div>
         <h6>Status</h6>
         <ul>
-          <li>Design: v0.1</li>
+          <li>v0.0.1</li>
         </ul>
       </div>
     </div>
-    <div style="display:flex; justify-content:space-between; color:var(--fg-3);">
-      <span>© 2026 · Independent research concept · Non-clinical prototype</span>
+    <div style="display: flex; justify-content: space-between; color: var(--fg-3);">
+      <span>© 2026 · Original design concept · Non-clinical</span>
     </div>
   </div>
 </footer>
 
+<!-- ================= TWEAKS PANEL ================= -->
+<div id="tweaks">
+  <h6><span>TWEAKS</span><span id="tw-close" style="cursor: pointer; color: var(--fg-3);">×</span></h6>
+  <div class="row">
+    <label>LAYOUT</label>
+    <div class="opts" data-tweak="variant">
+      <button class="opt active" data-val="default">DEFAULT</button>
+      <button class="opt" data-val="minimal">MINIMAL</button>
+      <button class="opt" data-val="dossier">DOSSIER</button>
+    </div>
+  </div>
+  <div class="row">
+    <label>ACCENT</label>
+    <div class="opts" data-tweak="accent">
+      <button class="opt active" data-val="warm">WARM</button>
+      <button class="opt" data-val="cool">COOL</button>
+      <button class="opt" data-val="crimson">CRIMSON</button>
+    </div>
+  </div>
+  <div class="row">
+    <label>INDEX DENSITY</label>
+    <div class="opts" data-tweak="density">
+      <button class="opt" data-val="low">K=24</button>
+      <button class="opt active" data-val="med">K=48</button>
+      <button class="opt" data-val="high">K=96</button>
+    </div>
+  </div>
+  <div class="row">
+    <label>HEADLINE</label>
+    <div class="opts" data-tweak="head">
+      <button class="opt active" data-val="1">V1</button>
+      <button class="opt" data-val="2">V2</button>
+      <button class="opt" data-val="3">V3</button>
+    </div>
+  </div>
+</div>
+
 <script>
+  // === Index grid rendering ===
   function renderIndexGrid(k) {
     const grid = document.getElementById('index-grid');
     if (!grid) return;
     grid.innerHTML = '';
-    const total = 1024;
+    const total = 32 * 32; // 1024
+    // PRNG seed for stable layout within a k
     let seed = 9401 + k * 37;
     const rng = () => { seed = (seed * 1664525 + 1013904223) & 0xffffffff; return (seed >>> 0) / 0xffffffff; };
     const active = new Set();
-    while (active.size < k) active.add(Math.floor(rng() * total));
+    while (active.size < k) {
+      active.add(Math.floor(rng() * total));
+    }
     for (let i = 0; i < total; i++) {
       const cell = document.createElement('div');
       cell.style.aspectRatio = '1';
       if (active.has(i)) {
         const h = rng();
-        cell.style.background = `rgba(214,${74 + h*80|0},${10 + h*40|0},${0.6 + h*0.4})`;
-        cell.style.boxShadow = '0 0 5px rgba(214,74,10,0.3)';
+        cell.style.background = `rgba(214, ${74 + h * 80 | 0}, ${10 + h * 40 | 0}, ${0.6 + h * 0.4})`;
+        cell.style.boxShadow = '0 0 6px rgba(214,74,10,0.35)';
       } else {
         cell.style.background = 'rgba(0,0,0,0.04)';
       }
@@ -1037,6 +969,78 @@
     }
   }
   renderIndexGrid(48);
+
+  // === Headline variants ===
+  const HEADLINES = {
+    "1": {
+      h: `A bidirectional memory system for the <em>human hippocampus</em>.`,
+      l: `The BCI Memory Read and Write System is a closed-loop brain–computer interface for <b>reading and writing</b> episodic memory. It detects, decodes, and selectively amplifies hippocampal replay during encoding and consolidation, and injects manifold-constrained engram patterns for <i>de novo</i> memory synthesis and reconsolidation editing.`
+    },
+    "2": {
+      h: `Read the <em>index</em>. Write the <em>index</em>.`,
+      l: `Memories live in cortex, but hippocampus holds the pointer. The system operates on a 1,024-dimensional sparse index — three orders of magnitude smaller than the full trace — making both read-out and write-in tractable on current electrode densities.`
+    },
+    "3": {
+      h: `Four phases. <em>One</em> closed loop.`,
+      l: `Encode, consolidate, retrieve, write. Each runs at its own timescale — ripple, tagging window, retrieval burst, multi-night integration — but all share one decoder stack, one manifold, and one safety boundary.`
+    }
+  };
+
+  // === Tweaks wiring ===
+  const body = document.body;
+  const tweaksEl = document.getElementById('tweaks');
+  document.getElementById('tw-close').onclick = () => {
+    tweaksEl.classList.remove('on');
+    window.parent.postMessage({type: '__deactivate_edit_mode'}, '*');
+  };
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "variant": "default",
+    "accent": "warm",
+    "density": "low",
+    "head": "1"
+  }/*EDITMODE-END*/;
+
+  let state = { ...TWEAK_DEFAULTS };
+
+  function apply() {
+    body.dataset.variant = state.variant;
+    body.dataset.accent = state.accent;
+    renderIndexGrid({low: 24, med: 48, high: 96}[state.density]);
+    const hd = HEADLINES[state.head];
+    document.querySelector('.hero h1').innerHTML = hd.h;
+    document.querySelector('.hero .lede').innerHTML = hd.l;
+    // update active buttons
+    document.querySelectorAll('#tweaks [data-tweak]').forEach(g => {
+      const key = g.dataset.tweak;
+      g.querySelectorAll('.opt').forEach(b => {
+        b.classList.toggle('active', b.dataset.val === state[key]);
+      });
+    });
+  }
+
+  document.querySelectorAll('#tweaks [data-tweak] .opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.parentElement.dataset.tweak;
+      state[key] = btn.dataset.val;
+      apply();
+      window.parent.postMessage({
+        type: '__edit_mode_set_keys',
+        edits: { [key]: btn.dataset.val }
+      }, '*');
+    });
+  });
+
+  apply();
+
+  // Register listener BEFORE announcing availability
+  window.addEventListener('message', (e) => {
+    if (!e.data) return;
+    if (e.data.type === '__activate_edit_mode') tweaksEl.classList.add('on');
+    if (e.data.type === '__deactivate_edit_mode') tweaksEl.classList.remove('on');
+  });
+  window.parent.postMessage({type: '__edit_mode_available'}, '*');
 </script>
+
 </body>
 </html>
