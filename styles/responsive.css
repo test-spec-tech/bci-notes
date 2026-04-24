@@ -1,0 +1,341 @@
+/* ===================================================================
+   BCI Memory R/W — Responsive overrides
+   Shared across index.html, simulations/flow.html, simulations/brain.html
+   =================================================================== */
+
+/* ========= GLOBAL TYPE + PADDING SHRINK ========= */
+@media (max-width: 900px){
+  body { font-size: 13px; }
+  .wrap { padding: 0 var(--s-4) !important; }
+  h1, .serif[style*="clamp"] { letter-spacing: -0.015em; }
+  /* Horizontal scroll fallback for anything that refuses */
+  body { overflow-x: hidden; }
+}
+
+/* Sim pages lock html/body to 100vh + overflow hidden on desktop —
+   on mobile we must release that so stacked content can scroll. */
+@media (max-width: 900px){
+  body[data-sim] { height: auto !important; overflow: auto !important; }
+  body[data-sim] html,
+  html:has(body[data-sim]) { height: auto !important; overflow: auto !important; }
+  body[data-sim] main { height: auto !important; }
+}
+
+/* Landing: ensure the oscillation / band table scrolls horizontally on mobile */
+@media (max-width: 900px){
+  .band-table,
+  table.band-table,
+  .wrap table {
+    display: block !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+}
+
+/* =========================================================
+   INDEX.HTML — LANDING
+   ========================================================= */
+
+/* Nav ---------------------------------------------------- */
+@media (max-width: 900px){
+  nav.top .inner {
+    padding: 12px var(--s-4) !important;
+    flex-wrap: wrap; gap: 10px;
+  }
+  nav.top ul { display: none !important; }
+  nav.top .cta .pill.ghost { display: none !important; }
+  nav.top .brand .logo { font-size: 16px !important; }
+  nav.top .brand .tag { font-size: 9px !important; letter-spacing: 0.1em !important; }
+}
+
+/* Hero --------------------------------------------------- */
+@media (max-width: 900px){
+  .hero { padding: var(--s-6) 0 var(--s-6) !important; }
+  .hero-grid { gap: var(--s-6) !important; }
+  .hero h1 { font-size: clamp(36px, 9vw, 56px) !important; line-height: 1.05 !important; }
+  .hero-meta {
+    grid-template-columns: 1fr 1fr !important;
+    gap: var(--s-4) var(--s-4) !important;
+    padding: var(--s-4) 0 !important;
+  }
+  .hero .eyebrow { font-size: 10px !important; margin-bottom: var(--s-3) !important; }
+  .hero-viz { aspect-ratio: 4/3 !important; }
+}
+
+/* Section chrome ---------------------------------------- */
+@media (max-width: 900px){
+  section { padding: var(--s-7) 0 !important; }
+  .sec-head { margin-bottom: var(--s-5) !important; }
+  .sec-title { font-size: clamp(26px, 6vw, 40px) !important; }
+  .sec-label { font-size: 10px !important; }
+}
+
+/* Architecture rows (label / content / timescale) ------- */
+@media (max-width: 900px){
+  .stage-row {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  .stage-label,
+  .stage-content,
+  .stage-timescale {
+    border-right: 0 !important;
+    padding: var(--s-4) !important;
+  }
+  .stage-label {
+    border-bottom: 1px solid var(--line);
+    flex-direction: row !important;
+    gap: 12px; align-items: center !important;
+  }
+  .stage-label .num { font-size: 22px !important; }
+  .stage-content {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    border-bottom: 1px solid var(--line);
+  }
+  .stage-content::-webkit-scrollbar { height: 4px; }
+  .stage-timescale { padding: var(--s-3) var(--s-4) !important; }
+  .arch { padding: var(--s-4) !important; }
+  .arch-legend { gap: 12px !important; font-size: 9px !important; }
+}
+
+/* Pipeline + claims + hardware grids -------------------- */
+@media (max-width: 700px){
+  .pipeline { gap: var(--s-5) !important; }
+  .stage-bar {
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+    padding: 10px 0 !important;
+  }
+  .stage-bar .bar-track { order: 3; grid-column: 1 / -1; }
+  .claim { padding: var(--s-4) !important; gap: 10px !important; }
+  .claim .cno { font-size: 10px !important; }
+  .hw-tier { padding: var(--s-4) !important; }
+  .hw-tier .spec { grid-template-columns: 1fr !important; gap: 4px 0 !important; }
+  .hw-tier .spec > div:nth-child(odd) {
+    font-family: var(--f-mono); font-size: 10px; color: var(--fg-3);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding-top: 6px;
+  }
+}
+
+/* CTA strip + footer ------------------------------------ */
+@media (max-width: 700px){
+  .cta-strip { margin-top: var(--s-5) !important; }
+  .cta-card { padding: var(--s-5) !important; }
+  footer .fgrid { grid-template-columns: 1fr 1fr !important; gap: var(--s-4) !important; }
+  footer div[style*="justify-content: space-between"] {
+    flex-direction: column !important; gap: 8px !important;
+    align-items: flex-start !important; font-size: 11px !important;
+  }
+}
+
+/* Index grid viz (the 32×32 sparse grid) ---------------- */
+@media (max-width: 900px){
+  div[style*="grid-template-columns: 1.2fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  #index-grid { grid-template-columns: repeat(24, 1fr) !important; }
+}
+
+/* 4-col risk matrix inlined ----------------------------- */
+@media (max-width: 900px){
+  div[style*="grid-template-columns: repeat(4, 1fr)"][style*="background: var(--line)"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+@media (max-width: 500px){
+  div[style*="grid-template-columns: repeat(4, 1fr)"][style*="background: var(--line)"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Tweaks panel ------------------------------------------ */
+@media (max-width: 700px){
+  #tweaks {
+    right: 8px !important; bottom: 8px !important;
+    left: 8px !important; width: auto !important; max-width: none !important;
+    max-height: 60vh; overflow-y: auto;
+  }
+}
+
+/* =========================================================
+   SIMULATIONS — shared
+   ========================================================= */
+
+.mobile-only { display: none; }
+
+/* Topbar collapsing */
+@media (max-width: 900px){
+  body[data-sim] .topbar,
+  .topbar {
+    flex-wrap: wrap; gap: 8px; padding: 10px 14px !important;
+  }
+  .topbar .brand .b1 { font-size: 15px !important; }
+  .topbar .brand .b2 { font-size: 9px !important; letter-spacing: 0.08em !important; }
+  .topbar nav { order: 3; width: 100%; justify-content: flex-start; gap: 12px; }
+  .topbar nav a { font-size: 10px !important; }
+  .topbar .modes button { padding: 6px 10px !important; font-size: 10px !important; }
+  .topbar > div[style*="letter-spacing"] { display: none; }
+}
+
+/* =========================================================
+   flow.html — 3-col shell → stacked tabs on mobile
+   ========================================================= */
+@media (max-width: 1100px){
+  main { grid-template-columns: 220px 1fr 260px !important; }
+}
+
+@media (max-width: 900px){
+  body[data-sim="flow"] main,
+  body[data-sim="flow"] > main {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  aside.left, aside.right {
+    border-right: 0 !important;
+    border-left: 0 !important;
+    max-height: none;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  aside.left {
+    border-bottom: 1px solid var(--line);
+    order: 1;
+  }
+  .canvas-wrap { order: 2; min-height: 62vw; height: 62vw; }
+  aside.right {
+    border-top: 1px solid var(--line);
+    order: 3;
+  }
+  /* Mobile collapsers — click to expand */
+  aside.left, aside.right { padding: 0 !important; }
+  aside.left > *, aside.right > * {
+    padding-left: 16px; padding-right: 16px;
+  }
+  aside.left > h6:first-child,
+  aside.right > h6:first-child {
+    padding-top: 14px;
+  }
+  /* Ensure the flow SVG fits */
+  #flow-svg { height: 100%; }
+  .phase-title { font-size: 20px !important; top: 10px !important; left: 12px !important; }
+  .phase-title .mode { font-size: 9px !important; }
+  .phase-desc {
+    position: static !important; max-width: none !important;
+    padding: 8px 12px !important; text-align: left !important;
+    border-top: 1px solid var(--line); background: var(--bg-1);
+  }
+  .canvas-wrap { display: flex; flex-direction: column; }
+  .canvas-wrap #flow-svg { flex: 1; min-height: 0; }
+  .legend {
+    position: static !important;
+    flex-wrap: wrap; padding: 6px 12px; border-top: 1px solid var(--line);
+    background: var(--bg-1); font-size: 8px !important;
+  }
+  .timeline {
+    padding: 10px 14px !important; gap: 10px !important; flex-wrap: wrap;
+  }
+  .timeline .scrub { order: 3; flex-basis: 100%; }
+  .timeline .mark { font-size: 8px !important; padding: 3px 4px !important; }
+  .timeline .clock { font-size: 10px !important; width: auto !important; }
+  .log { max-height: 180px !important; }
+}
+
+/* =========================================================
+   brain.html — 2-col → stacked; region selector scroll
+   ========================================================= */
+@media (max-width: 1100px){
+  body[data-sim="brain"] main,
+  body[data-sim="brain"] > main {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 900px){
+  body[data-sim="brain"] main,
+  body[data-sim="brain"] > main,
+  html body[data-sim="brain"] main {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+    grid-auto-flow: row !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  body[data-sim="brain"] section.left,
+  body[data-sim="brain"] section.right {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  section.left, section.right {
+    border-right: 0 !important; border-left: 0 !important;
+  }
+  section.left { border-bottom: 1px solid var(--line); }
+  .stim-head { padding: 12px 16px !important; }
+  .stim-head .title { font-size: 18px !important; }
+  .stim-body {
+    grid-template-columns: 1fr !important;
+    padding: 14px 16px !important; gap: 14px !important;
+  }
+  .controls {
+    grid-template-columns: 1fr !important; padding: 12px 16px !important;
+    gap: 10px !important;
+  }
+  .tabs {
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    white-space: nowrap; flex-wrap: nowrap;
+  }
+  .tabs button {
+    flex-shrink: 0; padding: 10px 12px !important; font-size: 9px !important;
+  }
+  .tabs .rside { display: none; }
+  .tab-body { padding: 12px 16px !important; }
+  .ex-grid { grid-template-columns: 1fr 1fr !important; }
+  .perf-grid { grid-template-columns: 1fr 1fr !important; }
+  .multi-grid { grid-template-columns: 1fr 1fr !important; }
+
+  .brain-head { padding: 12px 16px !important; flex-wrap: wrap; gap: 10px; }
+  .brain-head .title { font-size: 18px !important; }
+  .heat-strip { width: 110px !important; }
+  .brain-head .heat-legend { font-size: 9px !important; }
+  .brain-viewer { min-height: 70vw !important; padding: 8px; }
+  #brain-svg { width: 100% !important; height: auto !important; max-height: 70vw; }
+  .brain-controls {
+    padding: 10px 12px !important;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    white-space: nowrap; flex-wrap: nowrap;
+  }
+  .bcbtn { flex-shrink: 0; font-size: 9px !important; padding: 5px 8px !important; }
+  .readout {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important; padding: 12px 16px !important;
+  }
+  .readout svg { width: 100%; height: 42px; }
+}
+
+@media (max-width: 500px){
+  .ex-grid, .perf-grid, .multi-grid { grid-template-columns: 1fr !important; }
+}
+
+/* =========================================================
+   Touch target polish
+   ========================================================= */
+@media (max-width: 900px) and (pointer: coarse) {
+  button, .bcbtn, .ex-card, .modes button, .tabs button, .btn-run, .play, .nav {
+    min-height: 40px;
+  }
+  select, input[type=range], input[type=text], textarea {
+    min-height: 38px; font-size: 12px !important;
+  }
+}
+
+/* Prevent any absolutely positioned debug overlays from overflowing */
+@media (max-width: 900px){
+  .canvas-hud { font-size: 9px !important; }
+}
