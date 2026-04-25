@@ -2,7 +2,7 @@
 
 # [references](https://github.com/test-spec-tech/bci-notes/blob/main/References.md)
 
-* [memory and more notes](https://github.com/test-spec-tech/bci-notes/blob/main/Memory.md)
+* [memory and more references](https://github.com/test-spec-tech/bci-notes/blob/main/Memory.md)
 
 # resources
 
