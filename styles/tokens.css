@@ -1,7 +1,7 @@
 /* BCI Memory Read and Write System — design tokens (LIGHT) */
 :root {
   /* Neutrals — warm paper */
-  --bg-0: #f7f5f1;           /* page */
+  --bg-0: #ffffff;           /* page */
   --bg-1: #ffffff;           /* panels */
   --bg-2: #fbfaf6;           /* raised */
   --bg-3: #f0ede6;           /* hover */
